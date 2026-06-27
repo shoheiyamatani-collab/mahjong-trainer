@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 import random
 
 import streamlit as st
@@ -16,7 +17,7 @@ from mahjong.melds import Meld, meld_tile_counts, validate_meld
 from mahjong.problems import load_problems, record_attempt, save_problem
 from mahjong.score_calculator import HandScoreInput, calculate_hand_score
 from mahjong.shanten import normal_shanten
-from mahjong.tile_images import tile_image_data_uri, tile_image_path, tile_image_paths
+from mahjong.tile_images import tile_image_data_uri, tile_image_path
 from mahjong.tiles import TILE_NAMES, counts_to_tiles, parse_hand
 from mahjong.yaku import EAST, NORTH, SOUTH, WEST
 
@@ -244,7 +245,18 @@ def _show_tile_row(tiles: list[str] | tuple[str, ...], width: int = 44) -> None:
     if not tiles:
         st.caption("-")
         return
-    st.image(tile_image_paths(tiles), width=width)
+    images = "\n".join(
+        f'<img src="{tile_image_data_uri(tile)}" alt="{html.escape(tile)}">'
+        for tile in tiles
+    )
+    st.markdown(
+        f"""
+        <div class="tile-strip" style="--tile-count:{len(tiles)}; --tile-width:{width}px;">
+          {images}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def _score_closed_tile_limit() -> int:
@@ -484,6 +496,61 @@ def _show_styles() -> None:
           div.st-key-generated_chinitsu_answer_palette button:has(img):hover {
             background: #e5dbff;
             border-color: #7950f2;
+          }
+          .tile-strip {
+            align-items: flex-start;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 4px;
+            margin: 2px 0 8px 0;
+            max-width: 100%;
+            overflow: hidden;
+          }
+          .tile-strip img {
+            display: block;
+            flex: 0 1 auto;
+            height: auto;
+            min-width: 0;
+            object-fit: contain;
+            width: min(var(--tile-width, 44px), calc((100vw - 48px) / var(--tile-count, 14)));
+          }
+          @media (max-width: 640px) {
+            div.st-key-hand_tiles,
+            div.st-key-score_hand_tiles,
+            div.st-key-chinitsu_hand_tiles,
+            div.st-key-generated_chinitsu_hand_tiles {
+              flex-wrap: nowrap !important;
+              gap: 0 !important;
+              overflow: hidden !important;
+              width: 100% !important;
+            }
+            div.st-key-hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-score_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-generated_chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
+              margin: 0 1px 6px 0 !important;
+              width: calc((100vw - 46px) / 14) !important;
+            }
+            div.st-key-hand_tiles button:has(img),
+            div.st-key-score_hand_tiles button:has(img),
+            div.st-key-chinitsu_hand_tiles button:has(img),
+            div.st-key-generated_chinitsu_hand_tiles button:has(img) {
+              border-radius: 4px;
+              height: calc((100vw - 46px) / 10.3) !important;
+              min-height: calc((100vw - 46px) / 10.3) !important;
+              padding: 1px !important;
+              width: calc((100vw - 46px) / 14) !important;
+            }
+            div.st-key-hand_tiles button:has(img) img,
+            div.st-key-score_hand_tiles button:has(img) img,
+            div.st-key-chinitsu_hand_tiles button:has(img) img,
+            div.st-key-generated_chinitsu_hand_tiles button:has(img) img {
+              height: calc((100vw - 56px) / 10.8) !important;
+              max-height: calc((100vw - 56px) / 10.8) !important;
+              max-width: calc((100vw - 56px) / 14) !important;
+              width: calc((100vw - 56px) / 14) !important;
+            }
           }
           .progress-label {
             color: rgba(49, 51, 63, 0.72);
