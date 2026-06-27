@@ -10,11 +10,11 @@ from mahjong.chinitsu.evaluator import evaluate_wait_answer
 from mahjong.chinitsu.parser import chinitsu_tiles
 from mahjong.chinitsu.question_bank import get_wait_question, question_count
 from mahjong.melds import Meld, meld_tile_counts, validate_meld
-from mahjong.problems import load_problems, record_attempt, save_problem
 from mahjong.score_calculator import HandScoreInput, calculate_hand_score
 from mahjong.shanten import normal_shanten
 from mahjong.tile_images import tile_image_data_uri, tile_image_path
 from mahjong.tiles import TILE_NAMES, counts_to_tiles, parse_hand
+from mahjong.ukeire_max import evaluate_ukeire_max_answer, generate_ukeire_max_question
 from mahjong.yaku import EAST, NORTH, SOUTH, WEST
 
 
@@ -124,30 +124,19 @@ def _load_sample_hand() -> None:
     st.session_state.hand_input = _sorted_hand_text(parse_hand("345688m1234p3456s").counts)
 
 
-def _select_review_answer(tile: str) -> None:
-    st.session_state.review_answer = tile
-    st.session_state.review_checked = False
+def _select_ukeire_max_answer(tile: str) -> None:
+    st.session_state.ukeire_max_answer = tile
+    st.session_state.ukeire_max_checked = False
 
 
-def _check_review_answer() -> None:
-    st.session_state.review_checked = True
+def _check_ukeire_max_answer() -> None:
+    st.session_state.ukeire_max_checked = True
 
 
-def _next_review_problem(problem_count: int) -> None:
-    if problem_count == 0:
-        return
-    current = st.session_state.get("review_index", 0)
-    st.session_state.review_index = (current + 1) % problem_count
-    st.session_state.review_answer = None
-    st.session_state.review_checked = False
-
-
-def _random_review_problem(problem_count: int) -> None:
-    if problem_count == 0:
-        return
-    st.session_state.review_index = random.randrange(problem_count)
-    st.session_state.review_answer = None
-    st.session_state.review_checked = False
+def _new_ukeire_max_question() -> None:
+    st.session_state.ukeire_max_question = generate_ukeire_max_question()
+    st.session_state.ukeire_max_answer = None
+    st.session_state.ukeire_max_checked = False
 
 
 def _toggle_chinitsu_answer(tile: str) -> None:
@@ -615,7 +604,7 @@ def _show_tile_palette() -> None:
 def _show_answer_palette(tiles: list[str], disabled: bool) -> None:
     with st.container(key="answer_palette"):
         for tile in tiles:
-            _tile_button(tile, f"answer-{tile}", _select_review_answer, disabled=disabled)
+            _tile_button(tile, f"answer-{tile}", _select_ukeire_max_answer, disabled=disabled)
 
 
 def _show_editable_hand_tiles(tiles: list[str]) -> None:
@@ -785,82 +774,61 @@ def _checker_mode() -> None:
         results = analyze_discards(parsed.counts)
         best = {result.discard for result in best_discards_for_review(results)}
 
-        save_cols = st.columns([1.5, 4])
-        with save_cols[0]:
-            if st.button("\u3053\u306e\u624b\u724c\u3092\u554f\u984c\u306b\u4fdd\u5b58", width="stretch", disabled=not best):
-                _, created = save_problem(parsed.counts)
-                if created:
-                    st.success("\u554f\u984c\u3068\u3057\u3066\u4fdd\u5b58\u3057\u307e\u3057\u305f\u3002")
-                else:
-                    st.info("\u3059\u3067\u306b\u4fdd\u5b58\u6e08\u307f\u306e\u624b\u724c\u3067\u3059\u3002")
-
         _show_discard_comparison(results, best)
 
     except ValueError as exc:
         st.error(str(exc))
 
 
-def _review_mode() -> None:
-    problems = load_problems()
-    if "review_index" not in st.session_state:
-        st.session_state.review_index = 0
-    if "review_answer" not in st.session_state:
-        st.session_state.review_answer = None
-    if "review_checked" not in st.session_state:
-        st.session_state.review_checked = False
+def _ukeire_max_mode() -> None:
+    if "ukeire_max_question" not in st.session_state:
+        _new_ukeire_max_question()
+    if "ukeire_max_answer" not in st.session_state:
+        st.session_state.ukeire_max_answer = None
+    if "ukeire_max_checked" not in st.session_state:
+        st.session_state.ukeire_max_checked = False
 
-    _show_mode_header("\u5fa9\u7fd2\u30e2\u30fc\u30c9", "\u4f55\u3092\u5207\u308b\u554f\u984c", "review")
-    st.write(f"\u4fdd\u5b58\u6e08\u307f\u554f\u984c: **{len(problems)}**")
-    if not problems:
-        st.info("\u307e\u305a\u306f\u724c\u7406\u30c1\u30a7\u30c3\u30ab\u30fc\u306714\u679a\u306e\u624b\u724c\u3092\u4f5c\u3063\u3066\u3001\u554f\u984c\u3068\u3057\u3066\u4fdd\u5b58\u3057\u3066\u304f\u3060\u3055\u3044\u3002")
-        return
+    question = st.session_state.ukeire_max_question
+    counts = question.counts
+    results = list(question.results)
+    best = set(question.best_discards)
+    answer = st.session_state.ukeire_max_answer
+    checked = st.session_state.ukeire_max_checked
 
-    st.session_state.review_index %= len(problems)
-    problem = problems[st.session_state.review_index]
-    counts = tuple(int(value) for value in problem["counts"])
-    results = analyze_discards(counts)
-    best_results = best_discards_for_review(results)
-    best = {result.discard for result in best_results}
-    answer = st.session_state.review_answer
-    checked = st.session_state.review_checked
+    _show_mode_header("\u53d7\u3051\u5165\u308cMAX\u661f\u4eba\u4f55\u5207\u308b", "\u4e00\u5411\u8074MAX\u554f\u984c", "review")
+    st.caption("\u5b57\u724c\u306a\u3057\u306e14\u679a\u3002\u5207\u3063\u305f\u5f8c\u304c\u4e00\u5411\u8074\u3067\u3001\u53d7\u3051\u5165\u308c\u679a\u6570\u304c\u6700\u5927\u306b\u306a\u308b\u6253\u724c\u3092\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002")
 
-    top_cols = st.columns([1, 1, 1, 4])
-    with top_cols[0]:
-        st.button("\u6b21\u306e\u554f\u984c", on_click=_next_review_problem, args=(len(problems),), width="stretch")
-    with top_cols[1]:
-        st.button("\u30e9\u30f3\u30c0\u30e0", on_click=_random_review_problem, args=(len(problems),), width="stretch")
-    with top_cols[2]:
-        if st.button("\u89e3\u7b54\u3092\u30ea\u30bb\u30c3\u30c8", width="stretch"):
-            st.session_state.review_answer = None
-            st.session_state.review_checked = False
-            st.rerun()
+    cols = st.columns([1, 5])
+    with cols[0]:
+        st.button("\u6b21\u306e\u554f\u984c", on_click=_new_ukeire_max_question, width="stretch")
 
-    stat_text = f"{int(problem.get('correct', 0))}/{int(problem.get('attempts', 0))}"
-    st.caption(f"ID: {problem['id']} / \u6b63\u89e3\u6570: {stat_text}")
+    st.subheader("\u554f\u984c")
     _show_tile_row(counts_to_tiles(counts), width=50)
 
+    st.subheader("\u6253\u724c\u9078\u629e")
     _show_answer_palette(sorted(set(counts_to_tiles(counts)), key=lambda tile: TILE_NAMES.index(tile)), disabled=checked)
 
     if answer:
-        st.write(f"\u9078\u629e\u3057\u305f\u6253\u724c: **{answer}**")
+        st.write("\u9078\u629e\u3057\u305f\u6253\u724c")
         st.image(tile_image_path(answer), width=50)
         if not checked:
-            st.button("\u7b54\u3048\u5408\u308f\u305b", on_click=_check_review_answer, width="stretch")
+            st.button("\u7b54\u3048\u5408\u308f\u305b", on_click=_check_ukeire_max_answer, width="stretch")
 
     if checked and answer:
-        is_correct = answer in best
-        if st.session_state.get("last_recorded_review") != (problem["id"], answer, is_correct):
-            record_attempt(problem["id"], is_correct)
-            st.session_state.last_recorded_review = (problem["id"], answer, is_correct)
+        is_correct = evaluate_ukeire_max_answer(question, answer)
         if is_correct:
             st.markdown('<div class="answer-result answer-correct">\u3007\u6b63\u89e3\uff01</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="answer-result answer-wrong">\u00d7\u4e0d\u6b63\u89e3\u2026</div>', unsafe_allow_html=True)
 
-        best_labels = "\u3001".join(sorted(best, key=lambda tile: TILE_NAMES.index(tile)))
-        st.write(f"\u6b63\u89e3: **{best_labels}**")
+        st.write("\u6b63\u89e3")
         _show_tile_row(tuple(sorted(best, key=lambda tile: TILE_NAMES.index(tile))), width=50)
+        st.caption(
+            f"\u6700\u5927\u53d7\u3051\u5165\u308c: {question.best_ukeire_types}\u7a2e / {question.best_ukeire_tiles}\u679a"
+        )
         _show_discard_comparison(results, best)
+        if is_correct:
+            st.button("\u6b21\u3078", on_click=_new_ukeire_max_question, width="stretch")
 
 
 def _scoring_mode() -> None:
@@ -1167,7 +1135,7 @@ mode = st.radio(
     "\u30e2\u30fc\u30c9",
     [
         "\u724c\u7406\u30c1\u30a7\u30c3\u30ab\u30fc",
-        "\u5fa9\u7fd2\u30e2\u30fc\u30c9",
+        "\u53d7\u3051\u5165\u308cMAX\u661f\u4eba\u4f55\u5207\u308b",
         "\u70b9\u6570\u8a08\u7b97",
         "\u6e05\u4e00\u8272\u5f85\u3061\u5f53\u3066",
     ],
@@ -1176,8 +1144,8 @@ mode = st.radio(
 
 if mode == "\u724c\u7406\u30c1\u30a7\u30c3\u30ab\u30fc":
     _checker_mode()
-elif mode == "\u5fa9\u7fd2\u30e2\u30fc\u30c9":
-    _review_mode()
+elif mode == "\u53d7\u3051\u5165\u308cMAX\u661f\u4eba\u4f55\u5207\u308b":
+    _ukeire_max_mode()
 elif mode == "\u70b9\u6570\u8a08\u7b97":
     _scoring_mode()
 else:
