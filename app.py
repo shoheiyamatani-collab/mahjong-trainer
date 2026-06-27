@@ -526,15 +526,27 @@ def _show_styles() -> None:
               width: 100% !important;
             }
             div.st-key-hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-tile_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
             div.st-key-score_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-score_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-score_winning_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
             div.st-key-chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
+            div.st-key-generated_chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
             div.st-key-generated_chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
               margin: 0 1px 6px 0 !important;
               width: calc((100vw - 46px) / 14) !important;
             }
             div.st-key-hand_tiles button:has(img),
+            div.st-key-tile_palette button:has(img),
+            div.st-key-answer_palette button:has(img),
             div.st-key-score_hand_tiles button:has(img),
+            div.st-key-score_palette button:has(img),
+            div.st-key-score_winning_tiles button:has(img),
             div.st-key-chinitsu_hand_tiles button:has(img),
+            div.st-key-chinitsu_answer_palette button:has(img),
+            div.st-key-generated_chinitsu_answer_palette button:has(img),
             div.st-key-generated_chinitsu_hand_tiles button:has(img) {
               border-radius: 4px;
               height: calc((100vw - 46px) / 10.3) !important;
@@ -543,8 +555,14 @@ def _show_styles() -> None:
               width: calc((100vw - 46px) / 14) !important;
             }
             div.st-key-hand_tiles button:has(img) img,
+            div.st-key-tile_palette button:has(img) img,
+            div.st-key-answer_palette button:has(img) img,
             div.st-key-score_hand_tiles button:has(img) img,
+            div.st-key-score_palette button:has(img) img,
+            div.st-key-score_winning_tiles button:has(img) img,
             div.st-key-chinitsu_hand_tiles button:has(img) img,
+            div.st-key-chinitsu_answer_palette button:has(img) img,
+            div.st-key-generated_chinitsu_answer_palette button:has(img) img,
             div.st-key-generated_chinitsu_hand_tiles button:has(img) img {
               height: calc((100vw - 56px) / 10.8) !important;
               max-height: calc((100vw - 56px) / 10.8) !important;
