@@ -355,13 +355,14 @@ def _show_styles() -> None:
           .answer-result {
             border-radius: 14px;
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
-            font-size: 3.4rem;
+            font-size: clamp(2.5rem, 11vw, 3.4rem);
             font-weight: 900;
             letter-spacing: 0;
             line-height: 1.08;
             margin: 20px 0;
-            padding: 26px 28px;
+            padding: 24px 14px;
             text-align: center;
+            white-space: nowrap;
           }
           .answer-correct {
             background: #fff5f5;
@@ -827,7 +828,7 @@ def _ukeire_max_mode() -> None:
         if is_correct:
             st.markdown('<div class="answer-result answer-correct">\u3007\u6b63\u89e3\uff01</div>', unsafe_allow_html=True)
         elif is_partial_ukeire_max_answer(question, answer):
-            st.markdown('<div class="answer-result answer-partial">\u25b3 \u3082\u3046\u4e00\u6b69\uff01</div>', unsafe_allow_html=True)
+            st.markdown('<div class="answer-result answer-partial">\u25b3\u3082\u3046\u4e00\u6b69\uff01</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="answer-result answer-wrong">\u00d7\u4e0d\u6b63\u89e3\u2026</div>', unsafe_allow_html=True)
 
