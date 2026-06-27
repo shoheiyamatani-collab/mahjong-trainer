@@ -7,10 +7,6 @@ import streamlit as st
 
 from mahjong.analyzer import analyze_discards, best_discards_for_review
 from mahjong.chinitsu.evaluator import evaluate_wait_answer
-from mahjong.chinitsu.generator import (
-    generate_wait_question as generate_chinitsu_wait_question,
-    hand_key,
-)
 from mahjong.chinitsu.parser import chinitsu_tiles
 from mahjong.chinitsu.question_bank import get_wait_question, question_count
 from mahjong.melds import Meld, meld_tile_counts, validate_meld
@@ -170,20 +166,25 @@ def _check_chinitsu_answer() -> None:
     st.session_state.chinitsu_checked = True
 
 
-def _show_chinitsu_answer() -> None:
-    st.session_state.chinitsu_show_answer = True
-
-
 def _reset_chinitsu_answer() -> None:
     st.session_state.chinitsu_answer = []
     st.session_state.chinitsu_checked = False
     st.session_state.chinitsu_show_answer = False
 
 
+def _random_chinitsu_question_index() -> int:
+    total = question_count()
+    if total <= 1:
+        return 0
+    current = int(st.session_state.get("chinitsu_question_index", -1)) % total
+    next_index = random.randrange(total - 1)
+    if next_index >= current:
+        next_index += 1
+    return next_index
+
+
 def _next_chinitsu_question() -> None:
-    st.session_state.chinitsu_question_index = (
-        int(st.session_state.get("chinitsu_question_index", 0)) + 1
-    ) % question_count()
+    st.session_state.chinitsu_question_index = _random_chinitsu_question_index()
     _reset_chinitsu_answer()
 
 
@@ -192,53 +193,6 @@ def _guarded_next_chinitsu_question() -> None:
         st.session_state.chinitsu_show_answer = True
         return
     _next_chinitsu_question()
-
-
-def _toggle_generated_chinitsu_answer(tile: str) -> None:
-    rank = int(tile[0])
-    selected = set(st.session_state.get("generated_chinitsu_answer", []))
-    if rank in selected:
-        selected.remove(rank)
-    else:
-        selected.add(rank)
-    st.session_state.generated_chinitsu_answer = sorted(selected)
-    st.session_state.generated_chinitsu_checked = False
-    st.session_state.generated_chinitsu_show_answer = False
-
-
-def _reset_generated_chinitsu_answer() -> None:
-    st.session_state.generated_chinitsu_answer = []
-    st.session_state.generated_chinitsu_checked = False
-    st.session_state.generated_chinitsu_show_answer = False
-
-
-def _check_generated_chinitsu_answer() -> None:
-    st.session_state.generated_chinitsu_checked = True
-
-
-def _show_generated_chinitsu_answer() -> None:
-    st.session_state.generated_chinitsu_show_answer = True
-
-
-def _new_generated_chinitsu_question() -> None:
-    history = list(st.session_state.get("generated_chinitsu_history", []))
-    question = generate_chinitsu_wait_question(
-        recent_hands=history[-8:],
-    )
-    st.session_state.generated_chinitsu_question = question
-    history.append(hand_key(question.hand))
-    st.session_state.generated_chinitsu_history = history[-20:]
-    _reset_generated_chinitsu_answer()
-
-
-def _guarded_new_generated_chinitsu_question() -> None:
-    if (
-        not st.session_state.get("generated_chinitsu_checked")
-        and not st.session_state.get("generated_chinitsu_show_answer")
-    ):
-        st.session_state.generated_chinitsu_show_answer = True
-        return
-    _new_generated_chinitsu_question()
 
 
 def _show_tile_row(tiles: list[str] | tuple[str, ...], width: int = 44) -> None:
@@ -376,9 +330,7 @@ def _show_styles() -> None:
           div.st-key-score_hand_tiles,
           div.st-key-score_winning_tiles,
           div.st-key-chinitsu_hand_tiles,
-          div.st-key-chinitsu_answer_palette,
-          div.st-key-generated_chinitsu_hand_tiles,
-          div.st-key-generated_chinitsu_answer_palette {
+          div.st-key-chinitsu_answer_palette {
             align-items: flex-start !important;
             display: flex !important;
             flex-direction: row !important;
@@ -484,16 +436,12 @@ def _show_styles() -> None:
             border-color: #1c7ed6;
           }
           div.st-key-chinitsu_hand_tiles button:has(img),
-          div.st-key-chinitsu_answer_palette button:has(img),
-          div.st-key-generated_chinitsu_hand_tiles button:has(img),
-          div.st-key-generated_chinitsu_answer_palette button:has(img) {
+          div.st-key-chinitsu_answer_palette button:has(img) {
             background: #f8f5ff;
             border-color: rgba(121, 80, 242, 0.38);
           }
           div.st-key-chinitsu_hand_tiles button:has(img):hover,
-          div.st-key-chinitsu_answer_palette button:has(img):hover,
-          div.st-key-generated_chinitsu_hand_tiles button:has(img):hover,
-          div.st-key-generated_chinitsu_answer_palette button:has(img):hover {
+          div.st-key-chinitsu_answer_palette button:has(img):hover {
             background: #e5dbff;
             border-color: #7950f2;
           }
@@ -519,7 +467,7 @@ def _show_styles() -> None:
             div.st-key-hand_tiles,
             div.st-key-score_hand_tiles,
             div.st-key-chinitsu_hand_tiles,
-            div.st-key-generated_chinitsu_hand_tiles {
+            div.st-key-chinitsu_answer_palette {
               flex-wrap: nowrap !important;
               gap: 0 !important;
               overflow: hidden !important;
@@ -532,9 +480,7 @@ def _show_styles() -> None:
             div.st-key-score_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
             div.st-key-score_winning_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
             div.st-key-chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-generated_chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-generated_chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
+            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
               margin: 0 1px 6px 0 !important;
               width: calc((100vw - 46px) / 14) !important;
             }
@@ -545,9 +491,7 @@ def _show_styles() -> None:
             div.st-key-score_palette button:has(img),
             div.st-key-score_winning_tiles button:has(img),
             div.st-key-chinitsu_hand_tiles button:has(img),
-            div.st-key-chinitsu_answer_palette button:has(img),
-            div.st-key-generated_chinitsu_answer_palette button:has(img),
-            div.st-key-generated_chinitsu_hand_tiles button:has(img) {
+            div.st-key-chinitsu_answer_palette button:has(img) {
               border-radius: 4px;
               height: calc((100vw - 46px) / 10.3) !important;
               min-height: calc((100vw - 46px) / 10.3) !important;
@@ -561,13 +505,25 @@ def _show_styles() -> None:
             div.st-key-score_palette button:has(img) img,
             div.st-key-score_winning_tiles button:has(img) img,
             div.st-key-chinitsu_hand_tiles button:has(img) img,
-            div.st-key-chinitsu_answer_palette button:has(img) img,
-            div.st-key-generated_chinitsu_answer_palette button:has(img) img,
-            div.st-key-generated_chinitsu_hand_tiles button:has(img) img {
+            div.st-key-chinitsu_answer_palette button:has(img) img {
               height: calc((100vw - 56px) / 10.8) !important;
               max-height: calc((100vw - 56px) / 10.8) !important;
               max-width: calc((100vw - 56px) / 14) !important;
               width: calc((100vw - 56px) / 14) !important;
+            }
+            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
+              width: calc((100vw - 72px) / 9) !important;
+            }
+            div.st-key-chinitsu_answer_palette button:has(img) {
+              height: calc((100vw - 72px) / 6.7) !important;
+              min-height: calc((100vw - 72px) / 6.7) !important;
+              width: calc((100vw - 72px) / 9) !important;
+            }
+            div.st-key-chinitsu_answer_palette button:has(img) img {
+              height: calc((100vw - 82px) / 7.2) !important;
+              max-height: calc((100vw - 82px) / 7.2) !important;
+              max-width: calc((100vw - 82px) / 9) !important;
+              width: calc((100vw - 82px) / 9) !important;
             }
           }
           .progress-label {
@@ -1123,20 +1079,9 @@ def _show_chinitsu_answer_palette(suit: str = "s", disabled: bool = False) -> No
             )
 
 
-def _show_generated_chinitsu_answer_palette(suit: str, disabled: bool = False) -> None:
-    with st.container(key="generated_chinitsu_answer_palette"):
-        for rank in range(1, 10):
-            _tile_button(
-                _chinitsu_tile_name(rank, suit),
-                f"generated-chinitsu-answer-{rank}",
-                _toggle_generated_chinitsu_answer,
-                disabled=disabled,
-            )
-
-
 def _chinitsu_mode() -> None:
     if "chinitsu_question_index" not in st.session_state:
-        st.session_state.chinitsu_question_index = 0
+        st.session_state.chinitsu_question_index = random.randrange(question_count())
     if "chinitsu_answer" not in st.session_state:
         st.session_state.chinitsu_answer = []
     if "chinitsu_checked" not in st.session_state:
@@ -1155,7 +1100,6 @@ def _chinitsu_mode() -> None:
 
     _show_mode_header("\u6e05\u4e00\u8272\u5f85\u3061\u5f53\u3066\u7279\u8a13", "\u7df4\u7fd2\u30e2\u30fc\u30c9", "chinitsu")
     st.caption("\u5f85\u3061\u724c\u3092\u3059\u3079\u3066\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002")
-    st.caption(f"\u7b2c{question_index + 1}\u554f / {total_questions}\u554f")
 
     st.subheader("\u554f\u984c")
     with st.container(key="chinitsu_hand_tiles"):
@@ -1173,14 +1117,10 @@ def _chinitsu_mode() -> None:
     st.caption("\u9078\u629e\u4e2d")
     _show_chinitsu_tile_row(selected, width=42, suit=suit)
 
-    action_cols = st.columns([1, 1, 1, 1, 4])
+    action_cols = st.columns([1, 1, 5])
     with action_cols[0]:
         st.button("\u6c7a\u5b9a", on_click=_check_chinitsu_answer, width="stretch", disabled=not selected)
     with action_cols[1]:
-        st.button("\u7b54\u3048\u3092\u898b\u308b", on_click=_show_chinitsu_answer, width="stretch")
-    with action_cols[2]:
-        st.button("\u30ea\u30bb\u30c3\u30c8", on_click=_reset_chinitsu_answer, width="stretch")
-    with action_cols[3]:
         st.button("\u6b21\u306e\u554f\u984c", on_click=_guarded_next_chinitsu_question, width="stretch")
 
     if checked:
@@ -1195,99 +1135,6 @@ def _chinitsu_mode() -> None:
         _show_chinitsu_tile_row(correct_waits, width=46, suit=suit)
         if checked and evaluate_wait_answer(correct_waits, selected):
             st.button("\u6b21\u3078", on_click=_next_chinitsu_question, width="stretch")
-
-
-def _generated_chinitsu_mode() -> None:
-    if "generated_chinitsu_answer" not in st.session_state:
-        st.session_state.generated_chinitsu_answer = []
-    if "generated_chinitsu_checked" not in st.session_state:
-        st.session_state.generated_chinitsu_checked = False
-    if "generated_chinitsu_show_answer" not in st.session_state:
-        st.session_state.generated_chinitsu_show_answer = False
-    if "generated_chinitsu_history" not in st.session_state:
-        st.session_state.generated_chinitsu_history = []
-    if "generated_chinitsu_question" not in st.session_state:
-        st.session_state.generated_chinitsu_question = None
-
-    _show_mode_header("\u6e05\u4e00\u8272\u5f85\u3061\u30c8\u30ec\u30fc\u30cb\u30f3\u30b0", "\u81ea\u52d5\u751f\u6210", "chinitsu")
-
-    suit_label = st.radio(
-        "\u8868\u793a",
-        ["\u842c\u5b50", "\u7b52\u5b50", "\u7d22\u5b50"],
-        index=2,
-        horizontal=True,
-        key="generated_chinitsu_suit_label",
-    )
-    suit = {"\u842c\u5b50": "m", "\u7b52\u5b50": "p", "\u7d22\u5b50": "s"}[suit_label]
-
-    if st.session_state.generated_chinitsu_question is None:
-        _new_generated_chinitsu_question()
-
-    question = st.session_state.generated_chinitsu_question
-    selected = tuple(st.session_state.generated_chinitsu_answer)
-    checked = bool(st.session_state.generated_chinitsu_checked)
-    show_answer = bool(st.session_state.generated_chinitsu_show_answer)
-
-    st.caption("\u81ea\u52d5\u751f\u6210\u3057\u305f13\u679a\u306e\u5f85\u3061\u724c\u3092\u3059\u3079\u3066\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002")
-    st.subheader("\u554f\u984c")
-    with st.container(key="generated_chinitsu_hand_tiles"):
-        key_prefix = hand_key(question.hand)
-        for index, rank in enumerate(chinitsu_tiles(question.hand)):
-            _tile_button(
-                _chinitsu_tile_name(rank, suit),
-                f"generated-chinitsu-hand-{key_prefix}-{index}-{rank}",
-                lambda tile: None,
-                disabled=True,
-            )
-
-    st.subheader("\u5f85\u3061\u724c")
-    _show_generated_chinitsu_answer_palette(suit)
-
-    st.caption("\u9078\u629e\u4e2d")
-    _show_chinitsu_tile_row(selected, width=42, suit=suit)
-
-    action_cols = st.columns([1, 1, 1, 1, 4])
-    with action_cols[0]:
-        st.button(
-            "\u6c7a\u5b9a",
-            on_click=_check_generated_chinitsu_answer,
-            width="stretch",
-            disabled=not selected,
-        )
-    with action_cols[1]:
-        st.button("\u7b54\u3048\u3092\u898b\u308b", on_click=_show_generated_chinitsu_answer, width="stretch")
-    with action_cols[2]:
-        st.button("\u30ea\u30bb\u30c3\u30c8", on_click=_reset_generated_chinitsu_answer, width="stretch")
-    with action_cols[3]:
-        st.button("\u6b21\u306e\u554f\u984c", on_click=_guarded_new_generated_chinitsu_question, width="stretch")
-
-    if checked:
-        is_correct = evaluate_wait_answer(question.waits, selected)
-        if is_correct:
-            st.markdown('<div class="answer-result answer-correct">\u3007\u6b63\u89e3\uff01</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="answer-result answer-wrong">\u00d7\u4e0d\u6b63\u89e3\u2026</div>', unsafe_allow_html=True)
-
-    if checked or show_answer:
-        st.write("\u6b63\u89e3")
-        _show_chinitsu_tile_row(question.waits, width=46, suit=suit)
-
-        stat_cols = st.columns(2)
-        with stat_cols[0]:
-            st.metric("\u5f85\u3061\u7a2e\u985e\u6570", f"{question.wait_count}\u7a2e")
-        with stat_cols[1]:
-            st.metric("\u6b8b\u308a\u679a\u6570", f"{sum(question.remaining_tiles.values())}\u679a")
-
-        st.caption("\u5f85\u3061\u5225\u306e\u6b8b\u308a\u679a\u6570")
-        for rank in question.waits:
-            cols = st.columns([0.25, 0.7, 5])
-            with cols[0]:
-                st.image(tile_image_path(_chinitsu_tile_name(rank, suit)), width=34)
-            with cols[1]:
-                st.write(f"{question.remaining_tiles[rank]}\u679a")
-
-        if checked and evaluate_wait_answer(question.waits, selected):
-            st.button("\u6b21\u3078", on_click=_new_generated_chinitsu_question, width="stretch")
 
 
 if "hand_input" not in st.session_state:
@@ -1305,23 +1152,13 @@ if "score_meld_error" not in st.session_state:
 if "score_show_meld_form" not in st.session_state:
     st.session_state.score_show_meld_form = False
 if "chinitsu_question_index" not in st.session_state:
-    st.session_state.chinitsu_question_index = 0
+    st.session_state.chinitsu_question_index = random.randrange(question_count())
 if "chinitsu_answer" not in st.session_state:
     st.session_state.chinitsu_answer = []
 if "chinitsu_checked" not in st.session_state:
     st.session_state.chinitsu_checked = False
 if "chinitsu_show_answer" not in st.session_state:
     st.session_state.chinitsu_show_answer = False
-if "generated_chinitsu_answer" not in st.session_state:
-    st.session_state.generated_chinitsu_answer = []
-if "generated_chinitsu_checked" not in st.session_state:
-    st.session_state.generated_chinitsu_checked = False
-if "generated_chinitsu_show_answer" not in st.session_state:
-    st.session_state.generated_chinitsu_show_answer = False
-if "generated_chinitsu_history" not in st.session_state:
-    st.session_state.generated_chinitsu_history = []
-if "generated_chinitsu_question" not in st.session_state:
-    st.session_state.generated_chinitsu_question = None
 
 _show_styles()
 st.title(APP_TITLE)
@@ -1333,7 +1170,6 @@ mode = st.radio(
         "\u5fa9\u7fd2\u30e2\u30fc\u30c9",
         "\u70b9\u6570\u8a08\u7b97",
         "\u6e05\u4e00\u8272\u5f85\u3061\u5f53\u3066",
-        "\u6e05\u4e00\u8272\u81ea\u52d5\u751f\u6210",
     ],
     horizontal=True,
 )
@@ -1344,7 +1180,5 @@ elif mode == "\u5fa9\u7fd2\u30e2\u30fc\u30c9":
     _review_mode()
 elif mode == "\u70b9\u6570\u8a08\u7b97":
     _scoring_mode()
-elif mode == "\u6e05\u4e00\u8272\u5f85\u3061\u5f53\u3066":
-    _chinitsu_mode()
 else:
-    _generated_chinitsu_mode()
+    _chinitsu_mode()
