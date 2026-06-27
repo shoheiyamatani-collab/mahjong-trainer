@@ -6,6 +6,7 @@ from mahjong.ukeire_max import (
     build_ukeire_max_question,
     evaluate_ukeire_max_answer,
     generate_ukeire_max_question,
+    is_partial_ukeire_max_answer,
 )
 
 
@@ -51,6 +52,10 @@ def test_evaluate_ukeire_max_answer_requires_all_tied_best_discards():
     assert evaluate_ukeire_max_answer(question, ["9s"]) is False
     assert evaluate_ukeire_max_answer(question, ["6s", "9s"]) is True
     assert evaluate_ukeire_max_answer(question, ["6s", "8s", "9s"]) is False
+    assert is_partial_ukeire_max_answer(question, ["6s"]) is True
+    assert is_partial_ukeire_max_answer(question, ["9s"]) is True
+    assert is_partial_ukeire_max_answer(question, ["6s", "9s"]) is False
+    assert is_partial_ukeire_max_answer(question, ["6s", "8s", "9s"]) is False
 
 
 def test_generate_ukeire_max_question_returns_valid_no_honor_question():

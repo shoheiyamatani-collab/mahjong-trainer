@@ -14,7 +14,11 @@ from mahjong.score_calculator import HandScoreInput, calculate_hand_score
 from mahjong.shanten import normal_shanten
 from mahjong.tile_images import tile_image_data_uri, tile_image_path
 from mahjong.tiles import TILE_NAMES, counts_to_tiles, parse_hand
-from mahjong.ukeire_max import evaluate_ukeire_max_answer, generate_ukeire_max_question
+from mahjong.ukeire_max import (
+    evaluate_ukeire_max_answer,
+    generate_ukeire_max_question,
+    is_partial_ukeire_max_answer,
+)
 from mahjong.yaku import EAST, NORTH, SOUTH, WEST
 
 
@@ -363,6 +367,11 @@ def _show_styles() -> None:
             background: #fff5f5;
             border: 3px solid #fa5252;
             color: #c92a2a;
+          }
+          .answer-partial {
+            background: #fff9db;
+            border: 3px solid #f08c00;
+            color: #a16207;
           }
           .answer-wrong {
             background: #e7f5ff;
@@ -837,6 +846,8 @@ def _ukeire_max_mode() -> None:
         is_correct = evaluate_ukeire_max_answer(question, answer)
         if is_correct:
             st.markdown('<div class="answer-result answer-correct">\u3007\u6b63\u89e3\uff01</div>', unsafe_allow_html=True)
+        elif is_partial_ukeire_max_answer(question, answer):
+            st.markdown('<div class="answer-result answer-partial">\u25b3 \u3082\u3046\u4e00\u6b69\uff01</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="answer-result answer-wrong">\u00d7\u4e0d\u6b63\u89e3\u2026</div>', unsafe_allow_html=True)
 

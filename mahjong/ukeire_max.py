@@ -95,6 +95,17 @@ def evaluate_ukeire_max_answer(question: UkeireMaxQuestion, discards: Sequence[s
     return selected == set(question.best_discards)
 
 
+def is_partial_ukeire_max_answer(question: UkeireMaxQuestion, discards: Sequence[str] | str | None) -> bool:
+    if discards is None:
+        selected: set[str] = set()
+    elif isinstance(discards, str):
+        selected = {discards}
+    else:
+        selected = set(discards)
+    correct = set(question.best_discards)
+    return bool(selected) and selected < correct
+
+
 def _random_no_honor_counts(generator: random.Random) -> tuple[int, ...]:
     counts = _random_no_honor_iishanten_counts(generator)
     while True:
