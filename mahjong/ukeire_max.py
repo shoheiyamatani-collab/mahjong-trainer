@@ -64,6 +64,9 @@ def build_ukeire_max_question(counts: Sequence[int]) -> UkeireMaxQuestion | None
         return None
 
     results = tuple(analyze_discards(tuple(counts)))
+    if min(result.after_discard_shanten for result in results) != 1:
+        return None
+
     iishanten_results = tuple(result for result in results if result.after_discard_shanten == 1)
     if not iishanten_results:
         return None

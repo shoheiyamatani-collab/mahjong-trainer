@@ -26,6 +26,12 @@ def test_build_ukeire_max_question_rejects_honors():
     assert build_ukeire_max_question(counts) is None
 
 
+def test_build_ukeire_max_question_rejects_hands_that_can_discard_to_tenpai():
+    counts = parse_hand("11345m55567p4678s").counts
+
+    assert build_ukeire_max_question(counts) is None
+
+
 def test_evaluate_ukeire_max_answer_accepts_tied_best_discards_only():
     counts = parse_hand("1455m2345677p678s").counts
     question = build_ukeire_max_question(counts)
@@ -43,4 +49,5 @@ def test_generate_ukeire_max_question_returns_valid_no_honor_question():
     assert all(tile[-1] in {"m", "p", "s"} for tile in tiles)
     assert max(question.counts) <= 4
     assert question.best_ukeire_types >= MIN_BEST_UKEIRE_TYPES
+    assert min(result.after_discard_shanten for result in question.results) == 1
     assert all(result.after_discard_shanten == 1 for result in question.results if result.discard in question.best_discards)
