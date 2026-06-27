@@ -604,7 +604,7 @@ def _tile_button(tile: str, key: str, callback, *, disabled: bool = False) -> No
         help=tile,
         on_click=callback,
         args=(tile,),
-        width="stretch",
+        use_container_width=True,
         disabled=disabled,
     )
 
@@ -744,11 +744,11 @@ def _checker_mode() -> None:
 
     action_cols = st.columns([1, 1, 1, 5])
     with action_cols[0]:
-        st.button("\u4e00\u679a\u623b\u3059", on_click=_remove_last_tile, width="stretch")
+        st.button("\u4e00\u679a\u623b\u3059", on_click=_remove_last_tile, use_container_width=True)
     with action_cols[1]:
-        st.button("\u30af\u30ea\u30a2", on_click=_clear_hand, width="stretch")
+        st.button("\u30af\u30ea\u30a2", on_click=_clear_hand, use_container_width=True)
     with action_cols[2]:
-        st.button("\u30b5\u30f3\u30d7\u30eb", on_click=_load_sample_hand, width="stretch")
+        st.button("\u30b5\u30f3\u30d7\u30eb", on_click=_load_sample_hand, use_container_width=True)
 
     with st.expander("\u6587\u5b57\u5217\u3067\u5165\u529b"):
         st.text_input(
@@ -809,7 +809,7 @@ def _ukeire_max_mode() -> None:
 
     cols = st.columns([1, 5])
     with cols[0]:
-        st.button("\u6b21\u306e\u554f\u984c", on_click=_new_ukeire_max_question, width="stretch")
+        st.button("\u6b21\u306e\u554f\u984c", on_click=_new_ukeire_max_question, use_container_width=True)
 
     st.subheader("\u554f\u984c")
     _show_tile_row(counts_to_tiles(counts), width=50)
@@ -821,7 +821,7 @@ def _ukeire_max_mode() -> None:
     _show_tile_row(tuple(answer), width=50)
     if answer:
         if not checked:
-            st.button("\u7b54\u3048\u5408\u308f\u305b", on_click=_check_ukeire_max_answer, width="stretch")
+            st.button("\u7b54\u3048\u5408\u308f\u305b", on_click=_check_ukeire_max_answer, use_container_width=True)
 
     if checked and answer:
         is_correct = evaluate_ukeire_max_answer(question, answer)
@@ -839,7 +839,7 @@ def _ukeire_max_mode() -> None:
         )
         _show_discard_comparison(results, best)
         if is_correct:
-            st.button("\u6b21\u3078", on_click=_new_ukeire_max_question, width="stretch")
+            st.button("\u6b21\u3078", on_click=_new_ukeire_max_question, use_container_width=True)
 
 
 def _scoring_mode() -> None:
@@ -869,7 +869,7 @@ def _scoring_mode() -> None:
 
     cols = st.columns([1, 5])
     with cols[0]:
-        st.button("\u30af\u30ea\u30a2", on_click=_clear_score_hand, width="stretch")
+        st.button("\u30af\u30ea\u30a2", on_click=_clear_score_hand, use_container_width=True)
 
     with st.expander("\u6587\u5b57\u5217\u3067\u5165\u529b"):
         st.text_input("\u624b\u724c", key="score_hand_input", on_change=_clear_score_result)
@@ -894,7 +894,7 @@ def _show_meld_editor() -> None:
             with cols[1]:
                 _show_tile_row(tuple(meld["tiles"]), width=38)
             with cols[2]:
-                if st.button("\u524a\u9664", key=f"remove-meld-{index}", width="stretch"):
+                if st.button("\u524a\u9664", key=f"remove-meld-{index}", use_container_width=True):
                     _remove_score_meld(index)
                     st.rerun()
     else:
@@ -905,7 +905,7 @@ def _show_meld_editor() -> None:
         return
 
     if not st.session_state.get("score_show_meld_form", False):
-        st.button("\u526f\u9732\u3092\u8ffd\u52a0", on_click=_show_score_meld_form, width="stretch")
+        st.button("\u526f\u9732\u3092\u8ffd\u52a0", on_click=_show_score_meld_form, use_container_width=True)
         return
 
     kind_label = st.selectbox("\u9762\u5b50\u7a2e\u5225", list(MELD_KIND_LABELS.values()))
@@ -924,9 +924,9 @@ def _show_meld_editor() -> None:
     _show_tile_row(tiles, width=38)
     action_cols = st.columns([1, 1])
     with action_cols[0]:
-        add_clicked = st.button("\u526f\u9732\u306b\u8ffd\u52a0", width="stretch")
+        add_clicked = st.button("\u526f\u9732\u306b\u8ffd\u52a0", use_container_width=True)
     with action_cols[1]:
-        st.button("\u30ad\u30e3\u30f3\u30bb\u30eb", on_click=_hide_score_meld_form, width="stretch")
+        st.button("\u30ad\u30e3\u30f3\u30bb\u30eb", on_click=_hide_score_meld_form, use_container_width=True)
 
     if add_clicked:
         _add_score_meld(kind, tiles)
@@ -987,7 +987,7 @@ def _show_score_inputs(parsed) -> None:
             st.warning(message)
         return
 
-    if st.button("\u70b9\u6570\u3092\u8a08\u7b97", width="stretch"):
+    if st.button("\u70b9\u6570\u3092\u8a08\u7b97", use_container_width=True):
         try:
             result = calculate_hand_score(
                 HandScoreInput(
@@ -1098,9 +1098,9 @@ def _chinitsu_mode() -> None:
 
     action_cols = st.columns([1, 1, 5])
     with action_cols[0]:
-        st.button("\u6c7a\u5b9a", on_click=_check_chinitsu_answer, width="stretch", disabled=not selected)
+        st.button("\u6c7a\u5b9a", on_click=_check_chinitsu_answer, use_container_width=True, disabled=not selected)
     with action_cols[1]:
-        st.button("\u6b21\u306e\u554f\u984c", on_click=_guarded_next_chinitsu_question, width="stretch")
+        st.button("\u6b21\u306e\u554f\u984c", on_click=_guarded_next_chinitsu_question, use_container_width=True)
 
     if checked:
         is_correct = evaluate_wait_answer(correct_waits, selected)
@@ -1113,7 +1113,7 @@ def _chinitsu_mode() -> None:
         st.write("\u6b63\u89e3")
         _show_chinitsu_tile_row(correct_waits, width=46, suit=suit)
         if checked and evaluate_wait_answer(correct_waits, selected):
-            st.button("\u6b21\u3078", on_click=_next_chinitsu_question, width="stretch")
+            st.button("\u6b21\u3078", on_click=_next_chinitsu_question, use_container_width=True)
 
 
 if "hand_input" not in st.session_state:
