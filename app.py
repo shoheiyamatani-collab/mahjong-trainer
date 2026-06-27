@@ -726,25 +726,6 @@ def _show_discard_comparison(results, best: set[str]) -> None:
                     _show_tile_row(result.ukeire, width=38)
                 else:
                     st.caption("\u306a\u3057")
-            if result.tenpai_details:
-                with st.expander("\u53d7\u5165\u308c\u5225\u306e\u5f85\u3061"):
-                    for detail in result.tenpai_details:
-                        detail_cols = st.columns([0.45, 0.6, 0.7, 0.9, 3.5])
-                        with detail_cols[0]:
-                            st.image(tile_image_path(detail.draw), width=34)
-                        with detail_cols[1]:
-                            st.caption(f"{detail.draw_tiles}\u679a")
-                        with detail_cols[2]:
-                            st.caption(f"{detail.winning_tiles}\u679a\u5f85\u3061")
-                        with detail_cols[3]:
-                            labels = []
-                            if detail.is_good_shape:
-                                labels.append("\u826f\u5f62")
-                            if detail.is_super_good_shape:
-                                labels.append("\u8d85\u826f\u5f62")
-                            st.caption(" / ".join(labels) if labels else "-")
-                        with detail_cols[4]:
-                            _show_tile_row(detail.winning, width=30)
 
 
 def _checker_mode() -> None:
