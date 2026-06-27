@@ -125,7 +125,18 @@ def _load_sample_hand() -> None:
 
 
 def _select_ukeire_max_answer(tile: str) -> None:
-    st.session_state.ukeire_max_answer = tile
+    raw_selected = st.session_state.get("ukeire_max_answer", [])
+    if raw_selected is None:
+        selected = set()
+    elif isinstance(raw_selected, str):
+        selected = {raw_selected}
+    else:
+        selected = set(raw_selected)
+    if tile in selected:
+        selected.remove(tile)
+    else:
+        selected.add(tile)
+    st.session_state.ukeire_max_answer = sorted(selected, key=lambda value: TILE_NAMES.index(value))
     st.session_state.ukeire_max_checked = False
 
 
@@ -135,7 +146,7 @@ def _check_ukeire_max_answer() -> None:
 
 def _new_ukeire_max_question() -> None:
     st.session_state.ukeire_max_question = generate_ukeire_max_question()
-    st.session_state.ukeire_max_answer = None
+    st.session_state.ukeire_max_answer = []
     st.session_state.ukeire_max_checked = False
 
 
@@ -784,7 +795,7 @@ def _ukeire_max_mode() -> None:
     if "ukeire_max_question" not in st.session_state:
         _new_ukeire_max_question()
     if "ukeire_max_answer" not in st.session_state:
-        st.session_state.ukeire_max_answer = None
+        st.session_state.ukeire_max_answer = []
     if "ukeire_max_checked" not in st.session_state:
         st.session_state.ukeire_max_checked = False
 
@@ -792,11 +803,19 @@ def _ukeire_max_mode() -> None:
     counts = question.counts
     results = list(question.results)
     best = set(question.best_discards)
+    raw_answer = st.session_state.ukeire_max_answer
+    if raw_answer is None:
+        answer = []
+    elif isinstance(raw_answer, str):
+        answer = [raw_answer]
+    else:
+        answer = list(raw_answer)
+    st.session_state.ukeire_max_answer = sorted(answer, key=lambda tile: TILE_NAMES.index(tile))
     answer = st.session_state.ukeire_max_answer
     checked = st.session_state.ukeire_max_checked
 
     _show_mode_header("\u53d7\u3051\u5165\u308cMAX\u661f\u4eba\u4f55\u5207\u308b", "\u4e00\u5411\u8074MAX\u554f\u984c", "review")
-    st.caption("\u5b57\u724c\u306a\u3057\u306e14\u679a\u3002\u5207\u3063\u305f\u5f8c\u304c\u4e00\u5411\u8074\u3067\u3001\u53d7\u3051\u5165\u308c\u679a\u6570\u304c\u6700\u5927\u306b\u306a\u308b\u6253\u724c\u3092\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002")
+    st.caption("\u5b57\u724c\u306a\u3057\u306e14\u679a\u3002\u5207\u3063\u305f\u5f8c\u304c\u4e00\u5411\u8074\u3067\u3001\u53d7\u3051\u5165\u308c\u679a\u6570\u304c\u6700\u5927\u306b\u306a\u308b\u6253\u724c\u3092\u3059\u3079\u3066\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002")
 
     cols = st.columns([1, 5])
     with cols[0]:
@@ -808,9 +827,9 @@ def _ukeire_max_mode() -> None:
     st.subheader("\u6253\u724c\u9078\u629e")
     _show_answer_palette(sorted(set(counts_to_tiles(counts)), key=lambda tile: TILE_NAMES.index(tile)), disabled=checked)
 
+    st.caption("\u9078\u629e\u4e2d")
+    _show_tile_row(tuple(answer), width=50)
     if answer:
-        st.write("\u9078\u629e\u3057\u305f\u6253\u724c")
-        st.image(tile_image_path(answer), width=50)
         if not checked:
             st.button("\u7b54\u3048\u5408\u308f\u305b", on_click=_check_ukeire_max_answer, width="stretch")
 

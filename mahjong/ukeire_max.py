@@ -85,8 +85,14 @@ def build_ukeire_max_question(counts: Sequence[int]) -> UkeireMaxQuestion | None
     )
 
 
-def evaluate_ukeire_max_answer(question: UkeireMaxQuestion, discard: str | None) -> bool:
-    return discard in question.best_discards
+def evaluate_ukeire_max_answer(question: UkeireMaxQuestion, discards: Sequence[str] | str | None) -> bool:
+    if discards is None:
+        selected: set[str] = set()
+    elif isinstance(discards, str):
+        selected = {discards}
+    else:
+        selected = set(discards)
+    return selected == set(question.best_discards)
 
 
 def _random_no_honor_counts(generator: random.Random) -> tuple[int, ...]:
