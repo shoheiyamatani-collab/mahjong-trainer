@@ -281,6 +281,17 @@ h2 {
   grid-template-columns: 58px 60px 74px 68px 78px minmax(180px, 1fr);
 }
 
+.discardGrid > div:first-child {
+  min-width: 0;
+}
+
+.discardGrid > div:first-child img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 46px;
+}
+
 .smallLabel {
   color: var(--muted);
   font-size: 0.78rem;
@@ -554,7 +565,11 @@ h2 {
 
   .discardGrid {
     gap: 7px;
-    grid-template-columns: 50px repeat(4, minmax(48px, 1fr));
+    grid-template-columns: 42px repeat(4, minmax(47px, 1fr));
+  }
+
+  .discardGrid > div:first-child img {
+    width: 38px;
   }
 
   .ukeireCell {
