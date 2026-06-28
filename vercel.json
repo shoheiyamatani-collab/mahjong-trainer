@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm build:web",
-  "devCommand": "pnpm dev:web",
-  "outputDirectory": "apps/web/.next"
+  "buildCommand": "pnpm --filter @mahjong-trainer/web build",
+  "devCommand": "pnpm --filter @mahjong-trainer/web dev",
+  "outputDirectory": ".next"
 }
