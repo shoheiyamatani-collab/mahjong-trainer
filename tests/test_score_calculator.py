@@ -147,8 +147,8 @@ def test_rejects_no_yaku_hand():
 def test_scores_chiitoitsu_with_dora():
     result = calculate_hand_score(
         _input(
-            "112233m445566p77s",
-            winning_tile="7s",
+            "1122m3344p5566s\u6771\u6771",
+            winning_tile="\u6771",
             dora=1,
         )
     )
@@ -160,6 +160,113 @@ def test_scores_chiitoitsu_with_dora():
     assert result.score.han == 3
     assert result.score.fu == 25
     assert result.score.total_points == 3200
+
+
+def test_scores_ryanpeikou_over_chiitoitsu_for_mixed_suit_pairs():
+    result = calculate_hand_score(
+        _input(
+            "112233m445566p77s",
+            winning_tile="7s",
+            dora=1,
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u4e8c\u76c3\u53e3" in names
+    assert "\u4e03\u5bfe\u5b50" not in names
+    assert "\u30c9\u30e9" in names
+    assert result.score.han == 4
+
+
+def test_scores_chiitoitsu_chinitsu_when_no_standard_shape_exists():
+    result = calculate_hand_score(
+        _input(
+            "11223344557788m",
+            winning_tile="8m",
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u4e03\u5bfe\u5b50" in names
+    assert "\u6e05\u4e00\u8272" in names
+    assert result.score.han == 8
+
+
+def test_scores_ryanpeikou_over_chiitoitsu_when_both_shapes_exist():
+    result = calculate_hand_score(
+        _input(
+            "11223344556677m",
+            winning_tile="7m",
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u4e8c\u76c3\u53e3" in names
+    assert "\u6e05\u4e00\u8272" in names
+    assert "\u4e03\u5bfe\u5b50" not in names
+    assert "\u4e00\u76c3\u53e3" not in names
+    assert result.score.han == 10
+
+
+def test_scores_closed_chinitsu_in_score_calculator():
+    result = calculate_hand_score(
+        _input(
+            "11122233345699m",
+            winning_tile="6m",
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u6e05\u4e00\u8272" in names
+    assert result.score.han >= 6
+
+
+def test_scores_pinfu_iipeikou_sanshoku_high_value_decomposition():
+    result = calculate_hand_score(
+        _input(
+            "112233m123p123s55p",
+            winning_tile="1s",
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u5e73\u548c" in names
+    assert "\u4e00\u76c3\u53e3" in names
+    assert "\u4e09\u8272\u540c\u9806" in names
+    assert result.score.han == 4
+
+
+def test_scores_sanankou_for_tsumo_triplets():
+    result = calculate_hand_score(
+        _input(
+            "111222333m456p55s",
+            winning_tile="3m",
+            win_method="tsumo",
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u4e09\u6697\u523b" in names
+
+
+def test_ron_on_triplet_does_not_count_that_triplet_for_sanankou():
+    result = calculate_hand_score(
+        _input(
+            "111222333m456p55s",
+            winning_tile="3m",
+            win_method="ron",
+        )
+    )
+
+    names = [yaku.name for yaku in result.yaku]
+
+    assert "\u4e09\u6697\u523b" not in names
 
 
 def test_scores_kokushi_as_single_yakuman():

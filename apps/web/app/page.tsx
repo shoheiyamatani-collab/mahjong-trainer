@@ -1,0 +1,658 @@
+"use client";
+
+import { useMemo, useReducer, useState } from "react";
+import {
+  addTile,
+  analyzeDiscards,
+  bestDiscardsForReview,
+  chinitsuHandKey,
+  chinitsuTile,
+  chinitsuTiles,
+  calculateScore,
+  countsToTiles,
+  emptyCounts,
+  evaluateChinitsuWaitAnswer,
+  evaluateUkeireMaxAnswer,
+  generateChinitsuWaitQuestion,
+  generateUkeireMaxQuestion,
+  nextChinitsuSuit,
+  parseHand,
+  removeTile,
+  sortedHandText,
+  sumCounts,
+  TILE_NAMES,
+  toggleChinitsuRankSelection,
+  toggleUkeireMaxSelection,
+  type ChinitsuWaitQuestion,
+  type Counts34,
+  type DiscardAnalysis,
+  type ScoreResult,
+  type Tile,
+  type UkeireMaxQuestion
+} from "@mahjong-trainer/mahjong-core";
+
+type Mode = "checker" | "ukeireMax" | "scoring" | "chinitsu";
+
+interface AppState {
+  counts: Counts34;
+  textInput: string;
+  error: string | null;
+}
+
+type Action =
+  | { type: "add"; tile: Tile }
+  | { type: "remove"; tile: Tile }
+  | { type: "undo" }
+  | { type: "clear" }
+  | { type: "sample" }
+  | { type: "text"; value: string }
+  | { type: "applyText" };
+
+const SAMPLE_HAND = "345688m1234p3456s";
+const IMAGE_SUFFIX = "-66-90-l-emb.png";
+const HONOR_IMAGE_NUMBERS = new Map<string, number>([
+  ["東", 1],
+  ["南", 2],
+  ["西", 3],
+  ["北", 4],
+  ["白", 5],
+  ["發", 6],
+  ["中", 7]
+]);
+
+const initialCounts = parseHand(SAMPLE_HAND);
+
+function reducer(state: AppState, action: Action): AppState {
+  try {
+    if (action.type === "add") {
+      if (sumCounts(state.counts) >= 14) {
+        return { ...state, error: "手牌は14枚までです。" };
+      }
+      const counts = addTile(state.counts, action.tile);
+      return syncCounts(counts);
+    }
+    if (action.type === "remove") {
+      const counts = removeTile(state.counts, action.tile);
+      return syncCounts(counts);
+    }
+    if (action.type === "undo") {
+      const tiles = countsToTiles(state.counts);
+      const last = tiles.at(-1);
+      if (!last) return state;
+      return syncCounts(removeTile(state.counts, last));
+    }
+    if (action.type === "clear") {
+      return syncCounts(emptyCounts());
+    }
+    if (action.type === "sample") {
+      return syncCounts(parseHand(SAMPLE_HAND));
+    }
+    if (action.type === "text") {
+      return { ...state, textInput: action.value, error: null };
+    }
+    if (action.type === "applyText") {
+      const counts = parseHand(state.textInput);
+      if (sumCounts(counts) > 14) {
+        return { ...state, error: "手牌は14枚までです。" };
+      }
+      return syncCounts(counts);
+    }
+    return state;
+  } catch (error) {
+    return { ...state, error: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+function syncCounts(counts: Counts34): AppState {
+  return {
+    counts,
+    textInput: sortedHandText(counts),
+    error: null
+  };
+}
+
+export default function Home() {
+  const [mode, setMode] = useState<Mode>("checker");
+  const [state, dispatch] = useReducer(reducer, syncCounts(initialCounts));
+
+  return (
+    <main className="shell">
+      <header className="topbar">
+        <div>
+          <p className="eyebrow">Mahjong Trainer</p>
+          <h1>麻雀 牌理トレーナー</h1>
+        </div>
+        <div className="countBadge">{sumCounts(state.counts)} / 14</div>
+      </header>
+
+      <nav className="segments" aria-label="モード">
+        <ModeButton active={mode === "checker"} onClick={() => setMode("checker")}>牌理チェッカー</ModeButton>
+        <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX</ModeButton>
+        <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>点数計算</ModeButton>
+        <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち</ModeButton>
+      </nav>
+
+      {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
+      {mode === "ukeireMax" ? <UkeireMaxMode /> : null}
+      {mode === "chinitsu" ? <ChinitsuMode /> : null}
+      {mode === "scoring" ? <ScoringMode /> : null}
+    </main>
+  );
+}
+
+function ModeButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button className={active ? "segment active" : "segment"} onClick={onClick} type="button">
+      {children}
+    </button>
+  );
+}
+
+function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dispatch<Action> }) {
+  const tiles = countsToTiles(state.counts);
+  const analysis = useMemo(() => {
+    if (sumCounts(state.counts) !== 14) return null;
+    try {
+      const results = analyzeDiscards(state.counts);
+      const best = new Set(bestDiscardsForReview(results).map((result) => result.discard));
+      return { results, best };
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : String(error) };
+    }
+  }, [state.counts]);
+
+  return (
+    <section className="modeGrid">
+      <section className="panel handPanel">
+        <div className="panelHeader">
+          <h2>手牌</h2>
+          <span>{tiles.length} / 14</span>
+        </div>
+        <TileStrip tiles={tiles} onTileClick={(tile) => dispatch({ type: "remove", tile })} emptyText="牌を追加してください" />
+        <div className="actions">
+          <button type="button" onClick={() => dispatch({ type: "undo" })}>一枚戻す</button>
+          <button type="button" onClick={() => dispatch({ type: "clear" })}>クリア</button>
+          <button type="button" onClick={() => dispatch({ type: "sample" })}>サンプル</button>
+        </div>
+        <div className="textInputRow">
+          <input
+            aria-label="手牌文字列"
+            value={state.textInput}
+            onChange={(event) => dispatch({ type: "text", value: event.target.value })}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") dispatch({ type: "applyText" });
+            }}
+          />
+          <button type="button" onClick={() => dispatch({ type: "applyText" })}>反映</button>
+        </div>
+        {state.error ? <p className="error">{state.error}</p> : null}
+      </section>
+
+      <section className="panel palettePanel">
+        <div className="panelHeader">
+          <h2>牌を追加</h2>
+        </div>
+        <TilePalette counts={state.counts} onAdd={(tile) => dispatch({ type: "add", tile })} />
+      </section>
+
+      <section className="resultsPanel">
+        <div className="panelHeader">
+          <h2>打牌候補・有効牌比較</h2>
+        </div>
+        {analysis == null ? (
+          <div className="emptyState">14枚の手牌を入力すると、打牌候補を比較します。</div>
+        ) : "error" in analysis ? (
+          <div className="error">{analysis.error}</div>
+        ) : (
+          <DiscardResults results={analysis.results} best={analysis.best} />
+        )}
+      </section>
+    </section>
+  );
+}
+
+function UkeireMaxMode() {
+  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireMaxQuestion());
+  const [selected, setSelected] = useState<Tile[]>([]);
+  const [checked, setChecked] = useState(false);
+  const selectedSet = useMemo(() => new Set(selected), [selected]);
+  const result = checked ? evaluateUkeireMaxAnswer(question, selected) : null;
+  const best = useMemo(() => new Set(question.bestDiscards), [question]);
+
+  function toggle(tile: Tile) {
+    if (checked) return;
+    setSelected((current) => toggleUkeireMaxSelection(current, tile));
+  }
+
+  function nextQuestion() {
+    setQuestion(generateUkeireMaxQuestion());
+    setSelected([]);
+    setChecked(false);
+  }
+
+  return (
+    <section className="modeGrid ukeireMaxMode">
+      <section className="panel handPanel">
+        <div className="panelHeader">
+          <h2>受け入れMAX星人何切る</h2>
+          <span>14 / 14</span>
+        </div>
+        <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
+        <div className="actions">
+          <button disabled={selected.length === 0} onClick={() => setChecked(true)} type="button">答え合わせ</button>
+          <button onClick={nextQuestion} type="button">次の問題</button>
+        </div>
+      </section>
+
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>選択中の牌</h2>
+        </div>
+        <TileStrip tiles={selected} emptyText="問題の牌をクリックして選んでください" />
+        {result ? <AnswerResult result={result} /> : null}
+        {checked ? (
+          <div className="answerDetail">
+            <div className="smallLabel">正解打牌</div>
+            <TileStrip tiles={question.bestDiscards} />
+            <p>最大受け入れ: {question.bestUkeireTypes}種 / {question.bestUkeireTiles}枚</p>
+          </div>
+        ) : null}
+      </section>
+
+      <section className="resultsPanel">
+        <div className="panelHeader">
+          <h2>打牌候補・有効牌比較</h2>
+        </div>
+        {checked ? (
+          <DiscardResults results={question.results} best={best} />
+        ) : (
+          <div className="emptyState">答え合わせ後に、各打牌候補の受け入れを確認できます。</div>
+        )}
+      </section>
+    </section>
+  );
+}
+
+function ChinitsuMode() {
+  const [question, setQuestion] = useState<ChinitsuWaitQuestion>(() => generateChinitsuWaitQuestion(Math.random, "m"));
+  const [selected, setSelected] = useState<number[]>([]);
+  const [checked, setChecked] = useState(false);
+  const [recentKeys, setRecentKeys] = useState<string[]>([]);
+  const isCorrect = checked ? evaluateChinitsuWaitAnswer(question.waits, selected) : false;
+
+  function toggle(rank: number) {
+    if (checked) return;
+    setSelected((current) => toggleChinitsuRankSelection(current, rank));
+  }
+
+  function nextQuestion() {
+    if (!checked) {
+      setChecked(true);
+      return;
+    }
+
+    const recent = [...recentKeys, chinitsuHandKey(question.counts)].slice(-80);
+    const next = generateChinitsuWaitQuestion(Math.random, nextChinitsuSuit(question.suit), recent);
+    setRecentKeys(recent);
+    setQuestion(next);
+    setSelected([]);
+    setChecked(false);
+  }
+
+  return (
+    <section className="modeGrid chinitsuMode">
+      <section className="panel handPanel">
+        <div className="panelHeader">
+          <h2>清一色待ち当て特訓</h2>
+          <span>13 / 13</span>
+        </div>
+        <TileStrip tiles={chinitsuTiles(question.counts, question.suit)} />
+      </section>
+
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>待ち牌選択</h2>
+        </div>
+        <ChinitsuAnswerPalette question={question} selected={selected} disabled={checked} onToggle={toggle} />
+        <div className="answerDetail compactAnswerDetail">
+          <div className="smallLabel">選択中</div>
+          <TileStrip tiles={selected.map((rank) => chinitsuTile(rank, question.suit))} emptyText="1〜9から待ち牌を選んでください" />
+        </div>
+        <div className="actions">
+          <button disabled={selected.length === 0 || checked} onClick={() => setChecked(true)} type="button">決定</button>
+          <button onClick={nextQuestion} type="button">次の問題</button>
+        </div>
+        {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
+        {checked ? (
+          <div className="answerDetail">
+            <div className="smallLabel">正解</div>
+            <TileStrip tiles={question.waits.map((rank) => chinitsuTile(rank, question.suit))} />
+            <p>{question.waits.length}種 / {question.waits.reduce((sum, rank) => sum + (question.remainingTiles[rank] ?? 0), 0)}枚</p>
+          </div>
+        ) : null}
+      </section>
+    </section>
+  );
+}
+
+function ScoringMode() {
+  const [han, setHan] = useState(3);
+  const [fu, setFu] = useState(40);
+  const [isDealer, setIsDealer] = useState(false);
+  const [winMethod, setWinMethod] = useState<"ron" | "tsumo">("ron");
+  const [yakumanCount, setYakumanCount] = useState(0);
+  const [honba, setHonba] = useState(0);
+  const [riichiSticks, setRiichiSticks] = useState(0);
+
+  const result = useMemo(() => {
+    try {
+      return {
+        value: calculateScore({
+          han,
+          fu: yakumanCount > 0 ? null : fu,
+          isDealer,
+          winMethod,
+          yakumanCount,
+          honba,
+          riichiSticks
+        })
+      };
+    } catch (error) {
+      return { error: error instanceof Error ? error.message : String(error) };
+    }
+  }, [fu, han, honba, isDealer, riichiSticks, winMethod, yakumanCount]);
+
+  return (
+    <section className="modeGrid scoringMode">
+      <section className="panel handPanel">
+        <div className="panelHeader">
+          <h2>点数計算</h2>
+        </div>
+        <SegmentPair
+          leftLabel="子"
+          rightLabel="親"
+          rightActive={isDealer}
+          onLeft={() => setIsDealer(false)}
+          onRight={() => setIsDealer(true)}
+        />
+        <SegmentPair
+          leftLabel="ロン"
+          rightLabel="ツモ"
+          rightActive={winMethod === "tsumo"}
+          onLeft={() => setWinMethod("ron")}
+          onRight={() => setWinMethod("tsumo")}
+        />
+        <div className="scoreInputs">
+          <NumberField label="翻数" min={0} value={han} onChange={setHan} />
+          <NumberField label="符数" min={20} step={10} value={fu} disabled={yakumanCount > 0} onChange={setFu} />
+          <NumberField label="役満数" min={0} value={yakumanCount} onChange={setYakumanCount} />
+          <NumberField label="本場" min={0} value={honba} onChange={setHonba} />
+          <NumberField label="供託" min={0} value={riichiSticks} onChange={setRiichiSticks} />
+        </div>
+      </section>
+
+      <section className="panel selectedPanel scoreResultPanel">
+        <div className="panelHeader">
+          <h2>結果</h2>
+        </div>
+        {"error" in result ? <div className="error">{result.error}</div> : <ScoreResultCard result={result.value} />}
+      </section>
+    </section>
+  );
+}
+
+function SegmentPair({
+  leftLabel,
+  rightLabel,
+  rightActive,
+  onLeft,
+  onRight
+}: {
+  leftLabel: string;
+  rightLabel: string;
+  rightActive: boolean;
+  onLeft: () => void;
+  onRight: () => void;
+}) {
+  return (
+    <div className="scoreSegments">
+      <button className={!rightActive ? "scoreSegment active" : "scoreSegment"} onClick={onLeft} type="button">{leftLabel}</button>
+      <button className={rightActive ? "scoreSegment active" : "scoreSegment"} onClick={onRight} type="button">{rightLabel}</button>
+    </div>
+  );
+}
+
+function NumberField({
+  label,
+  value,
+  min,
+  step = 1,
+  disabled,
+  onChange
+}: {
+  label: string;
+  value: number;
+  min: number;
+  step?: number;
+  disabled?: boolean;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <label className="numberField">
+      <span>{label}</span>
+      <input
+        disabled={disabled}
+        min={min}
+        onChange={(event) => onChange(Number(event.target.value))}
+        step={step}
+        type="number"
+        value={value}
+      />
+    </label>
+  );
+}
+
+function ScoreResultCard({ result }: { result: ScoreResult }) {
+  return (
+    <div className="scoreCard">
+      <div>
+        <div className="smallLabel">点数</div>
+        <div className="scoreTotal">{result.totalPoints.toLocaleString()}点</div>
+      </div>
+      <div className="scoreMeta">
+        <Stat label="区分" value={result.limitLabel} />
+        <Stat label="翻 / 符" value={result.fu == null ? `${result.han}翻 / 役満` : `${result.han}翻 / ${result.fu}符`} />
+      </div>
+      <div className="paymentList">
+        {result.payments.map((payment) => (
+          <div className="paymentRow" key={payment.label}>
+            <span>{payment.label}</span>
+            <strong>{payment.points.toLocaleString()}点</strong>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ChinitsuAnswerPalette({
+  question,
+  selected,
+  disabled,
+  onToggle
+}: {
+  question: ChinitsuWaitQuestion;
+  selected: number[];
+  disabled: boolean;
+  onToggle: (rank: number) => void;
+}) {
+  const selectedSet = new Set(selected);
+  return (
+    <div className="chinitsuAnswerPalette">
+      {Array.from({ length: 9 }, (_, index) => index + 1).map((rank) => (
+        <button
+          className={selectedSet.has(rank) ? "tileButton selected" : "tileButton"}
+          disabled={disabled}
+          key={rank}
+          onClick={() => onToggle(rank)}
+          title={`${rank}${question.suit}`}
+          type="button"
+        >
+          <TileImage tile={chinitsuTile(rank, question.suit)} />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ProblemTileStrip({ counts, selected, onTileClick }: { counts: Counts34; selected: Set<Tile>; onTileClick: (tile: Tile) => void }) {
+  const tiles = countsToTiles(counts);
+  return (
+    <div className="tileStrip problemTileStrip" style={{ "--tile-count": tiles.length } as React.CSSProperties}>
+      {tiles.map((tile, index) => (
+        <button
+          className={selected.has(tile) ? "stripTileButton selected" : "stripTileButton"}
+          key={`${tile}-${index}`}
+          onClick={() => onTileClick(tile)}
+          type="button"
+        >
+          <TileImage tile={tile} />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function AnswerResult({ result }: { result: "correct" | "partial" | "wrong" }) {
+  if (result === "correct") {
+    return (
+      <div className="answerResult answerCorrect">
+        <span className="answerSymbol">○</span> 正解！
+      </div>
+    );
+  }
+  if (result === "partial") {
+    return (
+      <div className="answerResult answerPartial">
+        <span className="answerSymbol">△</span> もう一歩！
+      </div>
+    );
+  }
+  return (
+    <div className="answerResult answerWrong">
+      <span className="answerSymbol">×</span> 不正解…
+    </div>
+  );
+}
+
+function TilePalette({ counts, onAdd }: { counts: Counts34; onAdd: (tile: Tile) => void }) {
+  const rows = [TILE_NAMES.slice(0, 9), TILE_NAMES.slice(9, 18), TILE_NAMES.slice(18, 27), TILE_NAMES.slice(27)];
+  return (
+    <div className="paletteRows">
+      {rows.map((row, rowIndex) => (
+        <div className="paletteRow" key={rowIndex}>
+          {row.map((tile) => (
+            <button
+              className="tileButton"
+              disabled={counts[TILE_NAMES.indexOf(tile)] >= 4}
+              key={tile}
+              onClick={() => onAdd(tile)}
+              title={tile}
+              type="button"
+            >
+              <TileImage tile={tile} />
+            </button>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TileStrip({ tiles, onTileClick, emptyText }: { tiles: Tile[]; onTileClick?: (tile: Tile) => void; emptyText?: string }) {
+  if (tiles.length === 0) {
+    return <div className="emptyStrip">{emptyText ?? "-"}</div>;
+  }
+  return (
+    <div className="tileStrip" style={{ "--tile-count": tiles.length } as React.CSSProperties}>
+      {tiles.map((tile, index) =>
+        onTileClick ? (
+          <button className="stripTileButton" key={`${tile}-${index}`} onClick={() => onTileClick(tile)} type="button">
+            <TileImage tile={tile} />
+          </button>
+        ) : (
+          <TileImage key={`${tile}-${index}`} tile={tile} />
+        )
+      )}
+    </div>
+  );
+}
+
+function DiscardResults({ results, best }: { results: DiscardAnalysis[]; best: Set<Tile> }) {
+  return (
+    <div className="discardList">
+      {results.map((result) => {
+        const isBest = best.has(result.discard);
+        const goodRate = result.tenpaiDetails.length ? formatPercent(result.goodShapeRate) : "-";
+        const superRate = result.tenpaiDetails.length ? formatPercent(result.superGoodShapeRate) : "-";
+        return (
+          <article className={isBest ? "discardCard best" : "discardCard"} key={result.discard}>
+            <div className="discardGrid">
+              <div>
+                <div className="smallLabel">{isBest ? "打牌☆" : "打牌"}</div>
+                <TileImage tile={result.discard} />
+              </div>
+              <Stat label="進牌数" value={`${result.ukeireTypes}種`} />
+              <Stat label="進む枚数" value={`${result.ukeireTiles}枚`} />
+              <Stat className={result.goodShapeRate >= 1 ? "redText" : undefined} label="良系率" value={goodRate} />
+              <Stat className={result.superGoodShapeRate >= 0.01 ? "greenText" : undefined} label="超良系率" value={superRate} />
+              <div className="ukeireCell">
+                <div className="smallLabel">有効牌</div>
+                <TileStrip tiles={result.ukeire} />
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
+function Stat({ label, value, className }: { label: string; value: string; className?: string }) {
+  return (
+    <div>
+      <div className="smallLabel">{label}</div>
+      <div className={className ? `statValue ${className}` : "statValue"}>{value}</div>
+    </div>
+  );
+}
+
+function PlaceholderMode({ mode }: { mode: Mode }) {
+  const labels: Record<Mode, string> = {
+    checker: "牌理チェッカー",
+    ukeireMax: "受け入れMAX星人何切る",
+    scoring: "点数計算",
+    chinitsu: "清一色待ち当て"
+  };
+  return (
+    <section className="panel placeholder">
+      <h2>{labels[mode]}</h2>
+      <p>Next.js版ではまず牌理チェッカーを移植済みです。このモードは次の段階で移植します。</p>
+    </section>
+  );
+}
+
+function TileImage({ tile }: { tile: Tile }) {
+  return <img alt={tile} src={tileImageSrc(tile)} />;
+}
+
+function tileImageSrc(tile: Tile): string {
+  if (tile.endsWith("m")) return `/tiles/man${tile[0]}${IMAGE_SUFFIX}`;
+  if (tile.endsWith("p")) return `/tiles/pin${tile[0]}${IMAGE_SUFFIX}`;
+  if (tile.endsWith("s")) return `/tiles/sou${tile[0]}${IMAGE_SUFFIX}`;
+  return `/tiles/ji${HONOR_IMAGE_NUMBERS.get(tile) ?? 1}${IMAGE_SUFFIX}`;
+}
+
+function formatPercent(value: number): string {
+  return `${Math.round(value * 100)}%`;
+}

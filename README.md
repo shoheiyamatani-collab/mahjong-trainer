@@ -52,3 +52,50 @@ The review-mode saved-problem file is written under `data/problems.json`.
 On free cloud hosts, files created at runtime may not be permanently preserved
 after redeploys or restarts. The built-in chinitsu training questions are code
 generated and do not depend on that file.
+
+## Next.js Web App
+
+The mobile-friendly browser version lives in `apps/web`. It shares Mahjong
+logic from `packages/mahjong-core`.
+
+Local development:
+
+```powershell
+pnpm install
+pnpm dev:web
+```
+
+Open:
+
+```text
+http://127.0.0.1:3000/
+```
+
+Production build:
+
+```powershell
+pnpm build
+```
+
+`npm run build` is also available at the repository root, but this project uses
+pnpm workspaces internally.
+
+## Publish The Next.js App On Vercel
+
+1. Push this repository to GitHub.
+2. Open Vercel and choose **Add New... > Project**.
+3. Import the GitHub repository.
+4. Keep the project root as the repository root.
+5. Vercel should read `vercel.json` automatically. Confirm these settings if
+   Vercel asks:
+   - Framework Preset: `Next.js`
+   - Install Command: `pnpm install --frozen-lockfile`
+   - Build Command: `pnpm build:web`
+   - Output Directory: `apps/web/.next`
+6. Click **Deploy**.
+7. After deployment, open the generated `https://...vercel.app` URL on your
+   phone and test the four tabs.
+
+There are no environment variables required for the current app. Later, ads,
+analytics, and a custom domain can be added in Vercel Project Settings without
+changing the Mahjong core package.

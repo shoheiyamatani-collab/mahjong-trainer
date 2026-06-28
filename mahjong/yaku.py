@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Literal
 
 from mahjong.hand_decomposer import HandGroup, StandardHandDecomposition
 from mahjong.melds import Meld
@@ -23,6 +24,7 @@ class YakuContext:
     round_wind: str
     seat_wind: str
     winning_tile: str | None = None
+    win_method: Literal["ron", "tsumo"] = "ron"
 
 
 @dataclass(frozen=True)
@@ -51,6 +53,19 @@ def detect_standard_yaku(
 
     if _is_pinfu(decomposition, context):
         yaku.append(YakuResult("\u5e73\u548c", 1))
+
+    if is_closed:
+        sequence_pairs = _identical_sequence_pair_count(decomposition.melds)
+        if sequence_pairs >= 2:
+            yaku.append(YakuResult("\u4e8c\u76c3\u53e3", 3))
+        elif sequence_pairs == 1:
+            yaku.append(YakuResult("\u4e00\u76c3\u53e3", 1))
+
+    if _has_sanshoku_doujun(all_meld_like):
+        yaku.append(YakuResult("\u4e09\u8272\u540c\u9806", 2 if is_closed else 1))
+
+    if _concealed_triplet_count(decomposition, context) >= 3:
+        yaku.append(YakuResult("\u4e09\u6697\u523b", 2))
 
     if all(_is_triplet_like(group) for group in all_meld_like):
         yaku.append(YakuResult("\u5bfe\u3005\u548c", 2))
@@ -106,6 +121,48 @@ def _is_closed(melds: tuple[Meld, ...]) -> bool:
 
 def _is_triplet_like(group: HandGroup) -> bool:
     return group.kind == "triplet"
+
+
+def _identical_sequence_pair_count(groups: tuple[HandGroup, ...]) -> int:
+    sequence_counts: dict[tuple[int, int], int] = {}
+    for group in groups:
+        if group.kind != "sequence":
+            continue
+        key = _sequence_key(group)
+        sequence_counts[key] = sequence_counts.get(key, 0) + 1
+    return sum(count // 2 for count in sequence_counts.values())
+
+
+def _has_sanshoku_doujun(groups: list[HandGroup]) -> bool:
+    starts_by_rank: dict[int, set[int]] = {}
+    for group in groups:
+        if group.kind != "sequence":
+            continue
+        suit, start_rank = _sequence_key(group)
+        starts_by_rank.setdefault(start_rank, set()).add(suit)
+    return any(suits == {0, 1, 2} for suits in starts_by_rank.values())
+
+
+def _concealed_triplet_count(decomposition: StandardHandDecomposition, context: YakuContext) -> int:
+    count = 0
+    for group in decomposition.melds:
+        if group.kind != "triplet":
+            continue
+        if context.win_method == "ron" and context.winning_tile in group.tiles:
+            continue
+        count += 1
+
+    for meld in decomposition.open_melds:
+        if meld.kind == "closed_kan":
+            count += 1
+
+    return count
+
+
+def _sequence_key(group: HandGroup) -> tuple[int, int]:
+    indexes = sorted(tile_index(tile) for tile in group.tiles)
+    first = indexes[0]
+    return first // 9, first % 9
 
 
 def _is_pinfu(decomposition: StandardHandDecomposition, context: YakuContext) -> bool:

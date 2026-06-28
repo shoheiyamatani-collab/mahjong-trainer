@@ -203,10 +203,7 @@ def _show_tile_row(tiles: list[str] | tuple[str, ...], width: int = 44) -> None:
     if not tiles:
         st.caption("-")
         return
-    images = "\n".join(
-        f'<img src="{tile_image_data_uri(tile)}" alt="{html.escape(tile)}">'
-        for tile in tiles
-    )
+    images = _tile_images_html(tiles)
     st.markdown(
         f"""
         <div class="tile-strip" style="--tile-count:{len(tiles)}; --tile-width:{width}px;">
@@ -214,6 +211,14 @@ def _show_tile_row(tiles: list[str] | tuple[str, ...], width: int = 44) -> None:
         </div>
         """,
         unsafe_allow_html=True,
+    )
+
+
+def _tile_images_html(tiles: list[str] | tuple[str, ...], *, css_class: str = "", alt_suffix: str = "") -> str:
+    class_attr = f' class="{html.escape(css_class)}"' if css_class else ""
+    return "\n".join(
+        f'<img{class_attr} src="{tile_image_data_uri(tile)}" alt="{html.escape(tile + alt_suffix)}">'
+        for tile in tiles
     )
 
 
@@ -301,7 +306,15 @@ def _show_styles() -> None:
     st.markdown(
         """
         <style>
-          div[data-testid="stButton"] button:has(img) {
+          div.st-key-tile_palette button,
+          div.st-key-answer_palette button,
+          div.st-key-hand_tiles button,
+          div.st-key-ukeire_question_tiles button,
+          div.st-key-score_palette button,
+          div.st-key-score_hand_tiles button,
+          div.st-key-score_winning_tiles button,
+          div.st-key-chinitsu_hand_tiles button,
+          div.st-key-chinitsu_answer_palette button {
             background: #f7f7f5;
             border: 1px solid rgba(49, 51, 63, 0.16);
             border-radius: 6px;
@@ -310,12 +323,28 @@ def _show_styles() -> None:
             padding: 3px;
             width: 66px;
           }
-          div[data-testid="stButton"] button:has(img):hover {
+          div.st-key-tile_palette button:hover,
+          div.st-key-answer_palette button:hover,
+          div.st-key-hand_tiles button:hover,
+          div.st-key-ukeire_question_tiles button:hover,
+          div.st-key-score_palette button:hover,
+          div.st-key-score_hand_tiles button:hover,
+          div.st-key-score_winning_tiles button:hover,
+          div.st-key-chinitsu_hand_tiles button:hover,
+          div.st-key-chinitsu_answer_palette button:hover {
             background: #fff3bf;
             border-color: #d8a31c;
             transform: translateY(-1px);
           }
-          div[data-testid="stButton"] button img {
+          div.st-key-tile_palette button img,
+          div.st-key-answer_palette button img,
+          div.st-key-hand_tiles button img,
+          div.st-key-ukeire_question_tiles button img,
+          div.st-key-score_palette button img,
+          div.st-key-score_hand_tiles button img,
+          div.st-key-score_winning_tiles button img,
+          div.st-key-chinitsu_hand_tiles button img,
+          div.st-key-chinitsu_answer_palette button img {
             display: block !important;
             height: 78px !important;
             max-height: 78px !important;
@@ -323,13 +352,22 @@ def _show_styles() -> None:
             object-fit: contain !important;
             width: 57px !important;
           }
-          div[data-testid="stButton"] button p {
+          div.st-key-tile_palette button p,
+          div.st-key-answer_palette button p,
+          div.st-key-hand_tiles button p,
+          div.st-key-ukeire_question_tiles button p,
+          div.st-key-score_palette button p,
+          div.st-key-score_hand_tiles button p,
+          div.st-key-score_winning_tiles button p,
+          div.st-key-chinitsu_hand_tiles button p,
+          div.st-key-chinitsu_answer_palette button p {
             line-height: 0 !important;
             margin: 0 !important;
           }
           div.st-key-tile_palette,
           div.st-key-answer_palette,
           div.st-key-hand_tiles,
+          div.st-key-ukeire_question_tiles,
           div.st-key-score_palette,
           div.st-key-score_hand_tiles,
           div.st-key-score_winning_tiles,
@@ -340,7 +378,15 @@ def _show_styles() -> None:
             flex-direction: row !important;
             flex-wrap: wrap !important;
           }
-          div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
+          div.st-key-tile_palette div[data-testid="stElementContainer"],
+          div.st-key-answer_palette div[data-testid="stElementContainer"],
+          div.st-key-hand_tiles div[data-testid="stElementContainer"],
+          div.st-key-ukeire_question_tiles div[data-testid="stElementContainer"],
+          div.st-key-score_palette div[data-testid="stElementContainer"],
+          div.st-key-score_hand_tiles div[data-testid="stElementContainer"],
+          div.st-key-score_winning_tiles div[data-testid="stElementContainer"],
+          div.st-key-chinitsu_hand_tiles div[data-testid="stElementContainer"],
+          div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"] {
             display: inline-block !important;
             margin: 0 8px 10px 0 !important;
             vertical-align: top !important;
@@ -366,8 +412,8 @@ def _show_styles() -> None:
           }
           .answer-symbol {
             display: inline-block;
-            font-size: 1em;
-            transform: scale(1.18);
+            font-size: 1.22em;
+            transform: scale(1.24);
             transform-origin: center;
           }
           .answer-correct {
@@ -421,43 +467,45 @@ def _show_styles() -> None:
             border-color: #7950f2;
             color: #4c3299;
           }
-          div.st-key-tile_palette button:has(img),
-          div.st-key-hand_tiles button:has(img) {
+          div.st-key-tile_palette button,
+          div.st-key-hand_tiles button,
+          div.st-key-ukeire_question_tiles button {
             background: #f1fbf4;
             border-color: rgba(47, 158, 68, 0.38);
           }
-          div.st-key-tile_palette button:has(img):hover,
-          div.st-key-hand_tiles button:has(img):hover {
+          div.st-key-tile_palette button:hover,
+          div.st-key-hand_tiles button:hover,
+          div.st-key-ukeire_question_tiles button:hover {
             background: #d3f9d8;
             border-color: #2f9e44;
           }
-          div.st-key-answer_palette button:has(img) {
+          div.st-key-answer_palette button {
             background: #fff8ed;
             border-color: rgba(240, 140, 0, 0.38);
           }
-          div.st-key-answer_palette button:has(img):hover {
+          div.st-key-answer_palette button:hover {
             background: #ffe8cc;
             border-color: #f08c00;
           }
-          div.st-key-score_palette button:has(img),
-          div.st-key-score_hand_tiles button:has(img),
-          div.st-key-score_winning_tiles button:has(img) {
+          div.st-key-score_palette button,
+          div.st-key-score_hand_tiles button,
+          div.st-key-score_winning_tiles button {
             background: #f0f8ff;
             border-color: rgba(28, 126, 214, 0.38);
           }
-          div.st-key-score_palette button:has(img):hover,
-          div.st-key-score_hand_tiles button:has(img):hover,
-          div.st-key-score_winning_tiles button:has(img):hover {
+          div.st-key-score_palette button:hover,
+          div.st-key-score_hand_tiles button:hover,
+          div.st-key-score_winning_tiles button:hover {
             background: #d0ebff;
             border-color: #1c7ed6;
           }
-          div.st-key-chinitsu_hand_tiles button:has(img),
-          div.st-key-chinitsu_answer_palette button:has(img) {
+          div.st-key-chinitsu_hand_tiles button,
+          div.st-key-chinitsu_answer_palette button {
             background: #f8f5ff;
             border-color: rgba(121, 80, 242, 0.38);
           }
-          div.st-key-chinitsu_hand_tiles button:has(img):hover,
-          div.st-key-chinitsu_answer_palette button:has(img):hover {
+          div.st-key-chinitsu_hand_tiles button:hover,
+          div.st-key-chinitsu_answer_palette button:hover {
             background: #e5dbff;
             border-color: #7950f2;
           }
@@ -479,8 +527,59 @@ def _show_styles() -> None:
             object-fit: contain;
             width: min(var(--tile-width, 44px), calc((100vw - 48px) / var(--tile-count, 14)));
           }
+          .discard-card {
+            background: #ffffff;
+            border: 1px solid rgba(49, 51, 63, 0.16);
+            border-radius: 8px;
+            margin: 8px 0;
+            padding: 8px;
+          }
+          .discard-card-best {
+            background: #fff9db;
+            border-color: #f08c00;
+            box-shadow: inset 4px 0 0 #f08c00;
+          }
+          .discard-grid {
+            align-items: start;
+            display: grid;
+            gap: 8px;
+            grid-template-columns: 58px 56px 64px 64px 72px minmax(130px, 1fr);
+          }
+          .discard-label {
+            color: rgba(49, 51, 63, 0.72);
+            font-size: 0.78rem;
+            line-height: 1.15;
+            margin-bottom: 4px;
+          }
+          .discard-value {
+            color: #262730;
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.2;
+          }
+          .rate-good-max {
+            color: #c92a2a;
+          }
+          .rate-super-positive {
+            color: #2b8a3e;
+          }
+          .discard-tile,
+          .discard-ukeire-tile {
+            display: inline-block;
+            height: auto;
+            object-fit: contain;
+            vertical-align: top;
+          }
+          .discard-tile {
+            width: 44px;
+          }
+          .discard-ukeire-tile {
+            margin: 0 2px 3px 0;
+            width: 32px;
+          }
           @media (max-width: 640px) {
             div.st-key-hand_tiles,
+            div.st-key-ukeire_question_tiles,
             div.st-key-score_hand_tiles,
             div.st-key-chinitsu_hand_tiles,
             div.st-key-chinitsu_answer_palette {
@@ -489,57 +588,88 @@ def _show_styles() -> None:
               overflow: hidden !important;
               width: 100% !important;
             }
-            div.st-key-hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-tile_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-score_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-score_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-score_winning_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-chinitsu_hand_tiles div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img),
-            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
+            div.st-key-hand_tiles div[data-testid="stElementContainer"],
+            div.st-key-ukeire_question_tiles div[data-testid="stElementContainer"],
+            div.st-key-tile_palette div[data-testid="stElementContainer"],
+            div.st-key-answer_palette div[data-testid="stElementContainer"],
+            div.st-key-score_hand_tiles div[data-testid="stElementContainer"],
+            div.st-key-score_palette div[data-testid="stElementContainer"],
+            div.st-key-score_winning_tiles div[data-testid="stElementContainer"],
+            div.st-key-chinitsu_hand_tiles div[data-testid="stElementContainer"],
+            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"] {
               margin: 0 1px 6px 0 !important;
               width: calc((100vw - 46px) / 14) !important;
             }
-            div.st-key-hand_tiles button:has(img),
-            div.st-key-tile_palette button:has(img),
-            div.st-key-answer_palette button:has(img),
-            div.st-key-score_hand_tiles button:has(img),
-            div.st-key-score_palette button:has(img),
-            div.st-key-score_winning_tiles button:has(img),
-            div.st-key-chinitsu_hand_tiles button:has(img),
-            div.st-key-chinitsu_answer_palette button:has(img) {
+            div.st-key-tile_palette div[data-testid="stElementContainer"]:has(.tile-row-break) {
+              display: block !important;
+              height: 0 !important;
+              margin: 0 !important;
+              width: 100% !important;
+            }
+            div.st-key-hand_tiles button,
+            div.st-key-ukeire_question_tiles button,
+            div.st-key-tile_palette button,
+            div.st-key-answer_palette button,
+            div.st-key-score_hand_tiles button,
+            div.st-key-score_palette button,
+            div.st-key-score_winning_tiles button,
+            div.st-key-chinitsu_hand_tiles button,
+            div.st-key-chinitsu_answer_palette button {
               border-radius: 4px;
               height: calc((100vw - 46px) / 10.3) !important;
               min-height: calc((100vw - 46px) / 10.3) !important;
               padding: 1px !important;
               width: calc((100vw - 46px) / 14) !important;
             }
-            div.st-key-hand_tiles button:has(img) img,
-            div.st-key-tile_palette button:has(img) img,
-            div.st-key-answer_palette button:has(img) img,
-            div.st-key-score_hand_tiles button:has(img) img,
-            div.st-key-score_palette button:has(img) img,
-            div.st-key-score_winning_tiles button:has(img) img,
-            div.st-key-chinitsu_hand_tiles button:has(img) img,
-            div.st-key-chinitsu_answer_palette button:has(img) img {
+            div.st-key-hand_tiles button img,
+            div.st-key-ukeire_question_tiles button img,
+            div.st-key-tile_palette button img,
+            div.st-key-answer_palette button img,
+            div.st-key-score_hand_tiles button img,
+            div.st-key-score_palette button img,
+            div.st-key-score_winning_tiles button img,
+            div.st-key-chinitsu_hand_tiles button img,
+            div.st-key-chinitsu_answer_palette button img {
               height: calc((100vw - 56px) / 10.8) !important;
               max-height: calc((100vw - 56px) / 10.8) !important;
               max-width: calc((100vw - 56px) / 14) !important;
               width: calc((100vw - 56px) / 14) !important;
             }
-            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"]:has(div[data-testid="stButton"] button img) {
+            div.st-key-chinitsu_answer_palette div[data-testid="stElementContainer"] {
               width: calc((100vw - 72px) / 9) !important;
             }
-            div.st-key-chinitsu_answer_palette button:has(img) {
+            div.st-key-chinitsu_answer_palette button {
               height: calc((100vw - 72px) / 6.7) !important;
               min-height: calc((100vw - 72px) / 6.7) !important;
               width: calc((100vw - 72px) / 9) !important;
             }
-            div.st-key-chinitsu_answer_palette button:has(img) img {
+            div.st-key-chinitsu_answer_palette button img {
               height: calc((100vw - 82px) / 7.2) !important;
               max-height: calc((100vw - 82px) / 7.2) !important;
               max-width: calc((100vw - 82px) / 9) !important;
               width: calc((100vw - 82px) / 9) !important;
+            }
+            .discard-card {
+              padding: 7px;
+            }
+            .discard-grid {
+              gap: 6px;
+              grid-template-columns: 50px repeat(4, minmax(45px, 1fr));
+            }
+            .discard-ukeire {
+              grid-column: 1 / -1;
+            }
+            .discard-label {
+              font-size: 0.72rem;
+            }
+            .discard-value {
+              font-size: 0.94rem;
+            }
+            .discard-tile {
+              width: 40px;
+            }
+            .discard-ukeire-tile {
+              width: min(32px, calc((100vw - 62px) / 10));
             }
           }
           .progress-label {
@@ -627,10 +757,16 @@ def _show_tile_palette() -> None:
     _show_tile_button_grid("tile_palette", _add_tile_to_input)
 
 
-def _show_answer_palette(tiles: list[str], disabled: bool) -> None:
-    with st.container(key="answer_palette"):
-        for tile in tiles:
-            _tile_button(tile, f"answer-{tile}", _select_ukeire_max_answer, disabled=disabled)
+def _show_ukeire_question_tiles(tiles: list[str], selected: list[str], disabled: bool) -> None:
+    selected_set = set(selected)
+    with st.container(key="ukeire_question_tiles"):
+        for index, tile in enumerate(tiles):
+            _tile_button(tile, f"ukeire-question-{index}-{tile}", _select_ukeire_max_answer, disabled=disabled)
+    if selected_set:
+        st.caption("\u9078\u629e\u4e2d")
+        _show_tile_row(tuple(sorted(selected_set, key=lambda tile: TILE_NAMES.index(tile))), width=50)
+    else:
+        st.caption("\u5207\u308b\u724c\u3092\u624b\u724c\u304b\u3089\u9078\u3093\u3067\u304f\u3060\u3055\u3044\u3002")
 
 
 def _show_editable_hand_tiles(tiles: list[str]) -> None:
@@ -699,39 +835,60 @@ def _show_shanten_progress(after_discard_shanten: int) -> None:
 
 def _show_discard_comparison(results, best: set[str]) -> None:
     st.subheader("\u6253\u724c\u5019\u88dc\u30fb\u6709\u52b9\u724c\u6bd4\u8f03")
-    if best:
-        best_labels = "\u3001".join(sorted(best, key=lambda tile: TILE_NAMES.index(tile)))
-        st.success(f"\u6700\u5584\u6253\u724c: {best_labels}")
-        _show_tile_row(tuple(sorted(best, key=lambda tile: TILE_NAMES.index(tile))), width=46)
-    else:
+    if not best:
         st.warning("\u6bd4\u8f03\u3067\u304d\u308b\u6253\u724c\u5019\u88dc\u304c\u3042\u308a\u307e\u305b\u3093\u3002")
+        return
 
     for result in results:
-        with st.container(border=True):
-            cols = st.columns([0.75, 0.9, 0.85, 0.85, 0.95, 0.95, 3.5])
-            with cols[0]:
-                st.caption("\u6253\u724c")
-                st.image(tile_image_path(result.discard), width=44)
-                if result.discard in best:
-                    st.markdown("**\u6700\u5584**")
-            with cols[1]:
-                _show_shanten_progress(result.after_discard_shanten)
-            with cols[2]:
-                st.metric("\u9032\u3080\u724c\u7a2e\u6570", f"{result.ukeire_types}\u7a2e")
-            with cols[3]:
-                st.metric("\u9032\u3080\u679a\u6570", f"{result.ukeire_tiles}\u679a")
-            with cols[4]:
-                good_rate = f"{result.good_shape_rate:.0%}" if result.tenpai_details else "-"
-                st.metric("\u826f\u5f62\u7387", good_rate)
-            with cols[5]:
-                super_rate = f"{result.super_good_shape_rate:.0%}" if result.tenpai_details else "-"
-                st.metric("\u8d85\u826f\u5f62\u7387", super_rate)
-            with cols[6]:
-                st.caption("\u6709\u52b9\u724c")
-                if result.ukeire:
-                    _show_tile_row(result.ukeire, width=38)
-                else:
-                    st.caption("\u306a\u3057")
+        is_best = result.discard in best
+        label = "\u6253\u724c\u2606" if is_best else "\u6253\u724c"
+        card_class = "discard-card discard-card-best" if is_best else "discard-card"
+        good_rate = f"{result.good_shape_rate:.0%}" if result.tenpai_details else "-"
+        super_rate = f"{result.super_good_shape_rate:.0%}" if result.tenpai_details else "-"
+        good_rate_class = "discard-value rate-good-max" if result.tenpai_details and result.good_shape_rate >= 1.0 else "discard-value"
+        super_rate_class = (
+            "discard-value rate-super-positive"
+            if result.tenpai_details and result.super_good_shape_rate >= 0.01
+            else "discard-value"
+        )
+        ukeire_html = (
+            _tile_images_html(result.ukeire, css_class="discard-ukeire-tile", alt_suffix="\u6709\u52b9\u724c")
+            if result.ukeire
+            else "\u306a\u3057"
+        )
+        st.markdown(
+            f"""
+            <div class="{card_class}">
+              <div class="discard-grid">
+                <div>
+                  <div class="discard-label">{label}</div>
+                  {_tile_images_html((result.discard,), css_class="discard-tile")}
+                </div>
+                <div>
+                  <div class="discard-label">\u9032\u724c\u6570</div>
+                  <div class="discard-value">{result.ukeire_types}\u7a2e</div>
+                </div>
+                <div>
+                  <div class="discard-label">\u9032\u3080\u679a\u6570</div>
+                  <div class="discard-value">{result.ukeire_tiles}\u679a</div>
+                </div>
+                <div>
+                  <div class="discard-label">\u826f\u7cfb\u7387</div>
+                  <div class="{good_rate_class}">{good_rate}</div>
+                </div>
+                <div>
+                  <div class="discard-label">\u8d85\u826f\u7cfb\u7387</div>
+                  <div class="{super_rate_class}">{super_rate}</div>
+                </div>
+                <div class="discard-ukeire">
+                  <div class="discard-label">\u6709\u52b9\u724c</div>
+                  <div>{ukeire_html}</div>
+                </div>
+              </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 def _checker_mode() -> None:
@@ -818,13 +975,7 @@ def _ukeire_max_mode() -> None:
         st.button("\u6b21\u306e\u554f\u984c", on_click=_new_ukeire_max_question)
 
     st.subheader("\u554f\u984c")
-    _show_tile_row(counts_to_tiles(counts), width=50)
-
-    st.subheader("\u6253\u724c\u9078\u629e")
-    _show_answer_palette(sorted(set(counts_to_tiles(counts)), key=lambda tile: TILE_NAMES.index(tile)), disabled=checked)
-
-    st.caption("\u9078\u629e\u4e2d")
-    _show_tile_row(tuple(answer), width=50)
+    _show_ukeire_question_tiles(counts_to_tiles(counts), answer, disabled=checked)
     if answer:
         if not checked:
             st.button("\u7b54\u3048\u5408\u308f\u305b", on_click=_check_ukeire_max_answer)

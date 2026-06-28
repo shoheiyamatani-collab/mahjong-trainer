@@ -9,3 +9,10 @@ outputs/
 
 .DS_Store
 Thumbs.db
+
+node_modules/
+.next/
+apps/web/.next/
+apps/web/out/
+.vercel/
+*.tsbuildinfo

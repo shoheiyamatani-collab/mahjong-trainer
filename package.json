@@ -1,0 +1,17 @@
+{
+  "name": "mahjong-trainer-workspace",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "build": "pnpm build:web",
+    "dev": "pnpm dev:web",
+    "dev:web": "pnpm --filter @mahjong-trainer/web dev",
+    "build:web": "pnpm --filter @mahjong-trainer/web build",
+    "test": "pnpm --filter @mahjong-trainer/mahjong-core test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.1"
+  }
+}

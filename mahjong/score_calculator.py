@@ -63,19 +63,30 @@ def calculate_hand_score(hand_input: HandScoreInput) -> HandScoreResult:
         )
         return HandScoreResult(score=score, fu=None, yaku=(), decomposition=None)
 
-    special_result = _score_special_hand(hand_input)
-    if special_result is not None:
-        return special_result
+    kokushi_result = _score_kokushi(hand_input)
+    if kokushi_result is not None:
+        return kokushi_result
+
+    candidates: list[HandScoreResult] = []
+    chiitoitsu_result = _score_chiitoitsu(hand_input)
+    if chiitoitsu_result is not None:
+        candidates.append(chiitoitsu_result)
 
     decompositions = decompose_standard_hand_with_melds(hand_input.counts, hand_input.open_melds)
-    if not decompositions:
-        raise ValueError("No standard hand decomposition found.")
+    for decomposition in decompositions:
+        try:
+            candidates.append(_score_decomposition(hand_input, decomposition))
+        except ValueError:
+            continue
 
-    candidates = [_score_decomposition(hand_input, decomposition) for decomposition in decompositions]
+    if not candidates:
+        if not decompositions:
+            raise ValueError("No standard hand decomposition found.")
+        raise ValueError("No yaku detected.")
     return max(candidates, key=_score_rank)
 
 
-def _score_special_hand(hand_input: HandScoreInput) -> HandScoreResult | None:
+def _score_kokushi(hand_input: HandScoreInput) -> HandScoreResult | None:
     if hand_input.open_melds:
         return None
 
@@ -96,8 +107,16 @@ def _score_special_hand(hand_input: HandScoreInput) -> HandScoreResult | None:
             decomposition=None,
         )
 
+    return None
+
+
+def _score_chiitoitsu(hand_input: HandScoreInput) -> HandScoreResult | None:
+    if hand_input.open_melds:
+        return None
+
     if _is_chiitoitsu(hand_input.counts):
         yaku = [YakuResult("\u4e03\u5bfe\u5b50", 2)]
+        yaku.extend(_chiitoitsu_compatible_yaku(hand_input.counts))
         yaku.extend(_situational_yaku_results(hand_input, ()))
         if hand_input.dora:
             yaku.append(YakuResult("\u30c9\u30e9", hand_input.dora))
@@ -127,6 +146,7 @@ def _score_decomposition(
                 round_wind=hand_input.round_wind,
                 seat_wind=hand_input.seat_wind,
                 winning_tile=hand_input.winning_tile,
+                win_method=hand_input.win_method,
             ),
         )
     )
@@ -193,6 +213,23 @@ def _score_rank(result: HandScoreResult) -> tuple[int, int, int]:
 
 def _is_closed(open_melds: tuple[Meld, ...]) -> bool:
     return not any(meld.is_open for meld in open_melds)
+
+
+def _chiitoitsu_compatible_yaku(counts: tuple[int, ...]) -> list[YakuResult]:
+    results: list[YakuResult] = []
+    used_indexes = [index for index, count in enumerate(counts) if count]
+
+    if all(index < 27 and index % 9 not in {0, 8} for index in used_indexes):
+        results.append(YakuResult("\u65ad\u4e48\u4e5d", 1))
+
+    number_suits = {index // 9 for index in used_indexes if index < 27}
+    has_honor = any(index >= 27 for index in used_indexes)
+    if len(number_suits) == 1 and has_honor:
+        results.append(YakuResult("\u6df7\u4e00\u8272", 3))
+    elif len(number_suits) == 1:
+        results.append(YakuResult("\u6e05\u4e00\u8272", 6))
+
+    return results
 
 
 def _validate_hand_score_input(hand_input: HandScoreInput) -> None:
