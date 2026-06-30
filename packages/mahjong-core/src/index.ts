@@ -5,3 +5,4 @@ export * from "./ukeireMax";
 export * from "./chinitsu";
 export * from "./scoring";
 export * from "./sevenShapes";
+export * from "./handScore";

@@ -8,7 +8,7 @@ import {
   chinitsuHandKey,
   chinitsuTile,
   chinitsuTiles,
-  calculateScore,
+  calculateHandScore,
   countsToTiles,
   emptyCounts,
   evaluateChinitsuWaitAnswer,
@@ -30,6 +30,7 @@ import {
   type ChinitsuWaitQuestion,
   type Counts34,
   type DiscardAnalysis,
+  type HandScoreResult,
   type ScoreResult,
   type SevenShapeMode,
   type SevenShapeQuestion,
@@ -55,6 +56,7 @@ type Action =
   | { type: "applyText" };
 
 const SAMPLE_HAND = "345688m1234p3456s";
+const SCORE_SAMPLE_HAND = "123m456m234p456p22s";
 const IMAGE_SUFFIX = "-66-90-l-emb.png";
 const HONOR_IMAGE_NUMBERS = new Map<string, number>([
   ["東", 1],
@@ -448,23 +450,40 @@ function SevenShapeTrainingMode() {
 }
 
 function ScoringMode() {
-  const [han, setHan] = useState(3);
-  const [fu, setFu] = useState(40);
+  const [counts, setCounts] = useState<Counts34>(() => parseHand(SCORE_SAMPLE_HAND));
+  const [winningTile, setWinningTile] = useState<Tile | null>("4p");
   const [isDealer, setIsDealer] = useState(false);
   const [winMethod, setWinMethod] = useState<"ron" | "tsumo">("ron");
-  const [yakumanCount, setYakumanCount] = useState(0);
+  const [roundWind, setRoundWind] = useState<Tile>("東");
+  const [seatWind, setSeatWind] = useState<Tile>("南");
+  const [riichi, setRiichi] = useState(true);
+  const [ippatsu, setIppatsu] = useState(false);
+  const [dora, setDora] = useState(0);
   const [honba, setHonba] = useState(0);
   const [riichiSticks, setRiichiSticks] = useState(0);
 
+  const tiles = countsToTiles(counts);
+  const winningOptions = [...new Set(tiles)];
+
   const result = useMemo(() => {
+    if (sumCounts(counts) !== 14) {
+      return { error: "14枚の和了形を入力してください。" };
+    }
+    if (!winningTile) {
+      return { error: "和了牌を選択してください。" };
+    }
     try {
       return {
-        value: calculateScore({
-          han,
-          fu: yakumanCount > 0 ? null : fu,
+        value: calculateHandScore({
+          counts,
+          winningTile,
           isDealer,
           winMethod,
-          yakumanCount,
+          roundWind,
+          seatWind,
+          riichi,
+          ippatsu,
+          dora,
           honba,
           riichiSticks
         })
@@ -472,13 +491,58 @@ function ScoringMode() {
     } catch (error) {
       return { error: error instanceof Error ? error.message : String(error) };
     }
-  }, [fu, han, honba, isDealer, riichiSticks, winMethod, yakumanCount]);
+  }, [counts, dora, honba, ippatsu, isDealer, riichi, riichiSticks, roundWind, seatWind, winMethod, winningTile]);
+
+  function addScoreTile(tile: Tile) {
+    if (sumCounts(counts) >= 14) return;
+    setCounts((current) => addTile(current, tile));
+  }
+
+  function removeScoreTile(tile: Tile) {
+    const next = removeTile(counts, tile);
+    setCounts(next);
+    if (winningTile === tile && !countsToTiles(next).includes(tile)) {
+      setWinningTile(null);
+    }
+  }
+
+  function clearScoreHand() {
+    setCounts(emptyCounts());
+    setWinningTile(null);
+  }
+
+  function sampleScoreHand() {
+    setCounts(parseHand(SCORE_SAMPLE_HAND));
+    setWinningTile("4p");
+    setRiichi(true);
+    setWinMethod("ron");
+  }
 
   return (
     <section className="modeGrid scoringMode">
       <section className="panel handPanel">
         <div className="panelHeader">
           <h2>点数計算チェッカー</h2>
+          <span>{sumCounts(counts)} / 14</span>
+        </div>
+        <TileStrip tiles={tiles} onTileClick={removeScoreTile} emptyText="牌を追加してください" />
+        <div className="actions">
+          <button onClick={clearScoreHand} type="button">クリア</button>
+          <button onClick={sampleScoreHand} type="button">サンプル</button>
+        </div>
+        <div className="panelHeader compactHeader">
+          <h2>牌を追加</h2>
+        </div>
+        <TilePalette counts={counts} onAdd={addScoreTile} />
+      </section>
+
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>条件</h2>
+        </div>
+        <div className="answerDetail compactAnswerDetail">
+          <div className="smallLabel">和了牌</div>
+          <WinningTilePicker tiles={winningOptions} selected={winningTile} onSelect={setWinningTile} />
         </div>
         <SegmentPair
           leftLabel="子"
@@ -494,10 +558,14 @@ function ScoringMode() {
           onLeft={() => setWinMethod("ron")}
           onRight={() => setWinMethod("tsumo")}
         />
+        <div className="scoreToggles">
+          <label><input checked={riichi} onChange={(event) => setRiichi(event.target.checked)} type="checkbox" /> リーチ</label>
+          <label><input checked={ippatsu} onChange={(event) => setIppatsu(event.target.checked)} type="checkbox" /> 一発</label>
+        </div>
         <div className="scoreInputs">
-          <NumberField label="翻数" min={0} value={han} onChange={setHan} />
-          <NumberField label="符数" min={20} step={10} value={fu} disabled={yakumanCount > 0} onChange={setFu} />
-          <NumberField label="役満数" min={0} value={yakumanCount} onChange={setYakumanCount} />
+          <WindField label="場風" value={roundWind} onChange={setRoundWind} />
+          <WindField label="自風" value={seatWind} onChange={setSeatWind} />
+          <NumberField label="ドラ" min={0} value={dora} onChange={setDora} />
           <NumberField label="本場" min={0} value={honba} onChange={setHonba} />
           <NumberField label="供託" min={0} value={riichiSticks} onChange={setRiichiSticks} />
         </div>
@@ -507,7 +575,7 @@ function ScoringMode() {
         <div className="panelHeader">
           <h2>結果</h2>
         </div>
-        {"error" in result ? <div className="error">{result.error}</div> : <ScoreResultCard result={result.value} />}
+        {"error" in result ? <div className="error">{result.error}</div> : <HandScoreResultCard result={result.value} />}
       </section>
     </section>
   );
@@ -584,6 +652,67 @@ function ScoreResultCard({ result }: { result: ScoreResult }) {
         ))}
       </div>
     </div>
+  );
+}
+
+function HandScoreResultCard({ result }: { result: HandScoreResult }) {
+  return (
+    <div className="scoreResultStack">
+      <ScoreResultCard result={result.score} />
+      <div className="answerDetail">
+        <div className="smallLabel">役</div>
+        <div className="yakuList">
+          {result.yaku.length ? result.yaku.map((yaku, index) => (
+            <div className="paymentRow" key={`${yaku.name}-${index}`}>
+              <span>{yaku.name}</span>
+              <strong>{yaku.isYakuman ? "役満" : `${yaku.han}翻`}</strong>
+            </div>
+          )) : <p>役満数指定</p>}
+        </div>
+      </div>
+      {result.fu ? (
+        <div className="answerDetail">
+          <div className="smallLabel">符</div>
+          <p>{result.fu.totalBeforeRounding}符 → {result.fu.roundedFu}符</p>
+          <div className="yakuList">
+            {result.fu.items.map((item) => (
+              <div className="paymentRow" key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.fu}符</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function WinningTilePicker({ tiles, selected, onSelect }: { tiles: Tile[]; selected: Tile | null; onSelect: (tile: Tile) => void }) {
+  if (tiles.length === 0) {
+    return <div className="emptyState">手牌を入力してください</div>;
+  }
+  return (
+    <div className="tileStrip">
+      {tiles.map((tile) => (
+        <button className={selected === tile ? "stripTileButton selected" : "stripTileButton"} key={tile} onClick={() => onSelect(tile)} type="button">
+          <TileImage tile={tile} />
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function WindField({ label, value, onChange }: { label: string; value: Tile; onChange: (tile: Tile) => void }) {
+  return (
+    <label className="numberField">
+      <span>{label}</span>
+      <select value={value} onChange={(event) => onChange(event.target.value as Tile)}>
+        {(["東", "南", "西", "北"] as Tile[]).map((wind) => (
+          <option key={wind} value={wind}>{wind}</option>
+        ))}
+      </select>
+    </label>
   );
 }
 

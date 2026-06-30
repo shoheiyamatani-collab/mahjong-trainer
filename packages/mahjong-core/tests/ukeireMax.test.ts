@@ -2,11 +2,20 @@ import { describe, expect, it } from "vitest";
 import {
   buildUkeireMaxQuestion,
   countsToTiles,
+  difficultUkeireDebugInfo,
   evaluateUkeireMaxAnswer,
+  evaluateDifficultUkeireQuestion,
+  filterDifficultUkeireQuestion,
   generateUkeireMaxQuestion,
+  isObviousIsolatedTile,
+  middleTileRatio,
   parseHand,
+  scoreComplexShape,
   sumCounts,
-  toggleUkeireMaxSelection
+  toggleUkeireMaxSelection,
+  type Counts34,
+  type DiscardAnalysis,
+  type UkeireMaxQuestion
 } from "../src";
 
 describe("ukeire max questions", () => {
@@ -47,4 +56,67 @@ describe("ukeire max questions", () => {
     expect(question.bestDiscards.length).toBeGreaterThan(0);
     expect(question.bestUkeireTypes).toBeGreaterThanOrEqual(6);
   });
+
+  it("accepts difficult questions with a close best-second gap", () => {
+    const question = syntheticDifficultQuestion([["5m", 28], ["4m", 26], ["6m", 25]]);
+    const evaluation = evaluateDifficultUkeireQuestion(question);
+
+    expect(evaluation.accepted).toBe(true);
+    expect(evaluation.bestSecondDiff).toBe(2);
+    expect(evaluation.nearBestCandidateCount).toBe(3);
+    expect(filterDifficultUkeireQuestion(question)).toBe(true);
+  });
+
+  it("rejects tied best discards and obvious isolated best discards", () => {
+    const tied = syntheticDifficultQuestion([["5m", 28], ["4m", 28], ["6m", 25]]);
+    const isolatedCounts = parseHand("14445556667777m");
+    const isolated = syntheticDifficultQuestion([["1m", 28], ["4m", 26], ["5m", 25]], isolatedCounts);
+
+    expect(evaluateDifficultUkeireQuestion(tied).rejectReasons).toContain("tied_best");
+    expect(isObviousIsolatedTile("1m", isolatedCounts)).toBe(true);
+    expect(evaluateDifficultUkeireQuestion(isolated).rejectReasons).toContain("obvious_isolated_best_discard");
+  });
+
+  it("exposes difficult debug metrics and rewards complex middle-heavy shapes", () => {
+    const question = syntheticDifficultQuestion([["5m", 28], ["4m", 26], ["6m", 25]]);
+    const debug = difficultUkeireDebugInfo(question);
+    const complexCounts = parseHand("3334455667788m");
+    const simpleCounts = parseHand("113579m2468p19s");
+
+    expect(debug.accepted).toBe(true);
+    expect(debug.bestSecondDiff).toBe(2);
+    expect(debug.ranking[0]).toMatchObject({ discard: "5m", ukeireTiles: 28 });
+    expect(middleTileRatio(complexCounts)).toBeGreaterThan(0.6);
+    expect(scoreComplexShape(complexCounts)).toBeGreaterThan(scoreComplexShape(simpleCounts));
+  });
 });
+
+function syntheticDifficultQuestion(discards: Array<[DiscardAnalysis["discard"], number]>, counts: Counts34 = parseHand("33344455566677m")): UkeireMaxQuestion {
+  const results = discards.map(([discard, ukeireTiles]) => discardResult(discard, ukeireTiles));
+  const bestTiles = Math.max(...results.map((result) => result.ukeireTiles));
+  return {
+    counts,
+    results,
+    bestDiscards: results.filter((result) => result.ukeireTiles === bestTiles).map((result) => result.discard),
+    bestUkeireTypes: 6,
+    bestUkeireTiles: bestTiles
+  };
+}
+
+function discardResult(discard: DiscardAnalysis["discard"], ukeireTiles: number): DiscardAnalysis {
+  return {
+    discard,
+    afterDiscardShanten: 1,
+    isIishanten: true,
+    ukeireTypes: 6,
+    ukeireTiles,
+    ukeire: [],
+    goodShapeTypes: 0,
+    goodShapeTiles: 0,
+    goodShapeRate: 0,
+    superGoodShapeTypes: 0,
+    superGoodShapeTiles: 0,
+    superGoodShapeRate: 0,
+    tenpaiDetails: []
+  };
+}
