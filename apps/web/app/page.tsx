@@ -5,6 +5,7 @@ import {
   addTile,
   analyzeDiscards,
   bestDiscardsForReview,
+  buildSevenShapeQuestion,
   chinitsuHandKey,
   chinitsuTile,
   chinitsuTiles,
@@ -366,16 +367,21 @@ function SevenShapeTrainingMode() {
   const [checked, setChecked] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [recentKeys, setRecentKeys] = useState<string[]>([]);
+  const [courseScore, setCourseScore] = useState(0);
+  const [courseFinished, setCourseFinished] = useState(false);
   const isCorrect = checked ? evaluateSevenShapeAnswer(question.waits, selected) : false;
+  const isAllCourse = trainingMode === "all";
 
   function changeTrainingMode(nextMode: SevenShapeMode) {
-    const next = generateSevenShapeQuestion(nextMode);
+    const next = nextMode === "all" ? buildSevenShapeQuestion(1) : generateSevenShapeQuestion("basic");
     setTrainingMode(nextMode);
     setQuestion(next);
     setSelected([]);
     setChecked(false);
     setShowHint(false);
     setRecentKeys([]);
+    setCourseScore(0);
+    setCourseFinished(false);
   }
 
   function toggle(rank: number) {
@@ -384,6 +390,19 @@ function SevenShapeTrainingMode() {
   }
 
   function nextQuestion() {
+    if (isAllCourse) {
+      if (courseFinished) {
+        restartAllCourse();
+        return;
+      }
+      const nextPatternId = Math.min(question.patternId + 1, 19);
+      setQuestion(buildSevenShapeQuestion(nextPatternId));
+      setSelected([]);
+      setChecked(false);
+      setShowHint(false);
+      return;
+    }
+
     const recent = [...recentKeys, sevenShapeQuestionKey(question)].slice(-12);
     const next = generateSevenShapeQuestion(trainingMode, Math.random, recent);
     setRecentKeys(recent);
@@ -393,12 +412,33 @@ function SevenShapeTrainingMode() {
     setShowHint(false);
   }
 
+  function submitAnswer() {
+    if (selected.length === 0 || checked) return;
+    const correct = evaluateSevenShapeAnswer(question.waits, selected);
+    if (isAllCourse) {
+      setCourseScore((current) => current + (correct ? 1 : 0));
+      if (question.patternId === 19) {
+        setCourseFinished(true);
+      }
+    }
+    setChecked(true);
+  }
+
+  function restartAllCourse() {
+    setQuestion(buildSevenShapeQuestion(1));
+    setSelected([]);
+    setChecked(false);
+    setShowHint(false);
+    setCourseScore(0);
+    setCourseFinished(false);
+  }
+
   return (
     <section className="modeGrid sevenShapeMode">
       <section className="panel handPanel learningPanel">
         <div className="panelHeader">
           <h2>7枚形トレーニング</h2>
-          <span>{question.patternId} / 19</span>
+          <span>{isAllCourse ? `${question.patternId} / 19` : "ランダム"}</span>
         </div>
         <p className="modeLead">メンチン・多面待ちの基礎になる7枚形を覚える練習です</p>
         <SegmentPair
@@ -409,7 +449,7 @@ function SevenShapeTrainingMode() {
           onRight={() => changeTrainingMode("all")}
         />
         <div className="questionMeta">
-          <Stat label="問題番号" value={`${question.patternId}/19`} />
+          <Stat label="問題番号" value={isAllCourse ? `${question.patternId}/19` : "ランダム"} />
           <Stat label="カテゴリ" value={question.category} />
           <Stat label="難度" value={question.difficulty} />
         </div>
@@ -427,8 +467,8 @@ function SevenShapeTrainingMode() {
         </div>
         <div className="actions">
           <button disabled={checked} onClick={() => setShowHint((current) => !current)} type="button">ヒントを見る</button>
-          <button disabled={selected.length === 0 || checked} onClick={() => setChecked(true)} type="button">回答する</button>
-          {checked ? <button onClick={nextQuestion} type="button">次の問題</button> : null}
+          <button disabled={selected.length === 0 || checked} onClick={submitAnswer} type="button">回答する</button>
+          {checked ? <button onClick={nextQuestion} type="button">{courseFinished ? "もう一度" : "次の問題"}</button> : null}
         </div>
         {showHint ? <div className="hintBox">{question.hint}</div> : null}
         {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
@@ -446,6 +486,13 @@ function SevenShapeTrainingMode() {
               </div>
             </div>
             <div className="explanationBox">{question.explanation}</div>
+            {courseFinished ? (
+              <div className="resultCard">
+                <div className="smallLabel">リザルト</div>
+                <div className="resultScore">{courseScore} / 19問正解</div>
+                <p>全19パターン終了です。もう一度押すと1問目からやり直せます。</p>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </section>

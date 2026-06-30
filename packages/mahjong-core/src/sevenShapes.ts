@@ -227,6 +227,14 @@ export function generateSevenShapeQuestion(
   throw new Error("Could not generate a seven-shape question.");
 }
 
+export function buildSevenShapeQuestion(patternId: number, suit: Suit = randomSuit(Math.random)): SevenShapeQuestion {
+  const pattern = SEVEN_SHAPE_PATTERNS.find((candidate) => candidate.id === patternId);
+  if (!pattern) {
+    throw new Error(`Seven-shape pattern ${patternId} was not found.`);
+  }
+  return toQuestion(pattern, pattern.tiles, pattern.waits, suit);
+}
+
 export function findSevenShapeWaits(tiles: number[]): number[] {
   validateSevenShapeTiles(tiles);
   const counts = toRankCounts(tiles);

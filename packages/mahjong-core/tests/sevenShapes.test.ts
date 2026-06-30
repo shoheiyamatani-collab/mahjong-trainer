@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildSevenShapeQuestion,
   evaluateSevenShapeAnswer,
   findSevenShapeWaits,
   generateSevenShapeQuestion,
@@ -68,6 +69,17 @@ describe("seven-shape wait training", () => {
     expect(second.waits).toEqual(secondPattern.waits);
     expect(second.suit).toBe("p");
     expect(sevenShapeQuestionKey(second)).not.toBe(sevenShapeQuestionKey(first));
+  });
+
+  it("builds a numbered question for sequential all-pattern training", () => {
+    const question = buildSevenShapeQuestion(19, "s");
+    const pattern = SEVEN_SHAPE_PATTERNS[18]!;
+
+    expect(question.patternId).toBe(19);
+    expect(question.tiles).toEqual(pattern.tiles);
+    expect(question.waits).toEqual(pattern.waits);
+    expect(question.suit).toBe("s");
+    expect(() => buildSevenShapeQuestion(20)).toThrow();
   });
 
   it("evaluates exact multi-wait answers and toggles selected ranks", () => {

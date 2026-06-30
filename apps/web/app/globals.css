@@ -455,6 +455,29 @@ h2 {
   padding: 10px;
 }
 
+.resultCard {
+  background: #e9f8ed;
+  border: 2px solid rgba(47, 158, 68, 0.28);
+  border-radius: 8px;
+  color: #173f23;
+  margin-top: 12px;
+  padding: 14px;
+}
+
+.resultScore {
+  color: var(--green);
+  font-size: clamp(2rem, 8vw, 3.8rem);
+  font-weight: 1000;
+  line-height: 1;
+  margin-top: 6px;
+}
+
+.resultCard p {
+  color: #36513d;
+  font-weight: 800;
+  margin: 10px 0 0;
+}
+
 .answerCompare {
   display: grid;
   gap: 10px;
