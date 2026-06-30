@@ -394,7 +394,7 @@ function SevenShapeTrainingMode() {
       <section className="panel handPanel learningPanel">
         <div className="panelHeader">
           <h2>7枚形トレーニング</h2>
-          <span>7 / 7</span>
+          <span>{question.patternId} / 19</span>
         </div>
         <p className="modeLead">メンチン・多面待ちの基礎になる7枚形を覚える練習です</p>
         <SegmentPair
@@ -405,7 +405,7 @@ function SevenShapeTrainingMode() {
           onRight={() => changeTrainingMode("all")}
         />
         <div className="questionMeta">
-          <Stat label="出題" value="ランダム問題" />
+          <Stat label="問題番号" value={`${question.patternId}/19`} />
           <Stat label="カテゴリ" value={question.category} />
           <Stat label="難度" value={question.difficulty} />
         </div>

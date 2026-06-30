@@ -32,6 +32,18 @@ describe("seven-shape wait training", () => {
     }
   });
 
+  it("keeps all 19 patterns unique after normalizing slide and mirror variants", () => {
+    const normalizedKeys = SEVEN_SHAPE_PATTERNS.map((pattern) => sevenShapeClassKey(pattern.tiles));
+    expect(new Set(normalizedKeys).size).toBe(SEVEN_SHAPE_PATTERNS.length);
+
+    for (const pattern of getSevenShapePatterns("basic")) {
+      expect(Math.max(...rankCounts(pattern.tiles))).toBeLessThan(4);
+    }
+    for (const pattern of SEVEN_SHAPE_PATTERNS.slice(16)) {
+      expect(Math.max(...rankCounts(pattern.tiles))).toBe(4);
+    }
+  });
+
   it("rejects invalid seven-shape hands", () => {
     expect(() => findSevenShapeWaits([1, 2, 3, 4, 5, 6])).toThrow();
     expect(() => findSevenShapeWaits([1, 1, 1, 1, 1, 2, 3])).toThrow();
@@ -66,3 +78,23 @@ describe("seven-shape wait training", () => {
     expect(toggleSevenShapeRankSelection([3, 5], 3)).toEqual([5]);
   });
 });
+
+function sevenShapeClassKey(tiles: number[]): string {
+  const counts = rankCounts(tiles);
+  const occupied = counts.map((count, index) => count > 0 ? index : -1).filter((index) => index >= 0);
+  const left = occupied[0]!;
+  const right = occupied[occupied.length - 1]!;
+  const compact = counts.slice(left, right + 1);
+  const mirrored = compact.slice().reverse();
+  const key = compact.join("");
+  const mirroredKey = mirrored.join("");
+  return key < mirroredKey ? key : mirroredKey;
+}
+
+function rankCounts(tiles: number[]): number[] {
+  const counts = Array(9).fill(0);
+  for (const tile of tiles) {
+    counts[tile - 1] += 1;
+  }
+  return counts;
+}
