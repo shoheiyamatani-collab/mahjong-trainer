@@ -125,11 +125,21 @@ export default function Home() {
         <div className="countBadge">{sumCounts(state.counts)} / 14</div>
       </header>
 
-      <nav className="segments" aria-label="モード">
-        <ModeButton active={mode === "checker"} onClick={() => setMode("checker")}>牌理チェッカー</ModeButton>
-        <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX</ModeButton>
-        <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>点数計算</ModeButton>
-        <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち</ModeButton>
+      <nav className="modeGroups" aria-label="モード">
+        <section className="modeGroup" aria-labelledby="analysis-mode-heading">
+          <div className="modeGroupTitle" id="analysis-mode-heading">解析モード</div>
+          <div className="segments">
+            <ModeButton active={mode === "checker"} onClick={() => setMode("checker")}>牌理チェッカー</ModeButton>
+            <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>点数計算チェッカー</ModeButton>
+          </div>
+        </section>
+        <section className="modeGroup" aria-labelledby="practice-mode-heading">
+          <div className="modeGroupTitle" id="practice-mode-heading">問題演習モード</div>
+          <div className="segments">
+            <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
+            <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち当て</ModeButton>
+          </div>
+        </section>
       </nav>
 
       {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
@@ -366,7 +376,7 @@ function ScoringMode() {
     <section className="modeGrid scoringMode">
       <section className="panel handPanel">
         <div className="panelHeader">
-          <h2>点数計算</h2>
+          <h2>点数計算チェッカー</h2>
         </div>
         <SegmentPair
           leftLabel="子"
@@ -631,7 +641,7 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
   const labels: Record<Mode, string> = {
     checker: "牌理チェッカー",
     ukeireMax: "受け入れMAX星人何切る",
-    scoring: "点数計算",
+    scoring: "点数計算チェッカー",
     chinitsu: "清一色待ち当て"
   };
   return (
