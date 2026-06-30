@@ -240,8 +240,9 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
   const [question, setQuestion] = useState<UkeireMaxQuestion>(() => isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion());
   const [selected, setSelected] = useState<Tile[]>([]);
   const [checked, setChecked] = useState(false);
+  const [forcedWrong, setForcedWrong] = useState(false);
   const selectedSet = useMemo(() => new Set(selected), [selected]);
-  const result = checked ? evaluateUkeireMaxAnswer(question, selected) : null;
+  const result = checked ? (forcedWrong ? "wrong" : evaluateUkeireMaxAnswer(question, selected)) : null;
   const best = useMemo(() => new Set(question.bestDiscards), [question]);
 
   function toggle(tile: Tile) {
@@ -250,9 +251,15 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
   }
 
   function nextQuestion() {
+    if (!checked) {
+      setForcedWrong(true);
+      setChecked(true);
+      return;
+    }
     setQuestion(isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion());
     setSelected([]);
     setChecked(false);
+    setForcedWrong(false);
   }
 
   return (
@@ -260,7 +267,6 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
       <section className="panel handPanel">
         <div className="panelHeader">
           <h2>{isHard ? "受け入れMAX星人何切る 高難易度ver" : "受け入れMAX星人何切る"}</h2>
-          <span>14 / 14</span>
         </div>
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
         <div className="actions">
@@ -329,7 +335,6 @@ function ChinitsuMode() {
       <section className="panel handPanel">
         <div className="panelHeader">
           <h2>清一色待ち当て特訓</h2>
-          <span>13 / 13</span>
         </div>
         <TileStrip tiles={chinitsuTiles(question.counts, question.suit)} />
       </section>
