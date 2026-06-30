@@ -149,7 +149,7 @@ export default function Home() {
             <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
             <ModeButton active={mode === "ukeireMaxHard"} onClick={() => setMode("ukeireMaxHard")}>受け入れMAX高難度</ModeButton>
             <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち当て</ModeButton>
-            <ModeButton active={mode === "sevenShape"} onClick={() => setMode("sevenShape")}>7枚形トレーニング</ModeButton>
+            <ModeButton active={mode === "sevenShape"} onClick={() => setMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
           </div>
         </section>
       </nav>
@@ -437,8 +437,8 @@ function SevenShapeTrainingMode() {
     <section className="modeGrid sevenShapeMode">
       <section className="panel handPanel learningPanel">
         <div className="panelHeader">
-          <h2>7枚形トレーニング</h2>
-          <span>{isAllCourse ? `${question.patternId} / 19` : "ランダム"}</span>
+          <h2>🔰 7枚形トレーニング</h2>
+          {isAllCourse ? <span>{question.patternId} / 19</span> : null}
         </div>
         <p className="modeLead">メンチン・多面待ちの基礎になる7枚形を覚える練習です</p>
         <SegmentPair
@@ -448,11 +448,11 @@ function SevenShapeTrainingMode() {
           onLeft={() => changeTrainingMode("basic")}
           onRight={() => changeTrainingMode("all")}
         />
-        <div className="questionMeta">
-          <Stat label="問題番号" value={isAllCourse ? `${question.patternId}/19` : "ランダム"} />
-          <Stat label="カテゴリ" value={question.category} />
-          <Stat label="難度" value={question.difficulty} />
-        </div>
+        {isAllCourse ? (
+          <div className="questionMeta singleMeta">
+            <Stat label="問題番号" value={`${question.patternId}/19`} />
+          </div>
+        ) : null}
         <TileStrip tiles={question.tiles.map((rank) => chinitsuTile(rank, question.suit))} />
       </section>
 
@@ -930,7 +930,7 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
     ukeireMaxHard: "受け入れMAX高難度",
     scoring: "点数計算チェッカー",
     chinitsu: "清一色待ち当て",
-    sevenShape: "7枚形トレーニング"
+    sevenShape: "🔰 7枚形トレーニング"
   };
   return (
     <section className="panel placeholder">
