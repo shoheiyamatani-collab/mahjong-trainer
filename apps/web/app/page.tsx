@@ -140,14 +140,14 @@ export default function Home() {
           <div className="modeGroupTitle" id="analysis-mode-heading">解析モード</div>
           <div className="segments">
             <ModeButton active={mode === "checker"} onClick={() => setMode("checker")}>牌理チェッカー</ModeButton>
-            <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>点数計算チェッカー</ModeButton>
+            <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>🔰 点数計算チェッカー</ModeButton>
           </div>
         </section>
         <section className="modeGroup practiceModeGroup" aria-labelledby="practice-mode-heading">
           <div className="modeGroupTitle" id="practice-mode-heading">問題演習モード</div>
           <div className="segments practiceSegments">
             <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
-            <ModeButton active={mode === "ukeireMaxHard"} onClick={() => setMode("ukeireMaxHard")}>受け入れMAX高難度</ModeButton>
+            <ModeButton active={mode === "ukeireMaxHard"} onClick={() => setMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
             <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち当て</ModeButton>
             <ModeButton active={mode === "sevenShape"} onClick={() => setMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
           </div>
@@ -266,7 +266,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
     <section className="modeGrid ukeireMaxMode">
       <section className="panel handPanel">
         <div className="panelHeader">
-          <h2>{isHard ? "受け入れMAX星人何切る 高難易度ver" : "受け入れMAX星人何切る"}</h2>
+          <h2>{isHard ? "🔥 受け入れMAX星人何切る 高難易度ver" : "受け入れMAX星人何切る"}</h2>
         </div>
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
         <div className="actions">
@@ -578,7 +578,7 @@ function ScoringMode() {
     <section className="modeGrid scoringMode">
       <section className="panel handPanel">
         <div className="panelHeader">
-          <h2>点数計算チェッカー</h2>
+          <h2>🔰 点数計算チェッカー</h2>
           <span>{sumCounts(counts)} / 14</span>
         </div>
         <TileStrip tiles={tiles} onTileClick={removeScoreTile} emptyText="牌を追加してください" />
@@ -932,8 +932,8 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
   const labels: Record<Mode, string> = {
     checker: "牌理チェッカー",
     ukeireMax: "受け入れMAX星人何切る",
-    ukeireMaxHard: "受け入れMAX高難度",
-    scoring: "点数計算チェッカー",
+    ukeireMaxHard: "🔥 受け入れMAX高難度",
+    scoring: "🔰 点数計算チェッカー",
     chinitsu: "清一色待ち当て",
     sevenShape: "🔰 7枚形トレーニング"
   };
