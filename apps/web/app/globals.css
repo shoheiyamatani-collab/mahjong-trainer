@@ -473,6 +473,24 @@ h2 {
   margin: 10px 0 0;
 }
 
+.selectedWinningTilePreview {
+  background: #f8faf7;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 8px;
+}
+
+.selectedWinningTilePreview .tileStrip {
+  margin-top: 5px;
+}
+
+.selectedWinningTilePreview .tileStrip > img,
+.selectedWinningTilePreview .tileStrip > .stripTileButton {
+  flex: 0 0 42px;
+  max-width: 42px;
+}
+
 .scoreSegments {
   background: #eef2f0;
   border-radius: 8px;

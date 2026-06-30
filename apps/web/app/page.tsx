@@ -463,7 +463,7 @@ function ScoringMode() {
   const [riichiSticks, setRiichiSticks] = useState(0);
 
   const tiles = countsToTiles(counts);
-  const winningOptions = [...new Set(tiles)];
+  const winningOptions = tiles;
 
   const result = useMemo(() => {
     if (sumCounts(counts) !== 14) {
@@ -543,6 +543,10 @@ function ScoringMode() {
         <div className="answerDetail compactAnswerDetail">
           <div className="smallLabel">和了牌</div>
           <WinningTilePicker tiles={winningOptions} selected={winningTile} onSelect={setWinningTile} />
+          <div className="selectedWinningTilePreview">
+            <div className="smallLabel">選択中の和了牌</div>
+            <TileStrip tiles={winningTile ? [winningTile] : []} emptyText="未選択" />
+          </div>
         </div>
         <SegmentPair
           leftLabel="子"
@@ -694,8 +698,8 @@ function WinningTilePicker({ tiles, selected, onSelect }: { tiles: Tile[]; selec
   }
   return (
     <div className="tileStrip">
-      {tiles.map((tile) => (
-        <button className={selected === tile ? "stripTileButton selected" : "stripTileButton"} key={tile} onClick={() => onSelect(tile)} type="button">
+      {tiles.map((tile, index) => (
+        <button className={selected === tile ? "stripTileButton selected" : "stripTileButton"} key={`${tile}-${index}`} onClick={() => onSelect(tile)} type="button">
           <TileImage tile={tile} />
         </button>
       ))}
