@@ -237,10 +237,11 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
 
 function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
   const isHard = variant === "hard";
-  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion());
+  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireQuestion(isHard, []));
   const [selected, setSelected] = useState<Tile[]>([]);
   const [checked, setChecked] = useState(false);
   const [forcedWrong, setForcedWrong] = useState(false);
+  const [recentQuestionKeys, setRecentQuestionKeys] = useState<string[]>([]);
   const selectedSet = useMemo(() => new Set(selected), [selected]);
   const result = checked ? (forcedWrong ? "wrong" : evaluateUkeireMaxAnswer(question, selected)) : null;
   const best = useMemo(() => new Set(question.bestDiscards), [question]);
@@ -256,7 +257,9 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
       setChecked(true);
       return;
     }
-    setQuestion(isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion());
+    const recent = [...recentQuestionKeys, ukeireQuestionKey(question)].slice(-12);
+    setQuestion(generateUkeireQuestion(isHard, recent));
+    setRecentQuestionKeys(recent);
     setSelected([]);
     setChecked(false);
     setForcedWrong(false);
@@ -302,6 +305,20 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
       </section>
     </section>
   );
+}
+
+function generateUkeireQuestion(isHard: boolean, recentKeys: string[]): UkeireMaxQuestion {
+  let fallback = isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion();
+  for (let attempt = 0; attempt < 24; attempt += 1) {
+    const question = isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion();
+    if (!recentKeys.includes(ukeireQuestionKey(question))) return question;
+    fallback = question;
+  }
+  return fallback;
+}
+
+function ukeireQuestionKey(question: UkeireMaxQuestion): string {
+  return sortedHandText(question.counts);
 }
 
 function ChinitsuMode() {
