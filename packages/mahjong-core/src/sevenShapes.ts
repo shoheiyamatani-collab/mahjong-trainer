@@ -218,8 +218,7 @@ export function generateSevenShapeQuestion(
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const pattern = pool[Math.floor(rng() * pool.length)]!;
-    const shifted = shiftPattern(pattern, rng);
-    const question = toQuestion(pattern, shifted.tiles, shifted.waits, suit);
+    const question = toQuestion(pattern, pattern.tiles, pattern.waits, suit);
     if (!fallback) fallback = question;
     if (!recent.has(sevenShapeQuestionKey(question))) return question;
   }
@@ -253,7 +252,7 @@ export function toggleSevenShapeRankSelection(selected: number[], rank: number):
 }
 
 export function sevenShapeQuestionKey(question: SevenShapeQuestion): string {
-  return `${question.patternId}:${question.suit}:${question.tiles.join("")}`;
+  return `${question.patternId}:${question.tiles.join("")}`;
 }
 
 export function validateSevenShapePattern(pattern: SevenShapePattern): void {
@@ -279,37 +278,12 @@ export function validateSevenShapeTiles(tiles: number[]): void {
   });
 }
 
-function shiftPattern(pattern: SevenShapePattern, rng: () => number): { tiles: number[]; waits: number[] } {
-  const minRank = Math.min(...pattern.tiles, ...pattern.waits);
-  const maxRank = Math.max(...pattern.tiles, ...pattern.waits);
-  const minOffset = 1 - minRank;
-  const maxOffset = 9 - maxRank;
-  const validOffsets: number[] = [];
-
-  for (let offset = minOffset; offset <= maxOffset; offset += 1) {
-    const tiles = pattern.tiles.map((rank) => rank + offset).sort((a, b) => a - b);
-    const waits = normalizeRanks(pattern.waits.map((rank) => rank + offset));
-    if (findSevenShapeWaits(tiles).join(",") === waits.join(",")) {
-      validOffsets.push(offset);
-    }
-  }
-
-  if (validOffsets.length === 0) {
-    throw new Error(`Seven-shape pattern ${pattern.id} cannot be shifted safely.`);
-  }
-
-  const offset = validOffsets[Math.floor(rng() * validOffsets.length)]!;
-  const tiles = pattern.tiles.map((rank) => rank + offset).sort((a, b) => a - b);
-  const waits = normalizeRanks(pattern.waits.map((rank) => rank + offset));
-  return { tiles, waits };
-}
-
 function toQuestion(pattern: SevenShapePattern, tiles: number[], waits: number[], suit: Suit): SevenShapeQuestion {
   return {
     patternId: pattern.id,
     category: pattern.category,
-    tiles,
-    waits,
+    tiles: tiles.slice(),
+    waits: waits.slice(),
     suit,
     difficulty: pattern.difficulty,
     hint: pattern.hint,

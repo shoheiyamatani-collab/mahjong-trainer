@@ -38,7 +38,7 @@ describe("seven-shape wait training", () => {
     expect(() => findSevenShapeWaits([1, 2, 3, 4, 5, 6, 10])).toThrow();
   });
 
-  it("generates shifted suited questions without repeating recent keys", () => {
+  it("generates fixed suited questions without repeating recent patterns", () => {
     let seed = 20260630;
     const rng = () => {
       seed = (seed * 1664525 + 1013904223) % 4294967296;
@@ -46,10 +46,14 @@ describe("seven-shape wait training", () => {
     };
     const first = generateSevenShapeQuestion("basic", rng, [], "m");
     const second = generateSevenShapeQuestion("basic", rng, [sevenShapeQuestionKey(first)], "p");
+    const firstPattern = SEVEN_SHAPE_PATTERNS.find((pattern) => pattern.id === first.patternId)!;
+    const secondPattern = SEVEN_SHAPE_PATTERNS.find((pattern) => pattern.id === second.patternId)!;
 
-    expect(first.tiles).toHaveLength(7);
-    expect(first.waits).toEqual(findSevenShapeWaits(first.tiles));
+    expect(first.tiles).toEqual(firstPattern.tiles);
+    expect(first.waits).toEqual(firstPattern.waits);
     expect(first.suit).toBe("m");
+    expect(second.tiles).toEqual(secondPattern.tiles);
+    expect(second.waits).toEqual(secondPattern.waits);
     expect(second.suit).toBe("p");
     expect(sevenShapeQuestionKey(second)).not.toBe(sevenShapeQuestionKey(first));
   });

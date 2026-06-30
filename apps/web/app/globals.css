@@ -97,11 +97,29 @@ h2 {
   padding: 8px;
 }
 
+.analysisModeGroup {
+  background: #eaf4ff;
+  border: 1px solid rgba(25, 113, 194, 0.2);
+}
+
+.practiceModeGroup {
+  background: #fff3df;
+  border: 1px solid rgba(230, 126, 34, 0.22);
+}
+
 .modeGroupTitle {
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 900;
   margin: 0 0 6px;
+}
+
+.analysisModeGroup .modeGroupTitle {
+  color: #1764ad;
+}
+
+.practiceModeGroup .modeGroupTitle {
+  color: #b86300;
 }
 
 .segments {
@@ -128,6 +146,16 @@ h2 {
   background: #ffffff;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
   color: #173f23;
+}
+
+.analysisModeGroup .segment.active {
+  box-shadow: 0 1px 7px rgba(25, 113, 194, 0.22);
+  color: #0b559f;
+}
+
+.practiceModeGroup .segment.active {
+  box-shadow: 0 1px 7px rgba(230, 126, 34, 0.24);
+  color: #8a4a00;
 }
 
 .modeGrid {

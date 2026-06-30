@@ -134,14 +134,14 @@ export default function Home() {
       </header>
 
       <nav className="modeGroups" aria-label="モード">
-        <section className="modeGroup" aria-labelledby="analysis-mode-heading">
+        <section className="modeGroup analysisModeGroup" aria-labelledby="analysis-mode-heading">
           <div className="modeGroupTitle" id="analysis-mode-heading">解析モード</div>
           <div className="segments">
             <ModeButton active={mode === "checker"} onClick={() => setMode("checker")}>牌理チェッカー</ModeButton>
             <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>点数計算チェッカー</ModeButton>
           </div>
         </section>
-        <section className="modeGroup" aria-labelledby="practice-mode-heading">
+        <section className="modeGroup practiceModeGroup" aria-labelledby="practice-mode-heading">
           <div className="modeGroupTitle" id="practice-mode-heading">問題演習モード</div>
           <div className="segments practiceSegments">
             <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
