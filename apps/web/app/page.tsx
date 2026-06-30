@@ -12,26 +12,32 @@ import {
   countsToTiles,
   emptyCounts,
   evaluateChinitsuWaitAnswer,
+  evaluateSevenShapeAnswer,
   evaluateUkeireMaxAnswer,
   generateChinitsuWaitQuestion,
+  generateSevenShapeQuestion,
   generateUkeireMaxQuestion,
   nextChinitsuSuit,
   parseHand,
   removeTile,
+  sevenShapeQuestionKey,
   sortedHandText,
   sumCounts,
   TILE_NAMES,
   toggleChinitsuRankSelection,
+  toggleSevenShapeRankSelection,
   toggleUkeireMaxSelection,
   type ChinitsuWaitQuestion,
   type Counts34,
   type DiscardAnalysis,
   type ScoreResult,
+  type SevenShapeMode,
+  type SevenShapeQuestion,
   type Tile,
   type UkeireMaxQuestion
 } from "@mahjong-trainer/mahjong-core";
 
-type Mode = "checker" | "ukeireMax" | "scoring" | "chinitsu";
+type Mode = "checker" | "ukeireMax" | "scoring" | "chinitsu" | "sevenShape";
 
 interface AppState {
   counts: Counts34;
@@ -135,9 +141,10 @@ export default function Home() {
         </section>
         <section className="modeGroup" aria-labelledby="practice-mode-heading">
           <div className="modeGroupTitle" id="practice-mode-heading">問題演習モード</div>
-          <div className="segments">
+          <div className="segments practiceSegments">
             <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
             <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち当て</ModeButton>
+            <ModeButton active={mode === "sevenShape"} onClick={() => setMode("sevenShape")}>7枚形トレーニング</ModeButton>
           </div>
         </section>
       </nav>
@@ -145,6 +152,7 @@ export default function Home() {
       {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
       {mode === "ukeireMax" ? <UkeireMaxMode /> : null}
       {mode === "chinitsu" ? <ChinitsuMode /> : null}
+      {mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
       {mode === "scoring" ? <ScoringMode /> : null}
     </main>
   );
@@ -323,7 +331,7 @@ function ChinitsuMode() {
         <div className="panelHeader">
           <h2>待ち牌選択</h2>
         </div>
-        <ChinitsuAnswerPalette question={question} selected={selected} disabled={checked} onToggle={toggle} />
+        <RankAnswerPalette suit={question.suit} selected={selected} disabled={checked} onToggle={toggle} />
         <div className="answerDetail compactAnswerDetail">
           <div className="smallLabel">選択中</div>
           <TileStrip tiles={selected.map((rank) => chinitsuTile(rank, question.suit))} emptyText="1〜9から待ち牌を選んでください" />
@@ -338,6 +346,100 @@ function ChinitsuMode() {
             <div className="smallLabel">正解</div>
             <TileStrip tiles={question.waits.map((rank) => chinitsuTile(rank, question.suit))} />
             <p>{question.waits.length}種 / {question.waits.reduce((sum, rank) => sum + (question.remainingTiles[rank] ?? 0), 0)}枚</p>
+          </div>
+        ) : null}
+      </section>
+    </section>
+  );
+}
+
+function SevenShapeTrainingMode() {
+  const [trainingMode, setTrainingMode] = useState<SevenShapeMode>("basic");
+  const [question, setQuestion] = useState<SevenShapeQuestion>(() => generateSevenShapeQuestion("basic"));
+  const [selected, setSelected] = useState<number[]>([]);
+  const [checked, setChecked] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const [recentKeys, setRecentKeys] = useState<string[]>([]);
+  const isCorrect = checked ? evaluateSevenShapeAnswer(question.waits, selected) : false;
+
+  function changeTrainingMode(nextMode: SevenShapeMode) {
+    const next = generateSevenShapeQuestion(nextMode);
+    setTrainingMode(nextMode);
+    setQuestion(next);
+    setSelected([]);
+    setChecked(false);
+    setShowHint(false);
+    setRecentKeys([]);
+  }
+
+  function toggle(rank: number) {
+    if (checked) return;
+    setSelected((current) => toggleSevenShapeRankSelection(current, rank));
+  }
+
+  function nextQuestion() {
+    const recent = [...recentKeys, sevenShapeQuestionKey(question)].slice(-12);
+    const next = generateSevenShapeQuestion(trainingMode, Math.random, recent);
+    setRecentKeys(recent);
+    setQuestion(next);
+    setSelected([]);
+    setChecked(false);
+    setShowHint(false);
+  }
+
+  return (
+    <section className="modeGrid sevenShapeMode">
+      <section className="panel handPanel learningPanel">
+        <div className="panelHeader">
+          <h2>7枚形トレーニング</h2>
+          <span>7 / 7</span>
+        </div>
+        <p className="modeLead">メンチン・多面待ちの基礎になる7枚形を覚える練習です</p>
+        <SegmentPair
+          leftLabel="基本モード"
+          rightLabel="全19パターン"
+          rightActive={trainingMode === "all"}
+          onLeft={() => changeTrainingMode("basic")}
+          onRight={() => changeTrainingMode("all")}
+        />
+        <div className="questionMeta">
+          <Stat label="出題" value="ランダム問題" />
+          <Stat label="カテゴリ" value={question.category} />
+          <Stat label="難度" value={question.difficulty} />
+        </div>
+        <TileStrip tiles={question.tiles.map((rank) => chinitsuTile(rank, question.suit))} />
+      </section>
+
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>待ち牌選択</h2>
+        </div>
+        <RankAnswerPalette suit={question.suit} selected={selected} disabled={checked} onToggle={toggle} />
+        <div className="answerDetail compactAnswerDetail">
+          <div className="smallLabel">選択中</div>
+          <TileStrip tiles={selected.map((rank) => chinitsuTile(rank, question.suit))} emptyText="1〜9から待ち牌を選んでください" />
+        </div>
+        <div className="actions">
+          <button disabled={checked} onClick={() => setShowHint((current) => !current)} type="button">ヒントを見る</button>
+          <button disabled={selected.length === 0 || checked} onClick={() => setChecked(true)} type="button">回答する</button>
+          {checked ? <button onClick={nextQuestion} type="button">次の問題</button> : null}
+        </div>
+        {showHint ? <div className="hintBox">{question.hint}</div> : null}
+        {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
+        {checked ? (
+          <div className="answerDetail">
+            <div className="answerCompare">
+              <div>
+                <div className="smallLabel">正解の待ち牌</div>
+                <TileStrip tiles={question.waits.map((rank) => chinitsuTile(rank, question.suit))} />
+                <p>{question.waits.length}種 / {question.waits.reduce((sum, rank) => sum + (question.remainingTiles[rank] ?? 0), 0)}枚</p>
+              </div>
+              <div>
+                <div className="smallLabel">自分の選択</div>
+                <TileStrip tiles={selected.map((rank) => chinitsuTile(rank, question.suit))} emptyText="未選択" />
+              </div>
+            </div>
+            <div className="explanationBox">{question.explanation}</div>
           </div>
         ) : null}
       </section>
@@ -485,13 +587,13 @@ function ScoreResultCard({ result }: { result: ScoreResult }) {
   );
 }
 
-function ChinitsuAnswerPalette({
-  question,
+function RankAnswerPalette({
+  suit,
   selected,
   disabled,
   onToggle
 }: {
-  question: ChinitsuWaitQuestion;
+  suit: "m" | "p" | "s";
   selected: number[];
   disabled: boolean;
   onToggle: (rank: number) => void;
@@ -505,10 +607,10 @@ function ChinitsuAnswerPalette({
           disabled={disabled}
           key={rank}
           onClick={() => onToggle(rank)}
-          title={`${rank}${question.suit}`}
+          title={`${rank}${suit}`}
           type="button"
         >
-          <TileImage tile={chinitsuTile(rank, question.suit)} />
+          <TileImage tile={chinitsuTile(rank, suit)} />
         </button>
       ))}
     </div>
@@ -642,7 +744,8 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
     checker: "牌理チェッカー",
     ukeireMax: "受け入れMAX星人何切る",
     scoring: "点数計算チェッカー",
-    chinitsu: "清一色待ち当て"
+    chinitsu: "清一色待ち当て",
+    sevenShape: "7枚形トレーニング"
   };
   return (
     <section className="panel placeholder">
