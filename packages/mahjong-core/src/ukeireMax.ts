@@ -64,6 +64,9 @@ export type UkeireMaxAnswerState = "correct" | "partial" | "wrong";
 export interface DifficultUkeireQuestionConfig {
   noHonors: boolean;
   requireIishanten: boolean;
+  allowTiedBest: boolean;
+  minBestDiscardCount: number;
+  maxBestDiscardCount: number;
   minBestSecondDiff: number;
   maxBestSecondDiff: number;
   nearBestRange: number;
@@ -72,6 +75,7 @@ export interface DifficultUkeireQuestionConfig {
   preferMiddleTiles: boolean;
   minMiddleTileRatio: number;
   preferComplexShapes: boolean;
+  requireTripletOrNearShape: boolean;
   maxDifficultAttempts: number;
   relaxedMinNearBestCandidates: number;
   relaxedMinMiddleTileRatio: number;
@@ -90,6 +94,9 @@ export interface DifficultUkeireQuestionEvaluation {
 export const DIFFICULT_UKEIRE_QUESTION_CONFIG: DifficultUkeireQuestionConfig = {
   noHonors: true,
   requireIishanten: true,
+  allowTiedBest: false,
+  minBestDiscardCount: 1,
+  maxBestDiscardCount: 1,
   minBestSecondDiff: 1,
   maxBestSecondDiff: 4,
   nearBestRange: 5,
@@ -98,9 +105,22 @@ export const DIFFICULT_UKEIRE_QUESTION_CONFIG: DifficultUkeireQuestionConfig = {
   preferMiddleTiles: true,
   minMiddleTileRatio: 0.6,
   preferComplexShapes: true,
+  requireTripletOrNearShape: false,
   maxDifficultAttempts: 80,
   relaxedMinNearBestCandidates: 2,
   relaxedMinMiddleTileRatio: 0.5
+};
+
+export const HARD_UKEIRE_QUESTION_CONFIG: DifficultUkeireQuestionConfig = {
+  ...DIFFICULT_UKEIRE_QUESTION_CONFIG,
+  allowTiedBest: true,
+  minBestDiscardCount: 1,
+  maxBestDiscardCount: 3,
+  minBestSecondDiff: 0,
+  maxBestSecondDiff: 4,
+  minNearBestCandidates: 3,
+  requireTripletOrNearShape: true,
+  maxDifficultAttempts: 260
 };
 
 export function buildUkeireMaxQuestion(counts: Counts34): UkeireMaxQuestion | null {
@@ -180,6 +200,52 @@ export function generateUkeireMaxQuestion(
   return finalFallback;
 }
 
+export function generateHardUkeireMaxQuestion(
+  rng: () => number = Math.random,
+  maxAttempts = DEFAULT_MAX_ATTEMPTS,
+  config: DifficultUkeireQuestionConfig = HARD_UKEIRE_QUESTION_CONFIG
+): UkeireMaxQuestion {
+  for (const seed of shuffledDifficultSeeds(rng)) {
+    const question = buildUkeireMaxQuestion(parseHand(seed));
+    if (question && evaluateDifficultUkeireQuestion(question, config).accepted) return question;
+  }
+
+  let fallback: UkeireMaxQuestion | null = null;
+  let relaxedFallback: UkeireMaxQuestion | null = null;
+  let bestScored: { key: [number, number, number]; question: UkeireMaxQuestion } | null = null;
+
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    const question = buildUkeireMaxQuestion(randomNumberHand(rng));
+    if (!question) continue;
+
+    const evaluation = evaluateDifficultUkeireQuestion(question, config);
+    if (hasTripletOrNearShape(question.counts) && !fallback) fallback = question;
+
+    const relaxed = evaluateDifficultUkeireQuestion(question, relaxedHardConfig(config));
+    if (relaxed.accepted && !relaxedFallback) relaxedFallback = question;
+
+    const score: [number, number, number] = [
+      question.bestDiscards.length > 1 ? 2 : 0,
+      evaluation.complexShapeScore,
+      evaluation.middleTileRatio
+    ];
+    if (evaluation.accepted) {
+      if (!bestScored || compareHardScore(score, bestScored.key) > 0) {
+        bestScored = { key: score, question };
+      }
+      if (question.bestDiscards.length > 1 || evaluation.complexShapeScore >= 5) return question;
+    }
+
+    if (attempt >= config.maxDifficultAttempts) {
+      if (bestScored) return bestScored.question;
+      if (relaxedFallback) return relaxedFallback;
+      if (fallback) return fallback;
+    }
+  }
+
+  return generateUkeireMaxQuestion(rng, maxAttempts, relaxedConfig(config));
+}
+
 export function evaluateUkeireMaxAnswer(question: UkeireMaxQuestion, selected: Tile[]): UkeireMaxAnswerState {
   const answer = normalizeSelection(selected);
   const best = normalizeSelection(question.bestDiscards);
@@ -222,15 +288,20 @@ export function evaluateDifficultUkeireQuestion(
 
   let bestSecondDiff: number | null = null;
   let nearBestCandidateCount = 0;
+  const bestDiscardCount = question.bestDiscards.length;
   if (ranking.length > 0) {
     const bestTiles = ranking[0]!.ukeireTiles;
     nearBestCandidateCount = ranking.filter((result) => bestTiles - result.ukeireTiles <= config.nearBestRange).length;
+
+    if (bestDiscardCount < config.minBestDiscardCount || bestDiscardCount > config.maxBestDiscardCount) {
+      reasons.push("best_discard_count");
+    }
 
     if (ranking.length < 2) {
       reasons.push("no_second_candidate");
     } else {
       bestSecondDiff = bestTiles - ranking[1]!.ukeireTiles;
-      if (bestSecondDiff === 0) {
+      if (bestSecondDiff === 0 && !config.allowTiedBest) {
         reasons.push("tied_best");
       } else if (!(config.minBestSecondDiff <= bestSecondDiff && bestSecondDiff <= config.maxBestSecondDiff)) {
         reasons.push("best_second_diff");
@@ -248,6 +319,10 @@ export function evaluateDifficultUkeireQuestion(
 
   if (config.preferMiddleTiles && middleRatio < config.minMiddleTileRatio) {
     reasons.push("middle_tile_ratio");
+  }
+
+  if (config.requireTripletOrNearShape && !hasTripletOrNearShape(question.counts)) {
+    reasons.push("not_triplet_or_near_shape");
   }
 
   return {
@@ -333,6 +408,34 @@ export function scoreComplexShape(counts: Counts34): number {
   return score;
 }
 
+export function hasTripletOrNearShape(counts: Counts34): boolean {
+  if (counts.slice(0, NUMBER_TILE_COUNT).some((count) => count >= 3)) return true;
+
+  for (let suitStart = 0; suitStart < NUMBER_TILE_COUNT; suitStart += 9) {
+    const occupied = counts
+      .slice(suitStart, suitStart + 9)
+      .map((count, index) => count > 0 ? index : -1)
+      .filter((index) => index >= 0);
+    if (occupied.length < 3) continue;
+
+    let componentLength = 1;
+    let hasAdjacentOrOneGap = false;
+    for (let i = 1; i < occupied.length; i += 1) {
+      const gap = occupied[i]! - occupied[i - 1]!;
+      if (gap <= 2) {
+        componentLength += 1;
+        if (gap <= 2) hasAdjacentOrOneGap = true;
+        if (componentLength >= 5 && hasAdjacentOrOneGap) return true;
+      } else {
+        componentLength = 1;
+        hasAdjacentOrOneGap = false;
+      }
+    }
+  }
+
+  return false;
+}
+
 function hasHonors(counts: Counts34): boolean {
   return counts.slice(NUMBER_TILE_COUNT).some((count) => count > 0);
 }
@@ -358,6 +461,22 @@ function relaxedConfig(config: DifficultUkeireQuestionConfig): DifficultUkeireQu
     minNearBestCandidates: config.relaxedMinNearBestCandidates,
     minMiddleTileRatio: config.relaxedMinMiddleTileRatio
   };
+}
+
+function relaxedHardConfig(config: DifficultUkeireQuestionConfig): DifficultUkeireQuestionConfig {
+  return {
+    ...relaxedConfig(config),
+    minBestSecondDiff: 0,
+    requireTripletOrNearShape: config.requireTripletOrNearShape,
+    maxBestDiscardCount: Math.max(config.maxBestDiscardCount, 3)
+  };
+}
+
+function compareHardScore(left: [number, number, number], right: [number, number, number]): number {
+  for (let index = 0; index < left.length; index += 1) {
+    if (left[index]! !== right[index]!) return left[index]! - right[index]!;
+  }
+  return 0;
 }
 
 function scoreSuitComplexShape(suit: number[]): number {

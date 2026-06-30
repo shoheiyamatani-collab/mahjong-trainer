@@ -6,7 +6,10 @@ import {
   evaluateUkeireMaxAnswer,
   evaluateDifficultUkeireQuestion,
   filterDifficultUkeireQuestion,
+  generateHardUkeireMaxQuestion,
   generateUkeireMaxQuestion,
+  HARD_UKEIRE_QUESTION_CONFIG,
+  hasTripletOrNearShape,
   isObviousIsolatedTile,
   middleTileRatio,
   parseHand,
@@ -75,6 +78,38 @@ describe("ukeire max questions", () => {
     expect(evaluateDifficultUkeireQuestion(tied).rejectReasons).toContain("tied_best");
     expect(isObviousIsolatedTile("1m", isolatedCounts)).toBe(true);
     expect(evaluateDifficultUkeireQuestion(isolated).rejectReasons).toContain("obvious_isolated_best_discard");
+  });
+
+  it("accepts tied two-or-three-answer questions only in hard mode", () => {
+    const tied = syntheticDifficultQuestion([["5m", 28], ["4m", 28], ["6m", 25]], parseHand("33344455566677m"));
+    const hardEvaluation = evaluateDifficultUkeireQuestion(tied, HARD_UKEIRE_QUESTION_CONFIG);
+
+    expect(evaluateDifficultUkeireQuestion(tied).rejectReasons).toContain("tied_best");
+    expect(hardEvaluation.accepted).toBe(true);
+    expect(evaluateUkeireMaxAnswer(tied, ["5m"])).toBe("partial");
+    expect(evaluateUkeireMaxAnswer(tied, ["4m", "5m"])).toBe("correct");
+  });
+
+  it("requires triplet or dense near-connected number shapes in hard mode", () => {
+    const dense = parseHand("1234567m2468p224s");
+    const sparse = parseHand("11479m11479p1479s");
+    const sparseQuestion = syntheticDifficultQuestion([["5m", 28], ["4m", 26], ["6m", 25]], sparse);
+
+    expect(hasTripletOrNearShape(parseHand("333456m456p45677s"))).toBe(true);
+    expect(hasTripletOrNearShape(dense)).toBe(true);
+    expect(hasTripletOrNearShape(sparse)).toBe(false);
+    expect(evaluateDifficultUkeireQuestion(sparseQuestion, HARD_UKEIRE_QUESTION_CONFIG).rejectReasons).toContain("not_triplet_or_near_shape");
+  });
+
+  it("generates a hard valid question", () => {
+    const question = generateHardUkeireMaxQuestion(() => 0.42);
+    const evaluation = evaluateDifficultUkeireQuestion(question, HARD_UKEIRE_QUESTION_CONFIG);
+
+    expect(sumCounts(question.counts)).toBe(14);
+    expect(question.bestDiscards.length).toBeGreaterThan(0);
+    expect(question.bestDiscards.length).toBeLessThanOrEqual(3);
+    expect(hasTripletOrNearShape(question.counts)).toBe(true);
+    expect(evaluation.accepted).toBe(true);
   });
 
   it("exposes difficult debug metrics and rewards complex middle-heavy shapes", () => {

@@ -15,6 +15,7 @@ import {
   evaluateSevenShapeAnswer,
   evaluateUkeireMaxAnswer,
   generateChinitsuWaitQuestion,
+  generateHardUkeireMaxQuestion,
   generateSevenShapeQuestion,
   generateUkeireMaxQuestion,
   nextChinitsuSuit,
@@ -38,7 +39,7 @@ import {
   type UkeireMaxQuestion
 } from "@mahjong-trainer/mahjong-core";
 
-type Mode = "checker" | "ukeireMax" | "scoring" | "chinitsu" | "sevenShape";
+type Mode = "checker" | "ukeireMax" | "ukeireMaxHard" | "scoring" | "chinitsu" | "sevenShape";
 
 interface AppState {
   counts: Counts34;
@@ -145,6 +146,7 @@ export default function Home() {
           <div className="modeGroupTitle" id="practice-mode-heading">問題演習モード</div>
           <div className="segments practiceSegments">
             <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
+            <ModeButton active={mode === "ukeireMaxHard"} onClick={() => setMode("ukeireMaxHard")}>受け入れMAX高難度</ModeButton>
             <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち当て</ModeButton>
             <ModeButton active={mode === "sevenShape"} onClick={() => setMode("sevenShape")}>7枚形トレーニング</ModeButton>
           </div>
@@ -152,7 +154,8 @@ export default function Home() {
       </nav>
 
       {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
-      {mode === "ukeireMax" ? <UkeireMaxMode /> : null}
+      {mode === "ukeireMax" ? <UkeireMaxMode variant="normal" /> : null}
+      {mode === "ukeireMaxHard" ? <UkeireMaxMode variant="hard" /> : null}
       {mode === "chinitsu" ? <ChinitsuMode /> : null}
       {mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
       {mode === "scoring" ? <ScoringMode /> : null}
@@ -231,8 +234,9 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
   );
 }
 
-function UkeireMaxMode() {
-  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireMaxQuestion());
+function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
+  const isHard = variant === "hard";
+  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion());
   const [selected, setSelected] = useState<Tile[]>([]);
   const [checked, setChecked] = useState(false);
   const selectedSet = useMemo(() => new Set(selected), [selected]);
@@ -245,7 +249,7 @@ function UkeireMaxMode() {
   }
 
   function nextQuestion() {
-    setQuestion(generateUkeireMaxQuestion());
+    setQuestion(isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion());
     setSelected([]);
     setChecked(false);
   }
@@ -254,7 +258,7 @@ function UkeireMaxMode() {
     <section className="modeGrid ukeireMaxMode">
       <section className="panel handPanel">
         <div className="panelHeader">
-          <h2>受け入れMAX星人何切る</h2>
+          <h2>{isHard ? "受け入れMAX星人何切る 高難易度ver" : "受け入れMAX星人何切る"}</h2>
           <span>14 / 14</span>
         </div>
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
@@ -876,6 +880,7 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
   const labels: Record<Mode, string> = {
     checker: "牌理チェッカー",
     ukeireMax: "受け入れMAX星人何切る",
+    ukeireMaxHard: "受け入れMAX高難度",
     scoring: "点数計算チェッカー",
     chinitsu: "清一色待ち当て",
     sevenShape: "7枚形トレーニング"
