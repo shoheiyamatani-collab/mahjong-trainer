@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const navItems = [
   { label: "はじめて学ぶ", href: "/learn" },
   { label: "練習する", href: "/training" },
@@ -18,18 +16,18 @@ const footerItems = [
 export function Header() {
   return (
     <header className="siteHeader">
-      <Link className="siteLogo" href="/">
+      <a className="siteLogo" href="/">
         <span className="siteLogoMark" aria-hidden="true">麻</span>
         <span>
           <span className="siteLogoTitle">麻雀トレーナー</span>
           <span className="siteLogoSub">学ぶ・解く・調べる</span>
         </span>
-      </Link>
+      </a>
       <nav className="siteNav" aria-label="サイト内ナビゲーション">
         {navItems.map((item) => (
-          <Link key={item.href} href={item.href}>
+          <a key={item.href} href={item.href}>
             {item.label}
-          </Link>
+          </a>
         ))}
       </nav>
     </header>
@@ -45,9 +43,9 @@ export function Footer() {
       </div>
       <nav className="siteFooterLinks" aria-label="フッターリンク">
         {footerItems.map((item) => (
-          <Link key={item.label} href={item.href}>
+          <a key={item.label} href={item.href}>
             {item.label}
-          </Link>
+          </a>
         ))}
       </nav>
     </footer>

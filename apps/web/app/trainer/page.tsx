@@ -123,8 +123,13 @@ function syncCounts(counts: Counts34): AppState {
 
 export default function Home() {
   const [mode, setMode] = useState<Mode>("checker");
+  const [openModeGroup, setOpenModeGroup] = useState<"analysis" | "practice" | null>(null);
   const [state, dispatch] = useReducer(reducer, syncCounts(initialCounts));
   const activeModeGroup = mode === "checker" || mode === "scoring" ? "analysis" : "practice";
+  const selectMode = (nextMode: Mode) => {
+    setMode(nextMode);
+    setOpenModeGroup(null);
+  };
 
   return (
     <main className="shell">
@@ -140,38 +145,46 @@ export default function Home() {
         <div className="modeGroupTabs">
           <button
             className={activeModeGroup === "analysis" ? "modeGroupTab analysis active" : "modeGroupTab analysis"}
-            onClick={() => setMode("checker")}
+            data-open={openModeGroup === "analysis"}
+            onClick={() => {
+              setMode("checker");
+              setOpenModeGroup(openModeGroup === "analysis" ? null : "analysis");
+            }}
             type="button"
           >
             解析モード
           </button>
           <button
             className={activeModeGroup === "practice" ? "modeGroupTab practice active" : "modeGroupTab practice"}
-            onClick={() => setMode("ukeireMax")}
+            data-open={openModeGroup === "practice"}
+            onClick={() => {
+              setMode("ukeireMax");
+              setOpenModeGroup(openModeGroup === "practice" ? null : "practice");
+            }}
             type="button"
           >
             問題演習モード
           </button>
         </div>
 
-        {activeModeGroup === "analysis" ? (
+        {openModeGroup === "analysis" ? (
           <section className="modeGroup analysisModeGroup" aria-labelledby="analysis-mode-heading">
             <div className="modeGroupTitle" id="analysis-mode-heading">解析ツール</div>
             <div className="segments">
-            <ModeButton active={mode === "checker"} onClick={() => setMode("checker")}>牌理チェッカー</ModeButton>
-            <ModeButton active={mode === "scoring"} onClick={() => setMode("scoring")}>🔰 点数計算チェッカー</ModeButton>
+            <ModeButton active={mode === "checker"} onClick={() => selectMode("checker")}>牌理チェッカー</ModeButton>
+            <ModeButton active={mode === "scoring"} onClick={() => selectMode("scoring")}>🔰 点数計算チェッカー</ModeButton>
             </div>
           </section>
         ) : null}
 
-        {activeModeGroup === "practice" ? (
+        {openModeGroup === "practice" ? (
           <section className="modeGroup practiceModeGroup" aria-labelledby="practice-mode-heading">
             <div className="modeGroupTitle" id="practice-mode-heading">問題演習</div>
             <div className="segments practiceSegments">
-            <ModeButton active={mode === "ukeireMax"} onClick={() => setMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
-            <ModeButton active={mode === "ukeireMaxHard"} onClick={() => setMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
-            <ModeButton active={mode === "chinitsu"} onClick={() => setMode("chinitsu")}>清一色待ち当て</ModeButton>
-            <ModeButton active={mode === "sevenShape"} onClick={() => setMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
+            <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
+            <ModeButton active={mode === "ukeireMaxHard"} onClick={() => selectMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
+            <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>清一色待ち当て</ModeButton>
+            <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
             </div>
           </section>
         ) : null}
