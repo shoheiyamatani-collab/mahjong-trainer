@@ -253,6 +253,7 @@ function detectStandardYaku(decomposition: StandardHandDecomposition, input: Han
   else if (sequencePairs === 1) yaku.push({ name: "一盃口", han: 1 });
 
   if (hasSanshokuDoujun(decomposition.melds)) yaku.push({ name: "三色同順", han: closed ? 2 : 1 });
+  if (hasIttsu(decomposition.melds)) yaku.push({ name: "一気通貫", han: closed ? 2 : 1 });
   if (isChanta(decomposition)) yaku.push({ name: "混全帯么九", han: closed ? 2 : 1 });
   if (concealedTripletCount(decomposition, input) >= 3) yaku.push({ name: "三暗刻", han: 2 });
   if (decomposition.melds.every((group) => group.kind === "triplet" || group.kind === "quad")) yaku.push({ name: "対々和", han: 2 });
@@ -375,6 +376,17 @@ function hasSanshokuDoujun(groups: HandGroup[]): boolean {
     starts.get(start)!.add(suit);
   }
   return [...starts.values()].some((suits) => suits.size === 3);
+}
+
+function hasIttsu(groups: HandGroup[]): boolean {
+  const suitStarts = new Map<number, Set<number>>();
+  for (const group of groups) {
+    if (group.kind !== "sequence") continue;
+    const [suit, start] = sequenceKey(group);
+    if (!suitStarts.has(suit)) suitStarts.set(suit, new Set());
+    suitStarts.get(suit)!.add(start);
+  }
+  return [...suitStarts.values()].some((starts) => starts.has(0) && starts.has(3) && starts.has(6));
 }
 
 function isChanta(decomposition: StandardHandDecomposition): boolean {

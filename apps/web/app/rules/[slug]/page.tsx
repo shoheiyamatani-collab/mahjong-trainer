@@ -61,7 +61,7 @@ export default async function YakuArticlePage({ params }: YakuArticlePageProps) 
             </ul>
           </section>
 
-          <ArticleTileFigures figures={[article.figure]} />
+          <ArticleTileFigures figures={[article.figure, ...(article.extraFigures ?? [])]} />
 
           <section className="articleSection">
             <h2>初心者が見るポイント</h2>
@@ -79,6 +79,13 @@ export default async function YakuArticlePage({ params }: YakuArticlePageProps) 
                 <li key={mistake}>{mistake}</li>
               ))}
             </ul>
+            {article.notes?.length ? (
+              <div className="articleNoteList">
+                {article.notes.map((note) => (
+                  <p key={note}>{note}</p>
+                ))}
+              </div>
+            ) : null}
           </section>
         </div>
       </article>

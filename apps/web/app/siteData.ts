@@ -27,8 +27,11 @@ export type ToolItem = {
   title: string;
   description: string;
   beginnerNote: string;
-  imageSrc: string;
-  imageAlt: string;
+  screenshots: {
+    src: string;
+    alt: string;
+    caption: string;
+  }[];
   checks: string[];
   href?: string;
   status: CardStatus;
@@ -417,8 +420,18 @@ export const toolItems: ToolItem[] = [
     title: "点数計算ツール",
     description: "手牌と条件を入れて、ロン・ツモの支払いを確認できます。",
     beginnerNote: "最初はリーチ、ツモ、親か子かだけを変えて試すと覚えやすいです。",
-    imageSrc: "/tool-screenshots/score-calculator.png",
-    imageAlt: "点数計算チェッカーで手牌、条件、結果を確認している画面",
+    screenshots: [
+      {
+        src: "/tool-screenshots/score-calculator-input.png",
+        alt: "点数計算チェッカーで手牌と条件を入力している画面",
+        caption: "牌姿と条件を入力"
+      },
+      {
+        src: "/tool-screenshots/score-calculator-result.png",
+        alt: "点数計算チェッカーで点数、役、符を確認している画面",
+        caption: "点数・役・符を確認"
+      }
+    ],
     checks: ["手牌から役・翻・符を確認", "親子、ロン・ツモの支払いを比較", "リーチやドラを変えた点数の違いを確認"],
     href: trainerHref,
     status: "available"
@@ -426,10 +439,20 @@ export const toolItems: ToolItem[] = [
   {
     title: "受け入れ枚数チェッカー",
     description: "何を切ると次に進める牌が多いかを比較できます。",
-    beginnerNote: "何切るの答え合わせに使うと、理由まで理解しやすくなります。",
-    imageSrc: "/tool-screenshots/ukeire-checker.png",
-    imageAlt: "受け入れMAX星人何切るで打牌候補と有効牌を比較している画面",
-    checks: ["どの牌を切ると手が進みやすいか確認", "最大受け入れの種類数と枚数を確認", "打牌候補ごとの受け入れ差を比較"],
+    beginnerNote: "牌理チェッカーでサンプルの牌姿を入れると、打牌候補ごとの受け入れを比較できます。",
+    screenshots: [
+      {
+        src: "/tool-screenshots/ukeire-checker-input.png",
+        alt: "牌理チェッカーでサンプルの牌姿を入力している画面",
+        caption: "サンプル牌姿を入力"
+      },
+      {
+        src: "/tool-screenshots/ukeire-checker-comparison.png",
+        alt: "牌理チェッカーで打牌候補ごとの受け入れ枚数を比較している画面",
+        caption: "受け入れ枚数を比較"
+      }
+    ],
+    checks: ["どの牌を切ると手が進みやすいか確認", "打牌候補ごとの受け入れ種類数と枚数を確認", "有効牌の内容を牌画像で比較"],
     href: trainerHref,
     status: "available"
   }

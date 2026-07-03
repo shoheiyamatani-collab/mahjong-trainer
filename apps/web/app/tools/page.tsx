@@ -24,8 +24,13 @@ export default function ToolsPage() {
         <div className="toolFeatureGrid">
           {toolItems.map((item) => (
             <article className="toolFeatureCard" key={item.title}>
-              <div className="toolFeatureImageFrame">
-                <img src={item.imageSrc} alt={item.imageAlt} />
+              <div className="toolScreenshotPair">
+                {item.screenshots.map((screenshot) => (
+                  <figure className="toolFeatureImageFrame" key={screenshot.src}>
+                    <img src={screenshot.src} alt={screenshot.alt} />
+                    <figcaption>{screenshot.caption}</figcaption>
+                  </figure>
+                ))}
               </div>
               <div className="toolFeatureBody">
                 <p className="siteEyebrow">Mahjong Tool</p>
@@ -50,8 +55,8 @@ export default function ToolsPage() {
       <section>
         <SectionTitle title="ツールから学習へ" description="調べて終わりではなく、関連する練習に戻れる導線を置いています。" />
         <div className="linkCardGrid">
-          <InternalLinkCard title="点数計算を覚える" description="点数は最後で大丈夫。まずはツールで結果を見ながら慣れます。" href="/learn" />
-          <InternalLinkCard title="受け入れを学ぶ" description="何切るで大事な、次にうれしい牌の考え方を復習します。" href="/learn/basic-nanikiru" />
+          <InternalLinkCard title="点数計算を覚える" description="点数は最後で大丈夫。まずはツールで結果を見ながら慣れます。" href="/trainer" />
+          <InternalLinkCard title="受け入れを学ぶ" description="何切るで大事な、次にうれしい牌の考え方を復習します。" href="/trainer" />
           <InternalLinkCard title="役一覧を確認する" description="点数計算で出てくる役を、牌姿つきで確認できます。" href="/rules/yaku" />
         </div>
       </section>

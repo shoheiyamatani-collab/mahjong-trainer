@@ -11,8 +11,10 @@ export type YakuArticle = {
   summary: string;
   conditions: string[];
   figure: TileFigure;
+  extraFigures?: TileFigure[];
   beginnerTips: string[];
   mistakes: string[];
+  notes?: string[];
   relatedPractice: { label: string; href: string };
   relatedTool: { label: string; href: string };
 };
@@ -60,7 +62,7 @@ export const yakuArticles: YakuArticle[] = [
     figure: {
       title: "2〜8だけならタンヤオ",
       description: "萬子・筒子・索子の2〜8だけでできています。1・9・字牌がないかを見ましょう。",
-      badges: ["1翻", "鳴き可が多い"],
+      badges: ["1翻", "喰いタン可が多い"],
       rows: [
         {
           label: "タンヤオ例",
@@ -75,8 +77,11 @@ export const yakuArticles: YakuArticle[] = [
         }
       ]
     },
-    beginnerTips: ["手牌に端の牌や字牌がないか見る", "鳴きタンありのルールか確認する", "役牌と違って字牌は使えない"],
-    mistakes: ["1や9を1枚だけなら使えると思う", "白・發・中を雀頭にしてもよいと思う", "鳴きタンなしルールを確認しない"],
+    beginnerTips: ["手牌に端の牌や字牌がないか見る", "役牌と違って字牌は使えない"],
+    mistakes: ["1や9を1枚だけなら使えると思う", "白・發・中を雀頭にしてもよいと思う"],
+    notes: [
+      "※喰いタンなしのルールも存在します。競技麻雀や雀荘などではほとんどの場合で喰いタン（鳴いてのタンヤオ）は認められています。"
+    ],
     relatedPractice: { label: "何切る問題でタンヤオを意識する", href: "/trainer" },
     relatedTool: { label: "受け入れ枚数チェッカーを使う", href: "/trainer" }
   },
@@ -112,8 +117,71 @@ export const yakuArticles: YakuArticle[] = [
         }
       ]
     },
-    beginnerTips: ["白・發・中を3枚そろえる形から覚える", "東南西北は場風・自風か確認する", "ポンしても役が残るので使いやすい"],
+    extraFigures: [
+      {
+        title: "場風はその局で全員共通の風",
+        description:
+          "場風は、今が何場かで決まる全員共通の風です。東場なら全員にとって東が場風、南場なら全員にとって南が場風です。自分の席が何家でも、場風を3枚そろえると役牌になります。",
+        badges: ["風牌", "全員共通"],
+        rows: [
+          {
+            label: "東場の場風",
+            tiles: ["ji1"],
+            tone: "answer",
+            note: "東場では、全員にとって東が場風です。"
+          },
+          {
+            label: "東を3枚",
+            tiles: ["ji1", "ji1", "ji1"],
+            tone: "answer",
+            note: "東場なら、自分の席に関係なく東を3枚そろえると場風牌の役牌になります。"
+          },
+          {
+            label: "南場の場風",
+            tiles: ["ji2"],
+            tone: "answer",
+            note: "南場では、全員にとって南が場風です。"
+          }
+        ]
+      },
+      {
+        title: "自風は自分の席だけの風",
+        description:
+          "自風は、自分の席に割り当てられた風です。東家なら東、南家なら南、西家なら西、北家なら北が自風です。自風を3枚そろえると、場風でなくても役牌になります。",
+        badges: ["風牌", "自分だけ"],
+        rows: [
+          {
+            label: "東家の自風",
+            tiles: ["ji1"],
+            tone: "answer",
+            note: "自分が東家なら、東が自風です。"
+          },
+          {
+            label: "南家の自風",
+            tiles: ["ji2"],
+            tone: "answer",
+            note: "自分が南家なら、南が自風です。"
+          },
+          {
+            label: "自風を3枚",
+            tiles: ["ji2", "ji2", "ji2"],
+            tone: "answer",
+            note: "南家なら、南を3枚そろえると自風牌の役牌になります。"
+          },
+          {
+            label: "役牌にならない例",
+            tiles: ["ji3", "ji3", "ji3"],
+            tone: "warning",
+            note: "東場の南家で西が場風でも自風でもないなら、西を3枚そろえても役牌にはなりません。"
+          }
+        ]
+      }
+    ],
+    beginnerTips: ["白・發・中を3枚そろえる形から覚える", "東南西北は場風か自風のときだけ役牌になる", "ポンしても役が残るので使いやすい"],
     mistakes: ["どの字牌でも3枚あれば必ず役牌だと思う", "風牌の条件を確認しない", "役牌の雀頭だけで役になると思う"],
+    notes: [
+      "場風は全員共通、自風は自分だけの風です。同じ東南西北でも、場風でも自風でもない風牌は3枚あっても役牌になりません。"
+    ],
     relatedPractice: { label: "役判定クイズを解く", href: "/training/yaku-quiz" },
     relatedTool: { label: "役一覧に戻る", href: "/rules/yaku" }
   },
@@ -141,8 +209,8 @@ export const yakuArticles: YakuArticle[] = [
         }
       ]
     },
-    beginnerTips: ["自分で引いたらツモ、相手の捨て牌ならロン", "鳴いていると門前ツモの役はつかない", "支払いは3人からもらう形になる"],
-    mistakes: ["鳴いていても門前ツモがつくと思う", "ロンとツモの支払いを同じだと思う", "ツモなら役なしでもアガれると思う"],
+    beginnerTips: ["自分で引いたらツモ、相手の捨て牌ならロン", "鳴いていると門前ツモの役はつかない"],
+    mistakes: ["鳴いていても門前ツモがつくと思う"],
     relatedPractice: { label: "待ち当て問題を解く", href: "/trainer" },
     relatedTool: { label: "初心者向け点数表を見る", href: "/tools/score-table" }
   },
@@ -203,6 +271,9 @@ export const yakuArticles: YakuArticle[] = [
     },
     beginnerTips: ["対子が多い手なら七対子を考える", "鳴くと七対子にはならない", "点数表では25符固定として見る"],
     mistakes: ["同じ牌4枚を2ペアとして数えると思う", "ポンしても七対子になると思う", "4面子1雀頭に分けようとして迷う"],
+    notes: [
+      "※同じ牌4枚を2ペアとして数える、いわゆる四枚使い七対子が認められている場合も稀にあります。特に三人麻雀などで採用されるケースが多いです。四枚使い七対子、アメリカン七対子（アメチ）なんても呼ばれていたりもします。"
+    ],
     relatedPractice: { label: "何切る問題で対子手を見る", href: "/trainer" },
     relatedTool: { label: "七対子の点数表を見る", href: "/tools/score-table" }
   },
@@ -223,7 +294,7 @@ export const yakuArticles: YakuArticle[] = [
       rows: [
         {
           label: "一盃口例",
-          tiles: ["man2", "man3", "man4", "man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "pin5", "pin5"]
+          tiles: ["man2", "man2", "man3", "man3", "man4", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "pin5", "pin5"]
         },
         {
           label: "役になる部分",
@@ -234,7 +305,7 @@ export const yakuArticles: YakuArticle[] = [
       ]
     },
     beginnerTips: ["同じ並びが2回出ていないか見る", "萬子と筒子の同じ数字では一盃口にならない", "鳴いたら数えない"],
-    mistakes: ["違う種類の同じ数字並びでもよいと思う", "鳴いても一盃口になると思う", "刻子2つと混同する"],
+    mistakes: ["違う種類の同じ数字並びでもよいと思う", "鳴いても一盃口になると思う"],
     relatedPractice: { label: "何切る問題で順子を意識する", href: "/trainer" },
     relatedTool: { label: "役一覧に戻る", href: "/rules/yaku" }
   },
@@ -255,7 +326,7 @@ export const yakuArticles: YakuArticle[] = [
       rows: [
         {
           label: "混一色例",
-          tiles: ["man2", "man3", "man4", "man6", "man7", "man8", "man5", "man5", "ji1", "ji1", "ji1", "ji7", "ji7", "ji7"]
+          tiles: ["man2", "man3", "man4", "man5", "man5", "man6", "man7", "man8", "ji1", "ji1", "ji1", "ji7", "ji7", "ji7"]
         },
         {
           label: "混ざると不可",
@@ -266,7 +337,7 @@ export const yakuArticles: YakuArticle[] = [
       ]
     },
     beginnerTips: ["1種類の数牌に寄ってきたら意識する", "字牌の役牌とセットで見る", "鳴くと翻数が下がる"],
-    mistakes: ["別種類の数牌が1枚だけならよいと思う", "字牌なしでも混一色だと思う", "清一色との違いを混同する"],
+    mistakes: ["字牌なしでも混一色だと思う", "清一色との違いを混同する"],
     relatedPractice: { label: "清一色待ち当てを練習する", href: "/trainer" },
     relatedTool: { label: "役一覧に戻る", href: "/rules/yaku" }
   },

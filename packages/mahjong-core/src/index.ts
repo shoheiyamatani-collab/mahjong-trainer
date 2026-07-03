@@ -6,3 +6,4 @@ export * from "./chinitsu";
 export * from "./scoring";
 export * from "./sevenShapes";
 export * from "./handScore";
+export * from "./beginnerIishanten";

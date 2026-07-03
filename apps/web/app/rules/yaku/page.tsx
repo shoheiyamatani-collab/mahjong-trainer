@@ -59,7 +59,7 @@ const firstYaku: YakuItem[] = [
     tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8"],
     tileLabel: "2〜8だけで作る",
     point: "手牌に1・9・字牌が入っていないかを見ます。",
-    caution: "ルールによっては鳴きタンを採用しない場合があります。最初に確認しましょう。",
+    caution: "※喰いタンなしのルールも存在します。競技麻雀や雀荘などではほとんどの場合で喰いタン（鳴いてのタンヤオ）は認められています。",
     href: "/learn/reach-tanyao-yakuhai"
   },
   {

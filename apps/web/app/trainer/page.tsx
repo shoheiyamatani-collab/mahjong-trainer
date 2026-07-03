@@ -5,6 +5,8 @@ import {
   addTile,
   analyzeDiscards,
   bestDiscardsForReview,
+  beginnerIishantenProblems,
+  buildBeginnerIishantenQuestion,
   buildSevenShapeQuestion,
   chinitsuHandKey,
   chinitsuTile,
@@ -21,6 +23,8 @@ import {
   generateUkeireMaxQuestion,
   nextChinitsuSuit,
   parseHand,
+  parseBeginnerIishantenTile,
+  normalShanten,
   removeTile,
   sevenShapeQuestionKey,
   sortedHandText,
@@ -43,7 +47,7 @@ import {
   type UkeireMaxQuestion
 } from "@mahjong-trainer/mahjong-core";
 
-type Mode = "checker" | "ukeireMax" | "ukeireMaxHard" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
+type Mode = "checker" | "beginnerIishanten" | "ukeireMax" | "ukeireMaxHard" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
 
 interface AppState {
   counts: Counts34;
@@ -161,14 +165,14 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
   },
   {
     id: "yakuhai-open-pon",
-    title: "役牌ポン",
-    lesson: "副露しても成立する役牌。鳴いた1翻の基本点です。",
+    title: "\u5f79\u724c\u30dd\u30f3\uff0b\u4e00\u6c17\u901a\u8cab",
+    lesson: "123\u30fb456\u30fb789\u304c\u540c\u3058\u8272\u3067\u305d\u308d\u3046\u3068\u4e00\u6c17\u901a\u8cab\u3067\u3059\u3002\u9cf4\u3044\u3066\u3044\u308b\u5834\u5408\u306f1\u7ffb\u306b\u306a\u308a\u307e\u3059\u3002",
     handText: "123456789m22p",
     melds: [{ kind: "pon", tiles: [SCORE_WHITE, SCORE_WHITE, SCORE_WHITE] }],
     winningTile: "2p",
     isDealer: false,
     winMethod: "ron",
-    explanation: "白ポンの役牌のみ。副露ロンなので門前ロン符はなく、子の1翻30符で1,000点です。"
+    explanation: "\u767d\u30dd\u30f3\u306e\u5f79\u724c1\u7ffb\u306b\u3001\u842c\u5b50\u306e123\u30fb456\u30fb789\u3067\u4e00\u6c17\u901a\u8cab1\u7ffb\u304c\u4ed8\u304d\u307e\u3059\u3002\u5b50\u306e2\u7ffb30\u7b26\u30ed\u30f3\u306f2,000\u70b9\u3067\u3059\u3002"
   },
   {
     id: "chiitoitsu-child",
@@ -610,19 +614,31 @@ export default function Home() {
         {openModeGroup === "practice" ? (
           <section className="modeGroup practiceModeGroup" aria-labelledby="practice-mode-heading">
             <div className="modeGroupTitle" id="practice-mode-heading">問題演習</div>
-            <div className="segments practiceSegments">
-            <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
-            <ModeButton active={mode === "ukeireMaxHard"} onClick={() => selectMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
-            <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>🔥 清一色待ち当て</ModeButton>
-            <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
-            <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}>🔰 点数計算問題</ModeButton>
-            <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}>🔥 点数計算HARD</ModeButton>
+            <div className="practiceLevelGroups">
+              <div className="practiceLevel beginnerLevel">
+                <div className="practiceLevelTitle">初心者向け</div>
+                <div className="segments practiceSegments">
+                  <ModeButton active={mode === "beginnerIishanten"} onClick={() => selectMode("beginnerIishanten")}>🔰 イーシャンテン何切る</ModeButton>
+                  <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
+                  <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
+                  <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}>🔰 点数計算問題</ModeButton>
+                </div>
+              </div>
+              <div className="practiceLevel hardLevel">
+                <div className="practiceLevelTitle">高難易度</div>
+                <div className="segments practiceSegments">
+                  <ModeButton active={mode === "ukeireMaxHard"} onClick={() => selectMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
+                  <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>🔥 清一色待ち当て</ModeButton>
+                  <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}>🔥 点数計算HARD</ModeButton>
+                </div>
+              </div>
             </div>
           </section>
         ) : null}
       </nav>
 
       {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
+      {mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
       {mode === "ukeireMax" ? <UkeireMaxMode variant="normal" /> : null}
       {mode === "ukeireMaxHard" ? <UkeireMaxMode variant="hard" /> : null}
       {mode === "chinitsu" ? <ChinitsuMode /> : null}
@@ -644,12 +660,22 @@ function ModeButton({ active, onClick, children }: { active: boolean; onClick: (
 
 function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dispatch<Action> }) {
   const tiles = countsToTiles(state.counts);
+  const handShanten = useMemo(() => {
+    if (sumCounts(state.counts) !== 14) return null;
+    try {
+      return normalShanten(state.counts);
+    } catch {
+      return null;
+    }
+  }, [state.counts]);
   const analysis = useMemo(() => {
     if (sumCounts(state.counts) !== 14) return null;
     try {
+      const currentShanten = normalShanten(state.counts);
+      if (currentShanten === -1) return { results: [], best: new Set<Tile>(), currentShanten };
       const results = analyzeDiscards(state.counts);
       const best = new Set(bestDiscardsForReview(results).map((result) => result.discard));
-      return { results, best };
+      return { results, best, currentShanten };
     } catch (error) {
       return { error: error instanceof Error ? error.message : String(error) };
     }
@@ -662,6 +688,7 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
           <h2>手牌</h2>
           <span>{tiles.length} / 14</span>
         </div>
+        {handShanten != null ? <ShantenBadge shanten={handShanten} /> : null}
         <TileStrip tiles={tiles} onTileClick={(tile) => dispatch({ type: "remove", tile })} emptyText="牌を追加してください" />
         <div className="actions">
           <button type="button" onClick={() => dispatch({ type: "undo" })}>一枚戻す</button>
@@ -686,6 +713,8 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
           <div className="emptyState">14枚の手牌を入力すると、打牌候補を比較します。</div>
         ) : "error" in analysis ? (
           <div className="error">{analysis.error}</div>
+        ) : analysis.currentShanten === -1 ? (
+          <div className="agariNotice">アガッテルアルヨ…</div>
         ) : (
           <DiscardResults results={analysis.results} best={analysis.best} />
         )}
@@ -919,6 +948,133 @@ function UkeireMistakeReview({
         <DiscardResults results={mistake.question.results} best={best} />
       </section>
     </>
+  );
+}
+
+function BeginnerIishantenMode() {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selected, setSelected] = useState<Tile | null>(null);
+  const [checked, setChecked] = useState(false);
+  const problem = beginnerIishantenProblems[questionIndex]!;
+  const question = useMemo(() => buildBeginnerIishantenQuestion(problem), [problem]);
+  const correctTile = useMemo(() => parseBeginnerIishantenTile(problem.answer), [problem]);
+  const selectedResult = selected ? question.choices.find((choice) => choice.discard === selected) ?? null : null;
+  const isCorrect = checked && selected === correctTile;
+
+  function selectDiscard(tile: Tile) {
+    if (checked) return;
+    setSelected(tile);
+  }
+
+  function nextQuestion() {
+    if (!checked) {
+      setChecked(true);
+      return;
+    }
+    setQuestionIndex((current) => (current + 1) % beginnerIishantenProblems.length);
+    setSelected(null);
+    setChecked(false);
+  }
+
+  return (
+    <section className="modeGrid beginnerIishantenMode">
+      <section className="panel handPanel learningPanel">
+        <div className="panelHeader">
+          <h2>🔰 イーシャンテン何切る</h2>
+          <span>{questionIndex + 1} / {beginnerIishantenProblems.length}</span>
+        </div>
+        <div className="questionCard">
+          <div className="smallLabel">問題</div>
+          <h3>どの牌を切りますか？</h3>
+          <p>手牌を見て、次に進みやすい打牌を選んでください。</p>
+        </div>
+        <TileStrip tiles={countsToTiles(question.counts)} />
+      </section>
+
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>打牌選択</h2>
+        </div>
+        <div className="beginnerChoiceGrid">
+          {question.choices.map((choice) => (
+            <button
+              className={selected === choice.discard ? "tileButton selected" : "tileButton"}
+              disabled={checked}
+              key={choice.discard}
+              onClick={() => selectDiscard(choice.discard)}
+              title={choice.discard}
+              type="button"
+            >
+              <TileImage tile={choice.discard} />
+            </button>
+          ))}
+        </div>
+        <div className="answerDetail compactAnswerDetail">
+          <div className="smallLabel">選択中</div>
+          <TileStrip tiles={selected ? [selected] : []} emptyText="切る牌を選んでください" />
+        </div>
+        <div className="actions">
+          <button disabled={selected == null || checked} onClick={() => setChecked(true)} type="button">決定</button>
+          <button onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
+        </div>
+        {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
+        {checked ? (
+          <div className="answerDetail">
+            <div className="answerCompare">
+              <div>
+                <div className="smallLabel">正解打牌</div>
+                <TileStrip tiles={[correctTile]} />
+              </div>
+              <div>
+                <div className="smallLabel">自分の選択</div>
+                <TileStrip tiles={selected ? [selected] : []} emptyText="未選択" />
+              </div>
+            </div>
+            <div className="answerDetail compactAnswerDetail">
+              <div className="smallLabel">この問題のテーマ</div>
+              <h3>{problem.title}</h3>
+              <p>{problem.theme}</p>
+            </div>
+            <div className="explanationBox">{problem.point}</div>
+            <div className="explanationBox">{problem.explanation}</div>
+          </div>
+        ) : null}
+      </section>
+
+      <section className="resultsPanel">
+        <div className="panelHeader">
+          <h2>受け入れ比較</h2>
+        </div>
+        {checked ? (
+          <div className="beginnerComparisonList">
+            {question.choices.map((choice) => {
+              const isAnswer = choice.discard === correctTile;
+              const isSelected = selectedResult?.discard === choice.discard;
+              return (
+                <article
+                  className={isAnswer ? "beginnerComparisonRow best" : isSelected ? "beginnerComparisonRow selected" : "beginnerComparisonRow"}
+                  key={choice.discard}
+                >
+                  <div>
+                    <div className="smallLabel">{isAnswer ? "打牌☆" : "打牌"}</div>
+                    <TileImage tile={choice.discard} />
+                  </div>
+                  <Stat label="向聴" value={choice.analysis.afterDiscardShanten === 0 ? "聴牌" : `${choice.analysis.afterDiscardShanten}向聴`} />
+                  <Stat label="牌種類" value={`${choice.analysis.ukeireTypes}種`} />
+                  <Stat label="枚数" value={`${choice.analysis.ukeireTiles}枚`} />
+                  <div className="ukeireCell">
+                    <div className="smallLabel">{choice.analysis.afterDiscardShanten === 0 ? "待ち牌" : "有効牌"}</div>
+                    <TileStrip tiles={choice.analysis.ukeire} emptyText="なし" />
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="emptyState">答え合わせ後に、候補ごとの受け入れを表示します。</div>
+        )}
+      </section>
+    </section>
   );
 }
 
@@ -1228,6 +1384,8 @@ interface ScoreQuizPracticeModeProps {
   title: string;
   resultTitle: string;
   resultDescription: string;
+  showQuestionTitle?: boolean;
+  showAnswerExplanation?: boolean;
 }
 
 function ScoreQuizBeginnerMode() {
@@ -1248,11 +1406,20 @@ function ScoreQuizHardMode() {
       title="🔥 点数計算HARD"
       resultTitle="🔥 点数計算HARD リザルト"
       resultDescription="HARDモードを完走しました。高符、カン絡み、ロンとツモの符差を重点的に確認できます。"
+      showAnswerExplanation={false}
+      showQuestionTitle={false}
     />
   );
 }
 
-function ScoreQuizPracticeMode({ questions, title, resultTitle, resultDescription }: ScoreQuizPracticeModeProps) {
+function ScoreQuizPracticeMode({
+  questions,
+  title,
+  resultTitle,
+  resultDescription,
+  showQuestionTitle = true,
+  showAnswerExplanation = true
+}: ScoreQuizPracticeModeProps) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
@@ -1347,9 +1514,11 @@ function ScoreQuizPracticeMode({ questions, title, resultTitle, resultDescriptio
           <h2>{title}</h2>
           <span>{questionIndex + 1} / {questions.length}</span>
         </div>
-        <div className="questionTitleBlock">
-          <div className="smallLabel">{question.title}</div>
-        </div>
+        {showQuestionTitle ? (
+          <div className="questionTitleBlock">
+            <div className="smallLabel">{question.title}</div>
+          </div>
+        ) : null}
         <ScoreQuizConditionBadges question={question} />
         <div className="smallLabel">手牌</div>
         <TileStrip tiles={scoreQuizVisibleHandTiles(question)} />
@@ -1407,8 +1576,12 @@ function ScoreQuizPracticeMode({ questions, title, resultTitle, resultDescriptio
               </div>
             </div>
             <HandScoreResultCard result={scoreResult} />
-            <div className="explanationBox">{question.lesson}</div>
-            <div className="explanationBox">{question.explanation}</div>
+            {showAnswerExplanation ? (
+              <>
+                <div className="explanationBox">{question.lesson}</div>
+                <div className="explanationBox">{question.explanation}</div>
+              </>
+            ) : null}
           </div>
         ) : null}
       </section>
@@ -1420,8 +1593,8 @@ function ScoreQuizConditionBadges({ question }: { question: ScoreQuizQuestion })
   const dora = question.dora ?? 0;
   return (
     <div className="scoreQuizConditions">
-      <span>{question.isDealer ? "親" : "子"}</span>
-      <span>{question.winMethod === "ron" ? "ロン" : "ツモ"}</span>
+      <span className={question.isDealer ? "dealerBadge" : "childBadge"}>{question.isDealer ? "\u89aa" : "\u5b50"}</span>
+      <span className={question.winMethod === "ron" ? "ronBadge" : "tsumoBadge"}>{question.winMethod === "ron" ? "\u30ed\u30f3" : "\u30c4\u30e2"}</span>
       <span className={question.riichi ? "riichiBadge" : undefined}>{question.riichi ? "リーチ" : "リーチなし"}</span>
       <span className={dora > 0 ? "doraBadge" : undefined}>ドラ {dora}</span>
     </div>
@@ -2052,6 +2225,28 @@ function TileStrip({ tiles, onTileClick, emptyText }: { tiles: Tile[]; onTileCli
   );
 }
 
+function ShantenBadge({ shanten }: { shanten: number }) {
+  const label = shantenLabel(shanten);
+  return <div className={`shantenBadge ${shantenClassName(shanten)}`}>{label}</div>;
+}
+
+function shantenLabel(shanten: number): string {
+  if (shanten < 0) return "アガッテルアルヨ…";
+  if (shanten === 0) return "聴牌";
+  if (shanten === 1) return "一向聴";
+  if (shanten === 2) return "二向聴";
+  if (shanten === 3) return "三向聴";
+  return `${shanten}向聴`;
+}
+
+function shantenClassName(shanten: number): string {
+  if (shanten < 0) return "shantenAgari";
+  if (shanten === 0) return "shantenTenpai";
+  if (shanten === 1) return "shantenIishanten";
+  if (shanten === 2) return "shantenRyan";
+  return "shantenOther";
+}
+
 function DiscardResults({ results, best }: { results: DiscardAnalysis[]; best: Set<Tile> }) {
   return (
     <div className="discardList">
@@ -2066,12 +2261,16 @@ function DiscardResults({ results, best }: { results: DiscardAnalysis[]; best: S
                 <div className="smallLabel">{isBest ? "打牌☆" : "打牌"}</div>
                 <TileImage tile={result.discard} />
               </div>
-              <Stat label="進牌数" value={`${result.ukeireTypes}種`} />
-              <Stat label="進む枚数" value={`${result.ukeireTiles}枚`} />
+              <div>
+                <div className="smallLabel">進行</div>
+                <ShantenBadge shanten={result.afterDiscardShanten} />
+              </div>
+              <Stat label="牌種類" value={`${result.ukeireTypes}種`} />
+              <Stat label="枚数" value={`${result.ukeireTiles}枚`} />
               <Stat className={result.goodShapeRate >= 1 ? "redText" : undefined} label="良系率" value={goodRate} />
               <Stat className={result.superGoodShapeRate >= 0.01 ? "greenText" : undefined} label="超良系率" value={superRate} />
               <div className="ukeireCell">
-                <div className="smallLabel">有効牌</div>
+                <div className="smallLabel">{result.afterDiscardShanten === 0 ? "待ち牌" : "有効牌"}</div>
                 <TileStrip tiles={result.ukeire} />
               </div>
             </div>
@@ -2094,6 +2293,7 @@ function Stat({ label, value, className }: { label: string; value: string; class
 function PlaceholderMode({ mode }: { mode: Mode }) {
   const labels: Record<Mode, string> = {
     checker: "牌理チェッカー",
+    beginnerIishanten: "🔰 イーシャンテン何切る",
     ukeireMax: "受け入れMAX星人何切る",
     ukeireMaxHard: "🔥 受け入れMAX高難度",
     scoreQuizBeginner: "🔰 点数計算問題",

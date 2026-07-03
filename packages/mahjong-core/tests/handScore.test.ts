@@ -84,7 +84,7 @@ describe("automatic hand scoring", () => {
     expect(result.score.totalPoints).toBe(32000);
   });
 
-  it("scores an open pon as an exposed meld", () => {
+  it("scores an open pon with open ittsu as exposed melds", () => {
     const white = TILE_NAMES[31]!;
     const melds: HandScoreMeld[] = [{ kind: "pon", tiles: [white, white, white] }];
     const result = calculateHandScore({
@@ -98,9 +98,25 @@ describe("automatic hand scoring", () => {
       riichi: true
     });
 
-    expect(result.score.han).toBe(1);
+    expect(result.yaku.map((yaku) => yaku.name)).toContain("一気通貫");
+    expect(result.score.han).toBe(2);
     expect(result.score.fu).toBe(30);
-    expect(result.score.totalPoints).toBe(1000);
+    expect(result.score.totalPoints).toBe(2000);
+  });
+
+  it("scores closed ittsu", () => {
+    const result = calculateHandScore({
+      counts: parseHand("123456789m123p22s"),
+      winningTile: "3p",
+      isDealer: false,
+      winMethod: "ron",
+      roundWind: TILE_NAMES[27]!,
+      seatWind: TILE_NAMES[28]!
+    });
+
+    expect(result.yaku.map((yaku) => yaku.name)).toContain("一気通貫");
+    expect(result.score.han).toBe(2);
+    expect(result.score.totalPoints).toBe(2600);
   });
 
   it("keeps closed status and fu for an ankan", () => {
