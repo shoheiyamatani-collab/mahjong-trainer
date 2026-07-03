@@ -16,7 +16,7 @@ export default function HomePage() {
         title="麻雀を、読んでから解ける場所。"
         description="はじめての人はロードマップから、慣れてきた人は何切る・待ち当て・点数計算へ。迷ったところをルールで復習しながら進めます。"
         primaryLink={{ label: "はじめて麻雀を覚える", href: "/learn" }}
-        secondaryLink={{ label: "今すぐ練習する", href: "/training" }}
+        secondaryLink={{ label: "今すぐ練習する", href: "/trainer" }}
       />
 
       <section className="categoryGrid" aria-label="主要な入口">
@@ -30,7 +30,7 @@ export default function HomePage() {
         <CategoryCard
           title="今すぐ練習する"
           description="何切る、待ち当て、清一色など、手を動かして覚える問題一覧です。"
-          href="/training"
+          href="/trainer"
           actionLabel="練習メニューを見る"
           tone="yellow"
         />
@@ -48,7 +48,7 @@ export default function HomePage() {
           <p className="siteEyebrow">今日の1問</p>
           <h2>この手、何を切る？</h2>
           <p>ランダム問題への入口として準備中です。今は練習一覧から、受け入れ最大問題や待ち当てに進めます。</p>
-          <a className="primaryCta" href="/training">練習問題を選ぶ</a>
+          <a className="primaryCta" href="/trainer">麻雀トレーニングを開く</a>
         </article>
 
         <section className="learningOrderPanel" aria-labelledby="learning-order-heading">

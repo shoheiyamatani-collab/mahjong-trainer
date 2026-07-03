@@ -15,7 +15,7 @@ export default function ToolsPage() {
         title="麻雀の便利ツール一覧"
         description="問題で迷った形や、対局中に分からなくなりやすい点数・役・待ちを確認するための入口です。"
         primaryLink={{ label: "点数計算ツールを開く", href: "/trainer" }}
-        secondaryLink={{ label: "実戦問題で練習する", href: "/training" }}
+        secondaryLink={{ label: "実戦問題で練習する", href: "/trainer" }}
       />
 
       <section>
@@ -39,8 +39,8 @@ export default function ToolsPage() {
         <SectionTitle title="ツールから学習へ" description="調べて終わりではなく、関連する練習に戻れる導線を置いています。" />
         <div className="linkCardGrid">
           <InternalLinkCard title="点数計算を覚える" description="点数は最後で大丈夫。まずはツールで結果を見ながら慣れます。" href="/learn" />
-          <InternalLinkCard title="役一覧を確認する" description="リーチ、タンヤオ、役牌など、よく使う役から確認します。" href="/rules" />
-          <InternalLinkCard title="実戦問題で練習する" description="何切るや待ち当てに戻って、理解した形をもう一度解きます。" href="/training" />
+          <InternalLinkCard title="役一覧を確認する" description="リーチ、タンヤオ、役牌など、よく使う役から確認します。" href="/rules/yaku" />
+          <InternalLinkCard title="実戦問題で練習する" description="何切るや待ち当てに戻って、理解した形をもう一度解きます。" href="/trainer" />
         </div>
       </section>
     </main>

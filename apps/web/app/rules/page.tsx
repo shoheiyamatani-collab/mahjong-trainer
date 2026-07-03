@@ -16,7 +16,7 @@ export default function RulesPage() {
         title="麻雀ルール一覧"
         description="将来的な解説記事の入口です。今は一覧と準備中表示を中心に、練習問題やツールへ戻れる形にしています。"
         primaryLink={{ label: "初心者ロードマップを見る", href: "/learn" }}
-        secondaryLink={{ label: "練習問題を解く", href: "/training" }}
+        secondaryLink={{ label: "練習問題を解く", href: "/trainer" }}
       />
 
       <section>
@@ -39,7 +39,7 @@ export default function RulesPage() {
         <SectionTitle title="ルールのあとに" description="読んだ内容を、問題とツールで確認できます。" />
         <div className="linkCardGrid">
           <InternalLinkCard title="初心者ロードマップを見る" description="覚える順番に戻って、次に読む項目を確認します。" href="/learn" />
-          <InternalLinkCard title="関連する練習問題を解く" description="待ち、何切る、清一色などの練習に進みます。" href="/training" />
+          <InternalLinkCard title="関連する練習問題を解く" description="待ち、何切る、清一色などの練習に進みます。" href="/trainer" />
           <InternalLinkCard title="便利ツールで確認する" description="点数や受け入れをツールで確認してから復習できます。" href="/tools" />
         </div>
       </section>

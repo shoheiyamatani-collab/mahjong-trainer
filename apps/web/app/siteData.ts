@@ -83,7 +83,7 @@ export const learnArticles: LearnArticle[] = [
       answer: "アガリの形と役をそろえる",
       explanation: "初心者はまず、手を完成させる流れと、役が必要なことを覚えれば十分です。"
     },
-    relatedPractice: { label: "練習メニューを見る", href: "/training" },
+    relatedPractice: { label: "麻雀トレーニングを開く", href: trainerHref },
     relatedTool: { label: "受け入れ枚数チェッカーを使う", href: trainerHref }
   },
   {
@@ -198,8 +198,8 @@ export const learnArticles: LearnArticle[] = [
       answer: "役",
       explanation: "アガリ形に加えて、役が1つ以上必要です。"
     },
-    relatedPractice: { label: "役判定クイズ", status: "comingSoon" },
-    relatedTool: { label: "役一覧を見る", href: "/rules" }
+    relatedPractice: { label: "役判定クイズを解く", href: "/training/yaku-quiz" },
+    relatedTool: { label: "役一覧を見る", href: "/rules/yaku" }
   },
   {
     slug: "reach-tanyao-yakuhai",
@@ -221,8 +221,8 @@ export const learnArticles: LearnArticle[] = [
       answer: "1索",
       explanation: "タンヤオは2から8の数牌だけで作る役なので、1・9・字牌は使えません。"
     },
-    relatedPractice: { label: "役判定クイズ", status: "comingSoon" },
-    relatedTool: { label: "役一覧を見る", href: "/rules" }
+    relatedPractice: { label: "役判定クイズを解く", href: "/training/yaku-quiz" },
+    relatedTool: { label: "役一覧を見る", href: "/rules/yaku" }
   },
   {
     slug: "tsumo-and-ron",
@@ -245,7 +245,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "ロンは、相手が捨てた牌でアガることです。"
     },
     relatedPractice: { label: "待ち当て問題を解く", href: trainerHref },
-    relatedTool: { label: "点数計算ツールを使う", href: trainerHref }
+    relatedTool: { label: "初心者向け点数早見表を見る", href: "/tools/score-table" }
   },
   {
     slug: "calling",
@@ -267,8 +267,8 @@ export const learnArticles: LearnArticle[] = [
       answer: "リーチ",
       explanation: "リーチは鳴いていない状態でテンパイしたときに宣言できます。"
     },
-    relatedPractice: { label: "役判定クイズ", status: "comingSoon" },
-    relatedTool: { label: "役一覧を見る", href: "/rules" }
+    relatedPractice: { label: "役判定クイズを解く", href: "/training/yaku-quiz" },
+    relatedTool: { label: "役一覧を見る", href: "/rules/yaku" }
   },
   {
     slug: "tenpai-and-wait",
@@ -348,7 +348,7 @@ export const roadmapSteps: RoadmapStep[] = learnArticles.map((article) => ({
   readHref: `/learn/${article.slug}`,
   practice: article.relatedPractice.href
     ? { label: article.relatedPractice.label, href: article.relatedPractice.href }
-    : { label: article.relatedPractice.label, href: "/training", status: "comingSoon" }
+    : { label: article.relatedPractice.label, href: trainerHref, status: "comingSoon" }
 }));
 
 export const trainingItems: TrainingItem[] = [
@@ -397,7 +397,8 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "入門",
     target: "役を覚え始めた人",
     focus: "アガれる役があるかの判断",
-    status: "comingSoon"
+    href: "/training/yaku-quiz",
+    status: "available"
   },
   {
     title: "点数計算トレーニング",
@@ -439,14 +440,15 @@ export const toolItems: ToolItem[] = [
     title: "役一覧",
     description: "よく使う役から順番に確認できる一覧ページです。",
     beginnerNote: "まずはリーチ、タンヤオ、役牌だけで問題ありません。",
-    href: "/rules",
+    href: "/rules/yaku",
     status: "available"
   },
   {
     title: "初心者向け点数表",
-    description: "細かい計算をする前に、よく出る点数を確認できます。",
-    beginnerNote: "満貫、親満、子のロンなど、実戦で出やすい形から覚えます。",
-    status: "comingSoon"
+    description: "細かい計算をする前に、よく出る点数を画像の早見表で確認できます。",
+    beginnerNote: "平和・七対子の表と通常表を見ながら、2翻・3翻から慣れていきます。",
+    href: "/tools/score-table",
+    status: "available"
   }
 ];
 
@@ -459,25 +461,26 @@ export const ruleItems: RuleItem[] = [
   },
   {
     title: "役一覧",
-    description: "初心者が先に覚えたい役から順番に整理する予定です。",
-    status: "comingSoon"
+    description: "初心者が先に覚えたい役から、牌図つきで順番に確認できます。",
+    href: "/rules/yaku",
+    status: "available"
   },
   {
     title: "リーチ",
     description: "門前テンパイで宣言できる、最初に覚えたい役です。",
-    href: "/learn/reach-tanyao-yakuhai",
+    href: "/rules/reach",
     status: "available"
   },
   {
     title: "タンヤオ",
     description: "2から8の数牌だけで作る、使いやすい基本役です。",
-    href: "/learn/reach-tanyao-yakuhai",
+    href: "/rules/tanyao",
     status: "available"
   },
   {
     title: "役牌",
     description: "三元牌や自風・場風を3枚そろえる役です。",
-    href: "/learn/reach-tanyao-yakuhai",
+    href: "/rules/yakuhai",
     status: "available"
   },
   {

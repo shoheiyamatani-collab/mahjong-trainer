@@ -3,7 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ComingSoonBadge } from "../../components/Badges";
 import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteSections";
+import { ArticleTileFigures } from "../../components/TileFigures";
 import { getAdjacentLearnArticles, getLearnArticle, learnArticles, type LinkTarget } from "../../siteData";
+import { learnDeepDiveBySlug } from "../deepDiveData";
+import { learnTileFiguresBySlug } from "../tileFigureData";
 
 type LearnArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -30,6 +33,8 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
   if (!article) notFound();
 
   const { previous, next } = getAdjacentLearnArticles(article.slug);
+  const tileFigures = learnTileFiguresBySlug[article.slug];
+  const deepDiveSections = learnDeepDiveBySlug[article.slug] ?? [];
 
   return (
     <main className="siteMain articleMain">
@@ -37,7 +42,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
         eyebrow={`STEP ${article.step}`}
         title={article.title}
         description={article.description}
-        primaryLink={next ? { label: "次の記事を読む", href: `/learn/${next.slug}` } : { label: "練習メニューを見る", href: "/training" }}
+        primaryLink={next ? { label: "次の記事を読む", href: `/learn/${next.slug}` } : { label: "麻雀トレーニングを開く", href: "/trainer" }}
         secondaryLink={{ label: "ロードマップへ戻る", href: "/learn" }}
       />
 
@@ -68,6 +73,32 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
             <h2>かんたんな例</h2>
             <p>{article.example}</p>
           </section>
+
+          <ArticleTileFigures figures={tileFigures} />
+
+          {deepDiveSections.length ? (
+            <section className="articleSection deepDiveSection">
+              <h2>もう少し詳しく</h2>
+              <div className="deepDiveStack">
+                {deepDiveSections.map((section) => (
+                  <article className="deepDiveCard" key={section.heading}>
+                    <h3>{section.heading}</h3>
+                    {section.paragraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                    {section.bullets?.length ? (
+                      <ul className="deepDiveList">
+                        {section.bullets.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {section.callout ? <p className="deepDiveCallout">{section.callout}</p> : null}
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="articleSection">
             <h2>よくある勘違い</h2>
@@ -101,14 +132,14 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
           {next ? (
             <InternalLinkCard title={`次に読む：${next.title}`} description={next.description} href={`/learn/${next.slug}`} actionLabel="次の記事を読む" />
           ) : (
-            <InternalLinkCard title="練習メニューへ進む" description="ロードマップを読み終えたら、何切るや待ち当てで手を動かして確認します。" href="/training" actionLabel="練習する" />
+            <InternalLinkCard title="麻雀トレーニングへ進む" description="ロードマップを読み終えたら、何切るや待ち当てで手を動かして確認します。" href="/trainer" actionLabel="練習する" />
           )}
           {previous ? (
             <InternalLinkCard title={`前の記事に戻る：${previous.title}`} description={previous.description} href={`/learn/${previous.slug}`} actionLabel="前の記事へ戻る" />
           ) : (
             <InternalLinkCard title="ロードマップに戻る" description="12ステップの全体像をもう一度確認できます。" href="/learn" actionLabel="一覧を見る" />
           )}
-          <RelatedLinkCard title="関連する練習問題" target={article.relatedPractice} fallbackHref="/training" />
+          <RelatedLinkCard title="関連する練習問題" target={article.relatedPractice} fallbackHref="/trainer" />
           <RelatedLinkCard title="関連するツール" target={article.relatedTool} fallbackHref="/tools" />
         </div>
       </section>
