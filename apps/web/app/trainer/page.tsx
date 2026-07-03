@@ -33,20 +33,69 @@ import {
   type Counts34,
   type DiscardAnalysis,
   type HandScoreResult,
+  type HandScoreMeld,
+  type HandScoreMeldKind,
   type ScoreResult,
   type SevenShapeMode,
   type SevenShapeQuestion,
   type Tile,
+  type UkeireMaxAnswerState,
   type UkeireMaxQuestion
 } from "@mahjong-trainer/mahjong-core";
 
-type Mode = "checker" | "ukeireMax" | "ukeireMaxHard" | "scoring" | "chinitsu" | "sevenShape";
+type Mode = "checker" | "ukeireMax" | "ukeireMaxHard" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
 
 interface AppState {
   counts: Counts34;
   textInput: string;
   error: string | null;
 }
+
+const PRACTICE_SESSION_SIZE = 10;
+
+interface UkeirePracticeMistake {
+  question: UkeireMaxQuestion;
+  selected: Tile[];
+  result: UkeireMaxAnswerState;
+}
+
+interface ChinitsuPracticeMistake {
+  question: ChinitsuWaitQuestion;
+  selected: number[];
+}
+
+interface ScoreQuizQuestion {
+  id: string;
+  title: string;
+  lesson: string;
+  handText?: string;
+  tiles?: Tile[];
+  melds?: HandScoreMeld[];
+  winningTile: Tile;
+  isDealer: boolean;
+  winMethod: "ron" | "tsumo";
+  roundWind?: Tile;
+  seatWind?: Tile;
+  riichi?: boolean;
+  ippatsu?: boolean;
+  dora?: number;
+  explanation: string;
+}
+
+interface ScoreQuizMistake {
+  question: ScoreQuizQuestion;
+  selected: string | null;
+  correctAnswer: string;
+}
+
+type ScoreMeldInputKind = HandScoreMeldKind;
+
+const SCORE_MELD_OPTIONS: Array<{ kind: ScoreMeldInputKind; label: string }> = [
+  { kind: "chi", label: "チー" },
+  { kind: "pon", label: "ポン" },
+  { kind: "kan", label: "カン" },
+  { kind: "ankan", label: "暗カン" }
+];
 
 type Action =
   | { type: "add"; tile: Tile }
@@ -69,6 +118,187 @@ const HONOR_IMAGE_NUMBERS = new Map<string, number>([
   ["發", 6],
   ["中", 7]
 ]);
+
+const SCORE_EAST = TILE_NAMES[27]!;
+const SCORE_SOUTH = TILE_NAMES[28]!;
+const SCORE_WEST = TILE_NAMES[29]!;
+const SCORE_WHITE = TILE_NAMES[31]!;
+
+const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
+  {
+    id: "pinfu-ron-child",
+    title: "平和ロン",
+    lesson: "平和はロンだと30符。まずは子の1翻30符を覚える問題です。",
+    handText: "123456m234456p22s",
+    winningTile: "4p",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "平和のみ。ロンは門前ロン10符が付いて30符になり、子の1翻30符は1,000点です。"
+  },
+  {
+    id: "pinfu-tsumo-child",
+    title: "平和ツモ",
+    lesson: "平和ツモは20符。実戦でよく見る子の400・700です。",
+    handText: "123456m234456p22s",
+    winningTile: "4p",
+    isDealer: false,
+    winMethod: "tsumo",
+    explanation: "平和と門前清自摸和で2翻20符。子の支払いは子400点、親700点です。"
+  },
+  {
+    id: "tanyao-ron-child",
+    title: "タンヤオのみ",
+    lesson: "平和ではない1翻のロン。40符になりやすい形です。",
+    handText: "234345m456678p22s",
+    winningTile: "2s",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "タンヤオのみ。雀頭待ちの2符と門前ロン10符で40符になり、子の1翻40符は1,300点です。"
+  },
+  {
+    id: "yakuhai-open-pon",
+    title: "役牌ポン",
+    lesson: "副露しても成立する役牌。鳴いた1翻の基本点です。",
+    handText: "123456789m22p",
+    melds: [{ kind: "pon", tiles: [SCORE_WHITE, SCORE_WHITE, SCORE_WHITE] }],
+    winningTile: "2p",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "白ポンの役牌のみ。副露ロンなので門前ロン符はなく、子の1翻30符で1,000点です。"
+  },
+  {
+    id: "chiitoitsu-child",
+    title: "七対子",
+    lesson: "七対子は固定25符。二盃口とは複合しません。",
+    tiles: ["1m", "1m", "2m", "2m", "3p", "3p", "4p", "4p", "5s", "5s", "6s", "6s", SCORE_EAST, SCORE_EAST],
+    winningTile: SCORE_EAST,
+    isDealer: false,
+    winMethod: "ron",
+    roundWind: SCORE_SOUTH,
+    seatWind: SCORE_WEST,
+    explanation: "七対子は2翻25符固定。子の2翻25符は1,600点です。"
+  },
+  {
+    id: "sanshoku-closed",
+    title: "三色同順 門前",
+    lesson: "門前三色は2翻。副露すると1翻に下がります。",
+    handText: "123456m12355p123s",
+    winningTile: "3s",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "123の三色同順。門前なので2翻、ロンでおおむね40符になり2,600点です。"
+  },
+  {
+    id: "sanshoku-open",
+    title: "三色同順 副露",
+    lesson: "同じ三色でも、鳴くと1翻に下がることを確認します。",
+    handText: "456m12355p123s",
+    melds: [{ kind: "chi", tiles: ["1m", "2m", "3m"] }],
+    winningTile: "3s",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "副露三色は1翻。副露ロンの30符で、子の1翻30符は1,000点です。"
+  },
+  {
+    id: "chanta-closed",
+    title: "チャンタ 門前",
+    lesson: "すべての面子と雀頭に端牌・字牌が絡む形です。",
+    handText: "123789m123789p99s",
+    winningTile: "3p",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "門前チャンタは2翻。ペンチャン待ちの符がつきやすく、子の2翻40符は2,600点です。"
+  },
+  {
+    id: "chanta-open",
+    title: "チャンタ 副露",
+    lesson: "チャンタも副露すると1翻に下がります。",
+    handText: "789m123789p99s",
+    melds: [{ kind: "chi", tiles: ["1m", "2m", "3m"] }],
+    winningTile: "3p",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "副露チャンタは1翻。副露ロンの30符で、子の1翻30符は1,000点です。"
+  },
+  {
+    id: "honitsu-closed",
+    title: "混一色 門前",
+    lesson: "一色＋字牌。門前なら3翻、副露なら2翻です。",
+    tiles: ["1m", "2m", "3m", "4m", "5m", "6m", "7m", "8m", "9m", SCORE_EAST, SCORE_EAST, SCORE_WHITE, SCORE_WHITE, SCORE_WHITE],
+    winningTile: SCORE_WHITE,
+    isDealer: false,
+    winMethod: "ron",
+    roundWind: SCORE_SOUTH,
+    seatWind: SCORE_WEST,
+    explanation: "混一色3翻＋白1翻。4翻40符は満貫になり、子のロンは8,000点です。"
+  },
+  {
+    id: "honitsu-open",
+    title: "混一色 副露",
+    lesson: "鳴いた混一色は2翻。役牌と組み合わせて実戦頻出です。",
+    tiles: ["1m", "2m", "3m", "4m", "5m", "6m", "7m", "8m", "9m", SCORE_EAST, SCORE_EAST],
+    melds: [{ kind: "pon", tiles: [SCORE_WHITE, SCORE_WHITE, SCORE_WHITE] }],
+    winningTile: SCORE_EAST,
+    isDealer: false,
+    winMethod: "ron",
+    roundWind: SCORE_SOUTH,
+    seatWind: SCORE_WEST,
+    explanation: "副露混一色2翻＋白1翻。子の3翻30符は3,900点です。"
+  },
+  {
+    id: "chinitsu-closed",
+    title: "清一色 門前",
+    lesson: "門前清一色は6翻。満貫を超える代表的な高打点です。",
+    handText: "11112345678922m",
+    winningTile: "2m",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "門前清一色は6翻。子のロンは跳満で12,000点です。"
+  },
+  {
+    id: "chinitsu-open",
+    title: "清一色 副露",
+    lesson: "鳴いた清一色は5翻。それでも満貫以上です。",
+    handText: "11145678922m",
+    melds: [{ kind: "chi", tiles: ["1m", "2m", "3m"] }],
+    winningTile: "2m",
+    isDealer: false,
+    winMethod: "ron",
+    explanation: "副露清一色は5翻。子のロンは満貫で8,000点です。"
+  },
+  {
+    id: "riichi-pinfu-dora",
+    title: "リーチ平和ドラ1",
+    lesson: "リーチ＋平和＋ドラ1は実戦で最重要の3,900点です。",
+    handText: "123456m234456p22s",
+    winningTile: "4p",
+    isDealer: false,
+    winMethod: "ron",
+    riichi: true,
+    dora: 1,
+    explanation: "リーチ、平和、ドラ1で3翻30符。子のロンは3,900点です。"
+  },
+  {
+    id: "dealer-pinfu-ron",
+    title: "親の平和ロン",
+    lesson: "親は同じ形でも点数が上がります。",
+    handText: "123456m234456p22s",
+    winningTile: "4p",
+    isDealer: true,
+    winMethod: "ron",
+    explanation: "親の1翻30符ロンは1,500点。子の1,000点との違いを覚えます。"
+  },
+  {
+    id: "dealer-pinfu-tsumo",
+    title: "親の平和ツモ",
+    lesson: "親のツモは全員から同じ点をもらいます。",
+    handText: "123456m234456p22s",
+    winningTile: "4p",
+    isDealer: true,
+    winMethod: "tsumo",
+    explanation: "親の平和ツモは2翻20符で700オールです。"
+  }
+];
 
 const initialCounts = parseHand(SAMPLE_HAND);
 
@@ -183,8 +413,10 @@ export default function Home() {
             <div className="segments practiceSegments">
             <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
             <ModeButton active={mode === "ukeireMaxHard"} onClick={() => selectMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
-            <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>清一色待ち当て</ModeButton>
+            <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>🔥 清一色待ち当て</ModeButton>
             <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
+            <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}>🔰 点数計算問題</ModeButton>
+            <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}>🔥 点数計算HARD</ModeButton>
             </div>
           </section>
         ) : null}
@@ -195,6 +427,8 @@ export default function Home() {
       {mode === "ukeireMaxHard" ? <UkeireMaxMode variant="hard" /> : null}
       {mode === "chinitsu" ? <ChinitsuMode /> : null}
       {mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
+      {mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
+      {mode === "scoreQuizHard" ? <ScoreQuizHardPlaceholder /> : null}
       {mode === "scoring" ? <ScoringMode /> : null}
     </main>
   );
@@ -265,10 +499,14 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
   const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireQuestion(isHard, []));
   const [selected, setSelected] = useState<Tile[]>([]);
   const [checked, setChecked] = useState(false);
-  const [forcedWrong, setForcedWrong] = useState(false);
   const [recentQuestionKeys, setRecentQuestionKeys] = useState<string[]>([]);
+  const [answeredCount, setAnsweredCount] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [mistakes, setMistakes] = useState<UkeirePracticeMistake[]>([]);
+  const [showResult, setShowResult] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
   const selectedSet = useMemo(() => new Set(selected), [selected]);
-  const result = checked ? (forcedWrong ? "wrong" : evaluateUkeireMaxAnswer(question, selected)) : null;
+  const result = checked ? evaluateUkeireMaxAnswer(question, selected) : null;
   const best = useMemo(() => new Set(question.bestDiscards), [question]);
 
   function toggle(tile: Tile) {
@@ -276,18 +514,68 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
     setSelected((current) => toggleUkeireMaxSelection(current, tile));
   }
 
-  function nextQuestion() {
-    if (!checked) {
-      setForcedWrong(true);
-      setChecked(true);
+  function resetSession() {
+    setQuestion(generateUkeireQuestion(isHard, recentQuestionKeys));
+    setSelected([]);
+    setChecked(false);
+    setAnsweredCount(0);
+    setCorrectCount(0);
+    setMistakes([]);
+    setShowResult(false);
+    setReviewIndex(null);
+  }
+
+  function finishCurrentQuestion() {
+    const currentResult = evaluateUkeireMaxAnswer(question, selected);
+    const nextAnsweredCount = answeredCount + 1;
+    const nextCorrectCount = correctCount + (currentResult === "correct" ? 1 : 0);
+    const nextMistakes =
+      currentResult === "correct" ? mistakes : [...mistakes, { question, selected: [...selected], result: currentResult }];
+
+    setAnsweredCount(nextAnsweredCount);
+    setCorrectCount(nextCorrectCount);
+    setMistakes(nextMistakes);
+
+    if (nextAnsweredCount >= PRACTICE_SESSION_SIZE) {
+      setShowResult(true);
+      setReviewIndex(null);
       return;
     }
+
     const recent = [...recentQuestionKeys, ukeireQuestionKey(question)].slice(-12);
     setQuestion(generateUkeireQuestion(isHard, recent));
     setRecentQuestionKeys(recent);
     setSelected([]);
     setChecked(false);
-    setForcedWrong(false);
+  }
+
+  function nextQuestion() {
+    if (!checked) {
+      setChecked(true);
+      return;
+    }
+    finishCurrentQuestion();
+  }
+
+  if (showResult) {
+    return (
+      <PracticeResultPanel
+        correctCount={correctCount}
+        mistakes={mistakes}
+        onReviewMistakes={() => setReviewIndex(0)}
+        onReset={resetSession}
+        renderReview={(mistake, index) => (
+          <UkeireMistakeReview
+            mistake={mistake}
+            index={index}
+            total={mistakes.length}
+            onNext={() => setReviewIndex((current) => (current == null ? 0 : Math.min(current + 1, mistakes.length - 1)))}
+            onPrevious={() => setReviewIndex((current) => (current == null ? 0 : Math.max(current - 1, 0)))}
+          />
+        )}
+        reviewIndex={reviewIndex}
+      />
+    );
   }
 
   return (
@@ -299,7 +587,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
         <div className="actions">
           <button disabled={selected.length === 0} onClick={() => setChecked(true)} type="button">答え合わせ</button>
-          <button onClick={nextQuestion} type="button">次の問題</button>
+          <button onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
         </div>
       </section>
 
@@ -314,6 +602,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
             <div className="smallLabel">正解打牌</div>
             <TileStrip tiles={question.bestDiscards} />
             <p>最大受け入れ: {question.bestUkeireTypes}種 / {question.bestUkeireTiles}枚</p>
+            <p>{answeredCount + 1} / {PRACTICE_SESSION_SIZE}問目</p>
           </div>
         ) : null}
       </section>
@@ -346,16 +635,147 @@ function ukeireQuestionKey(question: UkeireMaxQuestion): string {
   return sortedHandText(question.counts);
 }
 
+function PracticeResultPanel<T>({
+  correctCount,
+  mistakes,
+  onReset,
+  onReviewMistakes,
+  renderReview,
+  reviewIndex
+}: {
+  correctCount: number;
+  mistakes: T[];
+  onReset: () => void;
+  onReviewMistakes: () => void;
+  renderReview: (mistake: T, index: number) => React.ReactNode;
+  reviewIndex: number | null;
+}) {
+  const reviewMistake = reviewIndex == null ? null : mistakes[reviewIndex] ?? null;
+  return (
+    <section className="modeGrid practiceResultMode">
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>リザルト</h2>
+        </div>
+        <div className="resultCard">
+          <div className="smallLabel">今回の成績</div>
+          <div className="resultScore">{correctCount} / {PRACTICE_SESSION_SIZE}</div>
+          <p>10問終了です。間違えた問題は答えを表示した状態で確認できます。</p>
+        </div>
+        <div className="actions">
+          <button disabled={mistakes.length === 0} onClick={onReviewMistakes} type="button">間違えた問題を確認</button>
+          <button onClick={onReset} type="button">もう一度10問</button>
+        </div>
+      </section>
+
+      {reviewMistake ? renderReview(reviewMistake, reviewIndex ?? 0) : (
+        <section className="panel selectedPanel">
+          <div className="emptyState">
+            {mistakes.length === 0 ? "全問正解です。" : "間違えた問題を確認を押すと、復習を始められます。"}
+          </div>
+        </section>
+      )}
+    </section>
+  );
+}
+
+function UkeireMistakeReview({
+  mistake,
+  index,
+  total,
+  onNext,
+  onPrevious
+}: {
+  mistake: UkeirePracticeMistake;
+  index: number;
+  total: number;
+  onNext: () => void;
+  onPrevious: () => void;
+}) {
+  const best = useMemo(() => new Set(mistake.question.bestDiscards), [mistake.question]);
+  return (
+    <>
+      <section className="panel handPanel">
+        <div className="panelHeader">
+          <h2>間違えた問題 {index + 1} / {total}</h2>
+        </div>
+        <TileStrip tiles={countsToTiles(mistake.question.counts)} />
+        <div className="answerDetail compactAnswerDetail">
+          <div className="smallLabel">選択打牌</div>
+          <TileStrip tiles={mistake.selected} emptyText="未選択" />
+          <AnswerResult result={mistake.result} />
+          <div className="smallLabel">正解打牌</div>
+          <TileStrip tiles={mistake.question.bestDiscards} />
+        </div>
+        <div className="actions">
+          <button disabled={index === 0} onClick={onPrevious} type="button">前の問題</button>
+          <button disabled={index >= total - 1} onClick={onNext} type="button">次の問題</button>
+        </div>
+      </section>
+      <section className="resultsPanel">
+        <div className="panelHeader">
+          <h2>打牌候補・有効牌比較</h2>
+        </div>
+        <DiscardResults results={mistake.question.results} best={best} />
+      </section>
+    </>
+  );
+}
+
 function ChinitsuMode() {
   const [question, setQuestion] = useState<ChinitsuWaitQuestion>(() => generateChinitsuWaitQuestion(Math.random, "m"));
   const [selected, setSelected] = useState<number[]>([]);
   const [checked, setChecked] = useState(false);
   const [recentKeys, setRecentKeys] = useState<string[]>([]);
+  const [answeredCount, setAnsweredCount] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [mistakes, setMistakes] = useState<ChinitsuPracticeMistake[]>([]);
+  const [showResult, setShowResult] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
   const isCorrect = checked ? evaluateChinitsuWaitAnswer(question.waits, selected) : false;
 
   function toggle(rank: number) {
     if (checked) return;
     setSelected((current) => toggleChinitsuRankSelection(current, rank));
+  }
+
+  function moveToNextQuestion() {
+    const recent = [...recentKeys, chinitsuHandKey(question.counts)].slice(-80);
+    const next = generateChinitsuWaitQuestion(Math.random, nextChinitsuSuit(question.suit), recent);
+    setRecentKeys(recent);
+    setQuestion(next);
+    setSelected([]);
+    setChecked(false);
+  }
+
+  function resetSession() {
+    setQuestion(generateChinitsuWaitQuestion(Math.random, nextChinitsuSuit(question.suit), recentKeys));
+    setSelected([]);
+    setChecked(false);
+    setAnsweredCount(0);
+    setCorrectCount(0);
+    setMistakes([]);
+    setShowResult(false);
+    setReviewIndex(null);
+  }
+
+  function finishCurrentQuestion() {
+    const correct = evaluateChinitsuWaitAnswer(question.waits, selected);
+    const nextAnsweredCount = answeredCount + 1;
+    const nextCorrectCount = correctCount + (correct ? 1 : 0);
+    const nextMistakes = correct ? mistakes : [...mistakes, { question, selected: [...selected] }];
+
+    setAnsweredCount(nextAnsweredCount);
+    setCorrectCount(nextCorrectCount);
+    setMistakes(nextMistakes);
+
+    if (nextAnsweredCount >= PRACTICE_SESSION_SIZE) {
+      setShowResult(true);
+      setReviewIndex(null);
+      return;
+    }
+
+    moveToNextQuestion();
   }
 
   function nextQuestion() {
@@ -364,12 +784,28 @@ function ChinitsuMode() {
       return;
     }
 
-    const recent = [...recentKeys, chinitsuHandKey(question.counts)].slice(-80);
-    const next = generateChinitsuWaitQuestion(Math.random, nextChinitsuSuit(question.suit), recent);
-    setRecentKeys(recent);
-    setQuestion(next);
-    setSelected([]);
-    setChecked(false);
+    finishCurrentQuestion();
+  }
+
+  if (showResult) {
+    return (
+      <PracticeResultPanel
+        correctCount={correctCount}
+        mistakes={mistakes}
+        onReviewMistakes={() => setReviewIndex(0)}
+        onReset={resetSession}
+        renderReview={(mistake, index) => (
+          <ChinitsuMistakeReview
+            mistake={mistake}
+            index={index}
+            total={mistakes.length}
+            onNext={() => setReviewIndex((current) => (current == null ? 0 : Math.min(current + 1, mistakes.length - 1)))}
+            onPrevious={() => setReviewIndex((current) => (current == null ? 0 : Math.max(current - 1, 0)))}
+          />
+        )}
+        reviewIndex={reviewIndex}
+      />
+    );
   }
 
   return (
@@ -392,7 +828,7 @@ function ChinitsuMode() {
         </div>
         <div className="actions">
           <button disabled={selected.length === 0 || checked} onClick={() => setChecked(true)} type="button">決定</button>
-          <button onClick={nextQuestion} type="button">次の問題</button>
+          <button onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
         </div>
         {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
         {checked ? (
@@ -400,9 +836,49 @@ function ChinitsuMode() {
             <div className="smallLabel">正解</div>
             <TileStrip tiles={question.waits.map((rank) => chinitsuTile(rank, question.suit))} />
             <p>{question.waits.length}種 / {question.waits.reduce((sum, rank) => sum + (question.remainingTiles[rank] ?? 0), 0)}枚</p>
+            <p>{answeredCount + 1} / {PRACTICE_SESSION_SIZE}問目</p>
           </div>
         ) : null}
       </section>
+    </section>
+  );
+}
+
+function ChinitsuMistakeReview({
+  mistake,
+  index,
+  total,
+  onNext,
+  onPrevious
+}: {
+  mistake: ChinitsuPracticeMistake;
+  index: number;
+  total: number;
+  onNext: () => void;
+  onPrevious: () => void;
+}) {
+  return (
+    <section className="panel selectedPanel">
+      <div className="panelHeader">
+        <h2>間違えた問題 {index + 1} / {total}</h2>
+      </div>
+      <div className="answerDetail compactAnswerDetail">
+        <div className="smallLabel">問題</div>
+        <TileStrip tiles={chinitsuTiles(mistake.question.counts, mistake.question.suit)} />
+        <div className="smallLabel">選択した待ち牌</div>
+        <TileStrip tiles={mistake.selected.map((rank) => chinitsuTile(rank, mistake.question.suit))} emptyText="未選択" />
+        <AnswerResult result="wrong" />
+        <div className="smallLabel">正解の待ち牌</div>
+        <TileStrip tiles={mistake.question.waits.map((rank) => chinitsuTile(rank, mistake.question.suit))} />
+        <p>
+          {mistake.question.waits.length}種 /{" "}
+          {mistake.question.waits.reduce((sum, rank) => sum + (mistake.question.remainingTiles[rank] ?? 0), 0)}枚
+        </p>
+      </div>
+      <div className="actions">
+        <button disabled={index === 0} onClick={onPrevious} type="button">前の問題</button>
+        <button disabled={index >= total - 1} onClick={onNext} type="button">次の問題</button>
+      </div>
     </section>
   );
 }
@@ -547,8 +1023,262 @@ function SevenShapeTrainingMode() {
   );
 }
 
+function ScoreQuizBeginnerMode() {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [checked, setChecked] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [mistakes, setMistakes] = useState<ScoreQuizMistake[]>([]);
+  const [finished, setFinished] = useState(false);
+
+  const question = BEGINNER_SCORE_QUESTIONS[questionIndex]!;
+  const scoreResult = useMemo(() => scoreQuizResult(question), [question]);
+  const correctAnswer = scoreQuizAnswerLabel(scoreResult.score, question);
+  const choices = useMemo(() => scoreQuizChoices(correctAnswer, question), [correctAnswer, question]);
+  const isCorrect = checked && selected === correctAnswer;
+
+  function submitAnswer() {
+    if (!selected || checked) return;
+    const correct = selected === correctAnswer;
+    setChecked(true);
+    if (correct) {
+      setCorrectCount((current) => current + 1);
+    } else {
+      setMistakes((current) => [...current, { question, selected, correctAnswer }]);
+    }
+  }
+
+  function nextQuestion() {
+    if (!checked) {
+      submitAnswer();
+      return;
+    }
+    if (questionIndex >= BEGINNER_SCORE_QUESTIONS.length - 1) {
+      setFinished(true);
+      return;
+    }
+    setQuestionIndex((current) => current + 1);
+    setSelected(null);
+    setChecked(false);
+  }
+
+  function resetQuiz() {
+    setQuestionIndex(0);
+    setSelected(null);
+    setChecked(false);
+    setCorrectCount(0);
+    setMistakes([]);
+    setFinished(false);
+  }
+
+  if (finished) {
+    return (
+      <section className="modeGrid scoreQuizMode">
+        <section className="panel selectedPanel">
+          <div className="panelHeader">
+            <h2>🔰 点数計算問題 リザルト</h2>
+          </div>
+          <div className="resultCard">
+            <div className="smallLabel">今回の成績</div>
+            <div className="resultScore">{correctCount} / {BEGINNER_SCORE_QUESTIONS.length}</div>
+            <p>初心者モードの固定問題を完走しました。平和、鳴き、染め手、七対子の点数感を確認できます。</p>
+          </div>
+          <div className="actions">
+            <button onClick={resetQuiz} type="button">最初からもう一度</button>
+          </div>
+        </section>
+
+        <section className="panel selectedPanel">
+          <div className="panelHeader">
+            <h2>間違えた問題</h2>
+          </div>
+          {mistakes.length ? (
+            <div className="scoreQuizMistakes">
+              {mistakes.map((mistake) => (
+                <article className="answerDetail compactAnswerDetail" key={mistake.question.id}>
+                  <div className="smallLabel">{mistake.question.title}</div>
+                  <TileStrip tiles={scoreQuizVisibleHandTiles(mistake.question)} />
+                  <p>選択: {mistake.selected ?? "未選択"} / 正解: {mistake.correctAnswer}</p>
+                  <p>{mistake.question.explanation}</p>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="emptyState">全問正解です。</div>
+          )}
+        </section>
+      </section>
+    );
+  }
+
+  return (
+    <section className="modeGrid scoreQuizMode">
+      <section className="panel handPanel">
+        <div className="panelHeader">
+          <h2>🔰 点数計算問題</h2>
+          <span>{questionIndex + 1} / {BEGINNER_SCORE_QUESTIONS.length}</span>
+        </div>
+        <div className="questionTitleBlock">
+          <div className="smallLabel">{question.title}</div>
+        </div>
+        <ScoreQuizConditionBadges question={question} />
+        <div className="smallLabel">手牌</div>
+        <TileStrip tiles={scoreQuizVisibleHandTiles(question)} />
+        {question.melds?.length ? (
+          <>
+            <div className="smallLabel">副露</div>
+            <MeldList melds={question.melds} />
+          </>
+        ) : null}
+        <div className="answerDetail compactAnswerDetail">
+          <div className="smallLabel">和了牌</div>
+          <TileStrip tiles={[question.winningTile]} />
+        </div>
+      </section>
+
+      <section className="panel selectedPanel">
+        <div className="panelHeader">
+          <h2>条件</h2>
+        </div>
+        <div className="questionMeta scoreQuizMeta">
+          <Stat label="親子" value={question.isDealer ? "親" : "子"} />
+          <Stat label="和了" value={question.winMethod === "ron" ? "ロン" : "ツモ"} />
+          <Stat label="リーチ" value={question.riichi ? "あり" : "なし"} />
+          <Stat label="ドラ" value={`${question.dora ?? 0}`} />
+        </div>
+        <div className="scoreQuizSelectHeading">点数を選択</div>
+        <div className="scoreQuizChoices">
+          {choices.map((choice) => (
+            <button
+              className={selected === choice ? "scoreQuizChoice selected" : "scoreQuizChoice"}
+              disabled={checked}
+              key={choice}
+              onClick={() => setSelected(choice)}
+              type="button"
+            >
+              {choice}
+            </button>
+          ))}
+        </div>
+        <div className="actions">
+          <button disabled={!selected || checked} onClick={submitAnswer} type="button">答え合わせ</button>
+          <button disabled={!selected && !checked} onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
+        </div>
+        {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
+        {checked ? (
+          <div className="answerDetail">
+            <div className="answerCompare">
+              <div>
+                <div className="smallLabel">正解</div>
+                <div className="scoreAnswerText">{correctAnswer}</div>
+              </div>
+              <div>
+                <div className="smallLabel">自分の回答</div>
+                <div className="scoreAnswerText">{selected}</div>
+              </div>
+            </div>
+            <HandScoreResultCard result={scoreResult} />
+            <div className="explanationBox">{question.lesson}</div>
+            <div className="explanationBox">{question.explanation}</div>
+          </div>
+        ) : null}
+      </section>
+    </section>
+  );
+}
+
+function ScoreQuizHardPlaceholder() {
+  return (
+    <section className="panel placeholder">
+      <h2>🔥 点数計算HARD</h2>
+      <p>HARDモードは次の段階で追加します。まずは初心者モードで、実戦によく出る点数と役の変化を固めます。</p>
+    </section>
+  );
+}
+
+function ScoreQuizConditionBadges({ question }: { question: ScoreQuizQuestion }) {
+  const dora = question.dora ?? 0;
+  return (
+    <div className="scoreQuizConditions">
+      <span>{question.isDealer ? "親" : "子"}</span>
+      <span>{question.winMethod === "ron" ? "ロン" : "ツモ"}</span>
+      <span className={question.riichi ? "riichiBadge" : undefined}>{question.riichi ? "リーチ" : "リーチなし"}</span>
+      <span className={dora > 0 ? "doraBadge" : undefined}>ドラ {dora}</span>
+    </div>
+  );
+}
+
+function scoreQuizResult(question: ScoreQuizQuestion): HandScoreResult {
+  return calculateHandScore({
+    counts: scoreQuizCounts(question),
+    melds: question.melds ?? [],
+    winningTile: question.winningTile,
+    isDealer: question.isDealer,
+    winMethod: question.winMethod,
+    roundWind: question.roundWind ?? SCORE_EAST,
+    seatWind: question.seatWind ?? (question.isDealer ? SCORE_EAST : SCORE_SOUTH),
+    riichi: question.riichi ?? false,
+    ippatsu: question.ippatsu ?? false,
+    dora: question.dora ?? 0
+  });
+}
+
+function scoreQuizCounts(question: ScoreQuizQuestion): Counts34 {
+  if (question.handText) return parseHand(question.handText);
+  const counts = emptyCounts();
+  for (const tile of question.tiles ?? []) {
+    counts[TILE_NAMES.indexOf(tile)]! += 1;
+  }
+  return counts;
+}
+
+function scoreQuizTiles(question: ScoreQuizQuestion): Tile[] {
+  return countsToTiles(scoreQuizCounts(question));
+}
+
+function scoreQuizVisibleHandTiles(question: ScoreQuizQuestion): Tile[] {
+  const tiles = scoreQuizTiles(question);
+  const winningIndex = tiles.indexOf(question.winningTile);
+  if (winningIndex < 0) return tiles;
+  return [...tiles.slice(0, winningIndex), ...tiles.slice(winningIndex + 1)];
+}
+
+function scoreQuizAnswerLabel(score: ScoreResult, question: ScoreQuizQuestion): string {
+  if (question.winMethod === "ron") return `${score.totalPoints.toLocaleString()}点`;
+  if (question.isDealer) return `${score.payments[0]!.points.toLocaleString()}オール`;
+  return `子${score.payments[0]!.points.toLocaleString()} / 親${score.payments[1]!.points.toLocaleString()}`;
+}
+
+function scoreQuizChoices(correctAnswer: string, question: ScoreQuizQuestion): string[] {
+  const pool = scoreQuizChoicePool(question);
+  const uniquePool = Array.from(new Set([...pool, correctAnswer]));
+  const correctIndex = uniquePool.indexOf(correctAnswer);
+  const start = Math.min(Math.max(correctIndex - 1, 0), Math.max(uniquePool.length - 4, 0));
+  const choices = uniquePool.slice(start, start + 4);
+  if (!choices.includes(correctAnswer)) choices[choices.length - 1] = correctAnswer;
+  return rotateChoices(Array.from(new Set(choices)), question.id);
+}
+
+function scoreQuizChoicePool(question: ScoreQuizQuestion): string[] {
+  if (question.winMethod === "ron") {
+    return ["1,000点", "1,300点", "1,500点", "1,600点", "2,000点", "2,600点", "3,900点", "5,200点", "7,700点", "8,000点", "12,000点"];
+  }
+  if (question.isDealer) {
+    return ["500オール", "700オール", "1,000オール", "1,300オール", "2,000オール", "4,000オール"];
+  }
+  return ["子300 / 親500", "子400 / 親700", "子500 / 親1,000", "子700 / 親1,300", "子1,000 / 親2,000", "子2,000 / 親4,000"];
+}
+
+function rotateChoices(choices: string[], seed: string): string[] {
+  if (choices.length === 0) return choices;
+  const offset = [...seed].reduce((sum, char) => sum + char.charCodeAt(0), 0) % choices.length;
+  return [...choices.slice(offset), ...choices.slice(0, offset)];
+}
+
 function ScoringMode() {
   const [counts, setCounts] = useState<Counts34>(() => parseHand(SCORE_SAMPLE_HAND));
+  const [melds, setMelds] = useState<HandScoreMeld[]>([]);
+  const [meldKind, setMeldKind] = useState<ScoreMeldInputKind>("pon");
   const [winningTile, setWinningTile] = useState<Tile | null>("4p");
   const [isDealer, setIsDealer] = useState(false);
   const [winMethod, setWinMethod] = useState<"ron" | "tsumo">("ron");
@@ -562,10 +1292,15 @@ function ScoringMode() {
 
   const tiles = countsToTiles(counts);
   const winningOptions = tiles;
+  const closedHandTarget = Math.max(2, 14 - melds.length * 3);
+  const kanCount = melds.filter((meld) => meld.kind === "kan" || meld.kind === "ankan").length;
+  const totalDisplayedTiles = sumCounts(counts) + melds.reduce((sum, meld) => sum + meld.tiles.length, 0);
+  const totalDisplayTarget = 14 + kanCount;
+  const isClosedForOptions = melds.every((meld) => meld.kind === "ankan");
 
   const result = useMemo(() => {
-    if (sumCounts(counts) !== 14) {
-      return { error: "14枚の和了形を入力してください。" };
+    if (sumCounts(counts) !== closedHandTarget) {
+      return { error: `手牌は${closedHandTarget}枚にしてください。副露込みの表示枚数は${totalDisplayTarget}枚です。` };
     }
     if (!winningTile) {
       return { error: "和了牌を選択してください。" };
@@ -574,13 +1309,14 @@ function ScoringMode() {
       return {
         value: calculateHandScore({
           counts,
+          melds,
           winningTile,
           isDealer,
           winMethod,
           roundWind,
           seatWind,
-          riichi,
-          ippatsu,
+          riichi: isClosedForOptions ? riichi : false,
+          ippatsu: isClosedForOptions ? ippatsu : false,
           dora,
           honba,
           riichiSticks
@@ -589,10 +1325,11 @@ function ScoringMode() {
     } catch (error) {
       return { error: error instanceof Error ? error.message : String(error) };
     }
-  }, [counts, dora, honba, ippatsu, isDealer, riichi, riichiSticks, roundWind, seatWind, winMethod, winningTile]);
+  }, [closedHandTarget, counts, dora, honba, ippatsu, isClosedForOptions, isDealer, melds, riichi, riichiSticks, roundWind, seatWind, totalDisplayTarget, winMethod, winningTile]);
 
   function addScoreTile(tile: Tile) {
-    if (sumCounts(counts) >= 14) return;
+    if (sumCounts(counts) >= closedHandTarget) return;
+    if (totalTileCount(counts, melds, tile) >= 4) return;
     setCounts((current) => addTile(current, tile));
   }
 
@@ -606,14 +1343,33 @@ function ScoringMode() {
 
   function clearScoreHand() {
     setCounts(emptyCounts());
+    setMelds([]);
     setWinningTile(null);
   }
 
   function sampleScoreHand() {
     setCounts(parseHand(SCORE_SAMPLE_HAND));
+    setMelds([]);
     setWinningTile("4p");
     setRiichi(true);
     setWinMethod("ron");
+  }
+
+  function addScoreMeld(tile: Tile) {
+    if (melds.length >= 4) return;
+    const meld = buildScoreMeld(meldKind, tile);
+    if (!meld) return;
+    if (!canAddMeld(counts, melds, meld)) return;
+    const nextMelds = [...melds, meld];
+    setMelds(nextMelds);
+    if (meld.kind !== "ankan") {
+      setRiichi(false);
+      setIppatsu(false);
+    }
+  }
+
+  function removeScoreMeld(index: number) {
+    setMelds((current) => current.filter((_, meldIndex) => meldIndex !== index));
   }
 
   return (
@@ -621,8 +1377,9 @@ function ScoringMode() {
       <section className="panel handPanel">
         <div className="panelHeader">
           <h2>🔰 点数計算チェッカー</h2>
-          <span>{sumCounts(counts)} / 14</span>
+          <span>{totalDisplayedTiles} / {totalDisplayTarget}</span>
         </div>
+        <div className="smallLabel">手牌 {sumCounts(counts)} / {closedHandTarget}</div>
         <TileStrip tiles={tiles} onTileClick={removeScoreTile} emptyText="牌を追加してください" />
         <div className="actions">
           <button onClick={clearScoreHand} type="button">クリア</button>
@@ -631,7 +1388,13 @@ function ScoringMode() {
         <div className="panelHeader compactHeader">
           <h2>牌を追加</h2>
         </div>
-        <TilePalette counts={counts} onAdd={addScoreTile} />
+        <TilePalette counts={scoreTotalCounts(counts, melds)} onAdd={addScoreTile} />
+        <div className="panelHeader compactHeader">
+          <h2>副露を追加</h2>
+        </div>
+        <MeldKindPicker value={meldKind} onChange={setMeldKind} />
+        <MeldPalette counts={scoreTotalCounts(counts, melds)} kind={meldKind} onAdd={addScoreMeld} />
+        <MeldList melds={melds} onRemove={removeScoreMeld} />
       </section>
 
       <section className="panel selectedPanel">
@@ -661,8 +1424,8 @@ function ScoringMode() {
           onRight={() => setWinMethod("tsumo")}
         />
         <div className="scoreToggles">
-          <label><input checked={riichi} onChange={(event) => setRiichi(event.target.checked)} type="checkbox" /> リーチ</label>
-          <label><input checked={ippatsu} onChange={(event) => setIppatsu(event.target.checked)} type="checkbox" /> 一発</label>
+          <label><input checked={isClosedForOptions && riichi} disabled={!isClosedForOptions} onChange={(event) => setRiichi(event.target.checked)} type="checkbox" /> リーチ</label>
+          <label><input checked={isClosedForOptions && ippatsu} disabled={!isClosedForOptions} onChange={(event) => setIppatsu(event.target.checked)} type="checkbox" /> 一発</label>
         </div>
         <div className="scoreInputs">
           <WindField label="場風" value={roundWind} onChange={setRoundWind} />
@@ -702,6 +1465,116 @@ function SegmentPair({
       <button className={rightActive ? "scoreSegment active" : "scoreSegment"} onClick={onRight} type="button">{rightLabel}</button>
     </div>
   );
+}
+
+function MeldKindPicker({ value, onChange }: { value: ScoreMeldInputKind; onChange: (kind: ScoreMeldInputKind) => void }) {
+  return (
+    <div className="scoreSegments meldKindSegments">
+      {SCORE_MELD_OPTIONS.map((option) => (
+        <button
+          className={value === option.kind ? "scoreSegment active" : "scoreSegment"}
+          key={option.kind}
+          onClick={() => onChange(option.kind)}
+          type="button"
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function MeldPalette({ counts, kind, onAdd }: { counts: Counts34; kind: ScoreMeldInputKind; onAdd: (tile: Tile) => void }) {
+  const rows = [TILE_NAMES.slice(0, 9), TILE_NAMES.slice(9, 18), TILE_NAMES.slice(18, 27), TILE_NAMES.slice(27)];
+  return (
+    <div className="paletteRows meldPaletteRows">
+      {rows.map((row, rowIndex) => (
+        <div className="paletteRow" key={rowIndex}>
+          {row.map((tile) => {
+            const meld = buildScoreMeld(kind, tile);
+            const disabled = !meld || !canAddMeld(counts, [], meld);
+            return (
+              <button className="tileButton" disabled={disabled} key={tile} onClick={() => onAdd(tile)} title={tile} type="button">
+                <TileImage tile={tile} />
+              </button>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MeldList({ melds, onRemove }: { melds: HandScoreMeld[]; onRemove?: (index: number) => void }) {
+  if (melds.length === 0) {
+    return <div className="emptyStrip">副露なし</div>;
+  }
+  return (
+    <div className="meldList">
+      {melds.map((meld, index) => (
+        <div className="meldCard" key={`${meld.kind}-${index}-${meld.tiles.join("")}`}>
+          <div>
+            <div className="smallLabel">{meldKindLabel(meld.kind)}</div>
+            <MeldTiles meld={meld} />
+          </div>
+          {onRemove ? <button onClick={() => onRemove(index)} type="button">削除</button> : null}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function MeldTiles({ meld }: { meld: HandScoreMeld }) {
+  return (
+    <div className={`meldTiles ${meld.kind}`}>
+      {meld.tiles.map((tile, index) =>
+        meld.kind === "ankan" && (index === 1 || index === 2) ? (
+          <span aria-label="伏せ牌" className="faceDownTile" key={`${tile}-${index}`} />
+        ) : (
+          <TileImage key={`${tile}-${index}`} tile={tile} />
+        )
+      )}
+    </div>
+  );
+}
+
+function meldKindLabel(kind: HandScoreMeldKind): string {
+  if (kind === "chi") return "チー";
+  if (kind === "pon") return "ポン";
+  if (kind === "kan") return "カン";
+  return "暗カン";
+}
+
+function buildScoreMeld(kind: ScoreMeldInputKind, tile: Tile): HandScoreMeld | null {
+  const index = TILE_NAMES.indexOf(tile);
+  if (kind === "chi") {
+    if (index < 0 || index >= 27 || index % 9 > 6) return null;
+    return { kind, tiles: [tile, TILE_NAMES[index + 1]!, TILE_NAMES[index + 2]!] };
+  }
+  const size = kind === "pon" ? 3 : 4;
+  return { kind, tiles: Array(size).fill(tile) as Tile[] };
+}
+
+function scoreTotalCounts(counts: Counts34, melds: HandScoreMeld[]): Counts34 {
+  const totals = counts.slice();
+  for (const meld of melds) {
+    for (const tile of meld.tiles) totals[TILE_NAMES.indexOf(tile)]! += 1;
+  }
+  return totals;
+}
+
+function totalTileCount(counts: Counts34, melds: HandScoreMeld[], tile: Tile): number {
+  return scoreTotalCounts(counts, melds)[TILE_NAMES.indexOf(tile)] ?? 0;
+}
+
+function canAddMeld(counts: Counts34, melds: HandScoreMeld[], meld: HandScoreMeld): boolean {
+  const totals = scoreTotalCounts(counts, melds);
+  for (const tile of meld.tiles) {
+    const index = TILE_NAMES.indexOf(tile);
+    totals[index]! += 1;
+    if (totals[index]! > 4) return false;
+  }
+  return true;
 }
 
 function NumberField({
@@ -975,8 +1848,10 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
     checker: "牌理チェッカー",
     ukeireMax: "受け入れMAX星人何切る",
     ukeireMaxHard: "🔥 受け入れMAX高難度",
+    scoreQuizBeginner: "🔰 点数計算問題",
+    scoreQuizHard: "🔥 点数計算HARD",
     scoring: "🔰 点数計算チェッカー",
-    chinitsu: "清一色待ち当て",
+    chinitsu: "🔥 清一色待ち当て",
     sevenShape: "🔰 7枚形トレーニング"
   };
   return (

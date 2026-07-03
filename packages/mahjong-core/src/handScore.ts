@@ -20,6 +20,7 @@ export interface FuResult {
 
 export interface HandScoreInput {
   counts: Counts34;
+  melds?: HandScoreMeld[];
   winningTile: Tile;
   isDealer: boolean;
   winMethod: WinMethod;
@@ -41,11 +42,20 @@ export interface HandScoreResult {
   decomposition: StandardHandDecomposition | null;
 }
 
-type GroupKind = "sequence" | "triplet" | "pair";
+export type HandScoreMeldKind = "chi" | "pon" | "kan" | "ankan";
+
+export interface HandScoreMeld {
+  kind: HandScoreMeldKind;
+  tiles: Tile[];
+}
+
+type GroupKind = "sequence" | "triplet" | "quad" | "pair";
 
 interface HandGroup {
   kind: GroupKind;
   tiles: Tile[];
+  open?: boolean;
+  concealed?: boolean;
 }
 
 interface StandardHandDecomposition {
@@ -62,6 +72,8 @@ const WINDS = new Set<Tile>([EAST, SOUTH, WEST, NORTH]);
 
 export function calculateHandScore(input: HandScoreInput): HandScoreResult {
   validateHandScoreInput(input);
+  const meldGroups = scoreMeldGroups(input.melds ?? []);
+  const scoringInput: HandScoreInput = { ...input, melds: input.melds ?? [] };
 
   const yakumanCount = input.yakumanCount ?? 0;
   if (yakumanCount > 0) {
@@ -81,16 +93,16 @@ export function calculateHandScore(input: HandScoreInput): HandScoreResult {
     };
   }
 
-  const kokushi = scoreKokushi(input);
+  const kokushi = meldGroups.length === 0 ? scoreKokushi(scoringInput) : null;
   if (kokushi) return kokushi;
 
   const candidates: HandScoreResult[] = [];
-  const chiitoitsu = scoreChiitoitsu(input);
+  const chiitoitsu = meldGroups.length === 0 ? scoreChiitoitsu(scoringInput) : null;
   if (chiitoitsu) candidates.push(chiitoitsu);
 
-  for (const decomposition of decomposeStandardHand(input.counts)) {
+  for (const decomposition of decomposeStandardHand(scoringInput.counts, meldGroups)) {
     try {
-      candidates.push(scoreDecomposition(input, decomposition));
+      candidates.push(scoreDecomposition(scoringInput, decomposition));
     } catch {
       // Other decompositions may still have valid yaku.
     }
@@ -163,19 +175,29 @@ function scoreDecomposition(input: HandScoreInput, decomposition: StandardHandDe
   };
 }
 
-function decomposeStandardHand(counts: Counts34): StandardHandDecomposition[] {
-  validateCounts(counts, 14);
+function decomposeStandardHand(counts: Counts34, fixedMelds: HandGroup[] = []): StandardHandDecomposition[] {
+  const requiredMelds = 4 - fixedMelds.length;
+  validateCounts(counts, 2 + requiredMelds * 3);
   const decompositions: StandardHandDecomposition[] = [];
   counts.forEach((count, pairIndex) => {
     if (count < 2) return;
     const working = counts.slice();
     working[pairIndex] -= 2;
     const pairTile = tileName(pairIndex);
-    for (const melds of decomposeMelds(working, 4)) {
-      decompositions.push({ melds, pair: { kind: "pair", tiles: [pairTile, pairTile] } });
+    for (const melds of decomposeMelds(working, requiredMelds)) {
+      decompositions.push({ melds: [...fixedMelds, ...melds], pair: { kind: "pair", tiles: [pairTile, pairTile] } });
     }
   });
   return uniqueDecompositions(decompositions);
+}
+
+function scoreMeldGroups(melds: HandScoreMeld[]): HandGroup[] {
+  return melds.map((meld) => {
+    if (meld.kind === "chi") return { kind: "sequence", tiles: meld.tiles, open: true };
+    if (meld.kind === "pon") return { kind: "triplet", tiles: meld.tiles, open: true };
+    if (meld.kind === "kan") return { kind: "quad", tiles: meld.tiles, open: true };
+    return { kind: "quad", tiles: meld.tiles, open: false, concealed: true };
+  });
 }
 
 function decomposeMelds(counts: Counts34, requiredMelds: number): HandGroup[][] {
@@ -213,9 +235,10 @@ function decomposeMelds(counts: Counts34, requiredMelds: number): HandGroup[][] 
 function detectStandardYaku(decomposition: StandardHandDecomposition, input: HandScoreInput): YakuResult[] {
   const yaku: YakuResult[] = [];
   const allTiles = decompositionTiles(decomposition);
+  const closed = isClosedHand(input);
 
   for (const group of decomposition.melds) {
-    if (group.kind !== "triplet") continue;
+    if (group.kind !== "triplet" && group.kind !== "quad") continue;
     const tile = group.tiles[0]!;
     if (DRAGONS.has(tile)) yaku.push({ name: "役牌", han: 1 });
     if (tile === input.roundWind) yaku.push({ name: "役牌", han: 1 });
@@ -229,21 +252,22 @@ function detectStandardYaku(decomposition: StandardHandDecomposition, input: Han
   if (sequencePairs >= 2) yaku.push({ name: "二盃口", han: 3 });
   else if (sequencePairs === 1) yaku.push({ name: "一盃口", han: 1 });
 
-  if (hasSanshokuDoujun(decomposition.melds)) yaku.push({ name: "三色同順", han: 2 });
+  if (hasSanshokuDoujun(decomposition.melds)) yaku.push({ name: "三色同順", han: closed ? 2 : 1 });
+  if (isChanta(decomposition)) yaku.push({ name: "混全帯么九", han: closed ? 2 : 1 });
   if (concealedTripletCount(decomposition, input) >= 3) yaku.push({ name: "三暗刻", han: 2 });
-  if (decomposition.melds.every((group) => group.kind === "triplet")) yaku.push({ name: "対々和", han: 2 });
+  if (decomposition.melds.every((group) => group.kind === "triplet" || group.kind === "quad")) yaku.push({ name: "対々和", han: 2 });
 
   const flushSuit = singleNumberSuit(allTiles);
   const hasHonor = allTiles.some((tile) => tileIndex(tile) >= 27);
-  if (flushSuit != null && hasHonor) yaku.push({ name: "混一色", han: 3 });
-  else if (flushSuit != null) yaku.push({ name: "清一色", han: 6 });
+  if (flushSuit != null && hasHonor) yaku.push({ name: "混一色", han: closed ? 3 : 2 });
+  else if (flushSuit != null) yaku.push({ name: "清一色", han: closed ? 6 : 5 });
 
   return yaku;
 }
 
 function calculateStandardFu(decomposition: StandardHandDecomposition, input: HandScoreInput): FuResult {
   const items: FuItem[] = [{ label: "副底20符", fu: 20 }];
-  if (input.winMethod === "ron") items.push({ label: "門前ロン10符", fu: 10 });
+  if (input.winMethod === "ron" && isClosedHand(input)) items.push({ label: "門前ロン10符", fu: 10 });
 
   const pairFu = valuePairFu(decomposition.pair, input);
   if (pairFu) items.push({ label: "役牌雀頭", fu: pairFu });
@@ -252,9 +276,10 @@ function calculateStandardFu(decomposition: StandardHandDecomposition, input: Ha
   if (waitFuValue) items.push({ label: "待ち符", fu: waitFuValue });
 
   for (const group of decomposition.melds) {
-    if (group.kind !== "triplet") continue;
-    const isOpenByRon = input.winMethod === "ron" && group.tiles.includes(input.winningTile) && waitFuValue === 0;
-    items.push({ label: isOpenByRon ? "明刻" : "暗刻", fu: tripletFu(group.tiles[0]!, isOpenByRon) });
+    if (group.kind !== "triplet" && group.kind !== "quad") continue;
+    const isOpenByRon = !group.open && !group.concealed && input.winMethod === "ron" && group.tiles.includes(input.winningTile) && waitFuValue === 0;
+    const isOpen = group.open || isOpenByRon;
+    items.push({ label: group.kind === "quad" ? (isOpen ? "明槓" : "暗槓") : (isOpen ? "明刻" : "暗刻"), fu: setFu(group.tiles[0]!, isOpen, group.kind === "quad") });
   }
 
   const pinfuShape = isPinfuShape(decomposition, input);
@@ -268,6 +293,7 @@ function calculateStandardFu(decomposition: StandardHandDecomposition, input: Ha
 
 function situationalYaku(input: HandScoreInput): YakuResult[] {
   const yaku: YakuResult[] = [];
+  if (!isClosedHand(input)) return yaku;
   if (input.doubleRiichi) yaku.push({ name: "ダブルリーチ", han: 2 });
   else if (input.riichi) yaku.push({ name: "リーチ", han: 1 });
   if (input.ippatsu) yaku.push({ name: "一発", han: 1 });
@@ -288,7 +314,7 @@ function chiitoitsuCompatibleYaku(counts: Counts34): YakuResult[] {
 }
 
 function isPinfu(decomposition: StandardHandDecomposition, input: HandScoreInput): boolean {
-  return isPinfuShape(decomposition, input);
+  return isClosedHand(input) && isPinfuShape(decomposition, input);
 }
 
 function isPinfuShape(decomposition: StandardHandDecomposition, input: HandScoreInput): boolean {
@@ -321,7 +347,9 @@ function waitFu(decomposition: StandardHandDecomposition, winningTile: Tile): nu
 
 function concealedTripletCount(decomposition: StandardHandDecomposition, input: HandScoreInput): number {
   return decomposition.melds.filter((group) => {
-    if (group.kind !== "triplet") return false;
+    if (group.kind !== "triplet" && group.kind !== "quad") return false;
+    if (group.open) return false;
+    if (group.concealed) return true;
     if (input.winMethod === "ron" && group.tiles.includes(input.winningTile)) return false;
     return true;
   }).length;
@@ -330,6 +358,7 @@ function concealedTripletCount(decomposition: StandardHandDecomposition, input: 
 function identicalSequencePairCount(groups: HandGroup[]): number {
   const counts = new Map<string, number>();
   for (const group of groups) {
+    if (group.open) continue;
     if (group.kind !== "sequence") continue;
     const key = sequenceKey(group).join(",");
     counts.set(key, (counts.get(key) ?? 0) + 1);
@@ -346,6 +375,11 @@ function hasSanshokuDoujun(groups: HandGroup[]): boolean {
     starts.get(start)!.add(suit);
   }
   return [...starts.values()].some((suits) => suits.size === 3);
+}
+
+function isChanta(decomposition: StandardHandDecomposition): boolean {
+  const groups = [...decomposition.melds, decomposition.pair];
+  return groups.every((group) => group.tiles.some(isTerminalOrHonor)) && decomposition.melds.some((group) => group.kind === "sequence");
 }
 
 function sequenceKey(group: HandGroup): [number, number] {
@@ -376,9 +410,9 @@ function scoreRank(result: HandScoreResult): number {
   return result.score.totalPoints * 100000 + result.score.han * 100 + (result.score.fu ?? 0);
 }
 
-function tripletFu(tile: Tile, isOpen: boolean): number {
-  if (isTerminalOrHonor(tile)) return isOpen ? 4 : 8;
-  return isOpen ? 2 : 4;
+function setFu(tile: Tile, isOpen: boolean, isQuad: boolean): number {
+  const base = isTerminalOrHonor(tile) ? (isOpen ? 4 : 8) : (isOpen ? 2 : 4);
+  return isQuad ? base * 4 : base;
 }
 
 function isTerminalOrHonor(tile: Tile): boolean {
@@ -418,7 +452,10 @@ function roundFu(value: number): number {
 }
 
 function validateHandScoreInput(input: HandScoreInput): void {
-  validateCounts(input.counts, 14);
+  const melds = input.melds ?? [];
+  validateMelds(melds);
+  validateCounts(input.counts, 14 - melds.length * 3);
+  validateTotalTileCounts(input.counts, melds);
   if (!countsToTiles(input.counts).includes(input.winningTile)) {
     throw new Error("和了牌は手牌の中から選んでください。");
   }
@@ -426,4 +463,34 @@ function validateHandScoreInput(input: HandScoreInput): void {
     throw new Error("場風と自風は風牌を選んでください。");
   }
   if ((input.dora ?? 0) < 0) throw new Error("ドラは0以上で入力してください。");
+}
+
+function isClosedHand(input: Pick<HandScoreInput, "melds">): boolean {
+  return (input.melds ?? []).every((meld) => meld.kind === "ankan");
+}
+
+function validateMelds(melds: HandScoreMeld[]): void {
+  if (melds.length > 4) throw new Error("副露は4つまでです。");
+  for (const meld of melds) {
+    for (const tile of meld.tiles) tileIndex(tile);
+    if (meld.kind === "chi") {
+      if (meld.tiles.length !== 3) throw new Error("チーは3枚で入力してください。");
+      const indexes = meld.tiles.map(tileIndex).sort((a, b) => a - b);
+      if (!canStartSequence(indexes[0]!) || indexes[1] !== indexes[0]! + 1 || indexes[2] !== indexes[0]! + 2) {
+        throw new Error("チーは同じ色の連続した3枚で入力してください。");
+      }
+    } else if (meld.kind === "pon") {
+      if (meld.tiles.length !== 3 || new Set(meld.tiles).size !== 1) throw new Error("ポンは同じ牌3枚で入力してください。");
+    } else if (meld.kind === "kan" || meld.kind === "ankan") {
+      if (meld.tiles.length !== 4 || new Set(meld.tiles).size !== 1) throw new Error("カンは同じ牌4枚で入力してください。");
+    }
+  }
+}
+
+function validateTotalTileCounts(counts: Counts34, melds: HandScoreMeld[]): void {
+  const totals = counts.slice();
+  for (const meld of melds) {
+    for (const tile of meld.tiles) totals[tileIndex(tile)]! += 1;
+  }
+  if (totals.some((count) => count > 4)) throw new Error("同じ牌は手牌と副露を合わせて4枚までです。");
 }
