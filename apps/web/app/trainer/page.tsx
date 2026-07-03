@@ -79,6 +79,10 @@ interface ScoreQuizQuestion {
   riichi?: boolean;
   ippatsu?: boolean;
   dora?: number;
+  expectedHan?: number;
+  expectedFu?: number | null;
+  expectedLimitName?: ScoreResult["limitName"];
+  choicePool?: string[];
   explanation: string;
 }
 
@@ -300,6 +304,202 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
   }
 ];
 
+const HARD_SCORE_CHOICES_RON = ["1,300点", "1,600点", "2,300点", "2,600点", "3,200点", "3,400点", "4,800点", "5,200点", "6,400点", "7,700点", "8,000点"];
+const HARD_SCORE_CHOICES_CHILD_TSUMO = ["子400 / 親800", "子500 / 親1,000", "子1,000 / 親2,000", "子1,500 / 親2,900", "子2,000 / 親3,900"];
+
+const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
+  {
+    id: "hard-ankan-terminal-70-child-ron",
+    title: "暗カン絡みの70符ロン",
+    lesson: "暗カン、門前ロン、単騎待ちが重なった高符問題です。",
+    handText: "234567m222p22s",
+    melds: [{ kind: "ankan", tiles: ["1m", "1m", "1m", "1m"] }],
+    winningTile: "2s",
+    isDealer: false,
+    winMethod: "ron",
+    riichi: true,
+    expectedHan: 1,
+    expectedFu: 70,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "リーチのみ。副底20符、門前ロン10符、暗カン32符、暗刻4符、単騎2符で70符に切り上がります。子の1翻70符は2,300点です。"
+  },
+  {
+    id: "hard-ankan-terminal-70-dealer-ron",
+    title: "親の70符ロン",
+    lesson: "同じ70符でも親になると支払いが変わります。",
+    handText: "234567m222p22s",
+    melds: [{ kind: "ankan", tiles: ["1m", "1m", "1m", "1m"] }],
+    winningTile: "2s",
+    isDealer: true,
+    winMethod: "ron",
+    riichi: true,
+    expectedHan: 1,
+    expectedFu: 70,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "リーチのみの1翻70符。親ロンは子より高く、3,400点です。"
+  },
+  {
+    id: "hard-ankan-terminal-60-child-tsumo",
+    title: "暗カン形のツモ",
+    lesson: "ロンでは付く門前ロン10符が、ツモでは付かない点に注意します。",
+    handText: "234567m222p22s",
+    melds: [{ kind: "ankan", tiles: ["1m", "1m", "1m", "1m"] }],
+    winningTile: "2s",
+    isDealer: false,
+    winMethod: "tsumo",
+    riichi: true,
+    expectedHan: 2,
+    expectedFu: 60,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_CHILD_TSUMO,
+    explanation: "リーチ、門前ツモで2翻。門前ロン10符はなくなり、ツモ符2符が付きます。子の2翻60符ツモは子1,000点、親2,000点です。"
+  },
+  {
+    id: "hard-two-ankan-100-child-ron",
+    title: "暗カン2つの100符",
+    lesson: "暗カンが2つあると、符が一気に跳ねます。",
+    handText: "234m22p678s",
+    melds: [
+      { kind: "ankan", tiles: ["1m", "1m", "1m", "1m"] },
+      { kind: "ankan", tiles: ["9p", "9p", "9p", "9p"] }
+    ],
+    winningTile: "2p",
+    isDealer: false,
+    winMethod: "ron",
+    riichi: true,
+    expectedHan: 1,
+    expectedFu: 100,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "リーチのみ。暗カン2つと門前ロン、単騎待ちで100符になります。子の1翻100符は3,200点です。"
+  },
+  {
+    id: "hard-two-ankan-100-dealer-ron",
+    title: "親の100符ロン",
+    lesson: "高符の親ロンは、満貫未満でもかなり高くなります。",
+    handText: "234m22p678s",
+    melds: [
+      { kind: "ankan", tiles: ["1m", "1m", "1m", "1m"] },
+      { kind: "ankan", tiles: ["9p", "9p", "9p", "9p"] }
+    ],
+    winningTile: "2p",
+    isDealer: true,
+    winMethod: "ron",
+    riichi: true,
+    expectedHan: 1,
+    expectedFu: 100,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "親の1翻100符ロンは4,800点です。満貫ではありません。"
+  },
+  {
+    id: "hard-two-ankan-90-child-tsumo",
+    title: "暗カン2つのツモ",
+    lesson: "ロンとツモで符が同じとは限りません。",
+    handText: "234m22p678s",
+    melds: [
+      { kind: "ankan", tiles: ["1m", "1m", "1m", "1m"] },
+      { kind: "ankan", tiles: ["9p", "9p", "9p", "9p"] }
+    ],
+    winningTile: "2p",
+    isDealer: false,
+    winMethod: "tsumo",
+    riichi: true,
+    expectedHan: 2,
+    expectedFu: 90,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_CHILD_TSUMO,
+    explanation: "リーチ、門前ツモで2翻90符。子のツモは子1,500点、親2,900点です。"
+  },
+  {
+    id: "hard-open-kan-white-50-ron",
+    title: "明カンと役牌の50符",
+    lesson: "副露手でもカンが絡むと50符まで上がります。",
+    handText: "123p111s22m",
+    melds: [
+      { kind: "kan", tiles: ["9m", "9m", "9m", "9m"] },
+      { kind: "pon", tiles: [SCORE_WHITE, SCORE_WHITE, SCORE_WHITE] }
+    ],
+    winningTile: "1s",
+    isDealer: false,
+    winMethod: "ron",
+    expectedHan: 1,
+    expectedFu: 50,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "白の役牌のみで1翻。明カンと刻子符で50符になり、子の1翻50符ロンは1,600点です。"
+  },
+  {
+    id: "hard-open-kan-white-50-tsumo",
+    title: "明カン役牌のツモ",
+    lesson: "副露手でもツモ符が付く形では支払いが変わります。",
+    handText: "123p111s22m",
+    melds: [
+      { kind: "kan", tiles: ["9m", "9m", "9m", "9m"] },
+      { kind: "pon", tiles: [SCORE_WHITE, SCORE_WHITE, SCORE_WHITE] }
+    ],
+    winningTile: "1s",
+    isDealer: false,
+    winMethod: "tsumo",
+    expectedHan: 1,
+    expectedFu: 50,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_CHILD_TSUMO,
+    explanation: "役牌1翻50符。子のツモは子400点、親800点です。"
+  },
+  {
+    id: "hard-open-toitoi-kan-50",
+    title: "対々和とカンの50符",
+    lesson: "対々和に役牌とカンが絡む、実戦で迷いやすい副露形です。",
+    handText: "222m55p",
+    melds: [
+      { kind: "kan", tiles: ["9m", "9m", "9m", "9m"] },
+      { kind: "pon", tiles: ["1s", "1s", "1s"] },
+      { kind: "pon", tiles: [SCORE_WHITE, SCORE_WHITE, SCORE_WHITE] }
+    ],
+    winningTile: "5p",
+    isDealer: false,
+    winMethod: "ron",
+    expectedHan: 3,
+    expectedFu: 50,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "対々和2翻、白1翻で3翻。50符なので子ロン6,400点です。"
+  },
+  {
+    id: "hard-edge-wait-40-ron",
+    title: "辺張で40符に上がるロン",
+    lesson: "平和形に見えやすいですが、辺張待ちは待ち符が付きます。",
+    handText: "123456m123p45677s",
+    winningTile: "3p",
+    isDealer: false,
+    winMethod: "ron",
+    riichi: true,
+    expectedHan: 1,
+    expectedFu: 40,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "リーチのみ。辺張待ち2符と門前ロン10符で40符に切り上がります。子の1翻40符は1,300点です。"
+  },
+  {
+    id: "hard-chanta-40-ron",
+    title: "チャンタの40符ロン",
+    lesson: "役は見えるが、符を30符で見積もると外しやすい形です。",
+    handText: "123789m123789p99s",
+    winningTile: "3p",
+    isDealer: false,
+    winMethod: "ron",
+    riichi: true,
+    expectedHan: 3,
+    expectedFu: 40,
+    expectedLimitName: "normal",
+    choicePool: HARD_SCORE_CHOICES_RON,
+    explanation: "チャンタ2翻、リーチ1翻で3翻。辺張待ち込みで40符となり、子ロン5,200点です。"
+  }
+];
+
 const initialCounts = parseHand(SAMPLE_HAND);
 
 function reducer(state: AppState, action: Action): AppState {
@@ -428,7 +628,7 @@ export default function Home() {
       {mode === "chinitsu" ? <ChinitsuMode /> : null}
       {mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
       {mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
-      {mode === "scoreQuizHard" ? <ScoreQuizHardPlaceholder /> : null}
+      {mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
       {mode === "scoring" ? <ScoringMode /> : null}
     </main>
   );
@@ -586,7 +786,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
         </div>
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
         <div className="actions">
-          <button disabled={selected.length === 0} onClick={() => setChecked(true)} type="button">答え合わせ</button>
+          <button disabled={selected.length === 0} onClick={() => setChecked(true)} type="button">決定</button>
           <button onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
         </div>
       </section>
@@ -990,7 +1190,7 @@ function SevenShapeTrainingMode() {
         </div>
         <div className="actions">
           <button disabled={checked} onClick={() => setShowHint((current) => !current)} type="button">ヒントを見る</button>
-          <button disabled={selected.length === 0 || checked} onClick={submitAnswer} type="button">回答する</button>
+          <button disabled={selected.length === 0 || checked} onClick={submitAnswer} type="button">決定</button>
           {checked ? <button onClick={nextQuestion} type="button">{courseFinished ? "もう一度" : "次の問題"}</button> : null}
         </div>
         {showHint ? <div className="hintBox">{question.hint}</div> : null}
@@ -1023,7 +1223,36 @@ function SevenShapeTrainingMode() {
   );
 }
 
+interface ScoreQuizPracticeModeProps {
+  questions: ScoreQuizQuestion[];
+  title: string;
+  resultTitle: string;
+  resultDescription: string;
+}
+
 function ScoreQuizBeginnerMode() {
+  return (
+    <ScoreQuizPracticeMode
+      questions={BEGINNER_SCORE_QUESTIONS}
+      title="🔰 点数計算問題"
+      resultTitle="🔰 点数計算問題 リザルト"
+      resultDescription="初心者モードの固定問題を完走しました。平和、鳴き、染め手、七対子の点数感を確認できます。"
+    />
+  );
+}
+
+function ScoreQuizHardMode() {
+  return (
+    <ScoreQuizPracticeMode
+      questions={HARD_SCORE_QUESTIONS}
+      title="🔥 点数計算HARD"
+      resultTitle="🔥 点数計算HARD リザルト"
+      resultDescription="HARDモードを完走しました。高符、カン絡み、ロンとツモの符差を重点的に確認できます。"
+    />
+  );
+}
+
+function ScoreQuizPracticeMode({ questions, title, resultTitle, resultDescription }: ScoreQuizPracticeModeProps) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
@@ -1031,9 +1260,9 @@ function ScoreQuizBeginnerMode() {
   const [mistakes, setMistakes] = useState<ScoreQuizMistake[]>([]);
   const [finished, setFinished] = useState(false);
 
-  const question = BEGINNER_SCORE_QUESTIONS[questionIndex]!;
+  const question = questions[questionIndex]!;
   const scoreResult = useMemo(() => scoreQuizResult(question), [question]);
-  const correctAnswer = scoreQuizAnswerLabel(scoreResult.score, question);
+  const correctAnswer = scoreQuizReadableAnswerLabel(scoreResult.score, question);
   const choices = useMemo(() => scoreQuizChoices(correctAnswer, question), [correctAnswer, question]);
   const isCorrect = checked && selected === correctAnswer;
 
@@ -1053,7 +1282,7 @@ function ScoreQuizBeginnerMode() {
       submitAnswer();
       return;
     }
-    if (questionIndex >= BEGINNER_SCORE_QUESTIONS.length - 1) {
+    if (questionIndex >= questions.length - 1) {
       setFinished(true);
       return;
     }
@@ -1076,12 +1305,12 @@ function ScoreQuizBeginnerMode() {
       <section className="modeGrid scoreQuizMode">
         <section className="panel selectedPanel">
           <div className="panelHeader">
-            <h2>🔰 点数計算問題 リザルト</h2>
+            <h2>{resultTitle}</h2>
           </div>
           <div className="resultCard">
             <div className="smallLabel">今回の成績</div>
-            <div className="resultScore">{correctCount} / {BEGINNER_SCORE_QUESTIONS.length}</div>
-            <p>初心者モードの固定問題を完走しました。平和、鳴き、染め手、七対子の点数感を確認できます。</p>
+            <div className="resultScore">{correctCount} / {questions.length}</div>
+            <p>{resultDescription}</p>
           </div>
           <div className="actions">
             <button onClick={resetQuiz} type="button">最初からもう一度</button>
@@ -1115,8 +1344,8 @@ function ScoreQuizBeginnerMode() {
     <section className="modeGrid scoreQuizMode">
       <section className="panel handPanel">
         <div className="panelHeader">
-          <h2>🔰 点数計算問題</h2>
-          <span>{questionIndex + 1} / {BEGINNER_SCORE_QUESTIONS.length}</span>
+          <h2>{title}</h2>
+          <span>{questionIndex + 1} / {questions.length}</span>
         </div>
         <div className="questionTitleBlock">
           <div className="smallLabel">{question.title}</div>
@@ -1161,7 +1390,7 @@ function ScoreQuizBeginnerMode() {
           ))}
         </div>
         <div className="actions">
-          <button disabled={!selected || checked} onClick={submitAnswer} type="button">答え合わせ</button>
+          <button disabled={!selected || checked} onClick={submitAnswer} type="button">決定</button>
           <button disabled={!selected && !checked} onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
         </div>
         {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
@@ -1187,15 +1416,6 @@ function ScoreQuizBeginnerMode() {
   );
 }
 
-function ScoreQuizHardPlaceholder() {
-  return (
-    <section className="panel placeholder">
-      <h2>🔥 点数計算HARD</h2>
-      <p>HARDモードは次の段階で追加します。まずは初心者モードで、実戦によく出る点数と役の変化を固めます。</p>
-    </section>
-  );
-}
-
 function ScoreQuizConditionBadges({ question }: { question: ScoreQuizQuestion }) {
   const dora = question.dora ?? 0;
   return (
@@ -1209,7 +1429,7 @@ function ScoreQuizConditionBadges({ question }: { question: ScoreQuizQuestion })
 }
 
 function scoreQuizResult(question: ScoreQuizQuestion): HandScoreResult {
-  return calculateHandScore({
+  const result = calculateHandScore({
     counts: scoreQuizCounts(question),
     melds: question.melds ?? [],
     winningTile: question.winningTile,
@@ -1221,6 +1441,20 @@ function scoreQuizResult(question: ScoreQuizQuestion): HandScoreResult {
     ippatsu: question.ippatsu ?? false,
     dora: question.dora ?? 0
   });
+  validateScoreQuizExpected(question, result);
+  return result;
+}
+
+function validateScoreQuizExpected(question: ScoreQuizQuestion, result: HandScoreResult): void {
+  if (question.expectedHan != null && result.score.han !== question.expectedHan) {
+    throw new Error(`${question.id}: expected ${question.expectedHan} han, got ${result.score.han}.`);
+  }
+  if (question.expectedFu !== undefined && result.score.fu !== question.expectedFu) {
+    throw new Error(`${question.id}: expected ${question.expectedFu} fu, got ${result.score.fu}.`);
+  }
+  if (question.expectedLimitName && result.score.limitName !== question.expectedLimitName) {
+    throw new Error(`${question.id}: expected ${question.expectedLimitName}, got ${result.score.limitName}.`);
+  }
 }
 
 function scoreQuizCounts(question: ScoreQuizQuestion): Counts34 {
@@ -1249,6 +1483,12 @@ function scoreQuizAnswerLabel(score: ScoreResult, question: ScoreQuizQuestion): 
   return `子${score.payments[0]!.points.toLocaleString()} / 親${score.payments[1]!.points.toLocaleString()}`;
 }
 
+function scoreQuizReadableAnswerLabel(score: ScoreResult, question: ScoreQuizQuestion): string {
+  if (question.winMethod === "ron") return `${score.totalPoints.toLocaleString()}点`;
+  if (question.isDealer) return `${score.payments[0]!.points.toLocaleString()}オール`;
+  return `子${score.payments[0]!.points.toLocaleString()} / 親${score.payments[1]!.points.toLocaleString()}`;
+}
+
 function scoreQuizChoices(correctAnswer: string, question: ScoreQuizQuestion): string[] {
   const pool = scoreQuizChoicePool(question);
   const uniquePool = Array.from(new Set([...pool, correctAnswer]));
@@ -1260,6 +1500,14 @@ function scoreQuizChoices(correctAnswer: string, question: ScoreQuizQuestion): s
 }
 
 function scoreQuizChoicePool(question: ScoreQuizQuestion): string[] {
+  if (question.choicePool) return question.choicePool;
+  if (question.winMethod === "ron") {
+    return ["1,000点", "1,300点", "1,500点", "1,600点", "2,000点", "2,600点", "3,900点", "5,200点", "7,700点", "8,000点", "12,000点"];
+  }
+  if (question.isDealer) {
+    return ["500オール", "700オール", "1,000オール", "1,300オール", "2,000オール", "4,000オール"];
+  }
+  return ["子300 / 親500", "子400 / 親700", "子500 / 親1,000", "子700 / 親1,300", "子1,000 / 親2,000", "子2,000 / 親4,000"];
   if (question.winMethod === "ron") {
     return ["1,000点", "1,300点", "1,500点", "1,600点", "2,000点", "2,600点", "3,900点", "5,200点", "7,700点", "8,000点", "12,000点"];
   }
