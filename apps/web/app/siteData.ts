@@ -27,6 +27,9 @@ export type ToolItem = {
   title: string;
   description: string;
   beginnerNote: string;
+  imageSrc: string;
+  imageAlt: string;
+  checks: string[];
   href?: string;
   status: CardStatus;
 };
@@ -414,40 +417,20 @@ export const toolItems: ToolItem[] = [
     title: "点数計算ツール",
     description: "手牌と条件を入れて、ロン・ツモの支払いを確認できます。",
     beginnerNote: "最初はリーチ、ツモ、親か子かだけを変えて試すと覚えやすいです。",
+    imageSrc: "/tool-screenshots/score-calculator.png",
+    imageAlt: "点数計算チェッカーで手牌、条件、結果を確認している画面",
+    checks: ["手牌から役・翻・符を確認", "親子、ロン・ツモの支払いを比較", "リーチやドラを変えた点数の違いを確認"],
     href: trainerHref,
     status: "available"
-  },
-  {
-    title: "符計算サポート",
-    description: "符の内訳を見ながら点数計算を確認するための補助ツールです。",
-    beginnerNote: "符は後回しで大丈夫。点数に慣れてから使う想定です。",
-    status: "comingSoon"
-  },
-  {
-    title: "待ち判定ツール",
-    description: "テンパイ形から、どの牌でアガれるかを確認できます。",
-    beginnerNote: "待ち当て問題で迷った形を復習する入口です。",
-    status: "comingSoon"
   },
   {
     title: "受け入れ枚数チェッカー",
     description: "何を切ると次に進める牌が多いかを比較できます。",
     beginnerNote: "何切るの答え合わせに使うと、理由まで理解しやすくなります。",
+    imageSrc: "/tool-screenshots/ukeire-checker.png",
+    imageAlt: "受け入れMAX星人何切るで打牌候補と有効牌を比較している画面",
+    checks: ["どの牌を切ると手が進みやすいか確認", "最大受け入れの種類数と枚数を確認", "打牌候補ごとの受け入れ差を比較"],
     href: trainerHref,
-    status: "available"
-  },
-  {
-    title: "役一覧",
-    description: "よく使う役から順番に確認できる一覧ページです。",
-    beginnerNote: "まずはリーチ、タンヤオ、役牌だけで問題ありません。",
-    href: "/rules/yaku",
-    status: "available"
-  },
-  {
-    title: "初心者向け点数表",
-    description: "細かい計算をする前に、よく出る点数を画像の早見表で確認できます。",
-    beginnerNote: "平和・七対子の表と通常表を見ながら、2翻・3翻から慣れていきます。",
-    href: "/tools/score-table",
     status: "available"
   }
 ];

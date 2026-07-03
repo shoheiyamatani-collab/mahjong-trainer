@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { CategoryCard, InternalLinkCard, PageHero, SectionTitle } from "../components/SiteSections";
+import Link from "next/link";
+import { InternalLinkCard, PageHero, SectionTitle } from "../components/SiteSections";
 import { toolItems } from "../siteData";
 
 export const metadata: Metadata = {
-  title: "麻雀の便利ツール一覧 | 点数計算・受け入れ・役一覧",
-  description: "麻雀の点数計算ツール、符計算サポート、待ち判定、受け入れ枚数チェッカー、役一覧、初心者向け点数表の入口です。"
+  title: "麻雀便利ツール | 点数計算ツール・受け入れ枚数チェッカー",
+  description: "麻雀の点数計算ツールと受け入れ枚数チェッカーの入口です。手牌、条件、打牌候補を入力して、点数や受け入れ枚数を確認できます。"
 };
 
 export default function ToolsPage() {
@@ -12,25 +13,36 @@ export default function ToolsPage() {
     <main className="siteMain">
       <PageHero
         eyebrow="Tools"
-        title="麻雀の便利ツール一覧"
-        description="問題で迷った形や、対局中に分からなくなりやすい点数・役・待ちを確認するための入口です。"
+        title="麻雀便利ツール"
+        description="点数を確認したいとき、何を切ると手が進みやすいか比べたいときに使う2つのツールです。実際の画面を見ながら、できることを確認できます。"
         primaryLink={{ label: "点数計算ツールを開く", href: "/trainer" }}
-        secondaryLink={{ label: "実戦問題で練習する", href: "/trainer" }}
+        secondaryLink={{ label: "受け入れを確認する", href: "/trainer" }}
       />
 
       <section>
-        <SectionTitle title="調べる・確認する" description="未実装のツールは、クリックできない準備中カードにしています。" />
-        <div className="categoryGrid toolGrid">
-          {toolItems.map((item, index) => (
-            <CategoryCard
-              key={item.title}
-              title={item.title}
-              description={`${item.description} ${item.beginnerNote}`}
-              href={item.href}
-              status={item.status}
-              actionLabel={item.status === "available" ? `${item.title}を使う` : "準備中"}
-              tone={index % 3 === 0 ? "green" : index % 3 === 1 ? "yellow" : "blue"}
-            />
+        <SectionTitle title="使えるツール" description="まずはこの2つだけ覚えれば大丈夫です。点数確認と何切るの答え合わせに使えます。" />
+        <div className="toolFeatureGrid">
+          {toolItems.map((item) => (
+            <article className="toolFeatureCard" key={item.title}>
+              <div className="toolFeatureImageFrame">
+                <img src={item.imageSrc} alt={item.imageAlt} />
+              </div>
+              <div className="toolFeatureBody">
+                <p className="siteEyebrow">Mahjong Tool</p>
+                <h2>{item.title}</h2>
+                <p>{item.description}</p>
+                <p className="toolBeginnerNote">{item.beginnerNote}</p>
+                <div className="toolCheckPanel">
+                  <h3>このツールで確認できること</h3>
+                  <ul>
+                    {item.checks.map((check) => (
+                      <li key={check}>{check}</li>
+                    ))}
+                  </ul>
+                </div>
+                {item.href ? <Link className="cardButton" href={item.href}>{item.title}を使う</Link> : <span className="cardButton disabled" aria-disabled="true">準備中</span>}
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -39,8 +51,8 @@ export default function ToolsPage() {
         <SectionTitle title="ツールから学習へ" description="調べて終わりではなく、関連する練習に戻れる導線を置いています。" />
         <div className="linkCardGrid">
           <InternalLinkCard title="点数計算を覚える" description="点数は最後で大丈夫。まずはツールで結果を見ながら慣れます。" href="/learn" />
-          <InternalLinkCard title="役一覧を確認する" description="リーチ、タンヤオ、役牌など、よく使う役から確認します。" href="/rules/yaku" />
-          <InternalLinkCard title="実戦問題で練習する" description="何切るや待ち当てに戻って、理解した形をもう一度解きます。" href="/trainer" />
+          <InternalLinkCard title="受け入れを学ぶ" description="何切るで大事な、次にうれしい牌の考え方を復習します。" href="/learn/basic-nanikiru" />
+          <InternalLinkCard title="役一覧を確認する" description="点数計算で出てくる役を、牌姿つきで確認できます。" href="/rules/yaku" />
         </div>
       </section>
     </main>

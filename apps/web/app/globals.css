@@ -1174,6 +1174,11 @@ h2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.toolFeatureGrid {
+  display: grid;
+  gap: 18px;
+}
+
 .trainingGrid,
 .rulesGrid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1258,6 +1263,115 @@ h2 {
 
 .learnHubLinks a:hover {
   background: #e9f8ed;
+}
+
+.toolFeatureCard {
+  align-items: stretch;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: inset 0 4px 0 #2f9e44;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.12fr) minmax(280px, 0.88fr);
+  min-width: 0;
+  overflow: hidden;
+  padding: 18px;
+}
+
+.toolFeatureCard:nth-child(2) {
+  box-shadow: inset 0 4px 0 #1971c2;
+}
+
+.toolFeatureImageFrame {
+  align-self: stretch;
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.08);
+  border-radius: 8px;
+  min-height: 280px;
+  overflow: hidden;
+}
+
+.toolFeatureImageFrame img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  width: 100%;
+}
+
+.toolFeatureBody {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.toolFeatureBody h2 {
+  color: #173f23;
+  font-size: clamp(1.55rem, 3vw, 2.1rem);
+  line-height: 1.25;
+  margin: 0;
+}
+
+.toolFeatureBody p {
+  color: #4f5f59;
+  font-weight: 750;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.toolBeginnerNote {
+  background: #f8faf7;
+  border-left: 4px solid #2f9e44;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.toolCheckPanel {
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.toolCheckPanel h3 {
+  color: #173f23;
+  font-size: 1rem;
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+
+.toolCheckPanel ul {
+  display: grid;
+  gap: 7px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toolCheckPanel li {
+  color: #31443c;
+  font-weight: 850;
+  line-height: 1.55;
+  padding-left: 22px;
+  position: relative;
+}
+
+.toolCheckPanel li::before {
+  background: #2f9e44;
+  border-radius: 999px;
+  color: #ffffff;
+  content: "✓";
+  display: inline-grid;
+  font-size: 0.72rem;
+  font-weight: 1000;
+  height: 16px;
+  left: 0;
+  line-height: 1;
+  place-items: center;
+  position: absolute;
+  top: 4px;
+  width: 16px;
 }
 
 .categoryCard {
@@ -1572,6 +1686,45 @@ h2 {
   vertical-align: middle;
 }
 
+.yakuGroup-yakuman {
+  background: #fff5f5;
+  border: 1px solid rgba(201, 42, 42, 0.18);
+  padding: clamp(14px, 3vw, 20px);
+}
+
+.yakuGroup-yakuman .sectionTitle {
+  background: #ffffff;
+  border: 1px solid rgba(201, 42, 42, 0.18);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.yakuGroup-yakuman .sectionTitle h2 {
+  color: #a61e1e;
+}
+
+.yakuGroup-yakuman .sectionTitle h2::before {
+  background: #c92a2a;
+  border-radius: 999px;
+  color: #ffffff;
+  content: "特別な高得点役";
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  margin-right: 10px;
+  padding: 6px 10px;
+  vertical-align: middle;
+}
+
+.yakuGroup-yakuman .yakuCard {
+  box-shadow: inset 0 4px 0 #c92a2a;
+}
+
+.yakuGroup-yakuman .yakuTileExample > span,
+.yakuGroup-yakuman .textLink {
+  color: #a61e1e;
+}
+
 .yakuCard {
   box-shadow: inset 0 4px 0 #2f9e44;
   display: grid;
@@ -1646,6 +1799,11 @@ h2 {
   color: #8a4a00;
 }
 
+.yakuBadges .open-special {
+  background: #f3f0ff;
+  color: #5f3dc4;
+}
+
 .yakuBadges .priority-first {
   background: #e7f5ff;
   color: #0b559f;
@@ -1691,6 +1849,80 @@ h2 {
   max-width: 34px;
   min-width: 0;
   width: 100%;
+}
+
+.yakuHandFigure {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+.yakuHandTiles {
+  align-items: flex-start;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.yakuTileBlock {
+  background: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 5px;
+}
+
+.yakuTileBlock.isHighlighted {
+  background: #f0fbf3;
+  border-color: #2f9e44;
+  box-shadow: 0 0 0 2px rgba(47, 158, 68, 0.14);
+}
+
+.yakuTileBlockLabel {
+  color: #1b6b2b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.yakuTileBlockTiles {
+  align-items: flex-start;
+  display: flex;
+  gap: 2px;
+}
+
+.yakuTileBlockTiles img,
+.yakuWinningTile img {
+  display: block;
+  height: auto;
+  width: clamp(24px, 4.2vw, 34px);
+}
+
+.yakuWinningTile {
+  align-items: center;
+  border-left: 2px dashed rgba(32, 36, 35, 0.18);
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  margin-left: 2px;
+  padding-left: 10px;
+}
+
+.yakuWinningTile span {
+  color: #c92a2a;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.yakuWinningTile img {
+  width: clamp(28px, 5vw, 38px);
 }
 
 .yakuPointList {
@@ -1795,6 +2027,10 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .toolFeatureCard {
+    grid-template-columns: 1fr;
+  }
+
   .heroTileBand {
     justify-content: flex-start;
     min-width: 0;
@@ -1854,9 +2090,14 @@ h2 {
   .todayCard,
   .learningOrderPanel,
   .learnHubCard,
+  .toolFeatureCard,
   .yakuRuleGrid article,
   .yakuCard {
     padding: 15px;
+  }
+
+  .toolFeatureImageFrame {
+    min-height: 220px;
   }
 
   .cardTopline {
@@ -1878,6 +2119,34 @@ h2 {
 
   .yakuTileStrip img {
     max-width: 28px;
+  }
+
+  .yakuHandFigure {
+    display: grid;
+    gap: 10px;
+  }
+
+  .yakuTileBlock {
+    padding: 4px;
+  }
+
+  .yakuTileBlockTiles img {
+    width: clamp(22px, 7vw, 30px);
+  }
+
+  .yakuWinningTile {
+    align-items: start;
+    border-left: 0;
+    border-top: 2px dashed rgba(32, 36, 35, 0.18);
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 8px;
+  }
+
+  .yakuWinningTile img {
+    width: 30px;
   }
 }
 
