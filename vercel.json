@@ -4,5 +4,5 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter @mahjong-trainer/web build",
   "devCommand": "pnpm --filter @mahjong-trainer/web dev",
-  "outputDirectory": ".next"
+  "outputDirectory": "apps/web/.next"
 }
