@@ -425,13 +425,13 @@ export const toolItems: ToolItem[] = [
         src: "/tool-screenshots/score-calculator-input.png",
         alt: "点数計算チェッカーで手牌と条件を入力している画面",
         caption: "牌姿と条件を入力"
-      },
-      {
-        src: "/tool-screenshots/score-calculator-result.png",
-        alt: "点数計算チェッカーで点数、役、符を確認している画面",
-        caption: "点数・役・符を確認"
-      }
-    ],
+        },
+        {
+          src: "/tool-screenshots/score-calculator-result.png",
+          alt: "点数計算チェッカーで点数結果を確認している画面",
+          caption: "点数結果を確認"
+        }
+      ],
     checks: ["手牌から役・翻・符を確認", "親子、ロン・ツモの支払いを比較", "リーチやドラを変えた点数の違いを確認"],
     href: trainerHref,
     status: "available"

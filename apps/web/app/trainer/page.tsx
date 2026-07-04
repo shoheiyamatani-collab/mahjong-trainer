@@ -20,7 +20,6 @@ import {
   generateChinitsuWaitQuestion,
   generateHardUkeireMaxQuestion,
   generateSevenShapeQuestion,
-  generateUkeireMaxQuestion,
   nextChinitsuSuit,
   parseHand,
   parseBeginnerIishantenTile,
@@ -47,7 +46,7 @@ import {
   type UkeireMaxQuestion
 } from "@mahjong-trainer/mahjong-core";
 
-type Mode = "checker" | "beginnerIishanten" | "ukeireMax" | "ukeireMaxHard" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
+type Mode = "checker" | "beginnerIishanten" | "ukeireMax" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
 
 interface AppState {
   counts: Counts34;
@@ -137,8 +136,8 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
     id: "pinfu-ron-child",
     title: "平和ロン",
     lesson: "平和はロンだと30符。まずは子の1翻30符を覚える問題です。",
-    handText: "123456m234456p22s",
-    winningTile: "4p",
+    handText: "123456m22789p345s",
+    winningTile: "3s",
     isDealer: false,
     winMethod: "ron",
     explanation: "平和のみ。ロンは門前ロン10符が付いて30符になり、子の1翻30符は1,000点です。"
@@ -147,8 +146,8 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
     id: "pinfu-tsumo-child",
     title: "平和ツモ",
     lesson: "平和ツモは20符。実戦でよく見る子の400・700です。",
-    handText: "123456m234456p22s",
-    winningTile: "4p",
+    handText: "123789m345p22567s",
+    winningTile: "5s",
     isDealer: false,
     winMethod: "tsumo",
     explanation: "平和と門前清自摸和で2翻20符。子の支払いは子400点、親700点です。"
@@ -278,8 +277,8 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
     id: "riichi-pinfu-dora",
     title: "リーチ平和ドラ1",
     lesson: "リーチ＋平和＋ドラ1は実戦で最重要の3,900点です。",
-    handText: "123456m234456p22s",
-    winningTile: "4p",
+    handText: "123789m456p22345s",
+    winningTile: "3s",
     isDealer: false,
     winMethod: "ron",
     riichi: true,
@@ -290,8 +289,8 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
     id: "dealer-pinfu-ron",
     title: "親の平和ロン",
     lesson: "親は同じ形でも点数が上がります。",
-    handText: "123456m234456p22s",
-    winningTile: "4p",
+    handText: "123789m23488p456s",
+    winningTile: "4s",
     isDealer: true,
     winMethod: "ron",
     explanation: "親の1翻30符ロンは1,500点。子の1,000点との違いを覚えます。"
@@ -300,8 +299,8 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
     id: "dealer-pinfu-tsumo",
     title: "親の平和ツモ",
     lesson: "親のツモは全員から同じ点をもらいます。",
-    handText: "123456m234456p22s",
-    winningTile: "4p",
+    handText: "55678m123789p234s",
+    winningTile: "6m",
     isDealer: true,
     winMethod: "tsumo",
     explanation: "親の平和ツモは2翻20符で700オールです。"
@@ -619,7 +618,6 @@ export default function Home() {
                 <div className="practiceLevelTitle">初心者向け</div>
                 <div className="segments practiceSegments">
                   <ModeButton active={mode === "beginnerIishanten"} onClick={() => selectMode("beginnerIishanten")}>🔰 イーシャンテン何切る</ModeButton>
-                  <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>受け入れMAX星人何切る</ModeButton>
                   <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
                   <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}>🔰 点数計算問題</ModeButton>
                 </div>
@@ -627,7 +625,7 @@ export default function Home() {
               <div className="practiceLevel hardLevel">
                 <div className="practiceLevelTitle">高難易度</div>
                 <div className="segments practiceSegments">
-                  <ModeButton active={mode === "ukeireMaxHard"} onClick={() => selectMode("ukeireMaxHard")}>🔥 受け入れMAX高難度</ModeButton>
+                  <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>🔥 受け入れMAX星人何切る</ModeButton>
                   <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>🔥 清一色待ち当て</ModeButton>
                   <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}>🔥 点数計算HARD</ModeButton>
                 </div>
@@ -639,8 +637,7 @@ export default function Home() {
 
       {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
       {mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
-      {mode === "ukeireMax" ? <UkeireMaxMode variant="normal" /> : null}
-      {mode === "ukeireMaxHard" ? <UkeireMaxMode variant="hard" /> : null}
+      {mode === "ukeireMax" ? <UkeireMaxMode /> : null}
       {mode === "chinitsu" ? <ChinitsuMode /> : null}
       {mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
       {mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
@@ -723,9 +720,8 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
   );
 }
 
-function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
-  const isHard = variant === "hard";
-  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireQuestion(isHard, []));
+function UkeireMaxMode() {
+  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireQuestion([]));
   const [selected, setSelected] = useState<Tile[]>([]);
   const [checked, setChecked] = useState(false);
   const [recentQuestionKeys, setRecentQuestionKeys] = useState<string[]>([]);
@@ -744,7 +740,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
   }
 
   function resetSession() {
-    setQuestion(generateUkeireQuestion(isHard, recentQuestionKeys));
+    setQuestion(generateUkeireQuestion(recentQuestionKeys));
     setSelected([]);
     setChecked(false);
     setAnsweredCount(0);
@@ -772,7 +768,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
     }
 
     const recent = [...recentQuestionKeys, ukeireQuestionKey(question)].slice(-12);
-    setQuestion(generateUkeireQuestion(isHard, recent));
+    setQuestion(generateUkeireQuestion(recent));
     setRecentQuestionKeys(recent);
     setSelected([]);
     setChecked(false);
@@ -811,7 +807,7 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
     <section className="modeGrid ukeireMaxMode">
       <section className="panel handPanel">
         <div className="panelHeader">
-          <h2>{isHard ? "🔥 受け入れMAX星人何切る 高難易度ver" : "受け入れMAX星人何切る"}</h2>
+          <h2>🔥 受け入れMAX星人何切る</h2>
         </div>
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
         <div className="actions">
@@ -850,10 +846,10 @@ function UkeireMaxMode({ variant }: { variant: "normal" | "hard" }) {
   );
 }
 
-function generateUkeireQuestion(isHard: boolean, recentKeys: string[]): UkeireMaxQuestion {
-  let fallback = isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion();
+function generateUkeireQuestion(recentKeys: string[]): UkeireMaxQuestion {
+  let fallback = generateHardUkeireMaxQuestion();
   for (let attempt = 0; attempt < 24; attempt += 1) {
-    const question = isHard ? generateHardUkeireMaxQuestion() : generateUkeireMaxQuestion();
+    const question = generateHardUkeireMaxQuestion();
     if (!recentKeys.includes(ukeireQuestionKey(question))) return question;
     fallback = question;
   }
@@ -1395,6 +1391,7 @@ function ScoreQuizBeginnerMode() {
       title="🔰 点数計算問題"
       resultTitle="🔰 点数計算問題 リザルト"
       resultDescription="初心者モードの固定問題を完走しました。平和、鳴き、染め手、七対子の点数感を確認できます。"
+      showQuestionTitle={false}
     />
   );
 }
@@ -2294,8 +2291,7 @@ function PlaceholderMode({ mode }: { mode: Mode }) {
   const labels: Record<Mode, string> = {
     checker: "牌理チェッカー",
     beginnerIishanten: "🔰 イーシャンテン何切る",
-    ukeireMax: "受け入れMAX星人何切る",
-    ukeireMaxHard: "🔥 受け入れMAX高難度",
+    ukeireMax: "🔥 受け入れMAX星人何切る",
     scoreQuizBeginner: "🔰 点数計算問題",
     scoreQuizHard: "🔥 点数計算HARD",
     scoring: "🔰 点数計算チェッカー",

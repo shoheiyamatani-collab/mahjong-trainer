@@ -11,8 +11,11 @@ import {
 } from "../src";
 
 describe("beginner iishanten fixed problems", () => {
-  it("contains 10 beginner fixed problems", () => {
-    expect(beginnerIishantenProblems).toHaveLength(10);
+  it("contains one beginner fixed problem per theme", () => {
+    const themes = new Set(beginnerIishantenProblems.map((problem) => problem.theme));
+
+    expect(beginnerIishantenProblems).toHaveLength(7);
+    expect(themes.size).toBe(beginnerIishantenProblems.length);
   });
 
   it("parses z honor notation and keeps 14 tiles", () => {
@@ -23,16 +26,34 @@ describe("beginner iishanten fixed problems", () => {
 
   it("validates every problem answer as max ukeire among choices", () => {
     for (const problem of beginnerIishantenProblems) {
-    const question = buildBeginnerIishantenQuestion(problem);
-    const iishantenChoices = question.choices.filter((choice) => choice.analysis.afterDiscardShanten === 1);
-    const bestTiles = Math.max(...iishantenChoices.map((choice) => choice.analysis.ukeireTiles));
+      const question = buildBeginnerIishantenQuestion(problem);
+      const iishantenChoices = question.choices.filter((choice) => choice.analysis.afterDiscardShanten === 1);
+      const bestTiles = Math.max(...iishantenChoices.map((choice) => choice.analysis.ukeireTiles));
 
-    expect(sumCounts(question.counts), problem.id).toBe(14);
-    expect(problem.choices, problem.id).toContain(problem.answer);
-    expect(iishantenChoices.length, problem.id).toBeGreaterThan(0);
-    expect(question.answerResult.afterDiscardShanten, problem.id).toBe(1);
-    expect(question.answerResult.ukeireTiles, problem.id).toBe(bestTiles);
-    expect(() => validateBeginnerIishantenProblem(problem), problem.id).not.toThrow();
+      expect(sumCounts(question.counts), problem.id).toBe(14);
+      expect(problem.choices, problem.id).toContain(problem.answer);
+      expect(iishantenChoices.length, problem.id).toBeGreaterThan(0);
+      expect(question.answerResult.afterDiscardShanten, problem.id).toBe(1);
+      expect(question.answerResult.ukeireTiles, problem.id).toBe(bestTiles);
+      expect(() => validateBeginnerIishantenProblem(problem), problem.id).not.toThrow();
+    }
+  });
+
+  it("does not use an obvious isolated tile as the answer", () => {
+    for (const problem of beginnerIishantenProblems) {
+      const question = buildBeginnerIishantenQuestion(problem);
+      const answer = parseBeginnerIishantenTile(problem.answer);
+      const tileIndex = TILE_NAMES.indexOf(answer);
+      expect(tileIndex, problem.id).toBeGreaterThanOrEqual(0);
+      expect(tileIndex, problem.id).toBeLessThan(27);
+
+      const suitStart = Math.floor(tileIndex / 9) * 9;
+      const rank = tileIndex % 9;
+      const nearRanks = [rank - 2, rank - 1, rank, rank + 1, rank + 2]
+        .filter((nearRank) => nearRank >= 0 && nearRank < 9);
+      const relatedTileCount = nearRanks.reduce((total, nearRank) => total + question.counts[suitStart + nearRank]!, 0);
+
+      expect(relatedTileCount, problem.id).toBeGreaterThan(1);
     }
   });
 
@@ -46,7 +67,7 @@ describe("beginner iishanten fixed problems", () => {
       ];
     });
 
-    expect(summary).toHaveLength(10);
+    expect(summary).toHaveLength(7);
   });
 
   it("parses choice notation into internal tiles", () => {

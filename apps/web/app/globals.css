@@ -1143,11 +1143,32 @@ h2 {
 
   .discardGrid {
     gap: 7px;
-    grid-template-columns: 42px repeat(5, minmax(47px, 1fr));
+    grid-template-columns: 42px minmax(78px, 0.95fr) minmax(54px, 0.7fr) minmax(54px, 0.7fr);
   }
 
   .discardGrid > div:first-child img {
     width: 38px;
+  }
+
+  .discardGrid > div:nth-child(5) {
+    grid-column: 2 / 3;
+  }
+
+  .discardGrid > div:nth-child(6) {
+    grid-column: 3 / 5;
+  }
+
+  .discardGrid .shantenBadge {
+    font-size: clamp(0.72rem, 3.5vw, 0.84rem);
+    padding: 6px 8px;
+  }
+
+  .discardGrid .statValue {
+    font-size: clamp(0.88rem, 4.4vw, 1rem);
+  }
+
+  .discardGrid .smallLabel {
+    font-size: clamp(0.68rem, 3vw, 0.78rem);
   }
 
   .beginnerChoiceGrid {
