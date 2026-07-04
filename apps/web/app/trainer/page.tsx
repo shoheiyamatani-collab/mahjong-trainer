@@ -23,6 +23,7 @@ import {
   nextChinitsuSuit,
   parseHand,
   parseBeginnerIishantenTile,
+  SEVEN_SHAPE_PATTERNS,
   normalShanten,
   removeTile,
   sevenShapeQuestionKey,
@@ -64,6 +65,11 @@ interface UkeirePracticeMistake {
 
 interface ChinitsuPracticeMistake {
   question: ChinitsuWaitQuestion;
+  selected: number[];
+}
+
+interface SevenShapePracticeMistake {
+  question: SevenShapeQuestion;
   selected: number[];
 }
 
@@ -310,7 +316,7 @@ const BEGINNER_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
 const HARD_SCORE_CHOICES_RON = ["1,300点", "1,600点", "2,300点", "2,600点", "3,200点", "3,400点", "4,800点", "5,200点", "6,400点", "7,700点", "8,000点"];
 const HARD_SCORE_CHOICES_CHILD_TSUMO = ["子400 / 親800", "子500 / 親1,000", "子1,000 / 親2,000", "子1,500 / 親2,900", "子2,000 / 親3,900"];
 
-const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
+const HARD_SCORE_BASE_QUESTIONS: ScoreQuizQuestion[] = [
   {
     id: "hard-ankan-terminal-70-child-ron",
     title: "暗カン絡みの70符ロン",
@@ -502,6 +508,33 @@ const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = [
     explanation: "チャンタ2翻、リーチ1翻で3翻。辺張待ち込みで40符となり、子ロン5,200点です。"
   }
 ];
+
+const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = buildHardScoreQuestions(HARD_SCORE_BASE_QUESTIONS, 100);
+
+function buildHardScoreQuestions(baseQuestions: ScoreQuizQuestion[], total: number): ScoreQuizQuestion[] {
+  return Array.from({ length: total }, (_, index) => {
+    const template = baseQuestions[index % baseQuestions.length]!;
+    if (index < baseQuestions.length) return template;
+    return hardScoreQuestionVariant(template, index);
+  });
+}
+
+function hardScoreQuestionVariant(template: ScoreQuizQuestion, index: number): ScoreQuizQuestion {
+  const { expectedHan, expectedFu, expectedLimitName, choicePool, ...base } = template;
+  const pattern = Math.floor(index / HARD_SCORE_BASE_QUESTIONS.length);
+  const isDealer = pattern % 2 === 0 ? !template.isDealer : template.isDealer;
+  const dora = pattern % 4 === 0 ? (template.dora ?? 0) + 1 : template.dora;
+
+  return {
+    ...base,
+    id: `${template.id}-deck-${String(index + 1).padStart(3, "0")}`,
+    title: `${template.title} ${String(index + 1).padStart(3, "0")}`,
+    isDealer,
+    dora,
+    lesson: template.lesson,
+    explanation: template.explanation
+  };
+}
 
 const initialCounts = parseHand(SAMPLE_HAND);
 
@@ -866,7 +899,10 @@ function PracticeResultPanel<T>({
   onReset,
   onReviewMistakes,
   renderReview,
-  reviewIndex
+  reviewIndex,
+  totalCount = PRACTICE_SESSION_SIZE,
+  resultDescription,
+  resetLabel = "もう一度10問"
 }: {
   correctCount: number;
   mistakes: T[];
@@ -874,6 +910,9 @@ function PracticeResultPanel<T>({
   onReviewMistakes: () => void;
   renderReview: (mistake: T, index: number) => React.ReactNode;
   reviewIndex: number | null;
+  totalCount?: number;
+  resultDescription?: string;
+  resetLabel?: string;
 }) {
   const reviewMistake = reviewIndex == null ? null : mistakes[reviewIndex] ?? null;
   return (
@@ -884,12 +923,12 @@ function PracticeResultPanel<T>({
         </div>
         <div className="resultCard">
           <div className="smallLabel">今回の成績</div>
-          <div className="resultScore">{correctCount} / {PRACTICE_SESSION_SIZE}</div>
-          <p>10問終了です。間違えた問題は答えを表示した状態で確認できます。</p>
+          <div className="resultScore">{correctCount} / {totalCount}</div>
+          <p>{resultDescription ?? "10問終了です。間違えた問題は答えを表示した状態で確認できます。"}</p>
         </div>
         <div className="actions">
           <button disabled={mistakes.length === 0} onClick={onReviewMistakes} type="button">間違えた問題を確認</button>
-          <button onClick={onReset} type="button">もう一度10問</button>
+          <button onClick={onReset} type="button">{resetLabel}</button>
         </div>
       </section>
 
@@ -1243,9 +1282,13 @@ function SevenShapeTrainingMode() {
   const [showHint, setShowHint] = useState(false);
   const [recentKeys, setRecentKeys] = useState<string[]>([]);
   const [courseScore, setCourseScore] = useState(0);
+  const [courseMistakes, setCourseMistakes] = useState<SevenShapePracticeMistake[]>([]);
   const [courseFinished, setCourseFinished] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
   const isCorrect = checked ? evaluateSevenShapeAnswer(question.waits, selected) : false;
   const isAllCourse = trainingMode === "all";
+  const hardPatternCount = SEVEN_SHAPE_PATTERNS.filter((pattern) => pattern.difficulty === "hard").length;
+  const hardMistakeCount = courseMistakes.filter((mistake) => mistake.question.difficulty === "hard").length;
 
   function changeTrainingMode(nextMode: SevenShapeMode) {
     const next = nextMode === "all" ? buildSevenShapeQuestion(1) : generateSevenShapeQuestion("basic");
@@ -1256,7 +1299,9 @@ function SevenShapeTrainingMode() {
     setShowHint(false);
     setRecentKeys([]);
     setCourseScore(0);
+    setCourseMistakes([]);
     setCourseFinished(false);
+    setReviewIndex(null);
   }
 
   function toggle(rank: number) {
@@ -1266,10 +1311,6 @@ function SevenShapeTrainingMode() {
 
   function nextQuestion() {
     if (isAllCourse) {
-      if (courseFinished) {
-        restartAllCourse();
-        return;
-      }
       const nextPatternId = Math.min(question.patternId + 1, 19);
       setQuestion(buildSevenShapeQuestion(nextPatternId));
       setSelected([]);
@@ -1292,6 +1333,9 @@ function SevenShapeTrainingMode() {
     const correct = evaluateSevenShapeAnswer(question.waits, selected);
     if (isAllCourse) {
       setCourseScore((current) => current + (correct ? 1 : 0));
+      if (!correct) {
+        setCourseMistakes((current) => [...current, { question, selected: [...selected] }]);
+      }
       if (question.patternId === 19) {
         setCourseFinished(true);
       }
@@ -1305,7 +1349,33 @@ function SevenShapeTrainingMode() {
     setChecked(false);
     setShowHint(false);
     setCourseScore(0);
+    setCourseMistakes([]);
     setCourseFinished(false);
+    setReviewIndex(null);
+  }
+
+  if (isAllCourse && courseFinished) {
+    return (
+      <PracticeResultPanel
+        correctCount={courseScore}
+        mistakes={courseMistakes}
+        onReviewMistakes={() => setReviewIndex(0)}
+        onReset={restartAllCourse}
+        renderReview={(mistake, index) => (
+          <SevenShapeMistakeReview
+            mistake={mistake}
+            index={index}
+            total={courseMistakes.length}
+            onNext={() => setReviewIndex((current) => (current == null ? 0 : Math.min(current + 1, courseMistakes.length - 1)))}
+            onPrevious={() => setReviewIndex((current) => (current == null ? 0 : Math.max(current - 1, 0)))}
+          />
+        )}
+        reviewIndex={reviewIndex}
+        totalCount={19}
+        resultDescription={`全19パターン終了です。難問は ${hardPatternCount - hardMistakeCount} / ${hardPatternCount} 問正解でした。間違えた問題は答えと解説を表示した状態で確認できます。`}
+        resetLabel="もう一度19問"
+      />
+    );
   }
 
   return (
@@ -1361,16 +1431,53 @@ function SevenShapeTrainingMode() {
               </div>
             </div>
             <div className="explanationBox">{question.explanation}</div>
-            {courseFinished ? (
-              <div className="resultCard">
-                <div className="smallLabel">リザルト</div>
-                <div className="resultScore">{courseScore} / 19問正解</div>
-                <p>全19パターン終了です。もう一度押すと1問目からやり直せます。</p>
-              </div>
-            ) : null}
           </div>
         ) : null}
       </section>
+    </section>
+  );
+}
+
+function SevenShapeMistakeReview({
+  mistake,
+  index,
+  total,
+  onNext,
+  onPrevious
+}: {
+  mistake: SevenShapePracticeMistake;
+  index: number;
+  total: number;
+  onNext: () => void;
+  onPrevious: () => void;
+}) {
+  return (
+    <section className="panel selectedPanel">
+      <div className="panelHeader">
+        <h2>間違えた問題 {index + 1} / {total}</h2>
+      </div>
+      <div className="questionMeta singleMeta">
+        <Stat label="問題番号" value={`${mistake.question.patternId}/19`} />
+        <Stat label="難度" value={mistake.question.difficulty} />
+      </div>
+      <div className="answerDetail compactAnswerDetail">
+        <div className="smallLabel">問題</div>
+        <TileStrip tiles={mistake.question.tiles.map((rank) => chinitsuTile(rank, mistake.question.suit))} />
+        <div className="smallLabel">選択した待ち牌</div>
+        <TileStrip tiles={mistake.selected.map((rank) => chinitsuTile(rank, mistake.question.suit))} emptyText="未選択" />
+        <AnswerResult result="wrong" />
+        <div className="smallLabel">正解の待ち牌</div>
+        <TileStrip tiles={mistake.question.waits.map((rank) => chinitsuTile(rank, mistake.question.suit))} />
+        <p>
+          {mistake.question.waits.length}種 /{" "}
+          {mistake.question.waits.reduce((sum, rank) => sum + (mistake.question.remainingTiles[rank] ?? 0), 0)}枚
+        </p>
+        <div className="explanationBox">{mistake.question.explanation}</div>
+      </div>
+      <div className="actions">
+        <button disabled={index === 0} onClick={onPrevious} type="button">前の問題</button>
+        <button disabled={index >= total - 1} onClick={onNext} type="button">次の問題</button>
+      </div>
     </section>
   );
 }
@@ -1382,6 +1489,7 @@ interface ScoreQuizPracticeModeProps {
   resultDescription: string;
   showQuestionTitle?: boolean;
   showAnswerExplanation?: boolean;
+  allowRevealWithoutSelection?: boolean;
 }
 
 function ScoreQuizBeginnerMode() {
@@ -1392,6 +1500,7 @@ function ScoreQuizBeginnerMode() {
       resultTitle="🔰 点数計算問題 リザルト"
       resultDescription="初心者モードの固定問題を完走しました。平和、鳴き、染め手、七対子の点数感を確認できます。"
       showQuestionTitle={false}
+      allowRevealWithoutSelection={true}
     />
   );
 }
@@ -1415,7 +1524,8 @@ function ScoreQuizPracticeMode({
   resultTitle,
   resultDescription,
   showQuestionTitle = true,
-  showAnswerExplanation = true
+  showAnswerExplanation = true,
+  allowRevealWithoutSelection = false
 }: ScoreQuizPracticeModeProps) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -1431,7 +1541,13 @@ function ScoreQuizPracticeMode({
   const isCorrect = checked && selected === correctAnswer;
 
   function submitAnswer() {
-    if (!selected || checked) return;
+    if (checked) return;
+    if (!selected) {
+      if (allowRevealWithoutSelection) {
+        setChecked(true);
+      }
+      return;
+    }
     const correct = selected === correctAnswer;
     setChecked(true);
     if (correct) {
@@ -1557,9 +1673,11 @@ function ScoreQuizPracticeMode({
         </div>
         <div className="actions">
           <button disabled={!selected || checked} onClick={submitAnswer} type="button">決定</button>
-          <button disabled={!selected && !checked} onClick={nextQuestion} type="button">{checked ? "次の問題" : "答え合わせ"}</button>
+          <button disabled={!allowRevealWithoutSelection && !selected && !checked} onClick={nextQuestion} type="button">
+            {checked ? "次の問題" : allowRevealWithoutSelection ? "回答を見る" : "答え合わせ"}
+          </button>
         </div>
-        {checked ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
+        {checked && selected ? <AnswerResult result={isCorrect ? "correct" : "wrong"} /> : null}
         {checked ? (
           <div className="answerDetail">
             <div className="answerCompare">
@@ -1569,7 +1687,7 @@ function ScoreQuizPracticeMode({
               </div>
               <div>
                 <div className="smallLabel">自分の回答</div>
-                <div className="scoreAnswerText">{selected}</div>
+                <div className="scoreAnswerText">{selected ?? "未選択"}</div>
               </div>
             </div>
             <HandScoreResultCard result={scoreResult} />
@@ -1799,6 +1917,8 @@ function ScoringMode() {
         </div>
         <div className="smallLabel">手牌 {sumCounts(counts)} / {closedHandTarget}</div>
         <TileStrip tiles={tiles} onTileClick={removeScoreTile} emptyText="牌を追加してください" />
+        <div className="smallLabel">副露</div>
+        <MeldList melds={melds} onRemove={removeScoreMeld} />
         <div className="actions">
           <button onClick={clearScoreHand} type="button">クリア</button>
           <button onClick={sampleScoreHand} type="button">サンプル</button>
@@ -1812,7 +1932,6 @@ function ScoringMode() {
         </div>
         <MeldKindPicker value={meldKind} onChange={setMeldKind} />
         <MeldPalette counts={scoreTotalCounts(counts, melds)} kind={meldKind} onAdd={addScoreMeld} />
-        <MeldList melds={melds} onRemove={removeScoreMeld} />
       </section>
 
       <section className="panel selectedPanel">

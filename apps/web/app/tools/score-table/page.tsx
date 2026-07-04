@@ -19,25 +19,6 @@ const scoreTables = [
   }
 ];
 
-const readingSteps = [
-  {
-    title: "1. 子か親かを見る",
-    body: "自分が子なら「子」、親なら「親」の欄を使います。親のアガリは子より点数が高いので、最初にここを分けます。"
-  },
-  {
-    title: "2. ロンかツモかを見る",
-    body: "相手の捨て牌でアガったらロン、自分で引いてアガったらツモです。ロンは1人が払い、ツモは3人で分けて払います。"
-  },
-  {
-    title: "3. 符を見る",
-    body: "符は手の形で決まる細かい点です。初心者はまず、平和ロン30符、平和ツモ20符、七対子25符固定、よく出る30符・40符を見れば十分です。"
-  },
-  {
-    title: "4. 翻を見る",
-    body: "翻は役やドラの合計です。表では符の行と翻の列が交わる場所を見ます。5翻以上や高い手は、満貫以上の表を見ます。"
-  }
-];
-
 const focusCards = [
   {
     title: "平和ロンは30符を見る",
@@ -76,21 +57,6 @@ const paymentCards = [
   }
 ];
 
-const examples = [
-  {
-    title: "例1: 子の平和ロン 4翻",
-    tiles: ["man2", "man3", "man4", "man3", "man4", "man5", "pin4", "pin5", "pin6", "sou5", "sou6", "sou7", "pin2", "pin2"],
-    body: "リーチ・平和・ドラ2などで4翻になった子のロンは、平和ロンなので30符を見ます。30符4翻の子ロンは7700点です。切り上げ満貫ありなら8000点として扱います。",
-    result: "見る場所: 子 → ロン → 平和ロン30符 → 4翻 = 7700(※8000)"
-  },
-  {
-    title: "例2: 子の平和ツモ 3翻",
-    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "pin6", "pin7", "pin8", "sou4", "sou5", "sou6", "ji5", "ji5"],
-    body: "平和ツモは20符です。子の平和ツモで3翻なら、平和ツモ20符の3翻を見ます。子ツモ欄の700 / 1300は、子が700点、親が1300点を払うという意味です。",
-    result: "見る場所: 子 → ツモ → 平和ツモ20符 → 3翻 = 700 / 1300"
-  }
-];
-
 export default function ScoreTablePage() {
   return (
     <main className="siteMain">
@@ -98,25 +64,9 @@ export default function ScoreTablePage() {
         eyebrow="Score Table Guide"
         title="麻雀 点数計算表の見方"
         description="このページでは、点数表そのものよりも「図のどこを見ればいいか」を解説します。子か親か、ロンかツモか、符、翻の順番で見れば、初心者でも点数表を読みやすくなります。"
-        primaryLink={{ label: "点数計算ツールを使う", href: "/trainer" }}
-        secondaryLink={{ label: "点数計算は後回しを読む", href: "/learn/score-later" }}
+        primaryLink={{ label: "点数計算ツールを使う", href: "/tools" }}
+        secondaryLink={{ label: "実践でよく見る点数計算へ戻る", href: "/rules/practical-score" }}
       />
-
-      <section>
-        <SectionTitle
-          title="初心者向け: 点数表はこの順番で見ればOK"
-          description="点数表は丸暗記する表ではありません。子か親か、ロンかツモか、符、翻の順番で条件を絞り、交差する場所を見るための表です。"
-        />
-        <p className="scoreLeadFormula">子か親か → ロンかツモか → 符 → 翻</p>
-        <div className="scoreGuideGrid">
-          {readingSteps.map((step) => (
-            <article className="scoreGuideCard" key={step.title}>
-              <h2>{step.title}</h2>
-              <p>{step.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
 
       <section>
         <SectionTitle
@@ -148,6 +98,24 @@ export default function ScoreTablePage() {
         </div>
       </section>
 
+      <section>
+        <SectionTitle
+          title="点数表の図解"
+          description="上の解説を読んでから図を見ると、どの行と列を使うのかが分かりやすくなります。"
+        />
+        <div className="scoreTableStack">
+          {scoreTables.map((table) => (
+            <article className="scoreTableCard" key={table.src}>
+              <div className="sectionTitle compactSectionTitle">
+                <h2>{table.title}</h2>
+                <p>{table.description}</p>
+              </div>
+              <img src={table.src} alt={table.title} />
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="scoreNoticeSection">
         <div className="scoreNoticeCard">
           <h2>7700(※8000)、11600(※12000) の意味</h2>
@@ -167,50 +135,14 @@ export default function ScoreTablePage() {
       </section>
 
       <section>
-        <SectionTitle
-          title="牌で見る点数表の例"
-          description="牌画像はアプリ内の牌素材を使っています。手牌そのものを覚えるより、どの表を見るかの流れをつかみましょう。"
-        />
-        <div className="scoreExampleGrid">
-          {examples.map((example) => (
-            <article className="scoreExampleCard" key={example.title}>
-              <h2>{example.title}</h2>
-              <div className="scoreTileStrip" aria-label={`${example.title}の手牌例`}>
-                {example.tiles.map((tile, index) => (
-                  <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-                ))}
-              </div>
-              <p>{example.body}</p>
-              <strong>{example.result}</strong>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle
-          title="点数表の図解"
-          description="上の解説を読んでから図を見ると、どの行と列を使うのかが分かりやすくなります。"
-        />
-        <div className="scoreTableStack">
-          {scoreTables.map((table) => (
-            <article className="scoreTableCard" key={table.src}>
-              <div className="sectionTitle compactSectionTitle">
-                <h2>{table.title}</h2>
-                <p>{table.description}</p>
-              </div>
-              <img src={table.src} alt={table.title} />
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section>
         <SectionTitle title="点数表のあとに" description="表で確認したら、実際の手牌や条件でも試してみましょう。" />
         <div className="linkCardGrid">
-          <InternalLinkCard title="点数計算ツールを使う" description="手牌と条件を変えながら、ロン・ツモの支払いを確認します。" href="/trainer" />
-          <InternalLinkCard title="点数計算は後回しを読む" description="初心者がどこまで覚えればよいかを整理できます。" href="/learn/score-later" />
-          <InternalLinkCard title="実戦問題で練習する" description="点数より先に、何切るや待ち当てでアガリまでの流れを練習します。" href="/trainer" />
+          <InternalLinkCard
+            title="点数計算ツールを使う"
+            description="麻雀便利ツールから、点数計算ツールや実戦練習に進めます。手牌と条件を変えながら、ロン・ツモの支払いを確認しましょう。"
+            href="/tools"
+            actionLabel="麻雀便利ツールへ"
+          />
         </div>
       </section>
     </main>

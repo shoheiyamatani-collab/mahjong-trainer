@@ -4,8 +4,8 @@ import { InternalLinkCard, PageHero, SectionTitle } from "../components/SiteSect
 import { ruleItems } from "../siteData";
 
 export const metadata: Metadata = {
-  title: "麻雀ルール一覧 | 基本ルール・役・待ち・点数計算",
-  description: "麻雀の基本ルール、役一覧、リーチ、タンヤオ、役牌、ツモとロン、鳴き、テンパイと待ち、点数計算、符計算の入口です。"
+  title: "実践でよく使う麻雀の基本 | 役・点数計算・待ち・一向聴",
+  description: "実践で頻出する麻雀の役、点数計算、待ち、一向聴の形を確認できる入口です。これが分かれば9割方問題なしを目指します。"
 };
 
 export default function RulesPage() {
@@ -13,14 +13,17 @@ export default function RulesPage() {
     <main className="siteMain">
       <PageHero
         eyebrow="Rules Library"
-        title="麻雀ルール一覧"
-        description="将来的な解説記事の入口です。今は一覧と準備中表示を中心に、練習問題やツールへ戻れる形にしています。"
+        title="実践でよく使う麻雀の基本"
+        description="これが分かれば実践問題なし！実践で頻出する点数計算や待ちについて、これが分かれば9割方問題なし！"
         primaryLink={{ label: "初心者ロードマップを見る", href: "/learn" }}
         secondaryLink={{ label: "練習問題を解く", href: "/trainer" }}
       />
 
       <section>
-        <SectionTitle title="ルール・知識" description="初心者が検索しやすい言葉で、記事ページの土台を並べています。" />
+        <SectionTitle
+          title="実践でよく使う麻雀の基本"
+          description="これが分かれば実践問題なし！実践で頻出する点数計算や待ちについて、これが分かれば9割方問題なし！"
+        />
         <div className="rulesGrid">
           {ruleItems.map((item) => (
             <article className="ruleCard" key={item.title}>

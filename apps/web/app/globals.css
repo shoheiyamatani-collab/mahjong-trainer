@@ -1435,6 +1435,7 @@ h2 {
   box-shadow: inset 0 4px 0 #2f9e44;
   display: grid;
   gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr);
   min-width: 0;
   padding: 18px;
 }
@@ -1459,6 +1460,65 @@ h2 {
   font-weight: 700;
   line-height: 1.75;
   margin: 8px 0 0;
+}
+
+.learnHubCard .cardButton,
+.learnHubCard .learnHubLinks {
+  grid-column: 1 / -1;
+}
+
+.learnHubVisual {
+  align-self: stretch;
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.08);
+  border-radius: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.learnHubTileVisual {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  padding: 14px;
+}
+
+.learnHubTileVisual img {
+  display: block;
+  filter: drop-shadow(0 6px 10px rgba(32, 36, 35, 0.12));
+  max-width: 42px;
+  min-width: 0;
+  width: 100%;
+}
+
+.isRulesVisual {
+  background: #f0f8ff;
+  border-color: rgba(25, 113, 194, 0.16);
+}
+
+.learnHubScreenshot {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.learnHubScreenshot img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  width: 100%;
+}
+
+.learnHubScreenshot figcaption {
+  background: #ffffff;
+  border-top: 1px solid rgba(32, 36, 35, 0.08);
+  color: #4f5f59;
+  font-size: 0.82rem;
+  font-weight: 850;
+  line-height: 1.45;
+  padding: 8px 10px;
 }
 
 .learnHubLinks {
@@ -2329,6 +2389,23 @@ h2 {
     padding: 15px;
   }
 
+  .learnHubCard {
+    grid-template-columns: 1fr;
+  }
+
+  .learnHubTileVisual {
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  .learnHubTileVisual img {
+    max-width: 34px;
+  }
+
+  .learnHubScreenshot img {
+    max-height: 170px;
+  }
+
   .cardTopline {
     align-items: flex-start;
     flex-direction: column;
@@ -2891,12 +2968,250 @@ h2 {
   width: 100%;
 }
 
+.practicalScoreGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.practicalScoreCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: inset 0 4px 0 #2f9e44;
+  display: grid;
+  gap: 14px;
+  padding: clamp(16px, 3vw, 22px);
+}
+
+.practicalScoreCard h2 {
+  color: #173f23;
+  font-size: clamp(1.18rem, 3vw, 1.45rem);
+  line-height: 1.4;
+}
+
+.practicalScoreCard > div > p,
+.scoreCaseCard p {
+  color: #4f5f59;
+  font-weight: 750;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.scorePairGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scoreCaseCard {
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.08);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.scoreCaseCard h3 {
+  color: #173f23;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.scoreFuBadge {
+  background: #fff3df;
+  border-radius: 999px;
+  color: #8a4a00;
+  font-size: 0.78rem;
+  font-weight: 1000;
+  padding: 6px 9px;
+  white-space: nowrap;
+}
+
+.miniScoreList {
+  display: grid;
+  gap: 7px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.miniScoreList li {
+  background: #ffffff;
+  border-radius: 8px;
+  color: #173f23;
+  font-size: 0.92rem;
+  font-weight: 900;
+  line-height: 1.55;
+  padding: 9px 10px;
+}
+
+.waitTipGrid,
+.waitPatternGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.waitTipGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.waitTipGrid article,
+.waitPatternCard {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.waitTipGrid article {
+  box-shadow: inset 0 4px 0 #1971c2;
+}
+
+.waitPatternGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.waitPatternCard {
+  box-shadow: inset 0 4px 0 #2f9e44;
+}
+
+.waitTipGrid h2,
+.waitPatternCard h2 {
+  color: #173f23;
+  font-size: clamp(1.12rem, 3vw, 1.35rem);
+  line-height: 1.4;
+}
+
+.waitTipGrid p,
+.waitPatternCard p {
+  color: #4f5f59;
+  font-weight: 750;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.waitSubtitle {
+  color: #b86300 !important;
+  font-size: 0.78rem;
+  font-weight: 1000 !important;
+  line-height: 1.2 !important;
+  margin: 0 0 5px !important;
+}
+
+.waitTileArea {
+  align-items: center;
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.08);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(84px, auto);
+  padding: 12px;
+}
+
+.waitTileStrip {
+  align-items: flex-start;
+  display: flex;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.waitTileStrip img {
+  display: block;
+  flex: 1 1 0;
+  max-width: 34px;
+  min-width: 0;
+  width: 100%;
+}
+
+.waitTiles {
+  background: #e9f8ed;
+  border: 1px solid rgba(47, 158, 68, 0.22);
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.waitArrow {
+  color: #1b6b2b;
+  font-weight: 1000;
+}
+
+.waitPoint {
+  background: #e7f5ff;
+  border: 1px solid rgba(25, 113, 194, 0.18);
+  border-radius: 8px;
+  color: #0b559f;
+  font-weight: 900;
+  line-height: 1.7;
+  padding: 10px 12px;
+}
+
+.waitTrainingCallout {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(47, 158, 68, 0.24);
+  border-radius: 8px;
+  box-shadow: inset 0 4px 0 #2f9e44;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 1.05fr) auto;
+  padding: clamp(18px, 4vw, 26px);
+}
+
+.waitTrainingCallout h2 {
+  color: #173f23;
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  line-height: 1.35;
+}
+
+.waitTrainingCallout p:not(.siteEyebrow) {
+  color: #4f5f59;
+  font-weight: 800;
+  line-height: 1.75;
+  margin: 8px 0 0;
+}
+
+.waitTrainingImage {
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.08);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.waitTrainingImage img {
+  border-radius: 6px;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.waitTrainingImage figcaption {
+  color: #4f5f59;
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.5;
+}
+
 @media (max-width: 900px) {
   .scoreGuideGrid,
   .scoreFocusGrid,
   .scoreExampleGrid,
   .scorePaymentGrid,
-  .scoreNoticeSection {
+  .scoreNoticeSection,
+  .scorePairGrid,
+  .waitTipGrid,
+  .waitPatternGrid {
     grid-template-columns: 1fr;
   }
 }
@@ -2912,6 +3227,28 @@ h2 {
 
   .scoreTileStrip img {
     max-width: 28px;
+  }
+
+  .waitTipGrid article,
+  .waitPatternCard {
+    padding: 15px;
+  }
+
+  .waitTileArea {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
+
+  .waitTrainingCallout {
+    grid-template-columns: 1fr;
+  }
+
+  .waitArrow {
+    display: none;
+  }
+
+  .waitTileStrip img {
+    max-width: 30px;
   }
 }
 

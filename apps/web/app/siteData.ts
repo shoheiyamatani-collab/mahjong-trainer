@@ -460,63 +460,28 @@ export const toolItems: ToolItem[] = [
 
 export const ruleItems: RuleItem[] = [
   {
-    title: "麻雀の基本ルール",
-    description: "ツモって捨てる流れ、アガリ形、局の進み方をまとめる予定です。",
-    href: "/learn/what-is-mahjong",
+    title: "実践でよく見る役一覧",
+    description: "リーチ、役牌、タンヤオなど、実戦で頻出する役だけを先に確認できます。",
+    href: "/rules/frequent-yaku",
     status: "available"
   },
   {
-    title: "役一覧",
-    description: "初心者が先に覚えたい役から、牌図つきで順番に確認できます。",
-    href: "/rules/yaku",
+    title: "実践でよく見る点数計算",
+    description: "平和、七対子、親子、ロン・ツモなど、よく出る点数の見方を確認できます。",
+    href: "/rules/practical-score",
     status: "available"
   },
   {
-    title: "リーチ",
-    description: "門前テンパイで宣言できる、最初に覚えたい役です。",
-    href: "/rules/reach",
+    title: "実践でよく見る待ち一覧",
+    description: "テンパイ、両面待ち、カンチャン待ちなど、実戦でよく見る待ちの基本を確認できます。",
+    href: "/rules/practical-waits",
     status: "available"
   },
   {
-    title: "タンヤオ",
-    description: "2から8の数牌だけで作る、使いやすい基本役です。",
-    href: "/rules/tanyao",
+    title: "実践でよく見る一向聴の形",
+    description: "完全イーシャンテン、くっつき、雀頭なしなど、何切るでよく出る形を練習できます。",
+    href: "/trainer",
     status: "available"
-  },
-  {
-    title: "役牌",
-    description: "三元牌や自風・場風を3枚そろえる役です。",
-    href: "/rules/yakuhai",
-    status: "available"
-  },
-  {
-    title: "ツモとロン",
-    description: "自分で引くアガリと、相手の捨て牌でアガる違いを解説します。",
-    href: "/learn/tsumo-and-ron",
-    status: "available"
-  },
-  {
-    title: "鳴き",
-    description: "チー・ポン・カンの使いどころと注意点をまとめます。",
-    href: "/learn/calling",
-    status: "available"
-  },
-  {
-    title: "テンパイと待ち",
-    description: "あと1枚の状態と、待ち牌の探し方を解説します。",
-    href: "/learn/tenpai-and-wait",
-    status: "available"
-  },
-  {
-    title: "点数計算",
-    description: "翻、符、親子、ロン・ツモの基本を少しずつ学べる入口です。",
-    href: "/learn/score-later",
-    status: "available"
-  },
-  {
-    title: "符計算",
-    description: "符の考え方を、初心者がつまずきやすい順に整理します。",
-    status: "comingSoon"
   }
 ];
 
