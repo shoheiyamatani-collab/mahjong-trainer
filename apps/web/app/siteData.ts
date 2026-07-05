@@ -47,6 +47,7 @@ export type RuleItem = {
 export type LearnQuiz = {
   question: string;
   choices: string[];
+  choiceTiles?: Record<string, string[]>;
   answer: string;
   explanation: string;
 };
@@ -82,7 +83,7 @@ export const learnArticles: LearnArticle[] = [
       "細かい点数や難しい役は最初から覚えなくて大丈夫です。まずは「形を作る」「役を1つ用意する」ことを目標にしましょう。"
     ],
     example: "トランプの役作りに近い感覚です。手札を入れ替えながら、決まった組み合わせを目指します。",
-    misconceptions: ["牌を全部覚えないと遊べない", "点数計算ができないと始められない", "アガリ形だけ作れば必ずアガれる"],
+    misconceptions: ["点数計算ができないと始められない", "アガリ形だけ作れば必ずアガれる"],
     quiz: {
       question: "麻雀で最初に目指すことはどれですか？",
       choices: ["点数を暗算する", "アガリの形と役をそろえる", "相手の牌を全部覚える"],
@@ -105,10 +106,15 @@ export const learnArticles: LearnArticle[] = [
       "字牌は、東・南・西・北・白・發・中です。数字はありませんが、役に関係しやすい大事な牌です。"
     ],
     example: "「3萬」「3筒」「3索」は同じ3でも別の牌です。マークの種類まで見て区別します。",
-    misconceptions: ["同じ数字なら全部同じ牌", "字牌は使い道が少ない", "牌の正式名を全部暗記しないと進めない"],
+    misconceptions: [],
     quiz: {
       question: "数牌に含まれる種類はどれですか？",
       choices: ["萬子・筒子・索子", "東・南・西", "白・發・中"],
+      choiceTiles: {
+        "萬子・筒子・索子": ["man1", "man5", "man9", "pin1", "pin5", "pin9", "sou1", "sou5", "sou9"],
+        "東・南・西": ["ji1", "ji2", "ji3"],
+        "白・發・中": ["ji6", "ji5", "ji7"]
+      },
       answer: "萬子・筒子・索子",
       explanation: "数牌は3種類あり、それぞれ1から9まであります。"
     },

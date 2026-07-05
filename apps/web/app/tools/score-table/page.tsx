@@ -19,44 +19,6 @@ const scoreTables = [
   }
 ];
 
-const focusCards = [
-  {
-    title: "平和ロンは30符を見る",
-    body: "平和でロンしたときは30符です。たとえば子の2翻なら2000点、3翻なら3900点を見ます。"
-  },
-  {
-    title: "平和ツモは20符を見る",
-    body: "平和ツモは20符です。実戦では門前ツモが付くので2翻以上から見ることが多いです。"
-  },
-  {
-    title: "七対子は25符固定",
-    body: "七対子は特殊で、符を数えず25符固定です。表では七対子専用の欄を見ます。"
-  },
-  {
-    title: "満貫以上は別枠で見る",
-    body: "5翻以上、または高い符と翻の組み合わせは満貫以上になります。満貫以上は符を細かく見ず、満貫・跳満・倍満などの表を見ます。"
-  }
-];
-
-const paymentCards = [
-  {
-    title: "子ロン",
-    body: "子がロンした点数です。放銃した1人が、表に書かれた点数をそのまま支払います。"
-  },
-  {
-    title: "親ロン",
-    body: "親がロンした点数です。親のアガリなので、同じ符・翻でも子ロンより高くなります。"
-  },
-  {
-    title: "子ツモ",
-    body: "子がツモした点数です。「700 / 1300」のように、子が払う点 / 親が払う点の順で読みます。"
-  },
-  {
-    title: "親ツモ",
-    body: "親がツモした点数です。「1300オール」のように、子3人が全員同じ点数を支払います。"
-  }
-];
-
 export default function ScoreTablePage() {
   return (
     <main className="siteMain">
@@ -67,36 +29,6 @@ export default function ScoreTablePage() {
         primaryLink={{ label: "点数計算ツールを使う", href: "/tools" }}
         secondaryLink={{ label: "実践でよく見る点数計算へ戻る", href: "/rules/practical-score" }}
       />
-
-      <section>
-        <SectionTitle
-          title="平和・七対子は専用表で確認しよう"
-          description="平和と七対子は初心者がよく見る形です。符の考え方が決まっているので、専用の早見表から覚えると迷いにくくなります。"
-        />
-        <div className="scoreFocusGrid">
-          {focusCards.map((card) => (
-            <article className="scoreFocusCard" key={card.title}>
-              <h2>{card.title}</h2>
-              <p>{card.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <SectionTitle
-          title="支払い欄の読み方"
-          description="点数表の子ロン・親ロン・子ツモ・親ツモは、誰がいくら払うかを表しています。"
-        />
-        <div className="scorePaymentGrid">
-          {paymentCards.map((card) => (
-            <article className="scorePaymentCard" key={card.title}>
-              <h2>{card.title}</h2>
-              <p>{card.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
 
       <section>
         <SectionTitle
@@ -143,6 +75,16 @@ export default function ScoreTablePage() {
             href="/tools"
             actionLabel="麻雀便利ツールへ"
           />
+        </div>
+        <div className="scoreToolPreviewGrid">
+          <figure className="scoreToolPreview">
+            <img src="/tool-screenshots/score-calculator-input.png" alt="点数計算ツールで牌姿と条件を入力している画面" />
+            <figcaption>牌姿と条件を入力して確認できます。</figcaption>
+          </figure>
+          <figure className="scoreToolPreview">
+            <img src="/tool-screenshots/score-calculator-result.png" alt="点数計算ツールで点数結果を確認している画面" />
+            <figcaption>ロン・ツモの支払いと役・符を確認できます。</figcaption>
+          </figure>
         </div>
       </section>
     </main>

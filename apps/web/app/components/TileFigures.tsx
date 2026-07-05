@@ -11,6 +11,10 @@ export type TileFigure = {
   title: string;
   description: string;
   badges?: string[];
+  link?: {
+    href: string;
+    label: string;
+  };
   rows: TileFigureRow[];
 };
 
@@ -92,6 +96,11 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
                 </div>
               ))}
             </div>
+            {figure.link ? (
+              <a className="tileFigureLink" href={figure.link.href}>
+                {figure.link.label}
+              </a>
+            ) : null}
           </article>
         ))}
       </div>

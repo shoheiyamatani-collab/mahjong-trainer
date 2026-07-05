@@ -1815,6 +1815,7 @@ function ScoringMode() {
   const [counts, setCounts] = useState<Counts34>(() => parseHand(SCORE_SAMPLE_HAND));
   const [melds, setMelds] = useState<HandScoreMeld[]>([]);
   const [meldKind, setMeldKind] = useState<ScoreMeldInputKind>("pon");
+  const [chiTiles, setChiTiles] = useState<Tile[]>([]);
   const [winningTile, setWinningTile] = useState<Tile | null>("4p");
   const [isDealer, setIsDealer] = useState(false);
   const [winMethod, setWinMethod] = useState<"ron" | "tsumo">("ron");
@@ -1880,15 +1881,22 @@ function ScoringMode() {
   function clearScoreHand() {
     setCounts(emptyCounts());
     setMelds([]);
+    setChiTiles([]);
     setWinningTile(null);
   }
 
   function sampleScoreHand() {
     setCounts(parseHand(SCORE_SAMPLE_HAND));
     setMelds([]);
+    setChiTiles([]);
     setWinningTile("4p");
     setRiichi(true);
     setWinMethod("ron");
+  }
+
+  function changeScoreMeldKind(kind: ScoreMeldInputKind) {
+    setMeldKind(kind);
+    setChiTiles([]);
   }
 
   function addScoreMeld(tile: Tile) {
@@ -1902,6 +1910,28 @@ function ScoringMode() {
       setRiichi(false);
       setIppatsu(false);
     }
+  }
+
+  function toggleScoreChiTile(tile: Tile) {
+    const index = TILE_NAMES.indexOf(tile);
+    if (index < 0 || index >= 27) return;
+    if (totalTileCount(counts, melds, tile) >= 4 && !chiTiles.includes(tile)) return;
+    setChiTiles((current) => {
+      if (current.includes(tile)) return current.filter((selectedTile) => selectedTile !== tile);
+      if (current.length >= 3) return current;
+      return sortTiles([...current, tile]);
+    });
+  }
+
+  function addScoreChiMeld() {
+    if (melds.length >= 4) return;
+    const meld = buildChiMeldFromTiles(chiTiles);
+    if (!meld) return;
+    if (!canAddMeld(scoreTotalCounts(counts, melds), [], meld)) return;
+    setMelds((current) => [...current, meld]);
+    setChiTiles([]);
+    setRiichi(false);
+    setIppatsu(false);
   }
 
   function removeScoreMeld(index: number) {
@@ -1930,8 +1960,18 @@ function ScoringMode() {
         <div className="panelHeader compactHeader">
           <h2>副露を追加</h2>
         </div>
-        <MeldKindPicker value={meldKind} onChange={setMeldKind} />
-        <MeldPalette counts={scoreTotalCounts(counts, melds)} kind={meldKind} onAdd={addScoreMeld} />
+        <MeldKindPicker value={meldKind} onChange={changeScoreMeldKind} />
+        {meldKind === "chi" ? (
+          <ChiMeldInput
+            counts={scoreTotalCounts(counts, melds)}
+            selected={chiTiles}
+            onToggle={toggleScoreChiTile}
+            onClear={() => setChiTiles([])}
+            onAdd={addScoreChiMeld}
+          />
+        ) : (
+          <MeldPalette counts={scoreTotalCounts(counts, melds)} kind={meldKind} onAdd={addScoreMeld} />
+        )}
       </section>
 
       <section className="panel selectedPanel">
@@ -2021,6 +2061,61 @@ function MeldKindPicker({ value, onChange }: { value: ScoreMeldInputKind; onChan
   );
 }
 
+function ChiMeldInput({
+  counts,
+  selected,
+  onToggle,
+  onClear,
+  onAdd
+}: {
+  counts: Counts34;
+  selected: Tile[];
+  onToggle: (tile: Tile) => void;
+  onClear: () => void;
+  onAdd: () => void;
+}) {
+  const rows = [TILE_NAMES.slice(0, 9), TILE_NAMES.slice(9, 18), TILE_NAMES.slice(18, 27)];
+  const chiMeld = buildChiMeldFromTiles(selected);
+  const canAdd = !!chiMeld && canAddMeld(counts, [], chiMeld);
+
+  return (
+    <div className="chiMeldInput">
+      <div className="chiMeldPreview">
+        <div>
+          <div className="smallLabel">選択中のチー</div>
+          <TileStrip tiles={selected} emptyText="同じ色の連続する3枚を選んでください" />
+        </div>
+        <div className="chiMeldActions">
+          <button disabled={selected.length === 0} onClick={onClear} type="button">選び直す</button>
+          <button disabled={!canAdd} onClick={onAdd} type="button">チーを追加</button>
+        </div>
+      </div>
+      <div className="paletteRows meldPaletteRows">
+        {rows.map((row, rowIndex) => (
+          <div className="paletteRow" key={rowIndex}>
+            {row.map((tile) => {
+              const selectedTile = selected.includes(tile);
+              const disabled = !selectedTile && (selected.length >= 3 || (counts[TILE_NAMES.indexOf(tile)] ?? 0) >= 4);
+              return (
+                <button
+                  className={selectedTile ? "tileButton selected" : "tileButton"}
+                  disabled={disabled}
+                  key={tile}
+                  onClick={() => onToggle(tile)}
+                  title={tile}
+                  type="button"
+                >
+                  <TileImage tile={tile} />
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function MeldPalette({ counts, kind, onAdd }: { counts: Counts34; kind: ScoreMeldInputKind; onAdd: (tile: Tile) => void }) {
   const rows = [TILE_NAMES.slice(0, 9), TILE_NAMES.slice(9, 18), TILE_NAMES.slice(18, 27), TILE_NAMES.slice(27)];
   return (
@@ -2062,11 +2157,16 @@ function MeldList({ melds, onRemove }: { melds: HandScoreMeld[]; onRemove?: (ind
 }
 
 function MeldTiles({ meld }: { meld: HandScoreMeld }) {
+  const sidewaysIndex = meld.kind === "ankan" ? -1 : meld.kind === "pon" ? 1 : meld.tiles.length - 1;
   return (
     <div className={`meldTiles ${meld.kind}`}>
       {meld.tiles.map((tile, index) =>
         meld.kind === "ankan" && (index === 1 || index === 2) ? (
           <span aria-label="伏せ牌" className="faceDownTile" key={`${tile}-${index}`} />
+        ) : index === sidewaysIndex ? (
+          <span className="sidewaysMeldTile" key={`${tile}-${index}`}>
+            <TileImage tile={tile} />
+          </span>
         ) : (
           <TileImage key={`${tile}-${index}`} tile={tile} />
         )
@@ -2090,6 +2190,21 @@ function buildScoreMeld(kind: ScoreMeldInputKind, tile: Tile): HandScoreMeld | n
   }
   const size = kind === "pon" ? 3 : 4;
   return { kind, tiles: Array(size).fill(tile) as Tile[] };
+}
+
+function buildChiMeldFromTiles(tiles: Tile[]): HandScoreMeld | null {
+  if (tiles.length !== 3) return null;
+  const sorted = sortTiles(tiles);
+  const indexes = sorted.map((tile) => TILE_NAMES.indexOf(tile));
+  if (indexes.some((index) => index < 0 || index >= 27)) return null;
+  const suit = Math.floor(indexes[0]! / 9);
+  if (!indexes.every((index) => Math.floor(index / 9) === suit)) return null;
+  if (indexes[1] !== indexes[0]! + 1 || indexes[2] !== indexes[1]! + 1) return null;
+  return { kind: "chi", tiles: sorted };
+}
+
+function sortTiles(tiles: Tile[]): Tile[] {
+  return [...tiles].sort((left, right) => TILE_NAMES.indexOf(left) - TILE_NAMES.indexOf(right));
 }
 
 function scoreTotalCounts(counts: Counts34, melds: HandScoreMeld[]): Counts34 {

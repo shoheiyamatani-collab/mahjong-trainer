@@ -7,6 +7,7 @@ import { ArticleTileFigures } from "../../components/TileFigures";
 import { getAdjacentLearnArticles, getLearnArticle, learnArticles, type LinkTarget } from "../../siteData";
 import { learnDeepDiveBySlug } from "../deepDiveData";
 import { learnTileFiguresBySlug } from "../tileFigureData";
+import { ArticleQuiz } from "./ArticleQuiz";
 
 type LearnArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -100,29 +101,18 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
             </section>
           ) : null}
 
-          <section className="articleSection">
-            <h2>よくある勘違い</h2>
-            <ul className="misconceptionList">
-              {article.misconceptions.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </section>
+          {article.misconceptions.length ? (
+            <section className="articleSection">
+              <h2>よくある勘違い</h2>
+              <ul className="misconceptionList">
+                {article.misconceptions.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-          <section className="articleSection quizCard">
-            <h2>1問だけ確認クイズ</h2>
-            <p className="quizQuestion">{article.quiz.question}</p>
-            <ol className="quizChoices">
-              {article.quiz.choices.map((choice) => (
-                <li key={choice}>{choice}</li>
-              ))}
-            </ol>
-            <div className="quizAnswer">
-              <span>答え</span>
-              <strong>{article.quiz.answer}</strong>
-            </div>
-            <p>{article.quiz.explanation}</p>
-          </section>
+          <ArticleQuiz quiz={article.quiz} />
         </div>
       </article>
 

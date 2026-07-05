@@ -3,7 +3,7 @@ import Link from "next/link";
 const navItems = [
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀便利ツール", href: "/tools" },
-  { label: "初めて学ぶ", href: "/learn" }
+  { label: "麻雀のルール", href: "/learn" }
 ];
 
 const footerItems = [

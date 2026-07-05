@@ -24,6 +24,7 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
       title: "アガリには形と役が必要",
       description: "形だけでなく、リーチ・タンヤオ・役牌などの役が1つ以上必要です。",
       badges: ["形", "役"],
+      link: { label: "役一覧はこちら", href: "/rules/yaku" },
       rows: [
         {
           label: "形",

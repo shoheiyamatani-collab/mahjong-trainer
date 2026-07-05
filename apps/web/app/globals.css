@@ -345,53 +345,62 @@ h2 {
 }
 
 .scoreQuizConditions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 10px 0 12px;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 10px 0 14px;
+  width: 100%;
 }
 
 .scoreQuizConditions span {
+  align-items: center;
   background: #eef6ff;
-  border: 1px solid rgba(25, 113, 194, 0.18);
-  border-radius: 999px;
+  border: 2px solid rgba(25, 113, 194, 0.18);
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(20, 38, 28, 0.05);
   color: #1c4d7a;
+  display: flex;
+  font-size: clamp(0.9rem, 2.6vw, 1rem);
   font-weight: 1000;
-  padding: 7px 11px;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 10px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .scoreQuizConditions .riichiBadge {
-  background: #fff5f5;
+  background: linear-gradient(180deg, #fff8f8 0%, #ffecec 100%);
   border-color: rgba(201, 42, 42, 0.24);
   color: var(--red);
 }
 
 .scoreQuizConditions .dealerBadge {
-  background: #fff4e6;
+  background: linear-gradient(180deg, #fff8ef 0%, #ffedd5 100%);
   border-color: rgba(230, 126, 34, 0.32);
   color: #b45309;
 }
 
 .scoreQuizConditions .childBadge {
-  background: #edf2ff;
+  background: linear-gradient(180deg, #f5f8ff 0%, #e7edff 100%);
   border-color: rgba(66, 99, 235, 0.26);
   color: #364fc7;
 }
 
 .scoreQuizConditions .ronBadge {
-  background: #fff5f5;
+  background: linear-gradient(180deg, #fff8f8 0%, #ffecec 100%);
   border-color: rgba(201, 42, 42, 0.28);
   color: var(--red);
 }
 
 .scoreQuizConditions .tsumoBadge {
-  background: #e7f5ff;
+  background: linear-gradient(180deg, #f3fbff 0%, #e0f2ff 100%);
   border-color: rgba(25, 113, 194, 0.25);
   color: #1971c2;
 }
 
 .scoreQuizConditions .doraBadge {
-  background: #fff9db;
+  background: linear-gradient(180deg, #fffbea 0%, #fff0b8 100%);
   border-color: rgba(240, 140, 0, 0.3);
   color: #9a5b00;
 }
@@ -906,6 +915,33 @@ h2 {
   min-height: 52px;
 }
 
+.chiMeldInput {
+  display: grid;
+  gap: 10px;
+}
+
+.chiMeldPreview {
+  align-items: center;
+  background: #f8faf7;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 10px;
+}
+
+.chiMeldActions {
+  display: grid;
+  gap: 6px;
+  min-width: 120px;
+}
+
+.chiMeldActions button {
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
 .meldList {
   display: grid;
   gap: 8px;
@@ -946,6 +982,20 @@ h2 {
   display: block;
   height: auto;
   width: clamp(28px, 8vw, 42px);
+}
+
+.sidewaysMeldTile {
+  align-items: center;
+  display: flex;
+  height: clamp(28px, 8vw, 42px);
+  justify-content: center;
+  overflow: visible;
+  width: clamp(40px, 11vw, 58px);
+}
+
+.sidewaysMeldTile img {
+  transform: rotate(90deg);
+  transform-origin: center;
 }
 
 .faceDownTile {
@@ -1100,6 +1150,14 @@ h2 {
 
   .questionMeta.scoreQuizMeta,
   .scoreQuizChoices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chiMeldPreview {
+    grid-template-columns: 1fr;
+  }
+
+  .chiMeldActions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1405,7 +1463,7 @@ h2 {
 }
 
 .roadmapGrid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
 }
 
 .learnHubGrid {
@@ -1875,8 +1933,43 @@ h2 {
 }
 
 .roadmapCard {
+  align-items: center;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.48fr);
+  padding: clamp(16px, 3vw, 24px);
+}
+
+.roadmapCardBody {
   display: grid;
   gap: 12px;
+  min-width: 0;
+}
+
+.roadmapCardVisual {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(233, 248, 237, 0.9), rgba(255, 249, 219, 0.82));
+  border: 1px solid rgba(23, 63, 35, 0.12);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  min-height: 126px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 14px;
+}
+
+.roadmapCardVisual img {
+  display: block;
+  flex: 0 1 42px;
+  max-width: 42px;
+  min-width: 0;
+  width: 100%;
+}
+
+.roadmapCardVisual img + img {
+  margin-left: -4px;
 }
 
 .stepNumber {
@@ -2324,6 +2417,14 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .roadmapCard {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmapCardVisual {
+    justify-content: flex-start;
+  }
+
   .heroTileBand {
     justify-content: flex-start;
     min-width: 0;
@@ -2404,6 +2505,15 @@ h2 {
 
   .learnHubScreenshot img {
     max-height: 170px;
+  }
+
+  .roadmapCardVisual {
+    min-height: 92px;
+    padding: 12px;
+  }
+
+  .roadmapCardVisual img {
+    max-width: 34px;
   }
 
   .cardTopline {
@@ -2598,18 +2708,85 @@ h2 {
   font-weight: 1000 !important;
 }
 
+.interactiveQuizChoices {
+  list-style-position: outside;
+}
+
+.interactiveQuizChoices li {
+  padding-left: 4px;
+}
+
+.quizChoiceButton {
+  background: #ffffff;
+  border: 1px solid rgba(23, 63, 35, 0.18);
+  border-radius: 8px;
+  color: #30413a;
+  cursor: pointer;
+  display: grid;
+  gap: 10px;
+  font: inherit;
+  font-weight: 900;
+  line-height: 1.6;
+  min-height: 48px;
+  padding: 10px 12px;
+  text-align: left;
+  width: 100%;
+}
+
+.quizChoiceTiles {
+  align-items: flex-start;
+  display: flex;
+  gap: 2px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.quizChoiceTiles img {
+  display: block;
+  flex: 0 1 34px;
+  max-width: 34px;
+  min-width: 0;
+  width: 100%;
+}
+
+.quizChoiceButton:hover {
+  background: #e9f8ed;
+  border-color: rgba(47, 158, 68, 0.38);
+}
+
+.quizChoiceButton.isCorrect,
+.quizChoiceButton.isAnswer {
+  background: #e9f8ed;
+  border-color: rgba(47, 158, 68, 0.5);
+  color: #173f23;
+}
+
+.quizChoiceButton.isWrong {
+  background: #fff5f5;
+  border-color: rgba(201, 42, 42, 0.32);
+  color: #7a1f1f;
+}
+
+.quizHint {
+  color: #5f6f69 !important;
+  font-size: 0.95rem !important;
+}
+
 .quizAnswer {
-  align-items: center;
   background: #ffffff;
   border: 1px solid rgba(47, 158, 68, 0.24);
   border-radius: 8px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 8px;
   padding: 12px;
 }
 
+.quizAnswer.isWrong {
+  border-color: rgba(201, 42, 42, 0.24);
+}
+
 .quizAnswer span {
+  justify-self: start;
   background: #173f23;
   border-radius: 999px;
   color: #ffffff;
@@ -2618,9 +2795,20 @@ h2 {
   padding: 6px 9px;
 }
 
+.quizAnswer.isWrong span {
+  background: #c92a2a;
+}
+
 .quizAnswer strong {
   color: #173f23;
   font-size: 1.05rem;
+}
+
+.quizAnswer p {
+  color: #38413d;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.8;
 }
 
 .tileFigureSection {
@@ -2713,6 +2901,25 @@ h2 {
 .tileFigureRow.tone-warning {
   background: #fff5f5;
   border-color: rgba(201, 42, 42, 0.18);
+}
+
+.tileFigureLink {
+  align-items: center;
+  background: #e9f8ed;
+  border: 1px solid rgba(47, 158, 68, 0.28);
+  border-radius: 8px;
+  color: #146327;
+  display: inline-flex;
+  font-weight: 1000;
+  justify-self: start;
+  min-height: 42px;
+  padding: 10px 14px;
+  text-decoration: none;
+}
+
+.tileFigureLink:hover {
+  background: #d8f3dc;
+  color: #0f4d1e;
 }
 
 .tileFigureRowLabel {
@@ -2968,6 +3175,42 @@ h2 {
   width: 100%;
 }
 
+.scoreToolPreviewGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 14px;
+}
+
+.scoreToolPreview {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.scoreToolPreview img {
+  background: #f7faf7;
+  border: 1px solid rgba(32, 36, 35, 0.1);
+  border-radius: 6px;
+  display: block;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+  width: 100%;
+}
+
+.scoreToolPreview figcaption {
+  color: #4f5f59;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.5;
+}
+
 .practicalScoreGrid {
   display: grid;
   gap: 16px;
@@ -3209,6 +3452,7 @@ h2 {
   .scoreExampleGrid,
   .scorePaymentGrid,
   .scoreNoticeSection,
+  .scoreToolPreviewGrid,
   .scorePairGrid,
   .waitTipGrid,
   .waitPatternGrid {
@@ -3221,7 +3465,8 @@ h2 {
   .scoreFocusCard,
   .scoreExampleCard,
   .scorePaymentCard,
-  .scoreNoticeCard {
+  .scoreNoticeCard,
+  .scoreToolPreview {
     padding: 15px;
   }
 
