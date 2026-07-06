@@ -43,7 +43,7 @@ export default async function YakuArticlePage({ params }: YakuArticlePageProps) 
         <aside className="articleAside" aria-label="この記事の位置">
           <div className="articleStepBadge">役解説</div>
           <Link className="textLink" href="/rules/yaku">役一覧へ戻る</Link>
-          <Link className="textLink" href="/learn/reach-tanyao-yakuhai">基本役を復習する</Link>
+          <Link className="textLink" href="/learn/yaku-required">役の考え方を復習する</Link>
         </aside>
 
         <div className="articleContent">

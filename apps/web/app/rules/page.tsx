@@ -3,6 +3,29 @@ import { ComingSoonBadge } from "../components/Badges";
 import { InternalLinkCard, PageHero, SectionTitle } from "../components/SiteSections";
 import { ruleItems } from "../siteData";
 
+const ruleVisuals: Record<string, { kind: "tiles"; tiles: string[]; label: string } | { kind: "screenshot"; src: string; alt: string }> = {
+  "実践でよく見る役一覧": {
+    kind: "tiles",
+    label: "リーチ、タンヤオ、役牌のイメージ",
+    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7"]
+  },
+  "実践でよく見る点数計算": {
+    kind: "screenshot",
+    src: "/tool-screenshots/score-calculator-result.png",
+    alt: "点数計算ツールで点数結果を確認している画面"
+  },
+  "実践でよく見る待ち一覧": {
+    kind: "tiles",
+    label: "両面待ちと待ち牌のイメージ",
+    tiles: ["man4", "man5", "man3", "man6", "pin3", "pin5", "pin4", "sou1", "sou2", "sou3"]
+  },
+  "実践でよく見る一向聴の形": {
+    kind: "tiles",
+    label: "一向聴で比較する手牌のイメージ",
+    tiles: ["man2", "man3", "man4", "pin3", "pin4", "sou5", "sou6", "sou7", "ji7", "ji7", "pin8", "sou2"]
+  }
+};
+
 export const metadata: Metadata = {
   title: "実践でよく使う麻雀の基本 | 役・点数計算・待ち・一向聴",
   description: "実践で頻出する麻雀の役、点数計算、待ち、一向聴の形を確認できる入口です。これが分かれば9割方問題なしを目指します。"
@@ -27,6 +50,7 @@ export default function RulesPage() {
         <div className="rulesGrid">
           {ruleItems.map((item) => (
             <article className="ruleCard" key={item.title}>
+              <RuleCardVisual title={item.title} />
               <div className="cardTopline">
                 <h2>{item.title}</h2>
                 {item.status === "comingSoon" ? <ComingSoonBadge /> : null}
@@ -47,5 +71,29 @@ export default function RulesPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+function RuleCardVisual({ title }: { title: string }) {
+  const visual = ruleVisuals[title];
+
+  if (!visual) {
+    return null;
+  }
+
+  if (visual.kind === "screenshot") {
+    return (
+      <div className="ruleCardVisual ruleCardScreenshot">
+        <img src={visual.src} alt={visual.alt} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="ruleCardVisual" aria-label={visual.label}>
+      {visual.tiles.map((tile, index) => (
+        <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
+      ))}
+    </div>
   );
 }

@@ -10,12 +10,11 @@ const roadmapVisuals: Record<number, { label: string; tiles: string[] }> = {
   4: { label: "面子と雀頭の例", tiles: ["man2", "man3", "man4", "pin5", "pin5", "pin5", "sou7", "sou7"] },
   5: { label: "4面子1雀頭の例", tiles: ["man1", "man2", "man3", "pin4", "pin5", "pin6", "sou7", "sou8", "sou9", "ji7", "ji7"] },
   6: { label: "役が必要な手牌の例", tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "ji2", "ji2"] },
-  7: { label: "リーチ・タンヤオ・役牌の例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7"] },
-  8: { label: "ツモとロンの待ち牌例", tiles: ["man3", "man4", "man5", "pin4", "pin5", "pin6", "sou4", "sou5", "sou6", "man7"] },
-  9: { label: "鳴きで作る面子の例", tiles: ["ji7", "ji7", "ji7", "man2", "man3", "man4", "pin6", "pin7", "pin8"] },
-  10: { label: "テンパイと待ちの例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou4", "sou5", "sou6", "man5", "man6"] },
-  11: { label: "何切るで比べる手牌の例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou5", "sou6", "sou8", "ji1", "ji1"] },
-  12: { label: "点数計算は後から覚える例", tiles: ["man2", "man3", "man4", "pin4", "pin5", "pin6", "sou6", "sou7", "sou8", "ji5", "ji5"] }
+  7: { label: "ツモとロンの待ち牌例", tiles: ["man3", "man4", "man5", "pin4", "pin5", "pin6", "sou4", "sou5", "sou6", "man7"] },
+  8: { label: "鳴きで作る面子の例", tiles: ["ji7", "ji7", "ji7", "man2", "man3", "man4", "pin6", "pin7", "pin8"] },
+  9: { label: "テンパイと待ちの例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou4", "sou5", "sou6", "man5", "man6"] },
+  10: { label: "何切るで比べる手牌の例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou5", "sou6", "sou8", "ji1", "ji1"] },
+  11: { label: "点数計算は後から覚える例", tiles: ["man2", "man3", "man4", "pin4", "pin5", "pin6", "sou6", "sou7", "sou8", "ji5", "ji5"] }
 };
 
 export const metadata: Metadata = {

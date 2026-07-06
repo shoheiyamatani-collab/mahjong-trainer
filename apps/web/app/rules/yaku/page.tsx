@@ -47,7 +47,7 @@ const firstYaku: YakuItem[] = [
     tileLabel: "あと1枚でアガれる形",
     point: "あと1枚でアガれる形になったら、リーチを宣言できます。",
     caution: "ポン・チー・カンで鳴いているとリーチできません。",
-    href: "/learn/reach-tanyao-yakuhai"
+    href: "/learn/yaku-required"
   },
   {
     name: "タンヤオ",
@@ -60,7 +60,7 @@ const firstYaku: YakuItem[] = [
     tileLabel: "2〜8だけで作る",
     point: "手牌に1・9・字牌が入っていないかを見ます。",
     caution: "※喰いタンなしのルールも存在します。競技麻雀や雀荘などではほとんどの場合で喰いタン（鳴いてのタンヤオ）は認められています。",
-    href: "/learn/reach-tanyao-yakuhai"
+    href: "/learn/yaku-required"
   },
   {
     name: "役牌",
@@ -73,7 +73,7 @@ const firstYaku: YakuItem[] = [
     tileLabel: "白・發・中を3枚",
     point: "同じ役牌が3枚あるかを見ます。この例では中が3枚あります。",
     caution: "東南西北は、場風か自風でないと役牌にならないことがあります。",
-    href: "/learn/reach-tanyao-yakuhai"
+    href: "/learn/yaku-required"
   },
   {
     name: "ツモ",
@@ -990,7 +990,7 @@ export default function YakuPage() {
       <section>
         <SectionTitle title="役を覚えたら" description="読んだだけで終わらせず、練習問題や点数表で確認すると定着しやすくなります。" />
         <div className="linkCardGrid">
-          <InternalLinkCard title="リーチ・タンヤオ・役牌を復習する" description="最初に覚える3つの役をロードマップ記事で確認します。" href="/learn/reach-tanyao-yakuhai" />
+          <InternalLinkCard title="あがるための役について知ろう" description="アガリに必要な役の考え方をロードマップ記事で確認します。" href="/learn/yaku-required" />
           <InternalLinkCard title="実戦問題で練習する" description="何切るや待ち当てで、役が見える手を増やしていきます。" href="/trainer" />
           <InternalLinkCard title="点数表を見る" description="平和や七対子の点数は、早見表で確認できます。" href="/tools/score-table" />
         </div>

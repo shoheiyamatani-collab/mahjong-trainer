@@ -36,6 +36,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
   const { previous, next } = getAdjacentLearnArticles(article.slug);
   const tileFigures = learnTileFiguresBySlug[article.slug];
   const deepDiveSections = learnDeepDiveBySlug[article.slug] ?? [];
+  const totalSteps = learnArticles.length;
 
   return (
     <main className="siteMain articleMain">
@@ -49,7 +50,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
 
       <article className="articleLayout">
         <aside className="articleAside" aria-label="この記事の位置">
-          <div className="articleStepBadge">STEP {article.step} / 12</div>
+          <div className="articleStepBadge">STEP {article.step} / {totalSteps}</div>
           <Link className="textLink" href="/learn">ロードマップへ戻る</Link>
         </aside>
 
@@ -127,7 +128,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
           {previous ? (
             <InternalLinkCard title={`前の記事に戻る：${previous.title}`} description={previous.description} href={`/learn/${previous.slug}`} actionLabel="前の記事へ戻る" />
           ) : (
-            <InternalLinkCard title="ロードマップに戻る" description="12ステップの全体像をもう一度確認できます。" href="/learn" actionLabel="一覧を見る" />
+            <InternalLinkCard title="ロードマップに戻る" description="学習順の全体像をもう一度確認できます。" href="/learn" actionLabel="一覧を見る" />
           )}
           <RelatedLinkCard title="関連する練習問題" target={article.relatedPractice} fallbackHref="/trainer" />
           <RelatedLinkCard title="関連するツール" target={article.relatedTool} fallbackHref="/tools" />

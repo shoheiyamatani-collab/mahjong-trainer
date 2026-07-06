@@ -193,7 +193,7 @@ export const learnArticles: LearnArticle[] = [
   {
     slug: "yaku-required",
     step: 6,
-    title: "ただし役がないとアガれない",
+    title: "あがるための役について知ろう",
     seoTitle: "麻雀は役が必要 初心者が最初に覚えるルール",
     description: "麻雀では形が完成しても役がないとアガれないことを、初心者向けに説明します。",
     learnPoints: ["形だけではアガれない", "役が1つ以上必要", "最初はよく使う役だけ覚える"],
@@ -214,31 +214,8 @@ export const learnArticles: LearnArticle[] = [
     relatedTool: { label: "役一覧を見る", href: "/rules/yaku" }
   },
   {
-    slug: "reach-tanyao-yakuhai",
-    step: 7,
-    title: "リーチ・タンヤオ・役牌を覚える",
-    seoTitle: "麻雀初心者が最初に覚える役 リーチ・タンヤオ・役牌",
-    description: "麻雀初心者が最初に覚えたいリーチ、タンヤオ、役牌の条件をやさしく説明します。",
-    learnPoints: ["リーチは鳴いていないテンパイで使う", "タンヤオは2から8だけで作る", "役牌は特定の字牌を3枚そろえる"],
-    body: [
-      "最初に覚える役は、リーチ、タンヤオ、役牌の3つで十分です。",
-      "リーチは、鳴いていない状態でテンパイしたときに宣言できる役です。",
-      "タンヤオは、1・9・字牌を使わず、2から8の数牌だけで作る役です。役牌は白・發・中や、自分の風、場の風を3枚そろえる役です。"
-    ],
-    example: "2から8だけで手ができていればタンヤオの可能性があります。白白白があれば役牌の可能性があります。",
-    misconceptions: ["リーチは鳴いていてもできる", "タンヤオで1や9を使える", "字牌3枚ならどれでも必ず役牌になる"],
-    quiz: {
-      question: "タンヤオで使えない牌はどれですか？",
-      choices: ["2萬", "5筒", "1索"],
-      answer: "1索",
-      explanation: "タンヤオは2から8の数牌だけで作る役なので、1・9・字牌は使えません。"
-    },
-    relatedPractice: { label: "役判定クイズを解く", href: "/training/yaku-quiz" },
-    relatedTool: { label: "役一覧を見る", href: "/rules/yaku" }
-  },
-  {
     slug: "tsumo-and-ron",
-    step: 8,
+    step: 7,
     title: "ツモ・ロンを覚える",
     seoTitle: "麻雀のツモとロンの違いを初心者向けに解説",
     description: "自分で引いてアガるツモと、相手の捨て牌でアガるロンの違いを説明します。",
@@ -249,7 +226,7 @@ export const learnArticles: LearnArticle[] = [
       "点数の支払い方は違いますが、初心者のうちは「自分で引いたらツモ、相手の捨て牌ならロン」と覚えれば大丈夫です。"
     ],
     example: "待っていた5筒を自分で引いたらツモ。相手が5筒を捨てて、それでアガれるならロンです。",
-    misconceptions: ["ツモもロンも同じ言葉", "ロンは自分の引いた牌で言う", "ツモは役がなくてもアガれる"],
+    misconceptions: ["ツモもロンも同じ言葉", "ツモは役がなくてもアガれる"],
     quiz: {
       question: "相手の捨て牌でアガることを何と呼びますか？",
       choices: ["ツモ", "ロン", "テンパイ"],
@@ -261,7 +238,7 @@ export const learnArticles: LearnArticle[] = [
   },
   {
     slug: "calling",
-    step: 9,
+    step: 8,
     title: "鳴きは役があるときだけ使う",
     seoTitle: "麻雀の鳴きとは？初心者向けに注意点を解説",
     description: "チー、ポン、カンの基本と、初心者が鳴く前に確認したい役の考え方を説明します。",
@@ -284,7 +261,7 @@ export const learnArticles: LearnArticle[] = [
   },
   {
     slug: "tenpai-and-wait",
-    step: 10,
+    step: 9,
     title: "テンパイ・待ちを覚える",
     seoTitle: "麻雀のテンパイとは？待ちの意味を初心者向けに解説",
     description: "あと1枚でアガれるテンパイと、アガリ牌である待ちについて初心者向けに説明します。",
@@ -307,7 +284,7 @@ export const learnArticles: LearnArticle[] = [
   },
   {
     slug: "basic-nanikiru",
-    step: 11,
+    step: 10,
     title: "簡単な何切る・受け入れに進む",
     seoTitle: "麻雀の何切るとは？初心者向けに受け入れを解説",
     description: "初心者向けに、何切る問題と受け入れ枚数の考え方を短く説明します。",
@@ -330,7 +307,7 @@ export const learnArticles: LearnArticle[] = [
   },
   {
     slug: "score-later",
-    step: 12,
+    step: 11,
     title: "点数計算は後回し",
     seoTitle: "麻雀の点数計算は初心者なら後回しでOK",
     description: "麻雀初心者が点数計算を後回しにしてよい理由と、最初に知っておく範囲を説明します。",

@@ -141,8 +141,8 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
       rows: [
         {
           label: "形は完成",
-          tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou3", "sou4", "sou5", "man6", "man7", "man8", "pin2", "pin2"],
-          note: "形はきれいですが、鳴いていて役がない場合などはアガれません。"
+          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "man9", "ji3", "ji3"],
+          note: "4面子1雀頭ですが、鳴いていてリーチできず、タンヤオや役牌もない形の例です。"
         },
         { label: "ドラだけ", tiles: ["pin5"], tone: "warning", note: "ドラは点数を増やす牌で、役そのものではありません。" }
       ]
@@ -152,44 +152,22 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
       description: "最初はリーチ・タンヤオ・役牌のどれかを目指すと分かりやすいです。",
       badges: ["役の例"],
       rows: [
-        { label: "役牌", tiles: ["ji7", "ji7", "ji7"], tone: "answer", note: "中を3枚そろえると役になります。" },
-        { label: "タンヤオ候補", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou4", "sou5", "sou6"], tone: "answer", note: "2から8だけで作る方向です。" },
-        { label: "リーチ候補", tiles: ["man6", "man7", "pin5"], note: "鳴かずにテンパイすればリーチを宣言できます。" }
-      ]
-    }
-  ],
-  "reach-tanyao-yakuhai": [
-    {
-      title: "リーチは鳴いていないテンパイで宣言",
-      description: "リーチはそれだけで役になります。初心者が最初に使いやすい役です。",
-      badges: ["リーチ"],
-      rows: [
+        { label: "役牌", tiles: ["ji7", "ji7", "ji7", "ji5", "ji5", "ji5"], tone: "answer", note: "中や發を3枚そろえると役になります。" },
         {
-          label: "テンパイ形",
-          tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "man6", "man7", "man8", "pin5"],
+          label: "タンヤオ",
+          tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou4", "sou5", "sou6", "man6", "man7", "pin5", "pin5"],
           resultLabel: "待ち",
-          resultTiles: ["pin5"],
-          note: "鳴いていなければリーチを宣言できます。"
+          resultTiles: ["man5", "man8"],
+          tone: "answer",
+          note: "1・9・字牌を使わない13枚のテンパイ形です。"
+        },
+        {
+          label: "リーチ",
+          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "ji3", "ji3"],
+          resultLabel: "待ち",
+          resultTiles: ["man6", "man9"],
+          note: "役がない門前テンパイでも、鳴いていなければリーチを宣言できます。"
         }
-      ]
-    },
-    {
-      title: "タンヤオは2から8だけ",
-      description: "1・9・字牌を使わない役です。初心者が牌を見て判断しやすい役です。",
-      badges: ["タンヤオ"],
-      rows: [
-        { label: "使える牌", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8"], tone: "answer", note: "2から8の数牌だけで作ります。" },
-        { label: "使えない牌", tiles: ["man1", "man9", "ji1", "ji6"], tone: "warning", note: "1・9・字牌が入るとタンヤオではありません。" }
-      ]
-    },
-    {
-      title: "役牌は特定の字牌を3枚",
-      description: "白・發・中は3枚そろえるといつでも役牌です。場風・自風も役になることがあります。",
-      badges: ["役牌"],
-      rows: [
-        { label: "中", tiles: ["ji7", "ji7", "ji7"], tone: "answer", note: "中を3枚そろえた役牌です。" },
-        { label: "白", tiles: ["ji6", "ji6", "ji6"], tone: "answer", note: "白も3枚で役牌になります。" },
-        { label: "發", tiles: ["ji5", "ji5", "ji5"], tone: "answer", note: "發も3枚で役牌になります。" }
       ]
     }
   ],
