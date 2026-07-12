@@ -1998,6 +1998,8 @@ h2 {
   border: 1px solid rgba(23, 63, 35, 0.12);
   border-radius: 8px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
   justify-content: center;
   min-height: 112px;
   min-width: 0;
@@ -2007,14 +2009,14 @@ h2 {
 
 .ruleCardVisual img {
   display: block;
-  flex: 0 1 38px;
+  flex: 0 0 clamp(28px, 6vw, 38px);
   max-width: 38px;
   min-width: 0;
   width: 100%;
 }
 
 .ruleCardVisual img + img {
-  margin-left: -3px;
+  margin-left: 0;
 }
 
 .ruleCardScreenshot {

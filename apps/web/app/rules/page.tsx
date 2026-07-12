@@ -6,23 +6,23 @@ import { ruleItems } from "../siteData";
 const ruleVisuals: Record<string, { kind: "tiles"; tiles: string[]; label: string } | { kind: "screenshot"; src: string; alt: string }> = {
   "実践でよく見る役一覧": {
     kind: "tiles",
-    label: "リーチ、タンヤオ、役牌のイメージ",
-    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7"]
+    label: "役牌を含むアガリ形のイメージ",
+    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7", "man5", "man5"]
   },
   "実践でよく見る点数計算": {
-    kind: "screenshot",
-    src: "/tool-screenshots/score-calculator-result.png",
-    alt: "点数計算ツールで点数結果を確認している画面"
+    kind: "tiles",
+    label: "点数計算で確認するアガリ形のイメージ",
+    tiles: ["man2", "man3", "man4", "man3", "man4", "man5", "pin4", "pin5", "pin6", "sou6", "sou7", "sou8", "pin5", "pin5"]
   },
   "実践でよく見る待ち一覧": {
     kind: "tiles",
-    label: "両面待ちと待ち牌のイメージ",
-    tiles: ["man4", "man5", "man3", "man6", "pin3", "pin5", "pin4", "sou1", "sou2", "sou3"]
+    label: "両面待ちでテンパイしている手牌のイメージ",
+    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "pin6", "pin7", "pin8", "sou4", "sou5", "ji7", "ji7"]
   },
   "実践でよく見る一向聴の形": {
     kind: "tiles",
     label: "一向聴で比較する手牌のイメージ",
-    tiles: ["man2", "man3", "man4", "pin3", "pin4", "sou5", "sou6", "sou7", "ji7", "ji7", "pin8", "sou2"]
+    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou5", "sou6", "man6", "man7", "pin8", "pin8", "ji1"]
   }
 };
 
