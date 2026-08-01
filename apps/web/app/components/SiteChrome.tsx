@@ -1,9 +1,21 @@
 import Link from "next/link";
+import { siteConfig } from "../siteConfig";
 
-const navItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
+const navItems: NavItem[] = [
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀便利ツール", href: "/tools" },
-  { label: "麻雀のルール", href: "/learn" }
+  { label: "麻雀のルール", href: "/learn" },
+  {
+    label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
+    href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
+    external: true
+  }
 ];
 
 const footerItems = [
@@ -25,11 +37,17 @@ export function Header() {
         </span>
       </Link>
       <nav className="siteNav" aria-label="サイトナビゲーション">
-        {navItems.map((item) => (
-          <Link key={item.href} href={item.href}>
-            {item.label}
-          </Link>
-        ))}
+        {navItems.map((item) =>
+          item.external ? (
+            <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer">
+              {item.label}
+            </a>
+          ) : (
+            <Link key={item.href} href={item.href}>
+              {item.label}
+            </Link>
+          )
+        )}
       </nav>
     </header>
   );
