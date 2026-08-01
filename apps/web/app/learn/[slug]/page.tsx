@@ -95,6 +95,36 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
                         ))}
                       </ul>
                     ) : null}
+                    {section.figures?.length ? (
+                      <div className="deepDiveFigureRows">
+                        {section.figures.map((figure) => (
+                          <div className={`tileFigureRow tone-${figure.tone ?? "normal"}`} key={figure.label}>
+                            <div className="tileFigureRowLabel">{figure.label}</div>
+                            <div className="articleTileStrip" aria-label={figure.tiles.join("、")}>
+                              {figure.tiles.map((tile, index) => (
+                                <img key={`${figure.label}-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
+                              ))}
+                            </div>
+                            {figure.resultTiles?.length ? (
+                              <>
+                                <div className="tileFigureArrow" aria-hidden="true">
+                                  →
+                                </div>
+                                <div className="tileFigureResult">
+                                  {figure.resultLabel ? <span>{figure.resultLabel}</span> : null}
+                                  <div className="articleTileStrip compact" aria-label={figure.resultTiles.join("、")}>
+                                    {figure.resultTiles.map((tile, index) => (
+                                      <img key={`${figure.label}-result-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
+                                    ))}
+                                  </div>
+                                </div>
+                              </>
+                            ) : null}
+                            <p className="tileFigureNote">{figure.note}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
                     {section.callout ? <p className="deepDiveCallout">{section.callout}</p> : null}
                   </article>
                 ))}

@@ -3,6 +3,7 @@ import {
   beginnerIishantenProblems,
   buildBeginnerIishantenQuestion,
   countsToTiles,
+  normalShanten,
   parseBeginnerIishantenHand,
   parseBeginnerIishantenTile,
   sumCounts,
@@ -31,7 +32,9 @@ describe("beginner iishanten fixed problems", () => {
       const bestTiles = Math.max(...iishantenChoices.map((choice) => choice.analysis.ukeireTiles));
 
       expect(sumCounts(question.counts), problem.id).toBe(14);
+      expect(normalShanten(question.counts), problem.id).toBe(1);
       expect(problem.choices, problem.id).toContain(problem.answer);
+      expect(iishantenChoices.length, problem.id).toBe(problem.choices.length);
       expect(iishantenChoices.length, problem.id).toBeGreaterThan(0);
       expect(question.answerResult.afterDiscardShanten, problem.id).toBe(1);
       expect(question.answerResult.ukeireTiles, problem.id).toBe(bestTiles);

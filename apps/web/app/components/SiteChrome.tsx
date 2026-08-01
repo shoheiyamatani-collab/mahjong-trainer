@@ -9,6 +9,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "麻雀トレーニング", href: "/trainer" },
+  { label: "配牌分析", href: "/analysis/starting-hand" },
   { label: "麻雀便利ツール", href: "/tools" },
   { label: "麻雀のルール", href: "/learn" },
   {

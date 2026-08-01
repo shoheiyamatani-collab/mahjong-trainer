@@ -3,6 +3,14 @@ export type LearnDeepDiveSection = {
   paragraphs: string[];
   bullets?: string[];
   callout?: string;
+  figures?: {
+    label: string;
+    tiles: string[];
+    resultLabel?: string;
+    resultTiles?: string[];
+    note: string;
+    tone?: "normal" | "answer" | "warning";
+  }[];
 };
 
 export const learnDeepDiveBySlug: Record<string, LearnDeepDiveSection[]> = {
@@ -99,6 +107,34 @@ export const learnDeepDiveBySlug: Record<string, LearnDeepDiveSection[]> = {
         "特に鳴くとリーチが使えなくなります。鳴いたあとにタンヤオや役牌が残るかを確認しましょう。"
       ],
       bullets: ["門前ならリーチを目指しやすい", "2から8中心ならタンヤオ", "白・發・中が2枚あるなら役牌を意識"]
+    },
+    {
+      heading: "鳴くとアガれなくなることがある理由",
+      paragraphs: [
+        "鳴くと手は早く進みますが、その代わりリーチを宣言できなくなります。リーチは「鳴いていない門前のテンパイ」で使える役なので、鳴いた瞬間にリーチという逃げ道が消えます。",
+        "下のような手は、鳴いていなければ最後に6萬か9萬を待つテンパイで、リーチを宣言すれば役を1つ付けられます。中が2枚あっても、3枚そろっていないので役牌にはなっていません。",
+        "もし途中でチーやポンをしてしまうと、この手はリーチできません。タンヤオでもなく、役牌も完成していないため、形が完成しても「役なし」でアガれないことがあります。"
+      ],
+      figures: [
+        {
+          label: "鳴いていない",
+          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "ji7", "ji7"],
+          resultLabel: "待ち",
+          resultTiles: ["man6", "man9"],
+          note: "門前テンパイなら、リーチを宣言して「リーチ」という役を付けられます。",
+          tone: "answer"
+        },
+        {
+          label: "鳴いた後",
+          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "ji7", "ji7"],
+          resultLabel: "待ち",
+          resultTiles: ["man6", "man9"],
+          note: "同じ待ちでも、鳴いているとリーチできません。中も2枚だけなので役牌にならず、役なしになりやすい形です。",
+          tone: "warning"
+        }
+      ],
+      bullets: ["鳴いていないテンパイならリーチで役を付けられる", "鳴くとリーチできない", "鳴いた後にタンヤオ・役牌など別の役が残るかを見る"],
+      callout: "初心者のうちは、鳴く前に「鳴いたあとも何の役でアガるか」を声に出せるか確認すると失敗が減ります。"
     }
   ],
   "tsumo-and-ron": [

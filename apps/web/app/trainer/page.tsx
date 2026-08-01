@@ -509,24 +509,55 @@ const HARD_SCORE_BASE_QUESTIONS: ScoreQuizQuestion[] = [
   }
 ];
 
+type NumberSuit = "m" | "p" | "s";
+
+interface HardScoreTileVariant {
+  suitMap: Record<NumberSuit, NumberSuit>;
+  mirror: boolean;
+}
+
+const HARD_SCORE_TILE_VARIANTS: HardScoreTileVariant[] = [
+  { suitMap: { m: "m", p: "p", s: "s" }, mirror: false },
+  { suitMap: { m: "p", p: "s", s: "m" }, mirror: false },
+  { suitMap: { m: "s", p: "m", s: "p" }, mirror: false },
+  { suitMap: { m: "p", p: "m", s: "s" }, mirror: false },
+  { suitMap: { m: "s", p: "p", s: "m" }, mirror: false },
+  { suitMap: { m: "m", p: "s", s: "p" }, mirror: false },
+  { suitMap: { m: "m", p: "p", s: "s" }, mirror: true },
+  { suitMap: { m: "p", p: "s", s: "m" }, mirror: true },
+  { suitMap: { m: "s", p: "m", s: "p" }, mirror: true },
+  { suitMap: { m: "p", p: "m", s: "s" }, mirror: true },
+  { suitMap: { m: "s", p: "p", s: "m" }, mirror: true },
+  { suitMap: { m: "m", p: "s", s: "p" }, mirror: true }
+];
+
 const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = buildHardScoreQuestions(HARD_SCORE_BASE_QUESTIONS, 100);
 
 function buildHardScoreQuestions(baseQuestions: ScoreQuizQuestion[], total: number): ScoreQuizQuestion[] {
-  return Array.from({ length: total }, (_, index) => {
+  const questions: ScoreQuizQuestion[] = [];
+  let index = 0;
+  while (questions.length < total && index < total * 30) {
     const template = baseQuestions[index % baseQuestions.length]!;
-    if (index < baseQuestions.length) return template;
-    return hardScoreQuestionVariant(template, index);
-  });
+    const question = index < baseQuestions.length ? template : hardScoreQuestionVariant(template, index);
+    if (isHardScoreQuestionAllowed(question)) questions.push(question);
+    index += 1;
+  }
+  if (questions.length < total) {
+    throw new Error(`Could not build ${total} hard score questions.`);
+  }
+  return questions;
 }
 
 function hardScoreQuestionVariant(template: ScoreQuizQuestion, index: number): ScoreQuizQuestion {
   const { expectedHan, expectedFu, expectedLimitName, choicePool, ...base } = template;
   const pattern = Math.floor(index / HARD_SCORE_BASE_QUESTIONS.length);
+  const tileVariant = HARD_SCORE_TILE_VARIANTS[index % HARD_SCORE_TILE_VARIANTS.length]!;
+  const transformed = transformScoreQuestionTiles(base, tileVariant);
   const isDealer = pattern % 2 === 0 ? !template.isDealer : template.isDealer;
   const dora = pattern % 4 === 0 ? (template.dora ?? 0) + 1 : template.dora;
 
   return {
-    ...base,
+    ...transformed,
     id: `${template.id}-deck-${String(index + 1).padStart(3, "0")}`,
     title: `${template.title} ${String(index + 1).padStart(3, "0")}`,
     isDealer,
@@ -534,6 +565,45 @@ function hardScoreQuestionVariant(template: ScoreQuizQuestion, index: number): S
     lesson: template.lesson,
     explanation: template.explanation
   };
+}
+
+function transformScoreQuestionTiles(question: Omit<ScoreQuizQuestion, "expectedHan" | "expectedFu" | "expectedLimitName" | "choicePool">, variant: HardScoreTileVariant): Omit<ScoreQuizQuestion, "expectedHan" | "expectedFu" | "expectedLimitName" | "choicePool"> {
+  return {
+    ...question,
+    handText: question.handText ? transformHandText(question.handText, variant) : undefined,
+    tiles: question.tiles?.map((tile) => transformTile(tile, variant)),
+    melds: question.melds?.map((meld) => ({ ...meld, tiles: sortTiles(meld.tiles.map((tile) => transformTile(tile, variant))) })),
+    winningTile: transformTile(question.winningTile, variant)
+  };
+}
+
+function transformHandText(text: string, variant: HardScoreTileVariant): string {
+  return text.replace(/([1-9]+)([mps])/g, (_match, digits: string, suit: NumberSuit) => {
+    const transformedDigits = [...digits]
+      .map((digit) => variant.mirror ? String(10 - Number(digit)) : digit)
+      .sort()
+      .join("");
+    return `${transformedDigits}${variant.suitMap[suit]}`;
+  });
+}
+
+function transformTile(tile: Tile, variant: HardScoreTileVariant): Tile {
+  const suit = tile[1] as NumberSuit | undefined;
+  if (!suit || !["m", "p", "s"].includes(suit)) return tile;
+  const rank = Number(tile[0]);
+  const nextRank = variant.mirror ? 10 - rank : rank;
+  return `${nextRank}${variant.suitMap[suit]}` as Tile;
+}
+
+function isHardScoreQuestionAllowed(question: ScoreQuizQuestion): boolean {
+  try {
+    const result = scoreQuizResult(question);
+    if (result.score.limitName === "yakuman") return false;
+    if (result.score.fu === 30) return false;
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 const initialCounts = parseHand(SAMPLE_HAND);

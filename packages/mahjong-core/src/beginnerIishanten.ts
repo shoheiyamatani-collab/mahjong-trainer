@@ -40,23 +40,23 @@ export const beginnerIishantenProblems: BeginnerIishantenProblem[] = [
     id: "beginner_iishanten_001",
     title: "四連形の端を外す",
     theme: "完全イーシャンテン",
-    hand: "2344m2567p122334s",
-    choices: ["2m", "3m", "5p"],
+    hand: "2335567m1113458s",
+    choices: ["2m", "5m", "3m"],
     answer: "2m",
-    expectedUkeire: 32,
+    expectedUkeire: 33,
     point: "つながっている牌でも、残す形の強さを比べる。",
-    explanation: "2mは2344mの中にあり一見残したくなりますが、ここを外しても3m4mの形は残ります。3mや5pを切ると両面やくっつきの幅が落ちるため、2m切りが一番広くなります。"
+    explanation: "2mは2335567mの中にあり残したく見えますが、ここを外しても3mの対子候補と5567mの伸びが残ります。5mや3mを切るより、打牌後の一向聴受け入れが広くなります。"
   },
   {
     id: "beginner_iishanten_004",
     title: "対子のどちらをほぐすか",
     theme: "対子ほぐし",
-    hand: "333m6688p2334567s",
-    choices: ["6p", "8p", "2s"],
-    answer: "6p",
-    expectedUkeire: 36,
+    hand: "1235m445677p4556s",
+    choices: ["5s", "5m", "4p"],
+    answer: "5s",
+    expectedUkeire: 44,
     point: "対子が複数あるときは、残った形の受けを比べる。",
-    explanation: "6pと8pはどちらも対子ですが、6pを外すと8pの雀頭候補を残しつつ索子の連続形を最大限使えます。8pや2sを切るよりテンパイへ進む牌が多くなります。"
+    explanation: "5sを切っても456sの形は残り、萬子と筒子の複合形も壊しません。5mや4pを切るとくっつきや対子候補が弱くなるため、5s切りが一番広い一向聴になります。"
   },
   {
     id: "beginner_iishanten_005",
@@ -95,12 +95,12 @@ export const beginnerIishantenProblems: BeginnerIishantenProblem[] = [
     id: "beginner_iishanten_008",
     title: "強い形を壊さない",
     theme: "強い形を壊さない",
-    hand: "44m123345789p569s",
-    choices: ["6s", "5s", "9p"],
-    answer: "6s",
-    expectedUkeire: 28,
+    hand: "55679m234778p789s",
+    choices: ["9m", "5m", "8p"],
+    answer: "9m",
+    expectedUkeire: 33,
     point: "一見くっつきそうな形でも、全体の面子候補を優先する。",
-    explanation: "569sはどれも気になりますが、6sを外すと5s9sを浮き牌として残しながら筒子の完成形を崩しません。5sや9pを切るより、次に進む牌が多くなります。"
+    explanation: "9mは679mに絡んでいて一見残したくなりますが、5mの対子候補と7mまわりを残した方が広くなります。8pを切ると筒子の形が弱くなるため、9m切りが最も受け入れの多い一向聴です。"
   },
   {
     id: "beginner_iishanten_009",

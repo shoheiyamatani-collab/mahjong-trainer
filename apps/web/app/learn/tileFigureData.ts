@@ -163,7 +163,7 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
         },
         {
           label: "リーチ",
-          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "ji3", "ji3"],
+          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "ji7", "ji7"],
           resultLabel: "待ち",
           resultTiles: ["man6", "man9"],
           note: "役がない門前テンパイでも、鳴いていなければリーチを宣言できます。"
@@ -174,52 +174,85 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
   "tsumo-and-ron": [
     {
       title: "ツモは自分で引いてアガる",
-      description: "待っていた牌を自分のツモで引いたらツモです。",
-      badges: ["ツモ"],
+      description: "待ち牌を自分の番で山から引いたときは、手元でアガリが完成します。このときは相手の捨て牌ではなく、自分で引いた牌なので「ツモ！」と発声します。",
+      badges: ["自分で引く", "ツモ！"],
+      variant: "tsumo",
+      speech: "自分で五萬を引いたら「ツモ！」",
       rows: [
         {
           label: "待っている手",
-          tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7", "man5"],
+          tiles: ["man2", "man3", "man4", "man5", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7"],
           resultLabel: "待ち",
-          resultTiles: ["man5"]
+          resultTiles: ["man2", "man5"]
         },
-        { label: "自分で引く", tiles: ["man5"], tone: "answer", note: "自分で引いた最後の牌ならツモです。" }
+        { label: "自分で引く", tiles: ["man5"], tone: "tsumo", note: "自分のツモ番で五萬を引いたので、牌を見せながら「ツモ！」と発声します。" }
       ]
     },
     {
       title: "ロンは相手の捨て牌でアガる",
-      description: "待っていた牌を相手が捨てたら、ロンできる可能性があります。",
-      badges: ["ロン"],
+      description: "待ち牌を相手が捨てたときは、その捨て牌を使ってアガります。自分で引いた牌ではないので、相手の捨て牌を指して「ロン！」と発声します。",
+      badges: ["相手の捨て牌", "ロン！"],
+      variant: "ron",
+      speech: "相手が五萬を捨てたら「ロン！」",
       rows: [
         {
           label: "待っている手",
-          tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7", "man5"],
+          tiles: ["man2", "man3", "man4", "man5", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7"],
           resultLabel: "待ち",
-          resultTiles: ["man5"]
+          resultTiles: ["man2", "man5"]
         },
-        { label: "相手の捨て牌", tiles: ["man5"], tone: "answer", note: "相手の捨て牌でアガるならロンです。役があるかも確認します。" }
+        { label: "相手の捨て牌", tiles: ["man5"], tone: "ron", note: "相手が五萬を捨てて、それでアガれるなら「ロン！」と発声します。役があるかも確認します。" }
       ]
     }
   ],
   calling: [
     {
       title: "ポンは同じ牌3枚を作る鳴き",
-      description: "相手の捨て牌をもらって刻子を作ります。役牌のポンは初心者にも分かりやすい鳴きです。",
+      description: "相手の捨て牌をもらって刻子を作ります。中が2枚あるイーシャンテンなら、中をポンして一気にテンパイへ進めることがあります。",
       badges: ["鳴き", "ポン"],
       rows: [
-        { label: "手の中", tiles: ["ji7", "ji7"], note: "中が2枚あります。" },
-        { label: "相手の捨て牌", tiles: ["ji7"], tone: "answer" },
-        { label: "ポン後", tiles: ["ji7", "ji7", "ji7"], tone: "answer", note: "中の刻子ができ、役牌が確定します。" }
+        {
+          label: "ポン前",
+          tiles: ["man2", "man3", "man4", "pin3", "pin4", "sou6", "sou7", "sou8", "man7", "man7", "ji7", "ji7", "pin9"],
+          tone: "normal",
+          note: "中中を持っている13枚のイーシャンテンです。対面が中を捨てたらポンできます。"
+        },
+        {
+          label: "ポン後",
+          tiles: ["man2", "man3", "man4", "pin3", "pin4", "sou6", "sou7", "sou8", "man7", "man7"],
+          meld: { label: "対面から中ポン", tiles: ["ji7", "ji7", "ji7"], calledIndex: 1 },
+          resultLabel: "待ち",
+          resultTiles: ["pin2", "pin5"],
+          tone: "answer",
+          note: "対面の中をポンして右端に出し、孤立していた9筒を切ると10枚のテンパイ形になります。待ちは2筒・5筒です。"
+        }
       ]
     },
     {
       title: "チーは同じ種類の連続を作る鳴き",
-      description: "チーは左隣の人の捨て牌から順子を作る鳴きです。鳴いた後に役が残るか確認します。",
+      description: "チーは左隣の人の捨て牌から順子を作る鳴きです。鳴いた後にタンヤオなどの役が残るか確認します。",
       badges: ["チー"],
       rows: [
-        { label: "手の中", tiles: ["man3", "man4"], note: "2萬か5萬で順子になります。" },
-        { label: "チーできる牌", tiles: ["man2", "man5"], tone: "answer" },
-        { label: "注意", tiles: ["man7", "man8", "man9"], tone: "warning", note: "1・9が入るとタンヤオにはなりません。鳴く前に役を確認します。" }
+        {
+          label: "チー前",
+          tiles: ["man3", "man4", "man6", "man7", "pin3", "pin4", "pin5", "pin5", "pin5", "pin8", "sou6", "sou7", "sou8"],
+          note: "3萬4萬を持っていて、上家が5萬を捨てた場面です。2〜8だけなので、チーしてもタンヤオが残ります。"
+        },
+        {
+          label: "チー後",
+          tiles: ["man6", "man7", "pin3", "pin4", "pin5", "pin5", "pin5", "sou6", "sou7", "sou8"],
+          meld: { label: "上家から5萬チー", tiles: ["man3", "man4", "man5"], calledIndex: 2 },
+          resultLabel: "待ち",
+          resultTiles: ["man5", "man8"],
+          tone: "answer",
+          note: "上家の5萬をチーして右端に出し、孤立していた8筒を切ると10枚のテンパイ形になります。待ちは5萬・8萬で、タンヤオの役も残っています。"
+        },
+        {
+          label: "注意",
+          tiles: ["man7", "man8", "man9"],
+          tone: "warning",
+          note: "1・9が入る形で鳴くと、タンヤオではなくなることがあります。鳴く前に役が残るか確認します。"
+        }
       ]
     }
   ],

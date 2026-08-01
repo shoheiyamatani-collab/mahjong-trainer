@@ -1,5 +1,6 @@
 import { calculateScore, type ScoreResult, type WinMethod } from "./scoring";
 import { type Counts34, type Tile, countsToTiles, tileIndex, tileName, validateCounts } from "./tiles";
+import { incrementSimulationCounter } from "./performance";
 
 export interface YakuResult {
   name: string;
@@ -71,6 +72,7 @@ const DRAGONS = new Set<Tile>(["白", "發", "中"] as Tile[]);
 const WINDS = new Set<Tile>([EAST, SOUTH, WEST, NORTH]);
 
 export function calculateHandScore(input: HandScoreInput): HandScoreResult {
+  incrementSimulationCounter("agariCheckCount");
   validateHandScoreInput(input);
   const meldGroups = scoreMeldGroups(input.melds ?? []);
   const scoringInput: HandScoreInput = { ...input, melds: input.melds ?? [] };

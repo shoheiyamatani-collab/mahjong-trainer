@@ -1,16 +1,23 @@
 export type TileFigureRow = {
   label: string;
   tiles: string[];
+  meld?: {
+    label?: string;
+    tiles: string[];
+    calledIndex?: number;
+  };
   note?: string;
   resultLabel?: string;
   resultTiles?: string[];
-  tone?: "normal" | "answer" | "warning";
+  tone?: "normal" | "answer" | "warning" | "tsumo" | "ron";
 };
 
 export type TileFigure = {
   title: string;
   description: string;
   badges?: string[];
+  variant?: "tsumo" | "ron";
+  speech?: string;
   link?: {
     href: string;
     label: string;
@@ -64,7 +71,7 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
       <p className="tileFigureLead">牌の形を目で見ると、ルールや役の条件がかなりつかみやすくなります。</p>
       <div className="tileFigureGrid">
         {figures.map((figure) => (
-          <article className="tileFigureCard" key={figure.title}>
+          <article className={`tileFigureCard${figure.variant ? ` variant-${figure.variant}` : ""}`} key={figure.title}>
             <div className="tileFigureHeader">
               <h3>{figure.title}</h3>
               {figure.badges?.length ? (
@@ -75,6 +82,7 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
                 </div>
               ) : null}
             </div>
+            {figure.speech ? <p className="tileFigureSpeech">{figure.speech}</p> : null}
             <p>{figure.description}</p>
             <div className="tileFigureRows">
               {figure.rows.map((row, index) => (
@@ -91,6 +99,18 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
                         <TileStrip tiles={row.resultTiles} compact />
                       </div>
                     </>
+                  ) : null}
+                  {row.meld ? (
+                    <div className="tileFigureMeld">
+                      {row.meld.label ? <span>{row.meld.label}</span> : null}
+                      <div className="articleMeldStrip" aria-label={row.meld.tiles.join("、")}>
+                        {row.meld.tiles.map((tile, meldIndex) => (
+                          <span className={row.meld?.calledIndex === meldIndex ? "articleMeldTile called" : "articleMeldTile"} key={`${row.label}-meld-${tile}-${meldIndex}`}>
+                            <img src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   ) : null}
                   {row.note ? <p className="tileFigureNote">{row.note}</p> : null}
                 </div>

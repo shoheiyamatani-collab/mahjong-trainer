@@ -1,13 +1,28 @@
 import type { Counts34 } from "./tiles";
+import { LruCache, incrementSimulationCounter } from "./performance";
 
-const blockCache = new Map<string, Set<string>>();
+const blockCache = new LruCache<string, readonly number[]>(50_000);
+const shantenCache = new LruCache<string, number>(50_000);
+const LOCAL_TAATSU_BASE = 8;
+const COMBINED_TAATSU_BASE = 16;
 
 export function normalShanten(counts: Counts34): number {
-  if (counts.length !== 34) {
-    throw new Error("normalShanten expects 34 tile counts.");
-  }
+  return normalShantenWithOpenMelds(counts, 0);
+}
 
-  let best = 8;
+export function normalShantenWithOpenMelds(counts: Counts34, openMeldCount: number): number {
+  if (counts.length !== 34) {
+    throw new Error("normalShantenWithOpenMelds expects 34 tile counts.");
+  }
+  if (!Number.isInteger(openMeldCount) || openMeldCount < 0 || openMeldCount > 4) {
+    throw new Error("openMeldCount must be an integer from 0 to 4.");
+  }
+  const cacheKey = `${openMeldCount}|${counts.join(",")}`;
+  const cached = shantenCache.get(cacheKey);
+  if (cached != null) return cached;
+  incrementSimulationCounter("shantenCalculationCount");
+
+  let best = 8 - openMeldCount * 2;
   const pairOptions: Array<number | null> = [null];
   counts.forEach((count, index) => {
     if (count >= 2) pairOptions.push(index);
@@ -22,32 +37,62 @@ export function normalShanten(counts: Counts34): number {
     }
 
     for (const option of blockOptions(working)) {
-      const [melds, taatsu] = option.split(",").map(Number) as [number, number];
-      const cappedTaatsu = Math.min(taatsu, 4 - melds);
-      best = Math.min(best, 8 - 2 * melds - cappedTaatsu - hasPair);
+      const melds = option >> 4;
+      const taatsu = option & 15;
+      const totalMelds = melds + openMeldCount;
+      if (totalMelds > 4) continue;
+      const cappedTaatsu = Math.min(taatsu, 4 - totalMelds);
+      best = Math.min(best, 8 - 2 * totalMelds - cappedTaatsu - hasPair);
     }
   }
 
+  shantenCache.set(cacheKey, best);
   return best;
 }
 
-function blockOptions(counts: Counts34): Set<string> {
-  const key = counts.join(",");
+function blockOptions(counts: Counts34): readonly number[] {
+  let combined: readonly number[] = [0];
+  for (const [start, length, allowSequences] of [
+    [0, 9, true],
+    [9, 9, true],
+    [18, 9, true],
+    [27, 7, false],
+  ] as const) {
+    const local = localBlockOptions(counts.slice(start, start + length), allowSequences);
+    const next = new Set<number>();
+    for (const current of combined) {
+      const currentMelds = current >> 4;
+      const currentTaatsu = current & 15;
+      for (const option of local) {
+        const melds = currentMelds + (option >> 3);
+        const taatsu = currentTaatsu + (option & 7);
+        next.add(melds * COMBINED_TAATSU_BASE + taatsu);
+      }
+    }
+    combined = [...next];
+  }
+  return combined;
+}
+
+function localBlockOptions(counts: number[], allowSequences: boolean): readonly number[] {
+  const key = `${allowSequences ? "s" : "h"}${encodeBaseFive(counts)}`;
   const cached = blockCache.get(key);
   if (cached) return cached;
-
   const first = counts.findIndex((count) => count > 0);
   if (first < 0) {
-    const result = new Set(["0,0"]);
-    blockCache.set(key, result);
-    return result;
+    const empty = [0] as const;
+    blockCache.set(key, empty);
+    return empty;
   }
 
-  const results = new Set<string>();
-  const addBranch = (nextCounts: Counts34, meldDelta = 0, taatsuDelta = 0) => {
-    for (const option of blockOptions(nextCounts)) {
-      const [melds, taatsu] = option.split(",").map(Number) as [number, number];
-      results.add(`${melds + meldDelta},${taatsu + taatsuDelta}`);
+  const results = new Set<number>();
+  const addBranch = (nextCounts: number[], meldDelta = 0, taatsuDelta = 0) => {
+    for (const option of localBlockOptions(nextCounts, allowSequences)) {
+      results.add(
+        ((option >> 3) + meldDelta) * LOCAL_TAATSU_BASE
+          + (option & 7)
+          + taatsuDelta,
+      );
     }
   };
 
@@ -61,7 +106,7 @@ function blockOptions(counts: Counts34): Set<string> {
     addBranch(triplet, 1);
   }
 
-  if (canStartSequence(first) && counts[first + 1]! > 0 && counts[first + 2]! > 0) {
+  if (allowSequences && first <= 6 && counts[first + 1]! > 0 && counts[first + 2]! > 0) {
     const sequence = counts.slice();
     sequence[first] -= 1;
     sequence[first + 1] -= 1;
@@ -75,28 +120,27 @@ function blockOptions(counts: Counts34): Set<string> {
     addBranch(pairTaatsu, 0, 1);
   }
 
-  if (canConnect(first, 1) && counts[first + 1]! > 0) {
+  if (allowSequences && first <= 7 && counts[first + 1]! > 0) {
     const adjacent = counts.slice();
     adjacent[first] -= 1;
     adjacent[first + 1] -= 1;
     addBranch(adjacent, 0, 1);
   }
 
-  if (canConnect(first, 2) && counts[first + 2]! > 0) {
+  if (allowSequences && first <= 6 && counts[first + 2]! > 0) {
     const closedWait = counts.slice();
     closedWait[first] -= 1;
     closedWait[first + 2] -= 1;
     addBranch(closedWait, 0, 1);
   }
 
-  blockCache.set(key, results);
-  return results;
+  const result = [...results];
+  blockCache.set(key, result);
+  return result;
 }
 
-function canStartSequence(index: number): boolean {
-  return index < 27 && index % 9 <= 6;
-}
-
-function canConnect(index: number, distance: number): boolean {
-  return index < 27 && Math.floor(index / 9) === Math.floor((index + distance) / 9) && (index % 9) + distance <= 8;
+function encodeBaseFive(counts: readonly number[]): number {
+  let encoded = 0;
+  for (const count of counts) encoded = encoded * 5 + count;
+  return encoded;
 }
