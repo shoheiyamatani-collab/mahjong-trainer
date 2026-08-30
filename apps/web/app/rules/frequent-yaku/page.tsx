@@ -16,7 +16,11 @@ type FrequentYaku = {
   priority: "最優先" | "次に覚える";
   frequency: string;
   summary: string;
-  tiles: string[];
+  example: {
+    blocks: Array<{ label?: string; tiles: string[]; highlight?: boolean; calledIndex?: number }>;
+    winningTile: string;
+    highlightWinningTile?: boolean;
+  };
   tileLabel: string;
   point: string;
   href: string;
@@ -31,7 +35,17 @@ const frequentYaku: FrequentYaku[] = [
     priority: "最優先",
     frequency: "出現率の目安: 約40%台",
     summary: "鳴いていない状態でテンパイしたら宣言できる、実戦で最もよく見る基本役です。",
-    tiles: ["man6", "man7", "man8", "pin5"],
+    example: {
+      blocks: [
+        { tiles: ["man1", "man2", "man3"] },
+        { tiles: ["pin3", "pin4", "pin5"] },
+        { tiles: ["sou6", "sou7", "sou8"] },
+        { label: "両面待ち", tiles: ["man6", "man7"], highlight: true },
+        { tiles: ["pin5", "pin5"] }
+      ],
+      winningTile: "man8",
+      highlightWinningTile: true
+    },
     tileLabel: "あと1枚でアガれる形",
     point: "門前でテンパイしたら、まずリーチできるかを確認します。",
     href: "/rules/reach"
@@ -44,9 +58,19 @@ const frequentYaku: FrequentYaku[] = [
     priority: "最優先",
     frequency: "鳴き手で特に頻出",
     summary: "白・發・中、または場風・自風を3枚そろえる役です。ポンしても役が残ります。",
-    tiles: ["ji6", "ji6", "ji6", "ji5", "ji5", "ji5", "ji7", "ji7", "ji7"],
-    tileLabel: "白・發・中を3枚",
-    point: "鳴いてアガるときは、役牌があるかを最初に見ます。",
+    example: {
+      blocks: [
+        { tiles: ["man1", "man2", "man3"] },
+        { tiles: ["pin3", "pin4", "pin5"] },
+        { tiles: ["sou6", "sou7", "sou8"] },
+        { tiles: ["man5", "man5"] },
+        { label: "役牌", tiles: ["ji7", "ji7"], highlight: true }
+      ],
+      winningTile: "ji7",
+      highlightWinningTile: true
+    },
+    tileLabel: "中を3枚そろえた役牌の例",
+    point: "この3種類を全部そろえる必要はありません。白・發・中のどれか1種類を3枚そろえれば役牌の1翻です。",
     href: "/rules/yakuhai"
   },
   {
@@ -57,7 +81,17 @@ const frequentYaku: FrequentYaku[] = [
     priority: "最優先",
     frequency: "出現率の目安: 約20%台",
     summary: "1・9・字牌を使わず、2から8の数牌だけで作る役です。見た目で判断しやすい役です。",
-    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8"],
+    example: {
+      blocks: [
+        { label: "2〜8", tiles: ["man2", "man3", "man4"], highlight: true },
+        { label: "2〜8", tiles: ["pin3", "pin4", "pin5"], highlight: true },
+        { label: "2〜8", tiles: ["sou6", "sou7", "sou8"], highlight: true },
+        { label: "2〜8", tiles: ["man6", "man7"], highlight: true },
+        { label: "2〜8", tiles: ["pin5", "pin5"], highlight: true }
+      ],
+      winningTile: "man8",
+      highlightWinningTile: true
+    },
     tileLabel: "2〜8だけ",
     point: "端牌と字牌がないかを見るだけで、かなり判断しやすくなります。",
     href: "/rules/tanyao"
@@ -70,7 +104,17 @@ const frequentYaku: FrequentYaku[] = [
     priority: "最優先",
     frequency: "出現率の目安: 約20%",
     summary: "順子4つ、役牌ではない雀頭、両面待ちで成立する役です。リーチとよく一緒に出ます。",
-    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou4", "sou5", "sou6", "pin2", "pin2"],
+    example: {
+      blocks: [
+        { label: "順子", tiles: ["man1", "man2", "man3"], highlight: true },
+        { label: "順子", tiles: ["pin3", "pin4", "pin5"], highlight: true },
+        { label: "順子", tiles: ["sou4", "sou5", "sou6"], highlight: true },
+        { label: "両面待ち", tiles: ["man6", "man7"], highlight: true },
+        { label: "役牌でない雀頭", tiles: ["pin2", "pin2"], highlight: true }
+      ],
+      winningTile: "man8",
+      highlightWinningTile: true
+    },
     tileLabel: "順子中心",
     point: "条件は少し細かいですが、点数計算でもよく出るので早めに慣れたい役です。",
     href: "/rules/pinfu"
@@ -83,7 +127,17 @@ const frequentYaku: FrequentYaku[] = [
     priority: "最優先",
     frequency: "出現率の目安: 約20%",
     summary: "鳴いていない状態で、自分で引いた牌でアガる役です。リーチ後のツモでよく見ます。",
-    tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "man5"],
+    example: {
+      blocks: [
+        { tiles: ["man1", "man2", "man3"] },
+        { tiles: ["pin3", "pin4", "pin5"] },
+        { tiles: ["sou6", "sou7", "sou8"] },
+        { label: "待ち", tiles: ["man6", "man7"], highlight: true },
+        { tiles: ["pin5", "pin5"] }
+      ],
+      winningTile: "man8",
+      highlightWinningTile: true
+    },
     tileLabel: "自分で引く",
     point: "相手の捨て牌ならロン、自分で引いたらツモです。",
     href: "/rules/tsumo"
@@ -96,7 +150,17 @@ const frequentYaku: FrequentYaku[] = [
     priority: "次に覚える",
     frequency: "出現率の目安: 約7〜10%",
     summary: "リーチ後、誰も鳴かないまま次の自分のツモまでにアガるとつく役です。",
-    tiles: ["man6", "man7", "man8", "pin5"],
+    example: {
+      blocks: [
+        { tiles: ["man1", "man2", "man3"] },
+        { tiles: ["pin3", "pin4", "pin5"] },
+        { tiles: ["sou6", "sou7", "sou8"] },
+        { label: "リーチ後の待ち", tiles: ["man6", "man7"], highlight: true },
+        { tiles: ["pin5", "pin5"] }
+      ],
+      winningTile: "man8",
+      highlightWinningTile: true
+    },
     tileLabel: "リーチのおまけ",
     point: "形で作る役ではなく、リーチ後のタイミングでつく役です。",
     href: "/rules/yaku"
@@ -109,7 +173,17 @@ const frequentYaku: FrequentYaku[] = [
     priority: "次に覚える",
     frequency: "2翻以上では比較的よく見る",
     summary: "1種類の数牌と字牌だけで作る役です。役牌と一緒になりやすい実戦向けの役です。",
-    tiles: ["man2", "man3", "man4", "man5", "man5", "man6", "man7", "man8", "ji7", "ji7", "ji7"],
+    example: {
+      blocks: [
+        { label: "萬子", tiles: ["man2", "man3", "man4"], highlight: true },
+        { label: "萬子", tiles: ["man5", "man6", "man7"], highlight: true },
+        { label: "萬子", tiles: ["man7", "man8", "man9"], highlight: true },
+        { label: "字牌", tiles: ["ji1", "ji1"], highlight: true },
+        { label: "字牌", tiles: ["ji6", "ji6"], highlight: true }
+      ],
+      winningTile: "ji6",
+      highlightWinningTile: true
+    },
     tileLabel: "一色＋字牌",
     point: "萬子・筒子・索子のうち、どれか1種類に寄ってきたら意識します。",
     href: "/rules/honitsu"
@@ -122,7 +196,16 @@ const frequentYaku: FrequentYaku[] = [
     priority: "次に覚える",
     frequency: "出現率の目安: 約4〜5%",
     summary: "同じ種類・同じ数字並びの順子を2組作る役です。平和系の手で自然に出ます。",
-    tiles: ["man2", "man2", "man3", "man3", "man4", "man4"],
+    example: {
+      blocks: [
+        { label: "同じ順子", tiles: ["man2", "man3", "man4"], highlight: true },
+        { label: "同じ順子", tiles: ["man2", "man3", "man4"], highlight: true },
+        { tiles: ["pin6", "pin7", "pin8"] },
+        { tiles: ["sou6", "sou7"] },
+        { tiles: ["pin5", "pin5"] }
+      ],
+      winningTile: "sou8"
+    },
     tileLabel: "同じ順子2組",
     point: "二三四萬が2組、のように同じ順子が重なっているかを見ます。",
     href: "/rules/iipeikou"
@@ -135,7 +218,16 @@ const frequentYaku: FrequentYaku[] = [
     priority: "次に覚える",
     frequency: "2翻役では実戦で見かける",
     summary: "萬子・筒子・索子で同じ数字並びの順子を作る役です。形が見えると打点が上がります。",
-    tiles: ["man3", "man4", "man5", "pin3", "pin4", "pin5", "sou3", "sou4", "sou5"],
+    example: {
+      blocks: [
+        { label: "345", tiles: ["man3", "man4", "man5"], highlight: true },
+        { label: "345", tiles: ["pin3", "pin4", "pin5"], highlight: true },
+        { label: "345", tiles: ["sou3", "sou4", "sou5"], highlight: true },
+        { tiles: ["man6", "man7"] },
+        { tiles: ["ji1", "ji1"] }
+      ],
+      winningTile: "man8"
+    },
     tileLabel: "3種類の345",
     point: "同じ数字の順子が3色にまたがっていないかを見ます。",
     href: "/rules/sanshoku"
@@ -148,8 +240,18 @@ const frequentYaku: FrequentYaku[] = [
     priority: "次に覚える",
     frequency: "鳴き手で見かける",
     summary: "刻子を4つ作る役です。ポンが多い手で、役牌と一緒になることがあります。",
-    tiles: ["man2", "man2", "man2", "pin5", "pin5", "pin5", "ji7", "ji7", "ji7"],
-    tileLabel: "刻子中心",
+    example: {
+      blocks: [
+        { label: "ポン", tiles: ["man2", "man2", "man2"], highlight: true, calledIndex: 1 },
+        { label: "ポン", tiles: ["pin5", "pin5", "pin5"], highlight: true, calledIndex: 1 },
+        { label: "刻子", tiles: ["ji7", "ji7", "ji7"], highlight: true },
+        { label: "刻子待ち", tiles: ["sou8", "sou8"], highlight: true },
+        { tiles: ["man6", "man6"] }
+      ],
+      winningTile: "sou8",
+      highlightWinningTile: true
+    },
+    tileLabel: "2組をポンした対々和",
     point: "順子ではなく、同じ牌3枚のかたまりが多い手で意識します。",
     href: "/rules/toitoi"
   },
@@ -161,7 +263,19 @@ const frequentYaku: FrequentYaku[] = [
     priority: "次に覚える",
     frequency: "対子が多い手で頻出",
     summary: "同じ牌2枚のペアを7組作る特殊な役です。通常の4面子1雀頭とは別枠で覚えます。",
-    tiles: ["man2", "man2", "man5", "man5", "pin3", "pin3", "pin6", "pin6", "sou4", "sou4", "ji1", "ji1"],
+    example: {
+      blocks: [
+        { label: "対子", tiles: ["man2", "man2"], highlight: true },
+        { label: "対子", tiles: ["man5", "man5"], highlight: true },
+        { label: "対子", tiles: ["pin3", "pin3"], highlight: true },
+        { label: "対子", tiles: ["pin6", "pin6"], highlight: true },
+        { label: "対子", tiles: ["sou4", "sou4"], highlight: true },
+        { label: "対子", tiles: ["ji1", "ji1"], highlight: true },
+        { label: "7組目", tiles: ["ji7"], highlight: true }
+      ],
+      winningTile: "ji7",
+      highlightWinningTile: true
+    },
     tileLabel: "ペアを7組",
     point: "対子が多い配牌なら、七対子ルートを考えます。",
     href: "/rules/chiitoitsu"
@@ -169,6 +283,7 @@ const frequentYaku: FrequentYaku[] = [
 ];
 
 const tileNames: Record<string, string> = {
+  man1: "一萬",
   man2: "二萬",
   man3: "三萬",
   man4: "四萬",
@@ -176,11 +291,14 @@ const tileNames: Record<string, string> = {
   man6: "六萬",
   man7: "七萬",
   man8: "八萬",
+  man9: "九萬",
   pin2: "二筒",
   pin3: "三筒",
   pin4: "四筒",
   pin5: "五筒",
   pin6: "六筒",
+  pin7: "七筒",
+  pin8: "八筒",
   sou3: "三索",
   sou4: "四索",
   sou5: "五索",
@@ -278,7 +396,32 @@ function FrequentYakuCard({ item }: { item: FrequentYaku }) {
       <p className="yakuSummary">{item.summary}</p>
       <div className="yakuTileExample">
         <span>{item.tileLabel}</span>
-        <TileStrip tiles={item.tiles} />
+        <div className="yakuHandFigure" aria-label={`${item.name}の13枚とアガリ牌の牌姿例`}>
+          <div className="yakuHandTiles">
+            {item.example.blocks.map((block, blockIndex) => (
+              <div className={`yakuTileBlock${block.highlight ? " isHighlighted" : ""}`} key={`${item.name}-block-${blockIndex}`}>
+                {block.label ? <span className="yakuTileBlockLabel">{block.label}</span> : null}
+                <div className="yakuTileBlockTiles">
+                  {block.tiles.map((tile, tileIndex) => (
+                    <span
+                      className={block.calledIndex === tileIndex ? "yakuBlockTile isCalled" : "yakuBlockTile"}
+                      key={`${item.name}-${blockIndex}-${tile}-${tileIndex}`}
+                    >
+                      <img
+                        src={`/tiles/${tile}-66-90-l-emb.png`}
+                        alt={tileNames[tile] ?? tile}
+                      />
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className={`yakuWinningTile${item.example.highlightWinningTile ? " isHighlighted" : ""}`}>
+            <span>アガリ牌</span>
+            <img src={`/tiles/${item.example.winningTile}-66-90-l-emb.png`} alt={tileNames[item.example.winningTile] ?? item.example.winningTile} />
+          </div>
+        </div>
       </div>
       <dl className="yakuPointList">
         <div className="yakuPointItem yakuPoint-focus">
@@ -292,15 +435,5 @@ function FrequentYakuCard({ item }: { item: FrequentYaku }) {
       </dl>
       <Link className="textLink" href={item.href}>{item.name}をもう少し詳しく見る</Link>
     </article>
-  );
-}
-
-function TileStrip({ tiles }: { tiles: string[] }) {
-  return (
-    <div className="yakuTileStrip" aria-label={tiles.map((tile) => tileNames[tile] ?? tile).join("、")}>
-      {tiles.map((tile, index) => (
-        <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />
-      ))}
-    </div>
   );
 }

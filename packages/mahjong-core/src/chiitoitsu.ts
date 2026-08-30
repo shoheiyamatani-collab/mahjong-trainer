@@ -1,5 +1,5 @@
 import { normalShanten } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -185,7 +185,7 @@ export function evaluateChiitoitsuProgress(
 ): ChiitoitsuProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${melds.length}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${melds.length}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

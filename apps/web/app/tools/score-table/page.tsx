@@ -71,9 +71,9 @@ export default function ScoreTablePage() {
         <div className="linkCardGrid">
           <InternalLinkCard
             title="点数計算ツールを使う"
-            description="麻雀便利ツールから、点数計算ツールや実戦練習に進めます。手牌と条件を変えながら、ロン・ツモの支払いを確認しましょう。"
+            description="麻雀点数計算ツールで手牌と条件を変えながら、ロン・ツモの支払いを確認しましょう。"
             href="/tools"
-            actionLabel="麻雀便利ツールへ"
+            actionLabel="麻雀点数計算ツール🔰へ"
           />
         </div>
         <div className="scoreToolPreviewGrid">

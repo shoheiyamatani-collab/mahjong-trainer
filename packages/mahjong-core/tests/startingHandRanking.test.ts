@@ -10,6 +10,7 @@ import {
   parseHand,
   runHandTargetRanking,
   runPinfuSimulation,
+  selectHandTargetRefinementRoles,
   sortHandTargetRankingItems,
   type HandTargetRankingRoleId,
   type RoleSimulationResult,
@@ -174,6 +175,27 @@ describe("starting-hand strategy ranking", () => {
     expect(sortHandTargetRankingItems(ranking, "turn12")[0]?.roleId).toBe("chanta");
     expect(sortHandTargetRankingItems(ranking, "averageTurn")[0]?.roleId).toBe("riichi");
     expect(ranking.map((item) => item.roleId)).toEqual(original);
+  });
+
+  it("refines the top three strategies plus close contenders, capped at four", () => {
+    const items = createHandTargetRanking(ROLE_IDS.map((roleId, index) => resultFor(roleId, {
+      practicalTenpaiScore: [40, 38, 37, 36, 34, 25, 20, 10][index],
+    })));
+
+    expect(selectHandTargetRefinementRoles(items)).toEqual([
+      "chanta",
+      "flush",
+      "chiitoitsu",
+      "ikkitsuukan",
+    ]);
+  });
+
+  it("always refines at least three strategies even when the leader is clear", () => {
+    const items = createHandTargetRanking(ROLE_IDS.map((roleId, index) => resultFor(roleId, {
+      practicalTenpaiScore: [70, 45, 30, 20, 10, 5, 2, 1][index],
+    })));
+
+    expect(selectHandTargetRefinementRoles(items)).toEqual(["chanta", "flush", "chiitoitsu"]);
   });
 
   it("includes the riichi AI version and excludes the pinfu AI version from the ranking cache key", () => {

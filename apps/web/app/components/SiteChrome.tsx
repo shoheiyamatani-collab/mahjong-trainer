@@ -1,55 +1,75 @@
 import Link from "next/link";
 import { siteConfig } from "../siteConfig";
+import { SiteNavigation, type SiteNavItem } from "./SiteNavigation";
 
-type NavItem = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
-
-const navItems: NavItem[] = [
-  { label: "麻雀トレーニング", href: "/trainer" },
-  { label: "配牌分析", href: "/analysis/starting-hand" },
-  { label: "麻雀便利ツール", href: "/tools" },
-  { label: "麻雀のルール", href: "/learn" },
+const navItems: SiteNavItem[] = [
+  {
+    label: "麻雀解析ツール",
+    href: "/analysis/mahjong-tool",
+    activePrefixes: ["/analysis"],
+    icon: "analysis",
+    kind: "primary",
+    tone: "analysis"
+  },
+  {
+    label: "麻雀トレーニング",
+    href: "/trainer",
+    activePrefixes: ["/trainer", "/training"],
+    icon: "training",
+    kind: "primary",
+    tone: "training"
+  },
+  { label: "点数計算ツール", href: "/tools", icon: "score", kind: "utility" },
+  {
+    label: "麻雀のルール",
+    href: "/learn",
+    icon: "rules",
+    kind: "utility",
+    visible: siteConfig.features.showRulesNavigation
+  },
+  { label: "動画で学ぶ", href: "/videos/strategy", activePrefixes: ["/videos"], icon: "video", kind: "utility" },
+  {
+    label: "Mリーグ厳選切り抜きを見る",
+    href: "/videos/mleague-clips",
+    visible: siteConfig.features.showMLeagueLinks
+  },
   {
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
     href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
-    external: true
+    external: true,
+    visible: siteConfig.features.showMLeagueLinks
   }
 ];
 
 const footerItems = [
-  { label: "初心者ロードマップ", href: "/learn/roadmap" },
-  { label: "点数計算ツール", href: "/trainer" },
-  { label: "何切る問題", href: "/trainer" },
-  { label: "待ち当て問題", href: "/trainer" },
-  { label: "役一覧", href: "/rules/yaku" }
+  { label: "麻雀解析ツール", href: "/analysis/mahjong-tool" },
+  { label: "麻雀トレーニング", href: "/trainer" },
+  { label: "麻雀点数計算ツール", href: "/tools" },
+  { label: "動画で学ぶ", href: "/videos/strategy" }
 ];
+
+function BrandLockup() {
+  return (
+    <>
+      <span className="siteLogoMark siteLogoMarkImage" aria-hidden="true" />
+      <span className="siteLogoText">
+        <span className="siteLogoTitle"><span className="siteLogoTitleLead">雀</span>フォリオ</span>
+        <span className="siteLogoMeta">
+          <span className="siteLogoSub">{siteConfig.brand.englishName}</span>
+          <span className="siteLogoTagline">{siteConfig.brand.tagline}</span>
+        </span>
+      </span>
+    </>
+  );
+}
 
 export function Header() {
   return (
     <header className="siteHeader">
       <Link className="siteLogo" href="/">
-        <span className="siteLogoMark" aria-hidden="true">麻</span>
-        <span>
-          <span className="siteLogoTitle">麻雀トレーナー</span>
-          <span className="siteLogoSub">学ぶ・練習する・調べる</span>
-        </span>
+        <BrandLockup />
       </Link>
-      <nav className="siteNav" aria-label="サイトナビゲーション">
-        {navItems.map((item) =>
-          item.external ? (
-            <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer">
-              {item.label}
-            </a>
-          ) : (
-            <Link key={item.href} href={item.href}>
-              {item.label}
-            </Link>
-          )
-        )}
-      </nav>
+      <SiteNavigation items={navItems} />
     </header>
   );
 }
@@ -58,8 +78,9 @@ export function Footer() {
   return (
     <footer className="siteFooter">
       <div>
-        <p className="siteFooterTitle">麻雀トレーナー</p>
-        <p className="siteFooterText">迷ったらルールを読み直し、同じ形をもう一度練習できます。</p>
+        <Link className="siteLogo siteFooterLogo" href="/">
+          <BrandLockup />
+        </Link>
       </div>
       <nav className="siteFooterLinks" aria-label="フッターリンク">
         {footerItems.map((item) => (

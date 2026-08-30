@@ -1,5 +1,5 @@
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -141,7 +141,7 @@ export function classifyTanyaoWin(
   config: TanyaoRuleConfig = DEFAULT_TANYAO_RULE_CONFIG,
 ): TanyaoWinClassification {
   validateCounts(counts);
-  const key = `${config.openTanyao ? 1 : 0}|${meldKey(melds)}|${counts.join(",")}`;
+  const key = `${config.openTanyao ? 1 : 0}|${meldKey(melds)}|${compactCountsKey(counts)}`;
   const cached = winCache.get(key);
   if (cached) return cached;
   const none: TanyaoWinClassification = { type: "NONE", shape: null, open: melds.length > 0 };
@@ -179,7 +179,7 @@ export function evaluateTanyaoPlan(
 ): TanyaoPlan {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${config.openTanyao ? 1 : 0}|${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${config.openTanyao ? 1 : 0}|${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = planCache.get(key);
   if (cached) return cached;
   if (!meldsAreCompatible(melds, config) || sumCounts(counts) > 14 - melds.length * 3) {
@@ -347,7 +347,7 @@ export function evaluateTanyaoProgress(
 ): TanyaoProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${config.openTanyao ? 1 : 0}|${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${config.openTanyao ? 1 : 0}|${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

@@ -24,7 +24,19 @@ import { PRACTICAL_TENPAI_SCORING_VERSION } from "./practicalTenpai";
 import { type Counts34, validateCounts } from "./tiles";
 import { LruCache } from "./performance";
 
-export const HAND_TARGET_RANKING_VERSION = "hand-target-ranking-1.2.0";
+export const HAND_TARGET_RANKING_VERSION = "hand-target-ranking-1.3.0";
+
+export interface HandTargetRefinementConfig {
+  minimumRoleCount: number;
+  maximumRoleCount: number;
+  practicalScoreWindow: number;
+}
+
+export const DEFAULT_HAND_TARGET_REFINEMENT_CONFIG: Readonly<HandTargetRefinementConfig> = {
+  minimumRoleCount: 3,
+  maximumRoleCount: 4,
+  practicalScoreWindow: 5,
+};
 
 export type HandTargetRankingSort = "practical" | "tenpai" | "turn12" | "preemptive" | "averageTurn";
 
@@ -278,6 +290,25 @@ export function sortHandTargetRankingItems(
   return [...items]
     .sort(compareSelected)
     .map((item, index) => ({ ...item, rank: index + 1 }));
+}
+
+export function selectHandTargetRefinementRoles(
+  items: readonly HandTargetRankingItem[],
+  config: HandTargetRefinementConfig = DEFAULT_HAND_TARGET_REFINEMENT_CONFIG,
+): HandTargetRankingRoleId[] {
+  if (items.length === 0) return [];
+  const minimumRoleCount = Math.max(1, Math.min(items.length, Math.floor(config.minimumRoleCount)));
+  const maximumRoleCount = Math.max(
+    minimumRoleCount,
+    Math.min(items.length, Math.floor(config.maximumRoleCount)),
+  );
+  const practicalScoreWindow = Math.max(0, config.practicalScoreWindow);
+  const ordered = sortHandTargetRankingItems(items, "practical");
+  const bestScore = ordered[0]!.practicalTenpaiScore;
+  return ordered
+    .filter((item, index) => index < minimumRoleCount || bestScore - item.practicalTenpaiScore <= practicalScoreWindow)
+    .slice(0, maximumRoleCount)
+    .map((item) => item.roleId);
 }
 
 export function buildHandTargetRankingCacheKey(

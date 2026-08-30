@@ -1,6 +1,6 @@
 import { calculateHandScore, type HandScoreMeld } from "./handScore";
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   aggregatePracticalTenpaiMetrics,
   assertPracticalTenpaiMetrics,
@@ -640,7 +640,7 @@ const shantenCache = new LruCache<string, number>(20_000);
 
 export function chantaShanten(counts: Counts34, melds: ChantaMeld[] = []): number {
   validateCounts(counts);
-  const cacheKey = `${meldKey(melds)}|${counts.join(",")}`;
+  const cacheKey = `${meldKey(melds)}|${compactCountsKey(counts)}`;
   const cached = shantenCache.get(cacheKey);
   if (cached != null) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

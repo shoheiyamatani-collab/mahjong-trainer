@@ -1,5 +1,5 @@
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -136,7 +136,7 @@ export function evaluateToitoiPlan(
   const fixed = fixedMeldContext(melds);
   const concealedTarget = 14 - melds.length * 3;
   const concealedTotal = sumCounts(counts);
-  const key = `${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = planCache.get(key);
   if (cached) return cached;
 
@@ -203,7 +203,7 @@ export function toitoiWinningTileDetails(
 ): ToitoiWinningTile[] {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = winningCache.get(key);
   if (cached) return cached;
   const winning: ToitoiWinningTile[] = [];
@@ -301,7 +301,7 @@ export function evaluateToitoiProgress(
 ): ToitoiProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

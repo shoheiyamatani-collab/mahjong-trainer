@@ -2,11 +2,22 @@ import type { Metadata } from "next";
 import { CategoryCard, InternalLinkCard, PageHero, SectionTitle } from "./components/SiteSections";
 
 export const metadata: Metadata = {
-  title: "麻雀トレーナー | 初心者向けルール解説と練習問題",
-  description: "麻雀初心者がルール、役、待ち、何切る、点数計算を順番に学べる麻雀学習サイトです。練習問題と便利ツールへすぐ進めます。"
+  title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
+  description: "麻雀初心者がルール、役、待ち、何切る、点数計算を順番に学べる麻雀学習サイトです。練習問題と便利ツールへすぐ進めます。",
+  alternates: {
+    canonical: "/"
+  },
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    url: "/",
+    siteName: "雀フォリオ",
+    title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
+    description: "麻雀初心者がルール、役、待ち、何切る、点数計算を順番に学べる麻雀学習サイトです。"
+  }
 };
 
-const learningOrder = ["ルール", "役", "待ち", "何切る", "点数計算"];
+const learningOrder = ["ルール", "役", "待ち", "点数計算"];
 
 export default function HomePage() {
   return (
@@ -47,8 +58,7 @@ export default function HomePage() {
         <article className="todayCard">
           <p className="siteEyebrow">今日の1問</p>
           <h2>この手、何を切る？</h2>
-          <p>ランダム問題への入口として準備中です。今は練習一覧から、受け入れ最大問題や待ち当てに進めます。</p>
-          <a className="primaryCta" href="/trainer">麻雀トレーニングを開く</a>
+          <p>毎日1問、何切るや待ち当てなどの問題をこの場所に掲載します。</p>
         </article>
 
         <section className="learningOrderPanel" aria-labelledby="learning-order-heading">
@@ -58,8 +68,11 @@ export default function HomePage() {
             description="点数計算は最後で大丈夫。まずはアガリまでの流れをつかみます。"
           />
           <ol className="learningOrder" id="learning-order-heading">
-            {learningOrder.map((item) => (
-              <li key={item}>{item}</li>
+            {learningOrder.map((item, index) => (
+              <li key={item}>
+                <span className="learningStep">STEP {index + 1}</span>
+                <span>{item}</span>
+              </li>
             ))}
           </ol>
         </section>
@@ -69,7 +82,7 @@ export default function HomePage() {
         <SectionTitle title="次に進む" description="読んだあとに解く、解いたあとに調べる流れを作っています。" />
         <div className="linkCardGrid">
           <InternalLinkCard title="ルール一覧で復習する" description="リーチ、タンヤオ、役牌などの入口を確認できます。" href="/rules" />
-          <InternalLinkCard title="点数計算ツールを使う" description="既存の点数計算画面で、条件を変えながら確認できます。" href="/trainer" />
+          <InternalLinkCard title="点数計算ツールを使う" description="手牌と条件を変えながら、役・翻・符と点数を確認できます。" href="/tools" />
           <InternalLinkCard title="待ち当て問題を解く" description="基本形から清一色まで、待ちを見抜く練習に進みます。" href="/trainer" />
         </div>
       </section>

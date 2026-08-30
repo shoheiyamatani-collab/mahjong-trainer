@@ -1,5 +1,5 @@
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -84,7 +84,7 @@ const winCache = new LruCache<string, FlushWinClassification>(10_000);
 
 export function classifyFlushWin(counts: Counts34, melds: FlushMeld[] = []): FlushWinClassification {
   validateCounts(counts);
-  const key = `${meldKey(melds)}|${counts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}`;
   const cached = winCache.get(key);
   if (cached) return cached;
 
@@ -133,7 +133,7 @@ export function flushTargetShanten(
   targetType: FlushTargetType,
 ): number {
   validateCounts(counts);
-  const key = `${suit}|${targetType}|${meldKey(melds)}|${counts.join(",")}`;
+  const key = `${suit}|${targetType}|${meldKey(melds)}|${compactCountsKey(counts)}`;
   const cached = targetShantenCache.get(key);
   if (cached != null) return cached;
   if (!candidateAllowed(melds, suit, targetType)) return cacheTargetShanten(key, Number.POSITIVE_INFINITY);
@@ -204,7 +204,7 @@ export function evaluateFlushProgress(
 ): FlushProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

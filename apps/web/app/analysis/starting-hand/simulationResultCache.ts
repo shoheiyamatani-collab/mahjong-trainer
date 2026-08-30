@@ -21,6 +21,8 @@ export interface CachedSimulationBundle {
   baseSeed: number;
   checkpoints: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>>;
   metrics: Partial<Record<SimulationRoleId, SimulationPerformanceMetrics>>;
+  rankingQuality?: "fast" | "adaptive" | "full";
+  refinedRoleIds?: SimulationRoleId[];
 }
 
 interface CacheIndexItem {

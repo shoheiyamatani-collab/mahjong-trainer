@@ -68,6 +68,8 @@ export type LearnArticle = {
 };
 
 export const trainerHref = "/trainer";
+export const mahjongAnalysisToolHref = "/analysis/mahjong-tool";
+export const scoreCalculatorHref = "/tools";
 
 export const learnArticles: LearnArticle[] = [
   {
@@ -91,7 +93,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "初心者はまず、手を完成させる流れと、役が必要なことを覚えれば十分です。"
     },
     relatedPractice: { label: "麻雀トレーニングを開く", href: trainerHref },
-    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: trainerHref }
+    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: mahjongAnalysisToolHref }
   },
   {
     slug: "tiles",
@@ -119,7 +121,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "数牌は3種類あり、それぞれ1から9まであります。"
     },
     relatedPractice: { label: "牌を選ぶ練習へ", href: trainerHref },
-    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: trainerHref }
+    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: mahjongAnalysisToolHref }
   },
   {
     slug: "draw-and-discard",
@@ -142,7 +144,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "麻雀はこの基本動作をくり返して、手を完成に近づけます。"
     },
     relatedPractice: { label: "何切る問題を解く", href: trainerHref },
-    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: trainerHref }
+    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: mahjongAnalysisToolHref }
   },
   {
     slug: "meld-and-pair",
@@ -303,7 +305,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "受け入れが広いほど、次に手が進む牌が多いという意味になります。"
     },
     relatedPractice: { label: "何切る問題を解く", href: trainerHref },
-    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: trainerHref }
+    relatedTool: { label: "受け入れ枚数チェッカーを使う", href: mahjongAnalysisToolHref }
   },
   {
     slug: "score-later",
@@ -326,7 +328,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "まず遊べるようになるには、形・役・ツモロンの理解が先です。点数は後からで大丈夫です。"
     },
     relatedPractice: { label: "点数計算トレーニング", status: "comingSoon" },
-    relatedTool: { label: "点数計算ツールを使う", href: trainerHref }
+    relatedTool: { label: "点数計算ツールを使う", href: scoreCalculatorHref }
   }
 ];
 
@@ -416,7 +418,7 @@ export const toolItems: ToolItem[] = [
         }
       ],
     checks: ["手牌から役・翻・符を確認", "親子、ロン・ツモの支払いを比較", "リーチやドラを変えた点数の違いを確認"],
-    href: trainerHref,
+    href: scoreCalculatorHref,
     status: "available"
   },
   {
@@ -436,7 +438,7 @@ export const toolItems: ToolItem[] = [
       }
     ],
     checks: ["どの牌を切ると手が進みやすいか確認", "打牌候補ごとの受け入れ種類数と枚数を確認", "有効牌の内容を牌画像で比較"],
-    href: trainerHref,
+    href: mahjongAnalysisToolHref,
     status: "available"
   }
 ];

@@ -11,6 +11,7 @@ import {
   emptyCounts,
   parseHand,
   recommendedSimulationWorkerCount,
+  selectHandTargetRefinementRoles,
   sortHandTargetRankingItems,
   sumCounts,
   tileIndex,
@@ -42,6 +43,7 @@ const HONOR_IMAGE_NUMBERS = new Map<string, number>([
 
 export type AnalysisRoleId = HandTargetRankingRoleId | "pinfu";
 type AnalysisMode = "ranking" | "single";
+export type RankingQuality = "fast" | "adaptive" | "full";
 
 export interface RankingContext {
   rank?: number;
@@ -60,6 +62,10 @@ export interface StartingHandAnalysisClientProps {
   initialTrials?: number;
   initialSeed?: number;
   initialCacheKey?: string;
+  initialRankingQuality?: RankingQuality;
+  initialLowLoadMode?: boolean;
+  autoRun?: boolean;
+  dedicatedAnalysisTab?: boolean;
   rankingContext?: RankingContext;
 }
 
@@ -79,7 +85,9 @@ const ANALYSIS_ROLES: Array<{
   { id: "riichi", name: "リーチ全力狙いAI", shortName: "リーチ" },
 ];
 
-type RankingQuality = "fast" | "standard";
+const QUICK_TRIALS = 100;
+const PRECISE_TRIALS = 1_000;
+const ADAPTIVE_RANKING_VERSION = "adaptive-ranking-v1";
 
 const RANKING_SORT_OPTIONS: ReadonlyArray<{ value: HandTargetRankingSort; label: string; description: string }> = [
   { value: "practical", label: "総合評価", description: "実戦スコア順" },
@@ -93,18 +101,48 @@ function isRankingSort(value: string | null): value is HandTargetRankingSort {
   return RANKING_SORT_OPTIONS.some((option) => option.value === value);
 }
 
+function buildAnalysisTabHref(input: {
+  counts: Counts34;
+  mode: AnalysisMode;
+  roleId: AnalysisRoleId;
+  trials: number;
+  rankingQuality: RankingQuality;
+  baseSeed: number;
+  lowLoadMode: boolean;
+}): string {
+  const path = input.mode === "ranking"
+    ? "/analysis/starting-hand"
+    : `/analysis/starting-hand/${input.roleId}`;
+  const query = new URLSearchParams({
+    hand: input.counts.join(","),
+    trials: String(input.trials),
+    seed: String(input.baseSeed),
+    quality: input.rankingQuality,
+    autoRun: "1",
+    analysisTab: "1",
+  });
+  if (input.lowLoadMode) query.set("lowLoad", "1");
+  return `${path}?${query.toString()}`;
+}
+
 export function StartingHandAnalysisClient({
   initialMode = "ranking",
   initialRoleId = "chanta",
   initialCounts,
-  initialTrials = 1_000,
+  initialTrials = QUICK_TRIALS,
   initialSeed = 20260718,
   initialCacheKey,
+  initialRankingQuality,
+  initialLowLoadMode = false,
+  autoRun = false,
+  dedicatedAnalysisTab = false,
   rankingContext,
 }: StartingHandAnalysisClientProps = {}) {
   const [counts, setCounts] = useState<Counts34>(() => initialCounts?.slice() ?? emptyCounts());
   const [trials, setTrials] = useState(initialTrials);
-  const [rankingQuality, setRankingQuality] = useState<RankingQuality>(initialTrials <= 100 ? "fast" : "standard");
+  const [rankingQuality, setRankingQuality] = useState<RankingQuality>(
+    initialRankingQuality ?? (initialTrials <= QUICK_TRIALS ? "fast" : "adaptive"),
+  );
   const [baseSeed, setBaseSeed] = useState(initialSeed);
   const [mode, setMode] = useState<AnalysisMode>(initialMode);
   const [selectedRoleId, setSelectedRoleId] = useState<AnalysisRoleId>(initialRoleId);
@@ -115,7 +153,7 @@ export function StartingHandAnalysisClient({
   const [progress, setProgress] = useState<SimulationStageProgress | null>(null);
   const [stageLabel, setStageLabel] = useState<string | null>(null);
   const [performanceMetrics, setPerformanceMetrics] = useState<Partial<Record<SimulationRoleId, SimulationPerformanceMetrics>>>({});
-  const [lowLoadMode, setLowLoadMode] = useState(false);
+  const [lowLoadMode, setLowLoadMode] = useState(initialLowLoadMode);
   const [workerCount, setWorkerCount] = useState(0);
   const [runnerMode, setRunnerMode] = useState<SimulationRunner["mode"]>("worker");
   const [error, setError] = useState<string | null>(null);
@@ -124,8 +162,19 @@ export function StartingHandAnalysisClient({
   const checkpointRef = useRef<Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>>>({});
   const lastProgressUpdateRef = useRef(0);
   const mountedRef = useRef(false);
+  const autoRunStartedRef = useRef(false);
+  const runRef = useRef<() => Promise<void>>(async () => undefined);
   const tiles = useMemo(() => countsToTiles(counts), [counts]);
   const selectedRole = ANALYSIS_ROLES.find((role) => role.id === selectedRoleId)!;
+  const analysisTabHref = useMemo(() => buildAnalysisTabHref({
+    counts,
+    mode,
+    roleId: selectedRoleId,
+    trials,
+    rankingQuality,
+    baseSeed,
+    lowLoadMode,
+  }), [baseSeed, counts, lowLoadMode, mode, rankingQuality, selectedRoleId, trials]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -158,12 +207,13 @@ export function StartingHandAnalysisClient({
     if (mode === "ranking") {
       if (!hasAllCheckpoints(cached.checkpoints, HAND_TARGET_RANKING_STRATEGIES.map((strategy) => strategy.id))) return;
       checkpointRef.current = cached.checkpoints;
-      setRankingQuality(cached.targetTrials <= 100 ? "fast" : "standard");
+      setRankingQuality(cached.rankingQuality ?? (cached.targetTrials <= QUICK_TRIALS ? "fast" : "full"));
       setRankingResult(rankingFromCheckpoints(
         cached.checkpoints,
         cached.hand,
         cached.targetTrials,
         cached.baseSeed,
+        cached.cacheKey,
       ));
       setPerformanceMetrics(cached.metrics);
       return;
@@ -243,75 +293,169 @@ export function StartingHandAnalysisClient({
       }
     }
   };
+  runRef.current = run;
+
+  useEffect(() => {
+    if (!autoRun || autoRunStartedRef.current || workerCount < 1 || sumCounts(counts) !== 13) return;
+    autoRunStartedRef.current = true;
+    void runRef.current();
+  }, [autoRun, counts, workerCount]);
+
+  useEffect(() => {
+    if (!dedicatedAnalysisTab) return;
+    const originalTitle = document.title;
+    document.title = running
+      ? "分析中… | 手役何狙う？チェッカー"
+      : rankingResult || result
+        ? "分析完了 | 手役何狙う？チェッカー"
+        : originalTitle;
+    return () => {
+      document.title = originalTitle;
+    };
+  }, [dedicatedAnalysisTab, rankingResult, result, running]);
 
   const runRankingAnalysis = async (pool: SimulationRunner, analysisId: string) => {
     const roles = HAND_TARGET_RANKING_STRATEGIES.map((strategy) => strategy.id);
-    const targetTrials = rankingQuality === "fast" ? 100 : 1_000;
-    const finalKey = buildHandTargetRankingCacheKey(counts, targetTrials, baseSeed);
-    const finalCached = readSimulationBundle(finalKey);
-    if (finalCached && hasAllCheckpoints(finalCached.checkpoints, roles)) {
-      checkpointRef.current = finalCached.checkpoints;
-      setRankingResult(rankingFromCheckpoints(finalCached.checkpoints, counts, targetTrials, baseSeed));
-      setPerformanceMetrics(finalCached.metrics);
-      setStageLabel("保存済み結果を表示");
-      return;
-    }
+    const quickKey = rankingBundleCacheKey(counts, QUICK_TRIALS, baseSeed, "fast");
+    const quickCached = readSimulationBundle(quickKey);
+    let quickCheckpoints: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>> = {
+      ...(quickCached?.checkpoints ?? {}),
+    };
+    let metrics: Partial<Record<SimulationRoleId, SimulationPerformanceMetrics>> = {
+      ...(quickCached?.metrics ?? {}),
+    };
+    const quickRoles = roles.filter((roleId) => !checkpointReached(quickCheckpoints[roleId], QUICK_TRIALS));
 
-    let checkpoints: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>> = {};
-    let metrics: Partial<Record<SimulationRoleId, SimulationPerformanceMetrics>> = {};
-    if (targetTrials > 100) {
-      const quickKey = buildHandTargetRankingCacheKey(counts, 100, baseSeed);
-      const quickCached = readSimulationBundle(quickKey);
-      if (quickCached && hasAllCheckpoints(quickCached.checkpoints, roles)) {
-        checkpoints = quickCached.checkpoints;
-        metrics = quickCached.metrics;
-        checkpointRef.current = checkpoints;
-        setRankingResult(rankingFromCheckpoints(checkpoints, counts, 100, baseSeed));
-      }
-    }
-
-    if (!hasAllCheckpoints(checkpoints, roles)) {
-      setStageLabel("速報を計算中（各AI 100試行）");
+    if (quickRoles.length > 0) {
+      setStageLabel(`速報を計算中（残り${quickRoles.length}AI、各${QUICK_TRIALS}試行）`);
+      const quickMetricsBase = metrics;
       const quick = await pool.runStage({
         analysisId,
-        roles,
+        roles: quickRoles,
         initialHand: counts,
-        targetTrials: 100,
+        targetTrials: QUICK_TRIALS,
         seed: baseSeed,
         debug: false,
         batchSize: 10,
+        checkpoints: quickCheckpoints,
         onProgress: setProgressFor(analysisId),
+        onRoleComplete: (partial) => {
+          quickCheckpoints = partial.checkpoints;
+          checkpointRef.current = quickCheckpoints;
+          writeSimulationBundle({
+            cacheKey: quickKey,
+            hand: counts,
+            targetTrials: QUICK_TRIALS,
+            baseSeed,
+            checkpoints: quickCheckpoints,
+            metrics: mergeMetrics(quickMetricsBase, partial.metrics),
+            rankingQuality: "fast",
+          });
+        },
       });
-      checkpoints = quick.checkpoints;
-      metrics = quick.metrics;
-      checkpointRef.current = checkpoints;
-      const quickRanking = rankingFromCheckpoints(checkpoints, counts, 100, baseSeed);
-      setRankingResult(quickRanking);
-      setPerformanceMetrics(metrics);
-      writeSimulationBundle({ cacheKey: quickRanking.cacheKey, hand: counts, targetTrials: 100, baseSeed, checkpoints, metrics });
+      quickCheckpoints = quick.checkpoints;
+      metrics = mergeMetrics(metrics, quick.metrics);
     }
 
-    if (targetTrials === 1_000) {
-      setStageLabel("標準精度へ更新中（各AI 100 → 1000試行）");
-      const standard = await pool.runStage({
+    if (!hasCompletedCheckpoints(quickCheckpoints, roles, QUICK_TRIALS)) {
+      throw new Error("速報の計算結果が不足しています。");
+    }
+    checkpointRef.current = quickCheckpoints;
+    const quickRanking = rankingFromCheckpoints(
+      quickCheckpoints,
+      counts,
+      QUICK_TRIALS,
+      baseSeed,
+      quickKey,
+    );
+    setRankingResult(quickRanking);
+    setPerformanceMetrics(metrics);
+    writeSimulationBundle({
+      cacheKey: quickKey,
+      hand: counts,
+      targetTrials: QUICK_TRIALS,
+      baseSeed,
+      checkpoints: quickCheckpoints,
+      metrics,
+      rankingQuality: "fast",
+    });
+    if (rankingQuality === "fast") {
+      setStageLabel("速報を表示");
+      return;
+    }
+
+    const refinementRoles = rankingQuality === "full"
+      ? roles
+      : selectHandTargetRefinementRoles(quickRanking.items);
+    const finalKey = rankingBundleCacheKey(counts, PRECISE_TRIALS, baseSeed, rankingQuality);
+    const finalCached = readSimulationBundle(finalKey);
+    let checkpoints: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>> = {
+      ...quickCheckpoints,
+      ...(finalCached?.checkpoints ?? {}),
+    };
+    metrics = finalCached?.metrics ? { ...finalCached.metrics } : metrics;
+    const rolesToRun = refinementRoles.filter(
+      (roleId) => !checkpointReached(checkpoints[roleId], PRECISE_TRIALS),
+    );
+
+    if (rolesToRun.length > 0) {
+      setStageLabel(rankingQuality === "adaptive"
+        ? `有力${refinementRoles.length}AIを精査中（100 → 1,000試行）`
+        : "全AIを精査中（100 → 1,000試行）");
+      const preciseMetricsBase = metrics;
+      const precise = await pool.runStage({
         analysisId,
-        roles,
+        roles: rolesToRun,
         initialHand: counts,
-        targetTrials,
+        targetTrials: PRECISE_TRIALS,
         seed: baseSeed,
         debug: false,
         batchSize: 10,
         checkpoints,
         onProgress: setProgressFor(analysisId),
+        onRoleComplete: (partial) => {
+          checkpoints = partial.checkpoints;
+          checkpointRef.current = checkpoints;
+          writeSimulationBundle({
+            cacheKey: finalKey,
+            hand: counts,
+            targetTrials: PRECISE_TRIALS,
+            baseSeed,
+            checkpoints,
+            metrics: mergeMetrics(preciseMetricsBase, partial.metrics),
+            rankingQuality,
+            refinedRoleIds: refinementRoles,
+          });
+        },
       });
-      checkpoints = standard.checkpoints;
-      metrics = mergeMetrics(metrics, standard.metrics);
-      checkpointRef.current = checkpoints;
-      const ranking = rankingFromCheckpoints(checkpoints, counts, targetTrials, baseSeed);
-      setRankingResult(ranking);
-      setPerformanceMetrics(metrics);
-      writeSimulationBundle({ cacheKey: ranking.cacheKey, hand: counts, targetTrials, baseSeed, checkpoints, metrics });
+      checkpoints = precise.checkpoints;
+      metrics = mergeMetrics(metrics, precise.metrics);
     }
+
+    if (!hasCompletedCheckpoints(checkpoints, refinementRoles, PRECISE_TRIALS)) {
+      throw new Error("精査対象AIの計算結果が不足しています。");
+    }
+    checkpointRef.current = checkpoints;
+    const ranking = rankingFromCheckpoints(
+      checkpoints,
+      counts,
+      PRECISE_TRIALS,
+      baseSeed,
+      finalKey,
+    );
+    setRankingResult(ranking);
+    setPerformanceMetrics(metrics);
+    writeSimulationBundle({
+      cacheKey: finalKey,
+      hand: counts,
+      targetTrials: PRECISE_TRIALS,
+      baseSeed,
+      checkpoints,
+      metrics,
+      rankingQuality,
+      refinedRoleIds: refinementRoles,
+    });
+    setStageLabel(rankingQuality === "adaptive" ? "有力候補の精査が完了" : "全AIの精査が完了");
   };
 
   const runSingleAnalysis = async (pool: SimulationRunner, analysisId: string) => {
@@ -425,7 +569,9 @@ export function StartingHandAnalysisClient({
       ) : (
         <section className="analysisComparisonIntro" aria-label="比較対象">
           <div><strong>比較する8つの狙い</strong><span>各AIは同じ配牌・試行回数・乱数シードで独立して対局します。</span></div>
-          <ul>{HAND_TARGET_RANKING_STRATEGIES.map((strategy) => <li key={strategy.id}>{strategy.name}{strategy.category === "RIICHI_TARGET" ? <small>門前テンパイ戦略</small> : null}</li>)}</ul>
+          <p className="analysisComparisonTargets">
+            {HAND_TARGET_RANKING_STRATEGIES.map((strategy) => strategy.name).join(" / ")}
+          </p>
         </section>
       )}
 
@@ -456,7 +602,8 @@ export function StartingHandAnalysisClient({
               <span>分析精度</span>
               <div>
                 <button type="button" className={rankingQuality === "fast" ? "selected" : ""} aria-pressed={rankingQuality === "fast"} disabled={running} onClick={() => { setRankingQuality("fast"); clearResults(); }}>高速<small>各AI 100試行</small></button>
-                <button type="button" className={rankingQuality === "standard" ? "selected" : ""} aria-pressed={rankingQuality === "standard"} disabled={running} onClick={() => { setRankingQuality("standard"); clearResults(); }}>標準<small>各AI 1000試行</small></button>
+                <button type="button" className={rankingQuality === "adaptive" ? "selected" : ""} aria-pressed={rankingQuality === "adaptive"} disabled={running} onClick={() => { setRankingQuality("adaptive"); clearResults(); }}>自動精密<small>有力AIだけ1,000試行</small></button>
+                <button type="button" className={rankingQuality === "full" ? "selected" : ""} aria-pressed={rankingQuality === "full"} disabled={running} onClick={() => { setRankingQuality("full"); clearResults(); }}>全AI精密<small>各AI 1,000試行</small></button>
               </div>
             </div>
           ) : (
@@ -488,17 +635,27 @@ export function StartingHandAnalysisClient({
               開発用の巡目ログを記録
             </label>
           ) : null}
-          <button className="analysisRunButton" type="button" onClick={run} disabled={running || sumCounts(counts) !== 13}>
-            {running
-              ? progress
-                ? `${progress.completedTrials.toLocaleString("ja-JP")} / ${progress.totalTrials.toLocaleString("ja-JP")} 試行`
-                : "計算を準備中…"
-              : mode === "ranking" ? "8つの狙いを比較" : trials >= 10_000 ? "10,000回で詳しく分析" : `${selectedRole.shortName}を分析`}
-          </button>
+          {dedicatedAnalysisTab ? (
+            <button className="analysisRunButton" type="button" onClick={run} disabled={running || sumCounts(counts) !== 13}>
+              {running
+                ? progress
+                  ? `${progress.completedTrials.toLocaleString("ja-JP")} / ${progress.totalTrials.toLocaleString("ja-JP")} 試行`
+                  : "計算を準備中…"
+                : mode === "ranking" ? "このタブで再分析" : `${selectedRole.shortName}を再分析`}
+            </button>
+          ) : sumCounts(counts) === 13 ? (
+            <a className="analysisRunButton" href={analysisTabHref} target="_blank" rel="noopener noreferrer">
+              {mode === "ranking" ? "別タブで8つの狙いを比較" : `別タブで${selectedRole.shortName}を分析`}
+            </a>
+          ) : (
+            <button className="analysisRunButton" type="button" disabled>
+              {mode === "ranking" ? "別タブで8つの狙いを比較" : `別タブで${selectedRole.shortName}を分析`}
+            </button>
+          )}
           {running ? <button className="analysisCancelButton" type="button" onClick={cancel}>計算を中止</button> : null}
           {stageLabel ? <p className="analysisStageLabel" aria-live="polite">{stageLabel}</p> : null}
           {running && progress ? <progress className="analysisProgress" max={progress.totalTrials} value={progress.completedTrials} /> : null}
-          <p className="analysisRunNote">{mode === "ranking" ? "標準ではまず100試行の速報を表示し、その結果を1000試行まで継続します。" : "詳細10,000試行は選択したAIだけを計算します。"}</p>
+          <p className="analysisRunNote">{mode === "ranking" ? "自動精密は全AIの速報後、上位と僅差の3〜4AIだけを1,000試行まで継続します。" : "詳細10,000試行は選択したAIだけを計算します。"}</p>
           <Link href="/analysis/starting-hand/help#simulation-rules">分析条件を確認する</Link>
           {error ? <p className="analysisError" role="alert">{error}</p> : null}
         </aside>
@@ -547,6 +704,12 @@ function HandTargetRanking({ result, counts }: { result: HandTargetRankingResult
   }, []);
   const items = useMemo(() => sortHandTargetRankingItems(result.items, sort), [result.items, sort]);
   const leader = items[0]!;
+  const preciseItemCount = result.items.filter((item) => item.validTrials >= PRECISE_TRIALS).length;
+  const rankingStage = preciseItemCount === 0
+    ? `速報　各AI ${QUICK_TRIALS.toLocaleString("ja-JP")}試行`
+    : preciseItemCount === result.items.length
+      ? `全AI精密　各AI ${PRECISE_TRIALS.toLocaleString("ja-JP")}試行`
+      : `自動精密　有力${preciseItemCount}AIは${PRECISE_TRIALS.toLocaleString("ja-JP")}試行、他は${QUICK_TRIALS.toLocaleString("ja-JP")}試行`;
   const changeSort = (next: HandTargetRankingSort) => {
     setSort(next);
     persistRankingUrl(next);
@@ -556,7 +719,7 @@ function HandTargetRanking({ result, counts }: { result: HandTargetRankingResult
       <header className="analysisRankingHeader">
         <div>
           <p className="siteEyebrow">Strategy Ranking</p>
-          <p className={`analysisRankingStage ${result.trials >= 1_000 ? "standard" : "quick"}`}>{result.trials >= 1_000 ? "標準結果" : "暫定結果"}　各AI {result.trials.toLocaleString("ja-JP")}試行</p>
+          <p className={`analysisRankingStage ${preciseItemCount > 0 ? "standard" : "quick"}`}>{rankingStage}</p>
           <h2 id="ranking-heading">この配牌で実戦的にテンパイへ進みやすい狙い</h2>
         </div>
         <p>{leader.roleName}が、テンパイの速さと他家リーチへの先制を合わせた実戦テンパイスコアで首位です。実戦の正解を断定するものではありません。</p>
@@ -579,7 +742,7 @@ function HandTargetRanking({ result, counts }: { result: HandTargetRankingResult
 function RankingCard({ item, result, counts, sort }: { item: HandTargetRankingItem; result: HandTargetRankingResult; counts: Counts34; sort: HandTargetRankingSort }) {
   const query = new URLSearchParams({
     hand: counts.join(","),
-    trials: String(result.trials),
+    trials: String(item.validTrials),
     seed: String(result.baseSeed),
     rank: String(item.rank),
     practicalTenpaiScore: String(item.practicalTenpaiScore),
@@ -932,11 +1095,38 @@ function hasAllCheckpoints(
   return roles.every((roleId) => checkpoints[roleId] != null);
 }
 
+function hasCompletedCheckpoints(
+  checkpoints: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>>,
+  roles: readonly SimulationRoleId[],
+  targetTrials: number,
+): boolean {
+  return roles.every((roleId) => checkpointReached(checkpoints[roleId], targetTrials));
+}
+
+function checkpointReached(
+  checkpoint: RoleSimulationCheckpoint | undefined,
+  targetTrials: number,
+): boolean {
+  return (checkpoint?.completedTrials ?? 0) >= targetTrials;
+}
+
+function rankingBundleCacheKey(
+  counts: Counts34,
+  trials: number,
+  seed: number,
+  quality: RankingQuality,
+): string {
+  const base = buildHandTargetRankingCacheKey(counts, trials, seed);
+  if (quality === "adaptive") return `${base}|${ADAPTIVE_RANKING_VERSION}`;
+  return base;
+}
+
 function rankingFromCheckpoints(
   checkpoints: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>>,
   counts: Counts34,
   trials: number,
   seed: number,
+  cacheKey?: string,
 ): HandTargetRankingResult {
   const results: Partial<Record<HandTargetRankingRoleId, RoleSimulationResult>> = {};
   for (const strategy of HAND_TARGET_RANKING_STRATEGIES) {
@@ -944,7 +1134,8 @@ function rankingFromCheckpoints(
     if (!checkpoint) throw new Error(`${strategy.name}の計算結果がありません。`);
     results[strategy.id] = checkpoint.result;
   }
-  return createHandTargetRankingResult(results, counts, trials, seed);
+  const ranking = createHandTargetRankingResult(results, counts, trials, seed);
+  return cacheKey ? { ...ranking, cacheKey } : ranking;
 }
 
 function mergeMetrics(

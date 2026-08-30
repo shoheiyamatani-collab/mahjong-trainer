@@ -36,6 +36,61 @@ describe("automatic hand scoring", () => {
     expect(result.score.payments.map((payment) => payment.points)).toEqual([700, 1300]);
   });
 
+  it("scores an open all-sequence tanyao tsumo as 30 fu", () => {
+    const result = calculateHandScore({
+      counts: parseHand("345m456678p22s"),
+      melds: [{ kind: "chi", tiles: ["2m", "3m", "4m"] }],
+      winningTile: "8p",
+      isDealer: false,
+      winMethod: "tsumo",
+      roundWind: TILE_NAMES[27]!,
+      seatWind: TILE_NAMES[28]!
+    });
+
+    expect(result.yaku.map((yaku) => yaku.name)).not.toContain("平和");
+    expect(result.score.han).toBe(1);
+    expect(result.fu?.totalBeforeRounding).toBe(22);
+    expect(result.score.fu).toBe(30);
+    expect(result.fu?.items).toContainEqual({ label: "ツモ2符", fu: 2 });
+  });
+
+  it("rounds an open all-sequence tanyao ron from base 20 fu to 30 fu", () => {
+    const result = calculateHandScore({
+      counts: parseHand("345m456678p22s"),
+      melds: [{ kind: "chi", tiles: ["2m", "3m", "4m"] }],
+      winningTile: "8p",
+      isDealer: false,
+      winMethod: "ron",
+      roundWind: TILE_NAMES[27]!,
+      seatWind: TILE_NAMES[28]!
+    });
+
+    expect(result.score.han).toBe(1);
+    expect(result.fu?.totalBeforeRounding).toBe(20);
+    expect(result.score.fu).toBe(30);
+    expect(result.score.totalPoints).toBe(1000);
+  });
+
+  it("distinguishes a complete hand with no yaku from an incomplete hand", () => {
+    expect(() => calculateHandScore({
+      counts: parseHand("123456m789p123s東東"),
+      winningTile: "3s",
+      isDealer: false,
+      winMethod: "ron",
+      roundWind: "東",
+      seatWind: "南"
+    })).toThrow("役がありません。");
+
+    expect(() => calculateHandScore({
+      counts: parseHand("123456m789p124s東東"),
+      winningTile: "4s",
+      isDealer: false,
+      winMethod: "ron",
+      roundWind: "東",
+      seatWind: "南"
+    })).toThrow("和了形または役が見つかりません。");
+  });
+
   it("chooses ryanpeikou over chiitoitsu when both shapes exist", () => {
     const result = calculateHandScore({
       counts: parseHand("11223344556677m"),

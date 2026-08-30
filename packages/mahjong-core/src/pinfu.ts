@@ -1,5 +1,5 @@
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -217,7 +217,7 @@ export function evaluatePinfuPlan(
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
   const total = sumCounts(counts);
-  const key = `${context.roundWind}:${context.seatWind}|${counts.join(",")}|${availableCounts.join(",")}|${meldKey(melds)}`;
+  const key = `${context.roundWind}:${context.seatWind}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}|${meldKey(melds)}`;
   const cached = planCache.get(key);
   if (cached) return cached;
   if (melds.length > 0 || total < 0 || total > 14) return cachePlan(key, impossiblePlan());
@@ -316,7 +316,7 @@ export function evaluatePinfuProgress(
 ): PinfuProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${context.roundWind}:${context.seatWind}|${counts.join(",")}|${availableCounts.join(",")}|${meldKey(melds)}`;
+  const key = `${context.roundWind}:${context.seatWind}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}|${meldKey(melds)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

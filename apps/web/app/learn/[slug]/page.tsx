@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ComingSoonBadge } from "../../components/Badges";
-import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteSections";
+import { InternalLinkCard, SectionTitle } from "../../components/SiteSections";
 import { ArticleTileFigures } from "../../components/TileFigures";
 import { getAdjacentLearnArticles, getLearnArticle, learnArticles, type LinkTarget } from "../../siteData";
 import { learnDeepDiveBySlug } from "../deepDiveData";
@@ -39,22 +39,40 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
   const totalSteps = learnArticles.length;
 
   return (
-    <main className="siteMain articleMain">
-      <PageHero
-        eyebrow={`STEP ${article.step}`}
-        title={article.title}
-        description={article.description}
-        primaryLink={next ? { label: "次の記事を読む", href: `/learn/${next.slug}` } : { label: "麻雀トレーニングを開く", href: "/trainer" }}
-        secondaryLink={{ label: "ロードマップへ戻る", href: "/learn" }}
-      />
-
-      <article className="articleLayout">
-        <aside className="articleAside" aria-label="この記事の位置">
-          <div className="articleStepBadge">STEP {article.step} / {totalSteps}</div>
-          <Link className="textLink" href="/learn">ロードマップへ戻る</Link>
+    <main className="siteMain articleMain learningArticlePage">
+      <div className="learningCourseLayout">
+        <aside className="learningCourseNav" aria-label="初心者ロードマップ">
+          <Link className="learningCourseTitle" href="/learn/roadmap">はじめての麻雀ロードマップ</Link>
+          <ol>
+            {learnArticles.map((item) => (
+              <li className={item.slug === article.slug ? "isCurrent" : undefined} key={item.slug}>
+                <Link aria-current={item.slug === article.slug ? "step" : undefined} href={`/learn/${item.slug}`}>
+                  <span className="learningCourseNumber">{item.step}</span>
+                  <span>{item.title}</span>
+                  {item.step < article.step ? <span className="learningCourseCheck" aria-label="読了">✓</span> : null}
+                </Link>
+              </li>
+            ))}
+          </ol>
+          <div className="learningCourseNote">
+            <strong>このロードマップについて</strong>
+            <p>麻雀を遊ぶために必要な基礎を、順番にひとつずつ学べます。</p>
+          </div>
         </aside>
 
-        <div className="articleContent">
+        <div className="learningLessonMain">
+          <header className="learningLessonHeader">
+            <div className="learningLessonProgress">
+              <span>STEP {article.step} / {totalSteps}</span>
+              <div aria-hidden="true"><span style={{ width: `${(article.step / totalSteps) * 100}%` }} /></div>
+            </div>
+            <p className="learningLessonEyebrow">BEGINNER LESSON</p>
+            <h1>{article.title}</h1>
+            <p>{article.description}</p>
+          </header>
+
+          <article className="articleLayout">
+            <div className="articleContent">
           <section className="articleSection">
             <h2>この記事で覚えること</h2>
             <ul className="articleChecklist">
@@ -144,26 +162,28 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
           ) : null}
 
           <ArticleQuiz quiz={article.quiz} />
-        </div>
-      </article>
+            </div>
+          </article>
 
-      <section>
-        <SectionTitle title="次に読むページ" description="順番に読むと、最低限ゲームを楽しめるところまで進めます。" />
-        <div className="linkCardGrid">
-          {next ? (
-            <InternalLinkCard title={`次に読む：${next.title}`} description={next.description} href={`/learn/${next.slug}`} actionLabel="次の記事を読む" />
-          ) : (
-            <InternalLinkCard title="麻雀トレーニングへ進む" description="ロードマップを読み終えたら、何切るや待ち当てで手を動かして確認します。" href="/trainer" actionLabel="練習する" />
-          )}
-          {previous ? (
-            <InternalLinkCard title={`前の記事に戻る：${previous.title}`} description={previous.description} href={`/learn/${previous.slug}`} actionLabel="前の記事へ戻る" />
-          ) : (
-            <InternalLinkCard title="ロードマップに戻る" description="学習順の全体像をもう一度確認できます。" href="/learn" actionLabel="一覧を見る" />
-          )}
-          <RelatedLinkCard title="関連する練習問題" target={article.relatedPractice} fallbackHref="/trainer" />
-          <RelatedLinkCard title="関連するツール" target={article.relatedTool} fallbackHref="/tools" />
+          <nav className="learningLessonPager" aria-label="前後の記事">
+            {previous ? <Link href={`/learn/${previous.slug}`}>← {previous.title}</Link> : <Link href="/learn/roadmap">← ロードマップ</Link>}
+            {next ? <Link className="isNext" href={`/learn/${next.slug}`}>{next.title} →</Link> : <Link className="isNext" href="/trainer">練習へ進む →</Link>}
+          </nav>
+
+          <section className="learningLessonLinks">
+            <SectionTitle title="次に読むページ" description="順番に読むと、最低限ゲームを楽しめるところまで進めます。" />
+            <div className="linkCardGrid">
+              {next ? (
+                <InternalLinkCard title={`次に読む：${next.title}`} description={next.description} href={`/learn/${next.slug}`} actionLabel="次の記事を読む" />
+              ) : (
+                <InternalLinkCard title="麻雀トレーニングへ進む" description="ロードマップを読み終えたら、何切るや待ち当てで手を動かして確認します。" href="/trainer" actionLabel="練習する" />
+              )}
+              <RelatedLinkCard title="関連する練習問題" target={article.relatedPractice} fallbackHref="/trainer" />
+              <RelatedLinkCard title="関連するツール" target={article.relatedTool} fallbackHref="/tools" />
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

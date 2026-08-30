@@ -1,0 +1,10 @@
+work/
+outputs/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+node_modules/
+.next/
+apps/web/.next/
+apps/web/.next-stale-*/
+*.log

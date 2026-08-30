@@ -1,5 +1,5 @@
 import type { Counts34 } from "./tiles";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 
 const blockCache = new LruCache<string, readonly number[]>(50_000);
 const shantenCache = new LruCache<string, number>(50_000);
@@ -17,7 +17,7 @@ export function normalShantenWithOpenMelds(counts: Counts34, openMeldCount: numb
   if (!Number.isInteger(openMeldCount) || openMeldCount < 0 || openMeldCount > 4) {
     throw new Error("openMeldCount must be an integer from 0 to 4.");
   }
-  const cacheKey = `${openMeldCount}|${counts.join(",")}`;
+  const cacheKey = `${openMeldCount}|${compactCountsKey(counts)}`;
   const cached = shantenCache.get(cacheKey);
   if (cached != null) return cached;
   incrementSimulationCounter("shantenCalculationCount");

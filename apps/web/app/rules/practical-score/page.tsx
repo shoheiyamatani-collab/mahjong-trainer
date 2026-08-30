@@ -151,7 +151,7 @@ export default function PracticalScorePage() {
         title="実践でよく見る点数計算"
         description="点数表を全部暗記する前に、実戦で特に出やすい点数だけを牌姿つきで確認します。平和、平和なし、副露、七対子、40符・50符を押さえるとかなり戦えます。"
         primaryLink={{ label: "初心者向け点数早見表を見る", href: "/tools/score-table" }}
-        secondaryLink={{ label: "点数計算ツール", href: "/trainer" }}
+        secondaryLink={{ label: "点数計算ツール", href: "/tools" }}
       />
 
       <section>
@@ -195,7 +195,7 @@ export default function PracticalScorePage() {
         <SectionTitle title="次に進む" description="牌姿で点数の場所をつかんだら、実際のツールや問題で確認します。" />
         <div className="linkCardGrid">
           <InternalLinkCard title="初心者向け点数早見表を見る" description="平和・七対子表と通常表を見ながら復習します。" href="/tools/score-table" actionLabel="点数早見表へ" />
-          <InternalLinkCard title="点数計算ツールを使う" description="手牌と条件を入力して、実際の点数を確認します。" href="/trainer" actionLabel="ツールへ" />
+          <InternalLinkCard title="点数計算ツールを使う" description="手牌と条件を入力して、実際の点数を確認します。" href="/tools" actionLabel="ツールへ" />
           <InternalLinkCard title="実践でよく使う麻雀の基本へ戻る" description="役、待ち、一向聴の入口へ戻ります。" href="/rules" actionLabel="戻る" />
         </div>
       </section>

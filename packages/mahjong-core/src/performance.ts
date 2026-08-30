@@ -53,6 +53,14 @@ export function diffSimulationCounters(
   return result;
 }
 
+export function compactCountsKey(counts: readonly number[]): string {
+  let key = "";
+  for (let index = 0; index < counts.length; index += 1) {
+    key += String.fromCharCode(48 + counts[index]!);
+  }
+  return key;
+}
+
 export class LruCache<K, V> {
   private readonly values = new Map<K, V>();
 

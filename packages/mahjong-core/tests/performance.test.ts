@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 
 import {
   LruCache,
+  compactCountsKey,
   getSimulationCounterSnapshot,
   normalShanten,
   resetSimulationCounters,
@@ -44,5 +45,15 @@ describe("bounded simulation cache", () => {
     expect(second).toBe(first);
     expect(afterSecond.shantenCalculationCount).toBe(beforeSecond.shantenCalculationCount);
     expect(afterSecond.cacheHitCount).toBeGreaterThan(beforeSecond.cacheHitCount);
+  });
+
+  it("builds compact, position-sensitive cache keys for count arrays", () => {
+    const first = [1, 2, 0, 4, ...Array(30).fill(0)];
+    const same = [...first];
+    const different = [1, 0, 2, 4, ...Array(30).fill(0)];
+
+    expect(compactCountsKey(first)).toHaveLength(34);
+    expect(compactCountsKey(same)).toBe(compactCountsKey(first));
+    expect(compactCountsKey(different)).not.toBe(compactCountsKey(first));
   });
 });

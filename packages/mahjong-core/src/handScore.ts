@@ -102,7 +102,8 @@ export function calculateHandScore(input: HandScoreInput): HandScoreResult {
   const chiitoitsu = meldGroups.length === 0 ? scoreChiitoitsu(scoringInput) : null;
   if (chiitoitsu) candidates.push(chiitoitsu);
 
-  for (const decomposition of decomposeStandardHand(scoringInput.counts, meldGroups)) {
+  const standardDecompositions = decomposeStandardHand(scoringInput.counts, meldGroups);
+  for (const decomposition of standardDecompositions) {
     try {
       candidates.push(scoreDecomposition(scoringInput, decomposition));
     } catch {
@@ -111,6 +112,7 @@ export function calculateHandScore(input: HandScoreInput): HandScoreResult {
   }
 
   if (candidates.length === 0) {
+    if (standardDecompositions.length > 0) throw new Error("役がありません。");
     throw new Error("和了形または役が見つかりません。");
   }
 
@@ -285,11 +287,12 @@ function calculateStandardFu(decomposition: StandardHandDecomposition, input: Ha
     items.push({ label: group.kind === "quad" ? (isOpen ? "明槓" : "暗槓") : (isOpen ? "明刻" : "暗刻"), fu: setFu(group.tiles[0]!, isOpen, group.kind === "quad") });
   }
 
-  const pinfuShape = isPinfuShape(decomposition, input);
-  if (input.winMethod === "tsumo" && !pinfuShape) items.push({ label: "ツモ2符", fu: 2 });
+  const pinfuTsumo = input.winMethod === "tsumo" && isPinfu(decomposition, input);
+  if (input.winMethod === "tsumo" && !pinfuTsumo) items.push({ label: "ツモ2符", fu: 2 });
 
   const total = items.reduce((sum, item) => sum + item.fu, 0);
-  let rounded = input.winMethod === "tsumo" && pinfuShape ? 20 : roundFu(total);
+  let rounded = pinfuTsumo ? 20 : roundFu(total);
+  if (!isClosedHand(input) && rounded === 20) rounded = 30;
   if (input.winMethod === "ron" && rounded === 20) rounded = 30;
   return { totalBeforeRounding: total, roundedFu: rounded, items };
 }

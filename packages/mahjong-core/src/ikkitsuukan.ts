@@ -1,5 +1,5 @@
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -108,7 +108,7 @@ export function classifyIkkitsuukanWin(
   melds: IkkitsuukanMeld[] = [],
 ): IkkitsuukanWinClassification {
   validateCounts(counts);
-  const key = `${meldKey(melds)}|${counts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}`;
   const cached = winCache.get(key);
   if (cached) return cached;
   const expected = 14 - melds.length * 3;
@@ -244,7 +244,7 @@ export function evaluateIkkitsuukanProgress(
 ): IkkitsuukanProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

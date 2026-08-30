@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function LearnRoadmapPage() {
   return (
-    <main className="siteMain">
+    <main className="siteMain learningRoadmapPage">
       <PageHero
         eyebrow="Roadmap"
         title="初心者ロードマップ"

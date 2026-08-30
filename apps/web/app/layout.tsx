@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { Footer, Header } from "./components/SiteChrome";
+import { getSiteUrl } from "./seoConfig";
+import { siteConfig } from "./siteConfig";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "麻雀トレーナー",
-    template: "%s | 麻雀トレーナー"
+    default: siteConfig.brand.name,
+    template: `%s | ${siteConfig.brand.name}`
   },
-  description: "麻雀初心者向けのルール解説、練習問題、点数計算ツールをつなぐ学習サイトです。"
+  description: "麻雀初心者向けのルール解説、練習問題、牌理解析、点数計算、動画記事をつなぐ麻雀総合サイトです。"
 };
 
 export const viewport: Viewport = {

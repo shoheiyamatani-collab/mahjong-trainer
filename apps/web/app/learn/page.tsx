@@ -13,7 +13,7 @@ const rulesTiles = ["man2", "man3", "man4", "man5", "man6", "man7", "man8"];
 
 export default function LearnPage() {
   return (
-    <main className="siteMain">
+    <main className="siteMain learnLandingPage">
       <h1 className="srOnly">初めて学ぶ</h1>
       <section>
         <SectionTitle
@@ -52,7 +52,7 @@ export default function LearnPage() {
           <article className="learnHubCard">
             <div>
               <p className="siteEyebrow">Tools</p>
-              <h2>困った時の麻雀便利ツール</h2>
+              <h2>困った時の麻雀ツール</h2>
               <p>牌を入力すると自動で点数計算を確認できます。何を切ると良かったのかを比較できるツールや、麻雀上達のためのトレーニングツールもあります。</p>
             </div>
             <figure className="learnHubVisual learnHubScreenshot">
@@ -60,8 +60,8 @@ export default function LearnPage() {
               <figcaption>実際の手牌を見ながら、点数や受け入れを確認できます。</figcaption>
             </figure>
             <div className="learnHubLinks">
-              <Link href="/trainer">アプリの解析モードを開く</Link>
-              <Link href="/tools">麻雀便利ツールを見る</Link>
+              <Link href="/analysis/mahjong-tool">麻雀解析ツールを開く</Link>
+              <Link href="/tools">麻雀点数計算ツール🔰を開く</Link>
               <Link href="/trainer">麻雀トレーニングを見る</Link>
             </div>
           </article>

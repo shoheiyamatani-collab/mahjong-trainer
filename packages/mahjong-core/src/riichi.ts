@@ -1,6 +1,6 @@
 import { chiitoitsuShanten, isChiitoitsuComplete } from "./chiitoitsu";
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -189,7 +189,7 @@ export function evaluateRiichiProgress(
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
   validateCounts(ownDiscards);
-  const key = `${counts.join(",")}|${meldKey(melds)}|${availableCounts.join(",")}|${ownDiscards.join(",")}|${wallTilesRemaining}|${points}|${alreadyRiichi ? 1 : 0}`;
+  const key = `${compactCountsKey(counts)}|${meldKey(melds)}|${compactCountsKey(availableCounts)}|${compactCountsKey(ownDiscards)}|${wallTilesRemaining}|${points}|${alreadyRiichi ? 1 : 0}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");

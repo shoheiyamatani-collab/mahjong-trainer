@@ -1,6 +1,9 @@
 "use client";
 
-import { useMemo, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { BookOpenCheck, Flame } from "lucide-react";
 import {
   addTile,
   analyzeDiscards,
@@ -513,34 +516,69 @@ type NumberSuit = "m" | "p" | "s";
 
 interface HardScoreTileVariant {
   suitMap: Record<NumberSuit, NumberSuit>;
-  mirror: boolean;
+  mirror: Record<NumberSuit, boolean>;
+  rankShift: Record<NumberSuit, number>;
+  dragonOffset: number;
 }
 
-const HARD_SCORE_TILE_VARIANTS: HardScoreTileVariant[] = [
-  { suitMap: { m: "m", p: "p", s: "s" }, mirror: false },
-  { suitMap: { m: "p", p: "s", s: "m" }, mirror: false },
-  { suitMap: { m: "s", p: "m", s: "p" }, mirror: false },
-  { suitMap: { m: "p", p: "m", s: "s" }, mirror: false },
-  { suitMap: { m: "s", p: "p", s: "m" }, mirror: false },
-  { suitMap: { m: "m", p: "s", s: "p" }, mirror: false },
-  { suitMap: { m: "m", p: "p", s: "s" }, mirror: true },
-  { suitMap: { m: "p", p: "s", s: "m" }, mirror: true },
-  { suitMap: { m: "s", p: "m", s: "p" }, mirror: true },
-  { suitMap: { m: "p", p: "m", s: "s" }, mirror: true },
-  { suitMap: { m: "s", p: "p", s: "m" }, mirror: true },
-  { suitMap: { m: "m", p: "s", s: "p" }, mirror: true }
+const NUMBER_SUITS: NumberSuit[] = ["m", "p", "s"];
+const HARD_SCORE_SUIT_MAPS: Array<Record<NumberSuit, NumberSuit>> = [
+  { m: "m", p: "p", s: "s" },
+  { m: "m", p: "s", s: "p" },
+  { m: "p", p: "m", s: "s" },
+  { m: "p", p: "s", s: "m" },
+  { m: "s", p: "m", s: "p" },
+  { m: "s", p: "p", s: "m" }
 ];
+const HARD_SCORE_DRAGONS = TILE_NAMES.slice(31, 34) as Tile[];
+const HARD_SCORE_QUESTION_COUNT = 500;
 
-const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = buildHardScoreQuestions(HARD_SCORE_BASE_QUESTIONS, 100);
+const HARD_SCORE_QUESTIONS: ScoreQuizQuestion[] = buildHardScoreQuestions(
+  HARD_SCORE_BASE_QUESTIONS,
+  HARD_SCORE_QUESTION_COUNT
+);
+const HARD_SCORE_VARIATION_STATS = summarizeHardScoreVariations(
+  HARD_SCORE_QUESTIONS,
+  HARD_SCORE_BASE_QUESTIONS
+);
+
+if (HARD_SCORE_VARIATION_STATS.duplicateTilePoseCount > 0) {
+  throw new Error("Hard score questions contain duplicate tile poses.");
+}
+if (
+  HARD_SCORE_VARIATION_STATS.total !== HARD_SCORE_QUESTION_COUNT
+  || HARD_SCORE_VARIATION_STATS.baseArchetypeCount !== HARD_SCORE_BASE_QUESTIONS.length
+) {
+  throw new Error("Hard score question count or archetype coverage is incomplete.");
+}
+if (typeof window === "undefined") {
+  validateHardScoreQuestionSet(HARD_SCORE_QUESTIONS, HARD_SCORE_BASE_QUESTIONS);
+}
 
 function buildHardScoreQuestions(baseQuestions: ScoreQuizQuestion[], total: number): ScoreQuizQuestion[] {
   const questions: ScoreQuizQuestion[] = [];
-  let index = 0;
-  while (questions.length < total && index < total * 30) {
-    const template = baseQuestions[index % baseQuestions.length]!;
-    const question = index < baseQuestions.length ? template : hardScoreQuestionVariant(template, index);
-    if (isHardScoreQuestionAllowed(question)) questions.push(question);
-    index += 1;
+  const tilePoseKeys = new Set<string>();
+
+  for (const template of baseQuestions) {
+    const tilePoseKey = hardScoreTilePoseKey(template);
+    if (tilePoseKeys.has(tilePoseKey)) continue;
+    tilePoseKeys.add(tilePoseKey);
+    questions.push(template);
+  }
+
+  let attempt = 0;
+  const maximumAttempts = total * 500;
+  while (questions.length < total && attempt < maximumAttempts) {
+    const template = baseQuestions[attempt % baseQuestions.length]!;
+    const variantIndex = Math.floor(attempt / baseQuestions.length) + 1;
+    const question = hardScoreQuestionVariant(template, variantIndex);
+    const tilePoseKey = hardScoreTilePoseKey(question);
+    attempt += 1;
+
+    if (tilePoseKeys.has(tilePoseKey)) continue;
+
+    tilePoseKeys.add(tilePoseKey);
+    questions.push(question);
   }
   if (questions.length < total) {
     throw new Error(`Could not build ${total} hard score questions.`);
@@ -548,23 +586,83 @@ function buildHardScoreQuestions(baseQuestions: ScoreQuizQuestion[], total: numb
   return questions;
 }
 
-function hardScoreQuestionVariant(template: ScoreQuizQuestion, index: number): ScoreQuizQuestion {
+function hardScoreQuestionVariant(template: ScoreQuizQuestion, variantIndex: number): ScoreQuizQuestion {
   const { expectedHan, expectedFu, expectedLimitName, choicePool, ...base } = template;
-  const pattern = Math.floor(index / HARD_SCORE_BASE_QUESTIONS.length);
-  const tileVariant = HARD_SCORE_TILE_VARIANTS[index % HARD_SCORE_TILE_VARIANTS.length]!;
+  const transformationIndex = variantIndex * 131 + stableHardScoreHash(template.id);
+  const tileVariant = createHardScoreTileVariant(template, transformationIndex);
   const transformed = transformScoreQuestionTiles(base, tileVariant);
-  const isDealer = pattern % 2 === 0 ? !template.isDealer : template.isDealer;
-  const dora = pattern % 4 === 0 ? (template.dora ?? 0) + 1 : template.dora;
+  const isDealer = variantIndex % 3 === 0 ? !template.isDealer : template.isDealer;
 
   return {
     ...transformed,
-    id: `${template.id}-deck-${String(index + 1).padStart(3, "0")}`,
-    title: `${template.title} ${String(index + 1).padStart(3, "0")}`,
+    id: `${template.id}-deck-${String(variantIndex).padStart(3, "0")}`,
+    title: `${template.title} ${String(variantIndex).padStart(3, "0")}`,
     isDealer,
-    dora,
     lesson: template.lesson,
     explanation: template.explanation
   };
+}
+
+function createHardScoreTileVariant(question: ScoreQuizQuestion, variantIndex: number): HardScoreTileVariant {
+  let cursor = variantIndex;
+  const suitMap = HARD_SCORE_SUIT_MAPS[cursor % HARD_SCORE_SUIT_MAPS.length]!;
+  cursor = Math.floor(cursor / HARD_SCORE_SUIT_MAPS.length);
+
+  const mirrorMask = cursor % 8;
+  cursor = Math.floor(cursor / 8);
+  const mirror: Record<NumberSuit, boolean> = {
+    m: (mirrorMask & 1) !== 0,
+    p: (mirrorMask & 2) !== 0,
+    s: (mirrorMask & 4) !== 0
+  };
+
+  const dragonOffset = cursor % HARD_SCORE_DRAGONS.length;
+  cursor = Math.floor(cursor / HARD_SCORE_DRAGONS.length);
+  const ranksBySuit = hardScoreRanksBySuit(question);
+  const rankShift = { m: 0, p: 0, s: 0 } satisfies Record<NumberSuit, number>;
+
+  for (const suit of NUMBER_SUITS) {
+    const mirroredRanks = ranksBySuit[suit].map((rank) => mirror[suit] ? 10 - rank : rank);
+    if (mirroredRanks.length === 0) continue;
+    const minimum = Math.min(...mirroredRanks);
+    const maximum = Math.max(...mirroredRanks);
+    const minimumShift = 1 - minimum;
+    const maximumShift = 9 - maximum;
+    const shiftOptions: number[] = [];
+    for (let shift = minimumShift; shift <= maximumShift; shift += 1) {
+      if (mirroredRanks.every((rank) => isTerminalRank(rank) === isTerminalRank(rank + shift))) {
+        shiftOptions.push(shift);
+      }
+    }
+    rankShift[suit] = shiftOptions[cursor % shiftOptions.length]!;
+    cursor = Math.floor(cursor / shiftOptions.length);
+  }
+
+  return { suitMap, mirror, rankShift, dragonOffset };
+}
+
+function hardScoreRanksBySuit(question: ScoreQuizQuestion): Record<NumberSuit, number[]> {
+  const result: Record<NumberSuit, number[]> = { m: [], p: [], s: [] };
+  const tiles = [
+    ...scoreQuizTiles(question),
+    ...(question.melds ?? []).flatMap((meld) => meld.tiles)
+  ];
+  for (const tile of tiles) {
+    const suit = tile[1] as NumberSuit | undefined;
+    if (!suit || !NUMBER_SUITS.includes(suit)) continue;
+    result[suit].push(Number(tile[0]));
+  }
+  return result;
+}
+
+function isTerminalRank(rank: number): boolean {
+  return rank === 1 || rank === 9;
+}
+
+function stableHardScoreHash(value: string): number {
+  let hash = 0;
+  for (const character of value) hash = (hash * 31 + character.charCodeAt(0)) >>> 0;
+  return hash;
 }
 
 function transformScoreQuestionTiles(question: Omit<ScoreQuizQuestion, "expectedHan" | "expectedFu" | "expectedLimitName" | "choicePool">, variant: HardScoreTileVariant): Omit<ScoreQuizQuestion, "expectedHan" | "expectedFu" | "expectedLimitName" | "choicePool"> {
@@ -580,7 +678,11 @@ function transformScoreQuestionTiles(question: Omit<ScoreQuizQuestion, "expected
 function transformHandText(text: string, variant: HardScoreTileVariant): string {
   return text.replace(/([1-9]+)([mps])/g, (_match, digits: string, suit: NumberSuit) => {
     const transformedDigits = [...digits]
-      .map((digit) => variant.mirror ? String(10 - Number(digit)) : digit)
+      .map((digit) => {
+        const rank = Number(digit);
+        const mirroredRank = variant.mirror[suit] ? 10 - rank : rank;
+        return String(mirroredRank + variant.rankShift[suit]);
+      })
       .sort()
       .join("");
     return `${transformedDigits}${variant.suitMap[suit]}`;
@@ -589,21 +691,100 @@ function transformHandText(text: string, variant: HardScoreTileVariant): string 
 
 function transformTile(tile: Tile, variant: HardScoreTileVariant): Tile {
   const suit = tile[1] as NumberSuit | undefined;
-  if (!suit || !["m", "p", "s"].includes(suit)) return tile;
-  const rank = Number(tile[0]);
-  const nextRank = variant.mirror ? 10 - rank : rank;
-  return `${nextRank}${variant.suitMap[suit]}` as Tile;
+  if (suit && NUMBER_SUITS.includes(suit)) {
+    const rank = Number(tile[0]);
+    const mirroredRank = variant.mirror[suit] ? 10 - rank : rank;
+    return `${mirroredRank + variant.rankShift[suit]}${variant.suitMap[suit]}` as Tile;
+  }
+  const dragonIndex = HARD_SCORE_DRAGONS.indexOf(tile);
+  if (dragonIndex < 0) return tile;
+  return HARD_SCORE_DRAGONS[(dragonIndex + variant.dragonOffset) % HARD_SCORE_DRAGONS.length]!;
 }
 
-function isHardScoreQuestionAllowed(question: ScoreQuizQuestion): boolean {
+function assessHardScoreQuestion(question: ScoreQuizQuestion): {
+  allowed: boolean;
+  difficultySignature: string;
+} {
   try {
     const result = scoreQuizResult(question);
-    if (result.score.limitName === "yakuman") return false;
-    if (result.score.fu === 30) return false;
-    return true;
+    const yakuSignature = result.yaku
+      .filter((yaku) => yaku.name !== "ドラ")
+      .map((yaku) => `${yaku.name}:${yaku.han}`)
+      .sort()
+      .join(",");
+    return {
+      allowed: result.score.limitName !== "yakuman" && result.score.fu !== 30,
+      difficultySignature: [
+        question.winMethod,
+        result.score.fu ?? "limit",
+        result.score.limitName,
+        yakuSignature
+      ].join("|")
+    };
   } catch {
-    return false;
+    return { allowed: false, difficultySignature: "invalid" };
   }
+}
+
+function validateHardScoreQuestionSet(
+  questions: ScoreQuizQuestion[],
+  baseQuestions: ScoreQuizQuestion[]
+): void {
+  const baseAssessments = new Map(
+    baseQuestions.map((question) => [question.id, assessHardScoreQuestion(question)] as const)
+  );
+  for (const question of questions) {
+    const template = hardScoreBaseTemplate(question, baseQuestions);
+    if (!template) throw new Error(`${question.id}: hard score template was not found.`);
+    const expected = baseAssessments.get(template.id)!;
+    const actual = assessHardScoreQuestion(question);
+    if (!expected.allowed || !actual.allowed || actual.difficultySignature !== expected.difficultySignature) {
+      throw new Error(`${question.id}: hard score difficulty changed during tile transformation.`);
+    }
+  }
+}
+
+function hardScoreTilePoseKey(question: ScoreQuizQuestion): string {
+  const concealed = sortTiles(scoreQuizTiles(question)).join(",");
+  const melds = (question.melds ?? [])
+    .map((meld) => `${meld.kind}:${sortTiles(meld.tiles).join(",")}`)
+    .sort()
+    .join("|");
+  return `${concealed};win:${question.winningTile};melds:${melds}`;
+}
+
+function summarizeHardScoreVariations(
+  questions: ScoreQuizQuestion[],
+  baseQuestions: ScoreQuizQuestion[]
+): {
+  total: number;
+  baseArchetypeCount: number;
+  sameArchetypeDifferentPoseCount: number;
+  duplicateTilePoseCount: number;
+} {
+  const poseCounts = new Map<string, number>();
+  const representedArchetypes = new Set<string>();
+  for (const question of questions) {
+    const key = hardScoreTilePoseKey(question);
+    poseCounts.set(key, (poseCounts.get(key) ?? 0) + 1);
+    const template = hardScoreBaseTemplate(question, baseQuestions);
+    if (template) representedArchetypes.add(template.id);
+  }
+  return {
+    total: questions.length,
+    baseArchetypeCount: representedArchetypes.size,
+    sameArchetypeDifferentPoseCount: Math.max(0, questions.length - representedArchetypes.size),
+    duplicateTilePoseCount: [...poseCounts.values()].reduce((sum, count) => sum + Math.max(0, count - 1), 0)
+  };
+}
+
+function hardScoreBaseTemplate(
+  question: ScoreQuizQuestion,
+  baseQuestions: ScoreQuizQuestion[]
+): ScoreQuizQuestion | undefined {
+  return baseQuestions.find((candidate) => (
+    question.id === candidate.id || question.id.startsWith(`${candidate.id}-deck-`)
+  ));
 }
 
 const initialCounts = parseHand(SAMPLE_HAND);
@@ -658,101 +839,94 @@ function syncCounts(counts: Counts34): AppState {
 }
 
 export default function Home() {
-  const [mode, setMode] = useState<Mode>("checker");
-  const [openModeGroup, setOpenModeGroup] = useState<"analysis" | "practice" | null>(null);
+  const pathname = usePathname();
+  const isAnalysisTool = pathname.startsWith("/analysis/mahjong-tool");
+  const isScoreCalculator = pathname === "/tools";
+  const initialMode: Mode = isScoreCalculator ? "scoring" : isAnalysisTool ? "checker" : "ukeireMax";
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [state, dispatch] = useReducer(reducer, syncCounts(initialCounts));
-  const activeModeGroup = mode === "checker" || mode === "scoring" ? "analysis" : "practice";
   const selectMode = (nextMode: Mode) => {
     setMode(nextMode);
-    setOpenModeGroup(null);
   };
 
+  useEffect(() => {
+    setMode(isScoreCalculator ? "scoring" : isAnalysisTool ? "checker" : "ukeireMax");
+  }, [isAnalysisTool, isScoreCalculator]);
+
+  const pageEyebrow = isScoreCalculator ? "Mahjong Score Calculator" : isAnalysisTool ? "Mahjong Analysis Tool" : "Mahjong Training";
+  const pageTitle = isScoreCalculator ? "麻雀点数計算ツール🔰" : isAnalysisTool ? "麻雀解析ツール" : "麻雀トレーニング";
+
   return (
-    <main className="shell">
+    <main className={`shell appWorkspace ${isScoreCalculator ? "scoreWorkspacePage" : isAnalysisTool ? "analysisWorkspacePage" : "trainingWorkspacePage"}`}>
       <header className="topbar">
         <div>
-          <p className="eyebrow">Mahjong Trainer</p>
-          <h1>麻雀 牌理トレーナー</h1>
+          <p className="eyebrow">{pageEyebrow}</p>
+          <h1>{pageTitle}</h1>
         </div>
-        <div className="countBadge">{sumCounts(state.counts)} / 14</div>
+        {isAnalysisTool ? (
+          <div className="analysisToolbar" aria-label="解析ツール操作">
+            <span className="analysisToolbarCount">手牌 {sumCounts(state.counts)} / 14</span>
+            <button type="button" onClick={() => dispatch({ type: "sample" })}>サンプル牌姿</button>
+            <button type="button" onClick={() => dispatch({ type: "clear" })}>手牌をクリア</button>
+            <a className="analysisRunButton" href="#analysis-results">解析結果を見る</a>
+          </div>
+        ) : null}
       </header>
 
-      <nav className="modeSelector" aria-label="モード">
-        <div className="modeGroupTabs">
-          <button
-            className={activeModeGroup === "analysis" ? "modeGroupTab analysis active" : "modeGroupTab analysis"}
-            data-open={openModeGroup === "analysis"}
-            onClick={() => {
-              setMode("checker");
-              setOpenModeGroup(openModeGroup === "analysis" ? null : "analysis");
-            }}
-            type="button"
-          >
-            解析モード
-          </button>
-          <button
-            className={activeModeGroup === "practice" ? "modeGroupTab practice active" : "modeGroupTab practice"}
-            data-open={openModeGroup === "practice"}
-            onClick={() => {
-              setMode("ukeireMax");
-              setOpenModeGroup(openModeGroup === "practice" ? null : "practice");
-            }}
-            type="button"
-          >
-            問題演習モード
-          </button>
-        </div>
-
-        {openModeGroup === "analysis" ? (
+      {!isScoreCalculator ? <nav className="modeSelector" aria-label="モード">
+        {isAnalysisTool ? (
           <section className="modeGroup analysisModeGroup" aria-labelledby="analysis-mode-heading">
-            <div className="modeGroupTitle" id="analysis-mode-heading">解析ツール</div>
+            <div className="modeGroupTitle" id="analysis-mode-heading">麻雀解析ツール</div>
             <div className="segments">
-            <ModeButton active={mode === "checker"} onClick={() => selectMode("checker")}>牌理チェッカー</ModeButton>
-            <ModeButton active={mode === "scoring"} onClick={() => selectMode("scoring")}>🔰 点数計算チェッカー</ModeButton>
+              <ModeButton active={mode === "checker"} onClick={() => selectMode("checker")}>牌理チェッカー</ModeButton>
+              <Link className="segment analysisToolLink" href="/analysis/starting-hand">配牌分析</Link>
             </div>
           </section>
-        ) : null}
-
-        {openModeGroup === "practice" ? (
+        ) : (
           <section className="modeGroup practiceModeGroup" aria-labelledby="practice-mode-heading">
-            <div className="modeGroupTitle" id="practice-mode-heading">問題演習</div>
+            <div className="modeGroupTitle" id="practice-mode-heading">麻雀トレーニング</div>
             <div className="practiceLevelGroups">
-              <div className="practiceLevel beginnerLevel">
-                <div className="practiceLevelTitle">初心者向け</div>
+              <div className="practiceLevel hardLevel">
+                <div className="practiceLevelHeader">
+                  <span className="practiceLevelIcon" aria-hidden="true"><Flame /></span>
+                  <div className="practiceLevelTitle">高難易度</div>
+                </div>
                 <div className="segments practiceSegments">
-                  <ModeButton active={mode === "beginnerIishanten"} onClick={() => selectMode("beginnerIishanten")}>🔰 イーシャンテン何切る</ModeButton>
-                  <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}>🔰 7枚形トレーニング</ModeButton>
-                  <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}>🔰 点数計算問題</ModeButton>
+                  <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}><Flame aria-hidden="true" />受け入れMAX星人何切る</ModeButton>
+                  <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}><Flame aria-hidden="true" />清一色待ち当て</ModeButton>
+                  <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}><Flame aria-hidden="true" />点数計算HARD</ModeButton>
                 </div>
               </div>
-              <div className="practiceLevel hardLevel">
-                <div className="practiceLevelTitle">高難易度</div>
+              <div className="practiceLevel beginnerLevel">
+                <div className="practiceLevelHeader">
+                  <span className="practiceLevelIcon" aria-hidden="true"><BookOpenCheck /></span>
+                  <div className="practiceLevelTitle">初心者向け</div>
+                </div>
                 <div className="segments practiceSegments">
-                  <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}>🔥 受け入れMAX星人何切る</ModeButton>
-                  <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}>🔥 清一色待ち当て</ModeButton>
-                  <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}>🔥 点数計算HARD</ModeButton>
+                  <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}><BookOpenCheck aria-hidden="true" />7枚形トレーニング</ModeButton>
+                  <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}><BookOpenCheck aria-hidden="true" />点数計算問題</ModeButton>
                 </div>
               </div>
             </div>
           </section>
-        ) : null}
-      </nav>
+        )}
+      </nav> : null}
 
-      {mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
-      {mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
-      {mode === "ukeireMax" ? <UkeireMaxMode /> : null}
-      {mode === "chinitsu" ? <ChinitsuMode /> : null}
-      {mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
-      {mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
-      {mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
-      {mode === "scoring" ? <ScoringMode /> : null}
+      {isAnalysisTool && mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
+      {!isAnalysisTool && mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
+      {!isAnalysisTool && mode === "ukeireMax" ? <UkeireMaxMode /> : null}
+      {!isAnalysisTool && mode === "chinitsu" ? <ChinitsuMode /> : null}
+      {!isAnalysisTool && mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
+      {!isAnalysisTool && mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
+      {!isAnalysisTool && mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
+      {isScoreCalculator && mode === "scoring" ? <ScoringMode /> : null}
     </main>
   );
 }
 
 function ModeButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
-    <button className={active ? "segment active" : "segment"} onClick={onClick} type="button">
+    <button className={active ? "segment active" : "segment"} aria-pressed={active} onClick={onClick} type="button">
       {children}
     </button>
   );
@@ -1146,7 +1320,7 @@ function BeginnerIishantenMode() {
         ) : null}
       </section>
 
-      <section className="resultsPanel">
+      <section className="resultsPanel" id="analysis-results">
         <div className="panelHeader">
           <h2>受け入れ比較</h2>
         </div>
@@ -1930,7 +2104,8 @@ function ScoringMode() {
         })
       };
     } catch (error) {
-      return { error: error instanceof Error ? error.message : String(error) };
+      const message = error instanceof Error ? error.message : String(error);
+      return { error: message === "役がありません。" ? "役がないよ…" : message };
     }
   }, [closedHandTarget, counts, dora, honba, ippatsu, isClosedForOptions, isDealer, melds, riichi, riichiSticks, roundWind, seatWind, totalDisplayTarget, winMethod, winningTile]);
 

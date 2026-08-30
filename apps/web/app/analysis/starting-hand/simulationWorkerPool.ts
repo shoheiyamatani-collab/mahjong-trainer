@@ -25,6 +25,7 @@ export interface SimulationStageInput {
   batchSize?: number;
   checkpoints?: Partial<Record<SimulationRoleId, RoleSimulationCheckpoint>>;
   onProgress?: (progress: SimulationStageProgress) => void;
+  onRoleComplete?: (output: SimulationStageOutput) => void;
 }
 
 export interface SimulationStageProgress {
@@ -49,7 +50,8 @@ export interface SimulationRunner {
 
 interface StageState extends SimulationStageOutput {
   input: SimulationStageInput;
-  queues: SimulationRoleId[][];
+  queue: SimulationRoleId[];
+  initialCompletedByRole: Partial<Record<SimulationRoleId, number>>;
   completedByRole: Partial<Record<SimulationRoleId, number>>;
   activeTasks: Map<string, SimulationRoleId>;
   activeByWorker: Map<number, { taskId: string; roleId: SimulationRoleId }>;
@@ -99,13 +101,17 @@ export class SimulationWorkerPool implements SimulationRunner {
       for (const roleId of input.roles) completedByRole[roleId] = input.checkpoints?.[roleId]?.completedTrials ?? 0;
       this.stage = {
         input,
-        queues: createBalancedQueues(input.roles, this.workers.length),
+        queue: createRoleQueue(input.roles),
+        initialCompletedByRole: { ...completedByRole },
         completedByRole,
         activeTasks: new Map(),
         activeByWorker: new Map(),
         retryCounts: {},
-        results: {},
-        checkpoints: {},
+        results: Object.fromEntries(Object.entries(input.checkpoints ?? {}).map(([roleId, checkpoint]) => [
+          roleId,
+          checkpoint?.result,
+        ])) as SimulationStageOutput["results"],
+        checkpoints: { ...input.checkpoints },
         metrics: {},
         resolve,
         reject,
@@ -144,7 +150,7 @@ export class SimulationWorkerPool implements SimulationRunner {
   private assignNext(workerIndex: number): void {
     const stage = this.stage;
     if (!stage) return;
-    const roleId = stage.queues[workerIndex]?.shift();
+    const roleId = stage.queue.shift();
     if (!roleId) {
       if (stage.activeTasks.size === 0) this.finishStage(stage);
       return;
@@ -190,6 +196,11 @@ export class SimulationWorkerPool implements SimulationRunner {
     stage.results[message.roleId] = message.result;
     stage.checkpoints[message.roleId] = message.checkpoint;
     stage.metrics[message.roleId] = message.metrics;
+    stage.input.onRoleComplete?.({
+      results: { ...stage.results },
+      checkpoints: { ...stage.checkpoints },
+      metrics: { ...stage.metrics },
+    });
     this.emitProgress();
     this.assignNext(workerIndex);
   }
@@ -198,12 +209,22 @@ export class SimulationWorkerPool implements SimulationRunner {
     const stage = this.stage;
     if (!stage) return;
     const completedTrials = stage.input.roles.reduce(
-      (sum, roleId) => sum + (stage.completedByRole[roleId] ?? 0),
+      (sum, roleId) => sum + Math.max(
+        0,
+        (stage.completedByRole[roleId] ?? 0) - (stage.initialCompletedByRole[roleId] ?? 0),
+      ),
+      0,
+    );
+    const totalTrials = stage.input.roles.reduce(
+      (sum, roleId) => sum + Math.max(
+        0,
+        stage.input.targetTrials - (stage.initialCompletedByRole[roleId] ?? 0),
+      ),
       0,
     );
     stage.input.onProgress?.({
       completedTrials,
-      totalTrials: stage.input.targetTrials * stage.input.roles.length,
+      totalTrials,
       byRole: { ...stage.completedByRole },
     });
   }
@@ -227,7 +248,7 @@ export class SimulationWorkerPool implements SimulationRunner {
     const attempts = stage.retryCounts[roleId] ?? 0;
     if (attempts < 1) {
       stage.retryCounts[roleId] = attempts + 1;
-      stage.queues[workerIndex]?.unshift(roleId);
+      stage.queue.unshift(roleId);
       this.assignNext(workerIndex);
       return;
     }
@@ -268,8 +289,10 @@ export class CooperativeSimulationRunner implements SimulationRunner {
     if (this.activeAnalysisId) throw new Error("A simulation stage is already running.");
     this.activeAnalysisId = input.analysisId;
     this.cancelledAnalyses.delete(input.analysisId);
-    const results: SimulationStageOutput["results"] = {};
-    const checkpoints: SimulationStageOutput["checkpoints"] = {};
+    const results: SimulationStageOutput["results"] = Object.fromEntries(
+      Object.entries(input.checkpoints ?? {}).map(([roleId, checkpoint]) => [roleId, checkpoint?.result]),
+    ) as SimulationStageOutput["results"];
+    const checkpoints: SimulationStageOutput["checkpoints"] = { ...input.checkpoints };
     const metrics: SimulationStageOutput["metrics"] = {};
     const completedByRole: Partial<Record<SimulationRoleId, number>> = {};
     for (const roleId of input.roles) {
@@ -326,6 +349,11 @@ export class CooperativeSimulationRunner implements SimulationRunner {
           cacheHitRate: ratio(counterDelta.cacheHitCount, counterDelta.cacheHitCount + counterDelta.cacheMissCount),
           progressMessageCount,
         };
+        input.onRoleComplete?.({
+          results: { ...results },
+          checkpoints: { ...checkpoints },
+          metrics: { ...metrics },
+        });
       }
       return { results, checkpoints, metrics };
     } finally {
@@ -350,28 +378,25 @@ export class CooperativeSimulationRunner implements SimulationRunner {
   }
 }
 
-function createBalancedQueues(roles: readonly SimulationRoleId[], workerCount: number): SimulationRoleId[][] {
-  const queues = Array.from({ length: workerCount }, () => [] as SimulationRoleId[]);
-  const loads = Array(workerCount).fill(0) as number[];
-  const sorted = [...roles].sort((left, right) => ESTIMATED_ROLE_COST[right] - ESTIMATED_ROLE_COST[left]);
-  for (const roleId of sorted) {
-    let target = 0;
-    for (let index = 1; index < workerCount; index += 1) {
-      if (loads[index]! < loads[target]!) target = index;
-    }
-    queues[target]!.push(roleId);
-    loads[target] += ESTIMATED_ROLE_COST[roleId];
-  }
-  return queues;
+function createRoleQueue(roles: readonly SimulationRoleId[]): SimulationRoleId[] {
+  return [...roles].sort((left, right) => ESTIMATED_ROLE_COST[right] - ESTIMATED_ROLE_COST[left]);
 }
 
 function createStageProgress(
   input: SimulationStageInput,
   completedByRole: Partial<Record<SimulationRoleId, number>>,
 ): SimulationStageProgress {
+  const completedTrials = input.roles.reduce((sum, roleId) => sum + Math.max(
+    0,
+    (completedByRole[roleId] ?? 0) - (input.checkpoints?.[roleId]?.completedTrials ?? 0),
+  ), 0);
+  const totalTrials = input.roles.reduce((sum, roleId) => sum + Math.max(
+    0,
+    input.targetTrials - (input.checkpoints?.[roleId]?.completedTrials ?? 0),
+  ), 0);
   return {
-    completedTrials: input.roles.reduce((sum, roleId) => sum + (completedByRole[roleId] ?? 0), 0),
-    totalTrials: input.targetTrials * input.roles.length,
+    completedTrials,
+    totalTrials,
     byRole: { ...completedByRole },
   };
 }

@@ -1,5 +1,5 @@
 import { normalShantenWithOpenMelds } from "./shanten";
-import { LruCache, incrementSimulationCounter } from "./performance";
+import { LruCache, compactCountsKey, incrementSimulationCounter } from "./performance";
 import {
   type Counts34,
   type Tile,
@@ -142,7 +142,7 @@ export function classifySanshokuWin(
   lockedSequenceStart: SanshokuSequenceStart | null = null,
 ): SanshokuWinClassification {
   validateCounts(counts);
-  const key = `${lockedSequenceStart ?? 0}|${meldKey(melds)}|${counts.join(",")}`;
+  const key = `${lockedSequenceStart ?? 0}|${meldKey(melds)}|${compactCountsKey(counts)}`;
   const cached = winCache.get(key);
   if (cached) return cached;
   const expected = 14 - melds.length * 3;
@@ -299,7 +299,7 @@ export function evaluateSanshokuProgress(
 ): SanshokuProgressEvaluation {
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
-  const key = `${lockedSequenceStart ?? 0}|${meldKey(melds)}|${counts.join(",")}|${availableCounts.join(",")}`;
+  const key = `${lockedSequenceStart ?? 0}|${meldKey(melds)}|${compactCountsKey(counts)}|${compactCountsKey(availableCounts)}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");
