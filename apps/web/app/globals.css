@@ -493,15 +493,28 @@ body .homeHeroBrandRow .homeHeroLogo {
   margin-top: 18px;
 }
 
-.homeQuestionChoices span {
+.homeQuestionChoice {
+  align-items: center;
   background: #ffffff;
   border: 1px solid #d8c79e;
   border-radius: 5px;
   color: #4b4639;
+  display: flex;
   font-size: 0.88rem;
-  font-weight: 800;
-  padding: 9px;
-  text-align: center;
+  gap: 12px;
+  justify-content: center;
+  min-height: 76px;
+  padding: 8px 14px;
+}
+
+.homeQuestionChoice img {
+  display: block;
+  height: 58px;
+  width: auto;
+}
+
+.homeQuestionChoice strong {
+  font-weight: 850;
 }
 
 .homeQuestionAnswer {
@@ -544,8 +557,78 @@ body .homeHeroBrandRow .homeHeroLogo {
   color: #153d27;
 }
 
-.homeQuestionPanel .homeTextLink {
+.homeCheckerPitch {
+  align-items: flex-start;
+  background: #edf7f2;
+  border: 1px solid #b8d9c7;
+  border-radius: 6px;
+  display: flex;
+  gap: 12px;
   margin-top: 18px;
+  padding: 15px 16px;
+}
+
+.homeCheckerPitch > svg {
+  color: #087454;
+  flex: 0 0 auto;
+  height: 22px;
+  margin-top: 2px;
+  width: 22px;
+}
+
+.homeCheckerPitch strong {
+  color: #114a35;
+  display: block;
+  font-size: 1rem;
+}
+
+.homeCheckerPitch p {
+  color: #476056;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 5px 0 0;
+}
+
+.homeCheckerCta {
+  align-items: center;
+  background: #0b6848;
+  border: 1px solid #0b6848;
+  border-radius: 6px;
+  color: #ffffff;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-top: 12px;
+  max-width: 480px;
+  padding: 13px 16px;
+  text-decoration: none;
+}
+
+.homeCheckerCta:hover {
+  background: #07553b;
+  border-color: #07553b;
+}
+
+.homeCheckerCta span,
+.homeCheckerCta strong,
+.homeCheckerCta small {
+  display: block;
+}
+
+.homeCheckerCta strong {
+  font-size: 0.95rem;
+}
+
+.homeCheckerCta small {
+  color: #d7eee3;
+  font-size: 0.76rem;
+  margin-top: 3px;
+}
+
+.homeCheckerCta > svg {
+  flex: 0 0 auto;
+  height: 19px;
+  width: 19px;
 }
 
 .homeLearningSteps,

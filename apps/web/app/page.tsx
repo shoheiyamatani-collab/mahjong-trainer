@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArrowRight,
   Calculator,
   CheckCircle2,
   CirclePlay,
@@ -107,9 +108,18 @@ export default function HomePage() {
             ))}
           </div>
           <div className="homeQuestionChoices" aria-label="選択肢">
-            <span>1筒</span>
-            <span>4筒</span>
-            <span>8萬</span>
+            <div className="homeQuestionChoice">
+              <img src="/tiles/pin1-66-90-l-emb.png" alt="1筒" />
+              <strong>1筒</strong>
+            </div>
+            <div className="homeQuestionChoice">
+              <img src="/tiles/pin4-66-90-l-emb.png" alt="4筒" />
+              <strong>4筒</strong>
+            </div>
+            <div className="homeQuestionChoice">
+              <img src="/tiles/man8-66-90-l-emb.png" alt="8萬" />
+              <strong>8萬</strong>
+            </div>
           </div>
           <details className="homeQuestionAnswer">
             <summary>答えを見る</summary>
@@ -118,9 +128,19 @@ export default function HomePage() {
               <p><strong>正解は1筒または4筒。</strong>どちらもイーシャンテンを保ち、有効牌16種・54枚で最大です。</p>
             </div>
           </details>
-          <Link className="homeTextLink" href="/analysis/mahjong-tool#analysis-results">
+          <div className="homeCheckerPitch">
             <Search aria-hidden="true" />
-            牌理チェッカーで同じ牌姿を確認する
+            <div>
+              <strong>「枚数」だけでは見えない、待ちの質まで分かる。</strong>
+              <p>牌理チェッカーなら、受け入れ枚数に加えて良形率・超良形率・有効牌を打牌ごとに比較できます。</p>
+            </div>
+          </div>
+          <Link className="homeCheckerCta" href="/analysis/mahjong-tool#analysis-results">
+            <span>
+              <strong>牌理チェッカーで打牌の差を見る</strong>
+              <small>この牌姿の解析結果をすぐに表示</small>
+            </span>
+            <ArrowRight aria-hidden="true" />
           </Link>
         </article>
       </section>
