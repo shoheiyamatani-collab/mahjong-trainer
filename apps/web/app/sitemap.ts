@@ -8,11 +8,15 @@ import { advancedStrategyChannel, videoChannels } from "./videos/videoData";
 export const dynamic = "force-static";
 
 const staticPaths = [
+  "/about",
+  "/advertising",
   "/analysis/mahjong-tool",
   "/analysis/starting-hand",
   "/analysis/starting-hand/help",
+  "/contact",
   "/learn",
   "/learn/roadmap",
+  "/privacy",
   "/rules",
   "/rules/frequent-yaku",
   "/rules/practical-score",
@@ -20,6 +24,7 @@ const staticPaths = [
   "/rules/yaku",
   "/tools",
   "/tools/score-table",
+  "/terms",
   "/trainer",
   "/training/yaku-quiz",
   ...(siteConfig.features.showMLeagueLinks ? ["/videos/mleague-clips"] : []),

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useReducer, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpenCheck, Flame } from "lucide-react";
+import { BookOpenCheck, Flame, TableProperties } from "lucide-react";
 import {
   addTile,
   analyzeDiscards,
@@ -863,6 +863,12 @@ export default function Home() {
           <p className="eyebrow">{pageEyebrow}</p>
           <h1>{pageTitle}</h1>
         </div>
+        {isScoreCalculator ? (
+          <Link className="scoreTableLink" href="/tools/score-table">
+            <TableProperties aria-hidden="true" />
+            点数早見表を見る
+          </Link>
+        ) : null}
         {isAnalysisTool ? (
           <div className="analysisToolbar" aria-label="解析ツール操作">
             <span className="analysisToolbarCount">手牌 {sumCounts(state.counts)} / 14</span>

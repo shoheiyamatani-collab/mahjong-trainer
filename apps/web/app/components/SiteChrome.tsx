@@ -41,11 +41,19 @@ const navItems: SiteNavItem[] = [
   }
 ];
 
-const footerItems = [
+const footerContentItems = [
   { label: "麻雀解析ツール", href: "/analysis/mahjong-tool" },
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀点数計算ツール", href: "/tools" },
   { label: "動画で学ぶ", href: "/videos/strategy" }
+];
+
+const footerInformationItems = [
+  { label: "このサイトについて", href: "/about" },
+  { label: "お問い合わせ", href: "/contact" },
+  { label: "プライバシーポリシー", href: "/privacy" },
+  { label: "利用規約", href: "/terms" },
+  { label: "広告・アフィリエイトについて", href: "/advertising" }
 ];
 
 function BrandLockup() {
@@ -77,18 +85,29 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="siteFooter">
-      <div>
+      <div className="siteFooterBrand">
         <Link className="siteLogo siteFooterLogo" href="/">
           <BrandLockup />
         </Link>
       </div>
-      <nav className="siteFooterLinks" aria-label="フッターリンク">
-        {footerItems.map((item) => (
-          <Link key={item.label} href={item.href}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
+      <div className="siteFooterNavGroups">
+        <div>
+          <p className="siteFooterNavTitle">コンテンツ</p>
+          <nav className="siteFooterLinks" aria-label="主要コンテンツ">
+            {footerContentItems.map((item) => (
+              <Link key={item.label} href={item.href}>{item.label}</Link>
+            ))}
+          </nav>
+        </div>
+        <div>
+          <p className="siteFooterNavTitle">運営情報</p>
+          <nav className="siteFooterLinks" aria-label="運営情報">
+            {footerInformationItems.map((item) => (
+              <Link key={item.label} href={item.href}>{item.label}</Link>
+            ))}
+          </nav>
+        </div>
+      </div>
     </footer>
   );
 }

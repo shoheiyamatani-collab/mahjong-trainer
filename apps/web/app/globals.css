@@ -92,6 +92,32 @@ h2 {
   white-space: nowrap;
 }
 
+.scoreTableLink {
+  align-items: center;
+  background: #f4faf6;
+  border: 1px solid #9ccbad;
+  border-radius: 5px;
+  color: #075c37;
+  display: inline-flex;
+  font-size: 0.92rem;
+  font-weight: 800;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.scoreTableLink:hover {
+  background: #e7f5eb;
+  border-color: #5da577;
+}
+
+.scoreTableLink svg {
+  height: 18px;
+  width: 18px;
+}
+
 .modeGroups,
 .modeSelector {
   display: grid;
@@ -3160,6 +3186,10 @@ h2 {
 @media (max-width: 780px) {
   .shell {
     padding: 12px;
+  }
+
+  .scoreWorkspacePage .topbar {
+    flex-direction: column;
   }
 
   .modeGroups {
@@ -9721,5 +9751,328 @@ body .trainingWorkspacePage .beginnerLevel .segment.active::after {
     gap: 6px;
     min-height: 50px;
     padding: 8px 7px;
+  }
+}
+
+/* Legal, policy, and operator pages. */
+.legalPage {
+  gap: 24px;
+  max-width: 980px;
+  padding-bottom: 64px;
+}
+
+.legalPageHeader {
+  border-bottom: 3px solid var(--media-green);
+  padding: 30px 4px 26px;
+}
+
+.legalPageHeader h1 {
+  color: #123d28;
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  line-height: 1.2;
+  margin: 8px 0 14px;
+}
+
+.legalPageHeader > p:last-child {
+  color: #536159;
+  font-size: 1.02rem;
+  line-height: 1.85;
+  margin: 0;
+}
+
+.legalDocument {
+  background: #ffffff;
+  border: 1px solid #dbe2de;
+  border-radius: 8px;
+  padding: clamp(24px, 5vw, 52px);
+}
+
+.legalDocument section + section {
+  border-top: 1px solid #e4e9e6;
+  margin-top: 34px;
+  padding-top: 34px;
+}
+
+.legalDocument h2 {
+  color: #123d28;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  line-height: 1.45;
+  margin: 0 0 18px;
+}
+
+.legalDocument h3 {
+  color: #1e4f36;
+  font-size: 1.08rem;
+  margin: 24px 0 10px;
+}
+
+.legalDocument p,
+.legalDocument li,
+.legalDocument dd {
+  line-height: 1.9;
+}
+
+.legalDocument p {
+  margin: 0 0 14px;
+}
+
+.legalDocument ul,
+.legalDocument ol {
+  margin: 14px 0 0;
+  padding-left: 1.5rem;
+}
+
+.legalDocument li + li {
+  margin-top: 5px;
+}
+
+.legalDocument a {
+  color: #00683d;
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.legalLinkList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 18px;
+}
+
+.legalColumnList {
+  columns: 2;
+  column-gap: 36px;
+}
+
+.legalColumnList li {
+  break-inside: avoid;
+}
+
+.legalCallout,
+.contactStatus {
+  background: #f1f8f4;
+  border-left: 4px solid #17824f;
+  border-radius: 4px;
+  margin-top: 24px;
+  padding: 18px 20px;
+}
+
+.legalCallout strong {
+  color: #0c6038;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.legalCallout p,
+.contactStatus {
+  margin-bottom: 0;
+}
+
+.legalDates {
+  border-top: 1px solid #dfe5e1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+  margin: 42px 0 0;
+  padding-top: 24px;
+}
+
+.legalDates div {
+  display: flex;
+  gap: 12px;
+}
+
+.legalDates dt {
+  color: #647068;
+  font-weight: 700;
+}
+
+.legalDates dd {
+  color: #26352d;
+  font-weight: 750;
+  margin: 0;
+}
+
+.operatorFacts {
+  background: #f7f9f8;
+  border: 1px solid #dfe5e1;
+  border-radius: 6px;
+  margin: 0 0 26px;
+}
+
+.operatorFacts div {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.32fr) minmax(0, 1fr);
+}
+
+.operatorFacts div + div {
+  border-top: 1px solid #dfe5e1;
+}
+
+.operatorFacts dt,
+.operatorFacts dd {
+  margin: 0;
+  padding: 13px 16px;
+}
+
+.operatorFacts dt {
+  background: #eef4f0;
+  color: #315441;
+  font-weight: 750;
+}
+
+.contactForm {
+  display: grid;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.contactForm label {
+  display: grid;
+  gap: 8px;
+}
+
+.contactForm label > span {
+  color: #263a2f;
+  font-weight: 750;
+}
+
+.contactForm input,
+.contactForm select,
+.contactForm textarea {
+  background: #ffffff;
+  border: 1px solid #bfc9c3;
+  border-radius: 6px;
+  color: #1e2b24;
+  font-size: 1rem;
+  min-height: 48px;
+  padding: 11px 13px;
+  width: 100%;
+}
+
+.contactForm textarea {
+  min-height: 190px;
+  resize: vertical;
+}
+
+.contactForm input:focus,
+.contactForm select:focus,
+.contactForm textarea:focus {
+  border-color: #087546;
+  box-shadow: 0 0 0 3px rgba(8, 117, 70, 0.13);
+  outline: 0;
+}
+
+.contactForm button {
+  background: #e3e8e5;
+  border: 1px solid #cbd3ce;
+  border-radius: 6px;
+  color: #657069;
+  cursor: not-allowed;
+  font-size: 0.98rem;
+  font-weight: 800;
+  justify-self: start;
+  min-height: 48px;
+  padding: 11px 22px;
+}
+
+.amazonAssociateStatement {
+  background: #fff8e9;
+  border: 1px solid #efd69c;
+  border-radius: 6px;
+  color: #533b08;
+  font-weight: 700;
+  padding: 18px 20px;
+}
+
+.disclosureNotice {
+  border: 1px solid #dfc98c;
+  border-left: 5px solid #c78b14;
+  border-radius: 6px;
+  color: #463810;
+  margin: 18px 0 26px;
+  padding: 15px 18px;
+}
+
+.disclosureNotice--affiliate {
+  background: #fff9e9;
+}
+
+.disclosureNotice--pr {
+  background: #fff2ef;
+  border-color: #e7aa9d;
+  border-left-color: #bd3e26;
+  color: #54261d;
+}
+
+.disclosureNotice strong {
+  display: block;
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+}
+
+.disclosureNotice p {
+  line-height: 1.75;
+  margin: 0;
+}
+
+.siteFooterNavGroups {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.siteFooterNavTitle {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0 0 7px;
+  text-transform: uppercase;
+}
+
+.siteFooterNavGroups .siteFooterLinks {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.siteFooterNavGroups .siteFooterLinks a {
+  padding: 6px 8px;
+}
+
+@media (max-width: 700px) {
+  .legalPage {
+    padding-inline: 12px;
+  }
+
+  .legalPageHeader {
+    padding: 22px 4px 20px;
+  }
+
+  .legalDocument {
+    padding: 22px 18px;
+  }
+
+  .legalColumnList {
+    columns: 1;
+  }
+
+  .operatorFacts div {
+    grid-template-columns: 1fr;
+  }
+
+  .operatorFacts dd {
+    padding-top: 8px;
+  }
+
+  .legalDates,
+  .legalDates div {
+    display: grid;
+    gap: 2px;
+  }
+
+  .siteFooterNavGroups {
+    grid-template-columns: 1fr;
   }
 }
