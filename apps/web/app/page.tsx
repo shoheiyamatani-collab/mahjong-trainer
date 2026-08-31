@@ -29,21 +29,25 @@ const portalItems = [
   {
     title: "麻雀解析ツール",
     href: "/analysis/mahjong-tool",
+    tone: "analysis",
     icon: Search
   },
   {
     title: "麻雀トレーニング",
     href: "/trainer",
+    tone: "training",
     icon: Target
   },
   {
     title: "点数計算ツール",
     href: "/tools",
+    tone: "score",
     icon: Calculator
   },
   {
     title: "麻雀を動画で学ぶ",
     href: "/videos/strategy",
+    tone: "video",
     icon: CirclePlay
   }
 ] as const;
@@ -81,7 +85,7 @@ export default function HomePage() {
         {portalItems.map((item) => {
           const Icon = item.icon;
           return (
-            <Link href={item.href} key={item.title}>
+            <Link className={`homeQuickNav-${item.tone}`} href={item.href} key={item.title}>
               <Icon aria-hidden="true" />
               <span>{item.title}</span>
             </Link>

@@ -206,7 +206,9 @@ body .homeHeroBrandRow .homeHeroLogo {
 
 .homeQuickNav a {
   align-items: center;
-  color: #23372d;
+  background: var(--home-quick-bg, #ffffff);
+  box-shadow: inset 0 -3px var(--home-quick-accent, transparent);
+  color: var(--home-quick-color, #23372d);
   display: flex;
   font-size: 0.86rem;
   font-weight: 800;
@@ -223,15 +225,39 @@ body .homeHeroBrandRow .homeHeroLogo {
 }
 
 .homeQuickNav a:hover {
-  background: #f1f8f4;
-  color: #087044;
+  filter: brightness(0.97);
+  box-shadow: inset 0 -5px var(--home-quick-accent, #087044);
 }
 
 .homeQuickNav svg {
-  color: #087044;
+  color: var(--home-quick-accent, #087044);
   flex: 0 0 auto;
   height: 20px;
   width: 20px;
+}
+
+.homeQuickNav-analysis {
+  --home-quick-accent: #0a8767;
+  --home-quick-bg: #eaf7f2;
+  --home-quick-color: #075b49;
+}
+
+.homeQuickNav-training {
+  --home-quick-accent: #df7318;
+  --home-quick-bg: #fff3e5;
+  --home-quick-color: #934200;
+}
+
+.homeQuickNav-score {
+  --home-quick-accent: #2f7fba;
+  --home-quick-bg: #edf5fc;
+  --home-quick-color: #175985;
+}
+
+.homeQuickNav-video {
+  --home-quick-accent: #7d58a4;
+  --home-quick-bg: #f5eff9;
+  --home-quick-color: #604080;
 }
 
 .homeSection {
