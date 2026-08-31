@@ -69,11 +69,12 @@ export default function HomePage() {
           <h1 id="home-title">雀フォリオ</h1>
           <p className="homeHeroTagline">麻雀を知る、学ぶ、強くなる。</p>
         </div>
-        <div className="homeHeroTiles" aria-hidden="true">
-          {["man1", "man2", "man3", "pin5", "pin6", "pin7", "ji7"].map((tile) => (
-            <img key={tile} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-          ))}
-        </div>
+        <Link className="homeHeroChecker" href="/analysis/mahjong-tool" aria-label="牌理チェッカーを使う">
+          <img
+            src="/tool-screenshots/ukeire-checker-hero.png"
+            alt="牌理チェッカーで手牌を入力し、打牌候補と有効牌を比較している画面"
+          />
+        </Link>
       </section>
 
       <nav className="homeQuickNav" aria-label="雀フォリオの主要コンテンツ">
