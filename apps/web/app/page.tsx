@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRight,
-  BookOpenCheck,
   Calculator,
   CheckCircle2,
   CirclePlay,
   Lightbulb,
-  Route,
   Search,
   Target
 } from "lucide-react";
@@ -30,64 +27,25 @@ export const metadata: Metadata = {
 
 const portalItems = [
   {
-    title: "初心者ロードマップ",
-    label: "最初から学ぶ",
-    description: "牌の種類から役・待ちまで、迷わない順番で基礎を身につけます。",
-    href: "/learn/roadmap",
-    action: "ロードマップを見る",
-    tone: "green",
-    icon: BookOpenCheck
-  },
-  {
-    title: "麻雀トレーニング",
-    label: "問題を解く",
-    description: "待ち当て、点数計算、清一色などを、実際に手を動かして練習します。",
-    href: "/trainer",
-    action: "トレーニングを始める",
-    tone: "orange",
-    icon: Target
-  },
-  {
     title: "麻雀解析ツール",
-    label: "牌姿を調べる",
-    description: "打牌候補ごとの受け入れや、配牌から狙いやすい役を比較できます。",
     href: "/analysis/mahjong-tool",
-    action: "解析ツールを使う",
-    tone: "blue",
     icon: Search
   },
   {
+    title: "麻雀トレーニング",
+    href: "/trainer",
+    icon: Target
+  },
+  {
     title: "点数計算ツール",
-    label: "点数を確認する",
-    description: "手牌と条件を入力して、役・翻・符とロン・ツモの支払いを確認します。",
     href: "/tools",
-    action: "点数を計算する",
-    tone: "red",
     icon: Calculator
   },
   {
     title: "麻雀を動画で学ぶ",
-    label: "解説を見る",
-    description: "初心者向けと中級者以上向けに分けた戦術動画を、記事と一緒に学べます。",
     href: "/videos/strategy",
-    action: "動画記事を選ぶ",
-    tone: "teal",
     icon: CirclePlay
   }
-] as const;
-
-const learningSteps = [
-  { step: "01", title: "ルール", description: "牌とアガリの基本", href: "/learn/roadmap" },
-  { step: "02", title: "役", description: "よく使う役から覚える", href: "/rules/frequent-yaku" },
-  { step: "03", title: "待ち", description: "アガリ牌を見つける", href: "/rules/practical-waits" },
-  { step: "04", title: "点数計算", description: "実戦の点数を確認する", href: "/tools/score-table" }
-] as const;
-
-const learningCycle = [
-  { step: "見る・読む", description: "動画と記事で考え方を知る", href: "/videos/strategy/beginner", icon: CirclePlay },
-  { step: "解く", description: "問題で自分の判断を試す", href: "/trainer", icon: Target },
-  { step: "確かめる", description: "解析ツールで牌姿を比較する", href: "/analysis/mahjong-tool", icon: Search },
-  { step: "戻って学ぶ", description: "迷った部分を基礎から復習する", href: "/learn/roadmap", icon: BookOpenCheck }
 ] as const;
 
 const todayQuestionTiles = [
@@ -130,34 +88,7 @@ export default function HomePage() {
         })}
       </nav>
 
-      <section className="homeSection" aria-labelledby="home-entrances-title">
-        <div className="homeSectionHeading">
-          <p>CHOOSE YOUR START</p>
-          <h2 id="home-entrances-title">目的から選ぶ</h2>
-          <span>今やりたいことから、すぐに始められます。</span>
-        </div>
-        <div className="homePortalGrid">
-          {portalItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <article className={`homePortalCard homeTone-${item.tone}`} key={item.title}>
-                <div className="homePortalTopline">
-                  <span className="homePortalIcon" aria-hidden="true"><Icon /></span>
-                  <span>{item.label}</span>
-                </div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <Link href={item.href}>
-                  {item.action}
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="homeFeatureGrid" aria-label="本日の問題と学習順">
+      <section className="homeFeatureGrid homeQuestionOnly" aria-label="今日の1問">
         <article className="homeQuestionPanel">
           <div className="homePanelLabel">
             <Lightbulb aria-hidden="true" />
@@ -182,76 +113,7 @@ export default function HomePage() {
               <p><strong>正解はタンヤオ。</strong>すべての牌が2〜8の数牌でできており、1・9・字牌を使っていません。</p>
             </div>
           </details>
-          <Link className="homeTextLink" href="/training/yaku-quiz">
-            役判定クイズを続ける
-            <ArrowRight aria-hidden="true" />
-          </Link>
         </article>
-
-        <section className="homeLearningPanel" aria-labelledby="home-learning-title">
-          <div className="homePanelLabel">
-            <Route aria-hidden="true" />
-            <span>BEGINNER ROADMAP</span>
-          </div>
-          <h2 id="home-learning-title">初心者におすすめの学習順</h2>
-          <p>点数計算は最後で大丈夫。まずはアガるために必要な順番で進みます。</p>
-          <ol className="homeLearningSteps">
-            {learningSteps.map((item) => (
-              <li key={item.step}>
-                <Link href={item.href}>
-                  <span className="homeLearningNumber">STEP {item.step}</span>
-                  <span className="homeLearningCopy">
-                    <strong>{item.title}</strong>
-                    <small>{item.description}</small>
-                  </span>
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </li>
-            ))}
-          </ol>
-          <Link className="homeLearningAction" href="/learn/roadmap">
-            全11STEPを見る
-          </Link>
-        </section>
-      </section>
-
-      <section className="homeCycleSection" aria-labelledby="home-cycle-title">
-        <div className="homeCycleHeading">
-          <div className="homePanelLabel">
-            <Route aria-hidden="true" />
-            <span>LEARNING CYCLE</span>
-          </div>
-          <h2 id="home-cycle-title">学んだことを、実戦の判断へ</h2>
-          <p>ひとつのページで終わらず、分かるまでサイト内を行き来できます。</p>
-        </div>
-        <ol className="homeCycleList">
-          {learningCycle.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <li key={item.step}>
-                <Link href={item.href}>
-                  <span className="homeCycleNumber">{index + 1}</span>
-                  <Icon aria-hidden="true" />
-                  <strong>{item.step}</strong>
-                  <small>{item.description}</small>
-                </Link>
-              </li>
-            );
-          })}
-        </ol>
-      </section>
-
-      <section className="homeSupportBand" aria-labelledby="home-support-title">
-        <div>
-          <p>QUICK REFERENCE</p>
-          <h2 id="home-support-title">卓上で迷ったときの早見ページ</h2>
-        </div>
-        <nav aria-label="麻雀の早見ページ">
-          <Link href="/rules/frequent-yaku">よく見る役</Link>
-          <Link href="/rules/practical-waits">よく見る待ち</Link>
-          <Link href="/rules/practical-score">実戦の点数計算</Link>
-          <Link href="/tools/score-table">点数早見表</Link>
-        </nav>
       </section>
     </main>
   );
