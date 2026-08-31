@@ -110,15 +110,12 @@ export default function HomePage() {
           <div className="homeQuestionChoices" aria-label="選択肢">
             <div className="homeQuestionChoice">
               <img src="/tiles/pin1-66-90-l-emb.png" alt="1筒" />
-              <strong>1筒</strong>
             </div>
             <div className="homeQuestionChoice">
               <img src="/tiles/pin4-66-90-l-emb.png" alt="4筒" />
-              <strong>4筒</strong>
             </div>
             <div className="homeQuestionChoice">
               <img src="/tiles/man8-66-90-l-emb.png" alt="8萬" />
-              <strong>8萬</strong>
             </div>
           </div>
           <details className="homeQuestionAnswer">
