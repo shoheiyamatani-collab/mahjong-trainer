@@ -5587,31 +5587,252 @@ h2 {
   }
 }
 
-.scoreTableStack {
+.scoreTableGuidePage {
   display: grid;
-  gap: 18px;
+  gap: 24px;
+  padding-bottom: 64px;
 }
 
-.scoreTableCard {
+.scoreTableGuideHeader {
+  align-items: flex-start;
+  border-bottom: 1px solid #dce4df;
+  margin: 0;
+  padding: 8px 0 22px;
+}
+
+.scoreTableGuideHeader > div {
+  max-width: 760px;
+}
+
+.scoreTableGuideHeader h1 {
+  color: #17221c;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.18;
+}
+
+.scoreTableGuideHeader > div > p:last-child {
+  color: #536159;
+  font-weight: 700;
+  line-height: 1.75;
+  margin: 10px 0 0;
+}
+
+.scoreTableToolLink {
+  align-items: center;
+  background: #f4faf6;
+  border: 1px solid #9ccbad;
+  border-radius: 5px;
+  color: #075c37;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.92rem;
+  font-weight: 800;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  text-decoration: none;
+}
+
+.scoreTableToolLink:hover {
+  background: #e7f5eb;
+  border-color: #5da577;
+}
+
+.scoreTableToolLink svg,
+.scorePanelIcon svg {
+  height: 18px;
+  width: 18px;
+}
+
+.scoreReadingPanel {
   background: #ffffff;
   border: 1px solid var(--line);
   border-radius: 8px;
+  box-shadow: inset 0 4px 0 #2f9e44;
   display: grid;
-  gap: 14px;
+  gap: 18px;
+  padding: clamp(18px, 3vw, 24px);
+}
+
+.scorePanelHeading {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.scorePanelIcon {
+  align-items: center;
+  background: #e9f8ed;
+  border-radius: 5px;
+  color: #087747;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.scorePanelHeading p {
+  color: #b86300;
+  font-size: 0.72rem;
+  font-weight: 900;
+  margin: 0 0 2px;
+}
+
+.scorePanelHeading h2 {
+  color: #173f23;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.scoreReadingSteps {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.scoreReadingSteps li {
+  align-items: flex-start;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  min-width: 0;
+  padding: 4px 16px;
+}
+
+.scoreReadingSteps li + li {
+  border-left: 1px solid #dfe6e2;
+}
+
+.scoreStepNumber {
+  align-items: center;
+  background: #173f23;
+  border-radius: 50%;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.scoreReadingSteps small,
+.scoreReadingSteps strong {
+  display: block;
+}
+
+.scoreReadingSteps small {
+  color: #7a867f;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.scoreReadingSteps strong {
+  color: #173f23;
+  font-size: 1rem;
+}
+
+.scoreReadingSteps p {
+  color: #59675f;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.65;
+  margin: 6px 0 0;
+}
+
+.scoreTableSection,
+.scoreNoticeBlock,
+.scoreTableNextSection {
+  display: grid;
+  gap: 16px;
+}
+
+.scoreTableSectionHeading {
+  border-bottom: 2px solid #173f23;
+  padding-bottom: 14px;
+}
+
+.scoreTableStack {
+  display: grid;
+  gap: 20px;
+}
+
+.scoreTableCard {
+  align-items: start;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: inset 0 4px 0 #2f9e44;
+  display: grid;
+  gap: clamp(18px, 3vw, 28px);
+  grid-template-columns: minmax(220px, 0.38fr) minmax(0, 1fr);
   overflow: hidden;
-  padding: clamp(12px, 3vw, 18px);
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.scoreTableCard:nth-child(2) {
+  box-shadow: inset 0 4px 0 #1971c2;
+}
+
+.scoreTableCardHeader {
+  padding-top: 6px;
+}
+
+.scoreTableCardHeader > span {
+  color: #b86300;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 900;
+  margin-bottom: 7px;
+}
+
+.scoreTableCardHeader h3 {
+  color: #173f23;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.scoreTableCardHeader p {
+  color: #536159;
+  font-weight: 700;
+  line-height: 1.75;
+  margin: 10px 0 0;
+}
+
+.scoreTableImageFrame {
+  background: #f8faf7;
+  border: 1px solid rgba(32, 36, 35, 0.1);
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(8px, 2vw, 16px);
 }
 
 .scoreTableCard img {
-  border: 1px solid rgba(32, 36, 35, 0.12);
-  border-radius: 8px;
   display: block;
   height: auto;
+  max-width: 720px;
   width: 100%;
 }
 
-.compactSectionTitle {
+.scoreTableGuidePage .scoreNoticeBlock > .sectionTitle,
+.scoreTableGuidePage .scoreTableNextSection > .sectionTitle {
   margin-bottom: 0;
+}
+
+.scoreTableGuidePage .scoreNoticeCard {
+  box-shadow: inset 0 4px 0 #f08c00;
+}
+
+.scoreTableNextLinks {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .scoreGuideGrid,
@@ -6003,6 +6224,19 @@ h2 {
 }
 
 @media (max-width: 900px) {
+  .scoreReadingSteps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 18px;
+  }
+
+  .scoreReadingSteps li:nth-child(3) {
+    border-left: 0;
+  }
+
+  .scoreTableCard {
+    grid-template-columns: 1fr;
+  }
+
   .scoreGuideGrid,
   .scoreFocusGrid,
   .scoreExampleGrid,
@@ -6017,6 +6251,33 @@ h2 {
 }
 
 @media (max-width: 640px) {
+  .scoreTableGuidePage {
+    gap: 20px;
+  }
+
+  .scoreTableGuideHeader {
+    flex-direction: column;
+  }
+
+  .scoreTableToolLink {
+    width: 100%;
+  }
+
+  .scoreReadingSteps,
+  .scoreTableNextLinks {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreReadingSteps li {
+    padding: 12px 2px;
+  }
+
+  .scoreReadingSteps li + li,
+  .scoreReadingSteps li:nth-child(3) {
+    border-left: 0;
+    border-top: 1px solid #dfe6e2;
+  }
+
   .scoreGuideCard,
   .scoreFocusCard,
   .scoreExampleCard,
@@ -9848,8 +10109,7 @@ body .trainingWorkspacePage .beginnerLevel .segment.active::after {
   break-inside: avoid;
 }
 
-.legalCallout,
-.contactStatus {
+.legalCallout {
   background: #f1f8f4;
   border-left: 4px solid #17824f;
   border-radius: 4px;
@@ -9863,8 +10123,7 @@ body .trainingWorkspacePage .beginnerLevel .segment.active::after {
   margin-bottom: 6px;
 }
 
-.legalCallout p,
-.contactStatus {
+.legalCallout p {
   margin-bottom: 0;
 }
 
@@ -9921,59 +10180,93 @@ body .trainingWorkspacePage .beginnerLevel .segment.active::after {
   font-weight: 750;
 }
 
-.contactForm {
-  display: grid;
-  gap: 22px;
+.contactEmailPanel {
+  align-items: center;
+  background: #f4faf6;
+  border: 1px solid #b9d8c5;
+  border-radius: 6px;
+  display: flex;
+  gap: 18px;
   margin-top: 24px;
+  padding: 22px;
 }
 
-.contactForm label {
+.contactEmailIcon {
+  align-items: center;
+  background: #087546;
+  border-radius: 6px;
+  color: #ffffff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.contactEmailIcon svg {
+  height: 23px;
+  width: 23px;
+}
+
+.contactEmailContent {
+  align-items: center;
   display: grid;
-  gap: 8px;
+  flex: 1 1 auto;
+  gap: 4px 18px;
+  grid-template-columns: minmax(0, 1fr) auto;
 }
 
-.contactForm label > span {
-  color: #263a2f;
+.contactEmailContent > span {
+  color: #5a695f;
+  font-size: 0.82rem;
   font-weight: 750;
 }
 
-.contactForm input,
-.contactForm select,
-.contactForm textarea {
-  background: #ffffff;
-  border: 1px solid #bfc9c3;
+.contactEmailAddress {
+  color: #0d4f31;
+  font-size: clamp(1rem, 2.2vw, 1.18rem);
+  font-weight: 850;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.contactEmailButton {
+  align-items: center;
+  background: #0d4f31;
   border-radius: 6px;
-  color: #1e2b24;
-  font-size: 1rem;
-  min-height: 48px;
-  padding: 11px 13px;
-  width: 100%;
-}
-
-.contactForm textarea {
-  min-height: 190px;
-  resize: vertical;
-}
-
-.contactForm input:focus,
-.contactForm select:focus,
-.contactForm textarea:focus {
-  border-color: #087546;
-  box-shadow: 0 0 0 3px rgba(8, 117, 70, 0.13);
-  outline: 0;
-}
-
-.contactForm button {
-  background: #e3e8e5;
-  border: 1px solid #cbd3ce;
-  border-radius: 6px;
-  color: #657069;
-  cursor: not-allowed;
-  font-size: 0.98rem;
+  color: #ffffff !important;
+  display: inline-flex;
+  gap: 8px;
+  grid-column: 2;
+  grid-row: 1 / span 2;
   font-weight: 800;
-  justify-self: start;
+  justify-content: center;
   min-height: 48px;
-  padding: 11px 22px;
+  padding: 11px 18px;
+  text-decoration: none !important;
+}
+
+.contactEmailButton:hover {
+  background: #08683d;
+}
+
+.contactEmailButton svg {
+  height: 18px;
+  width: 18px;
+}
+
+.contactEmailNotes {
+  border-top: 1px solid #dfe5e1;
+  margin-top: 24px;
+  padding-top: 20px;
+}
+
+.contactEmailNotes strong {
+  color: #263a2f;
+}
+
+.contactEmailNotes ul {
+  margin-top: 10px;
 }
 
 .amazonAssociateStatement {
@@ -10070,6 +10363,22 @@ body .trainingWorkspacePage .beginnerLevel .segment.active::after {
   .legalDates div {
     display: grid;
     gap: 2px;
+  }
+
+  .contactEmailPanel {
+    align-items: flex-start;
+    padding: 18px;
+  }
+
+  .contactEmailContent {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contactEmailButton {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 12px;
+    width: 100%;
   }
 
   .siteFooterNavGroups {

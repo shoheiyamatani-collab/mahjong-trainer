@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Mail } from "lucide-react";
 import { LegalPage } from "../components/LegalPage";
 
 export const metadata: Metadata = {
@@ -6,8 +7,6 @@ export const metadata: Metadata = {
   description: "雀フォリオへの情報訂正、不具合報告、掲載・権利関係、広告・提携等に関するお問い合わせ窓口です。",
   alternates: { canonical: "/contact" }
 };
-
-const inquiryTypes = ["サイトについて", "情報の訂正", "不具合報告", "掲載・権利関係", "広告・提携", "その他"];
 
 export default function ContactPage() {
   return (
@@ -36,31 +35,30 @@ export default function ContactPage() {
       </section>
 
       <section>
-        <h2>お問い合わせフォーム</h2>
-        <p className="contactStatus" role="status">現在、送信機能を準備しています。このフォームからはまだ送信できません。</p>
-        {/* UIのみを提供しています。送信先を導入する際は、このformへ既存の安全な送信処理を接続します。 */}
-        <form className="contactForm">
-          <label>
-            <span>お名前 / ニックネーム</span>
-            <input name="name" type="text" autoComplete="name" placeholder="雀フォリオ太郎" />
-          </label>
-          <label>
-            <span>メールアドレス</span>
-            <input name="email" type="email" autoComplete="email" placeholder="example@example.com" />
-          </label>
-          <label>
-            <span>お問い合わせ種別</span>
-            <select name="category" defaultValue="">
-              <option value="" disabled>選択してください</option>
-              {inquiryTypes.map((type) => <option key={type} value={type}>{type}</option>)}
-            </select>
-          </label>
-          <label>
-            <span>お問い合わせ内容</span>
-            <textarea name="message" rows={8} placeholder="対象ページのURLや、確認してほしい内容をご記入ください。" />
-          </label>
-          <button type="button" disabled>送信機能は準備中です</button>
-        </form>
+        <h2>メールで問い合わせる</h2>
+        <p>下のボタンからメールを作成できます。内容を確認し、必要に応じて返信します。</p>
+        <div className="contactEmailPanel">
+          <span className="contactEmailIcon" aria-hidden="true"><Mail /></span>
+          <div className="contactEmailContent">
+            <span>お問い合わせ窓口</span>
+            <a className="contactEmailAddress" href="mailto:contact@jongfolio.com">contact@jongfolio.com</a>
+            <a
+              className="contactEmailButton"
+              href="mailto:contact@jongfolio.com?subject=%E9%9B%80%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E3%81%B8%E3%81%AE%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B"
+            >
+              <Mail aria-hidden="true" />
+              メールを作成する
+            </a>
+          </div>
+        </div>
+        <div className="contactEmailNotes">
+          <strong>メールにご記載ください</strong>
+          <ul>
+            <li>お問い合わせの種類と具体的な内容</li>
+            <li>対象となるページのURL</li>
+            <li>不具合の場合は、ご利用の端末やブラウザ</li>
+          </ul>
+        </div>
       </section>
     </LegalPage>
   );
