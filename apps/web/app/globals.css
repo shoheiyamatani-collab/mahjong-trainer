@@ -544,6 +544,10 @@ body .homeHeroBrandRow .homeHeroLogo {
   color: #153d27;
 }
 
+.homeQuestionPanel .homeTextLink {
+  margin-top: 18px;
+}
+
 .homeLearningSteps,
 .homeCycleList {
   list-style: none;

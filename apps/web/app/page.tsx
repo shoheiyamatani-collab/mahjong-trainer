@@ -53,9 +53,9 @@ const portalItems = [
 ] as const;
 
 const todayQuestionTiles = [
-  "man2", "man3", "man4", "man3", "man4", "man5",
-  "pin4", "pin5", "pin5", "pin5", "pin6",
-  "sou6", "sou7", "sou8"
+  "man3", "man4", "man5", "man6", "man8", "man8",
+  "pin1", "pin2", "pin3", "pin4",
+  "sou3", "sou4", "sou5", "sou6"
 ] as const;
 
 export default function HomePage() {
@@ -100,24 +100,28 @@ export default function HomePage() {
             <span>TODAY&apos;S QUESTION</span>
           </div>
           <h2>今日の1問</h2>
-          <p className="homeQuestionLead">この14枚の手に、必ず含まれる役はどれでしょう？</p>
-          <div className="homeQuestionTiles" aria-label="2萬 3萬 4萬 3萬 4萬 5萬 4筒 5筒 5筒 5筒 6筒 6索 7索 8索">
+          <p className="homeQuestionLead">このイーシャンテン、最も受け入れが広い打牌はどれでしょう？</p>
+          <div className="homeQuestionTiles" aria-label="3萬 4萬 5萬 6萬 8萬 8萬 1筒 2筒 3筒 4筒 3索 4索 5索 6索">
             {todayQuestionTiles.map((tile, index) => (
               <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
             ))}
           </div>
           <div className="homeQuestionChoices" aria-label="選択肢">
-            <span>役牌</span>
-            <span>タンヤオ</span>
-            <span>チャンタ</span>
+            <span>1筒</span>
+            <span>4筒</span>
+            <span>8萬</span>
           </div>
           <details className="homeQuestionAnswer">
             <summary>答えを見る</summary>
             <div>
               <CheckCircle2 aria-hidden="true" />
-              <p><strong>正解はタンヤオ。</strong>すべての牌が2〜8の数牌でできており、1・9・字牌を使っていません。</p>
+              <p><strong>正解は1筒または4筒。</strong>どちらもイーシャンテンを保ち、有効牌16種・54枚で最大です。</p>
             </div>
           </details>
+          <Link className="homeTextLink" href="/analysis/mahjong-tool#analysis-results">
+            <Search aria-hidden="true" />
+            牌理チェッカーで同じ牌姿を確認する
+          </Link>
         </article>
       </section>
     </main>

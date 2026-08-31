@@ -985,7 +985,7 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
         <TilePalette counts={state.counts} onAdd={(tile) => dispatch({ type: "add", tile })} />
       </section>
 
-      <section className="resultsPanel">
+      <section className="resultsPanel" id="analysis-results">
         <div className="panelHeader">
           <h2>打牌候補・有効牌比較</h2>
         </div>
