@@ -10514,29 +10514,55 @@ body .siteNav .siteNavIcon {
 }
 
 body .siteNav a.siteNavLink--analysis {
-  color: #07667d;
-}
-
-body .siteNav a.siteNavLink--analysis:hover,
-body .siteNav a.siteNavLink--analysis.isActive {
-  background: #eef9fb;
-  color: #005f76;
+  --site-nav-accent: #0a8767;
+  --site-nav-bg: #eaf7f2;
+  --site-nav-color: #075b49;
 }
 
 body .siteNav a.siteNavLink--training {
-  color: #d84a1b;
+  --site-nav-accent: #df7318;
+  --site-nav-bg: #fff3e5;
+  --site-nav-color: #934200;
 }
 
-body .siteNav a.siteNavLink--training:hover,
-body .siteNav a.siteNavLink--training.isActive {
-  background: #fff4ef;
-  color: #d43f10;
+body .siteNav a.siteNavLink--score {
+  --site-nav-accent: #2f7fba;
+  --site-nav-bg: #edf5fc;
+  --site-nav-color: #175985;
+}
+
+body .siteNav a.siteNavLink--video {
+  --site-nav-accent: #7d58a4;
+  --site-nav-bg: #f5eff9;
+  --site-nav-color: #604080;
 }
 
 body .siteNav a.siteNavLink--utility:hover,
 body .siteNav a.siteNavLink--utility.isActive {
   background: #f5f7f6;
   color: #172019;
+}
+
+body .siteNav a.siteNavLink--analysis,
+body .siteNav a.siteNavLink--training,
+body .siteNav a.siteNavLink--score,
+body .siteNav a.siteNavLink--video {
+  background: var(--site-nav-bg);
+  box-shadow: inset 0 -3px var(--site-nav-accent);
+  color: var(--site-nav-color);
+}
+
+body .siteNav a.siteNavLink--analysis:hover,
+body .siteNav a.siteNavLink--analysis.isActive,
+body .siteNav a.siteNavLink--training:hover,
+body .siteNav a.siteNavLink--training.isActive,
+body .siteNav a.siteNavLink--score:hover,
+body .siteNav a.siteNavLink--score.isActive,
+body .siteNav a.siteNavLink--video:hover,
+body .siteNav a.siteNavLink--video.isActive {
+  background: color-mix(in srgb, var(--site-nav-bg) 86%, var(--site-nav-accent));
+  box-shadow: inset 0 -4px var(--site-nav-accent);
+  color: var(--site-nav-color);
 }
 
 body .siteNav a.siteNavLink.isActive::after {
@@ -10548,11 +10574,19 @@ body .siteNav a.siteNavLink.isActive::after {
 }
 
 body .siteNav a.siteNavLink--analysis.isActive::after {
-  background: #07839d;
+  background: #0a8767;
 }
 
 body .siteNav a.siteNavLink--training.isActive::after {
-  background: #ef4e1b;
+  background: #df7318;
+}
+
+body .siteNav a.siteNavLink--score.isActive::after {
+  background: #2f7fba;
+}
+
+body .siteNav a.siteNavLink--video.isActive::after {
+  background: #7d58a4;
 }
 
 @media (max-width: 980px) {

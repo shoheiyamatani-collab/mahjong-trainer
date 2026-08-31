@@ -19,7 +19,7 @@ const navItems: SiteNavItem[] = [
     kind: "primary",
     tone: "training"
   },
-  { label: "点数計算ツール", href: "/tools", icon: "score", kind: "utility" },
+  { label: "点数計算ツール", href: "/tools", icon: "score", kind: "utility", tone: "score" },
   {
     label: "麻雀のルール",
     href: "/learn",
@@ -27,7 +27,14 @@ const navItems: SiteNavItem[] = [
     kind: "utility",
     visible: siteConfig.features.showRulesNavigation
   },
-  { label: "動画で学ぶ", href: "/videos/strategy", activePrefixes: ["/videos"], icon: "video", kind: "utility" },
+  {
+    label: "動画で学ぶ",
+    href: "/videos/strategy",
+    activePrefixes: ["/videos"],
+    icon: "video",
+    kind: "utility",
+    tone: "video"
+  },
   {
     label: "Mリーグ厳選切り抜きを見る",
     href: "/videos/mleague-clips",
