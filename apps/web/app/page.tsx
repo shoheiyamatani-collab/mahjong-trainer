@@ -110,19 +110,6 @@ export default function HomePage() {
           </div>
           <h1 id="home-title">雀フォリオ</h1>
           <p className="homeHeroTagline">麻雀を知る、学ぶ、強くなる。</p>
-          <p className="homeHeroDescription">
-            はじめて牌に触れる人から、実戦の判断を磨きたい人まで。
-            読む・見る・解く・解析するを、ひとつの場所でつなぎます。
-          </p>
-          <div className="homeHeroActions">
-            <Link className="homePrimaryAction" href="/learn/roadmap">
-              初心者ロードマップ
-              <ArrowRight aria-hidden="true" />
-            </Link>
-            <Link className="homeSecondaryAction" href="/trainer">
-              麻雀トレーニング
-            </Link>
-          </div>
         </div>
         <div className="homeHeroTiles" aria-hidden="true">
           {["man1", "man2", "man3", "pin5", "pin6", "pin7", "ji7"].map((tile) => (
@@ -222,7 +209,7 @@ export default function HomePage() {
               </li>
             ))}
           </ol>
-          <Link className="homeSecondaryAction homeLearningAction" href="/learn/roadmap">
+          <Link className="homeLearningAction" href="/learn/roadmap">
             全11STEPを見る
           </Link>
         </section>
