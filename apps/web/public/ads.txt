@@ -1,1 +1,1 @@
-# Google AdSenseの審査完了後、管理画面に表示される正式な販売者情報をこの行と置き換えてください。
+google.com, pub-7962600450986425, DIRECT, f08c47fec0942fa0
