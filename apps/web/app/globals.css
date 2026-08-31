@@ -92,6 +92,783 @@ h2 {
   white-space: nowrap;
 }
 
+/* Official home page */
+.siteMain.homePage {
+  gap: 54px;
+  max-width: 1220px;
+  padding-bottom: 72px;
+  padding-top: 24px;
+}
+
+.homeHero {
+  align-items: end;
+  background: #f3f8f4;
+  border-bottom: 3px solid #0d5b38;
+  border-top: 1px solid #d6e2da;
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  min-height: 470px;
+  overflow: hidden;
+  padding: 54px 52px 48px;
+}
+
+.homeHeroCopy {
+  align-self: center;
+  min-width: 0;
+}
+
+.homeHeroBrandRow {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+body .homeHeroBrandRow .homeHeroLogo {
+  background-position: -111px -186px;
+  background-size: 299px 299px;
+  border-radius: 16px;
+  flex: 0 0 68px;
+  height: 68px;
+  width: 68px;
+}
+
+.homeHeroEnglish,
+.homeHeroCategory,
+.homeSectionHeading p,
+.homeSupportBand > div > p {
+  font-weight: 850;
+  margin: 0;
+}
+
+.homeHeroEnglish {
+  color: #123d29;
+  font-size: 0.98rem;
+}
+
+.homeHeroCategory {
+  color: #b25c00;
+  font-size: 0.72rem;
+  margin-top: 3px;
+}
+
+.homeHero h1 {
+  color: #14211a;
+  font-size: 4.25rem;
+  font-weight: 900;
+  line-height: 1.04;
+  margin: 0;
+}
+
+.homeHeroTagline {
+  color: #07643c;
+  font-size: 1.5rem;
+  font-weight: 850;
+  line-height: 1.45;
+  margin: 14px 0 0;
+}
+
+.homeHeroDescription {
+  color: #4d5d54;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.9;
+  margin: 16px 0 0;
+  max-width: 650px;
+  word-break: keep-all;
+}
+
+.homeHeroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.homePrimaryAction,
+.homeSecondaryAction {
+  align-items: center;
+  border-radius: 6px;
+  display: inline-flex;
+  font-size: 0.94rem;
+  font-weight: 850;
+  gap: 9px;
+  justify-content: center;
+  min-height: 48px;
+  padding: 11px 18px;
+  text-decoration: none;
+}
+
+.homePrimaryAction {
+  background: #0d4f31;
+  border: 1px solid #0d4f31;
+  color: #ffffff;
+}
+
+.homePrimaryAction:hover {
+  background: #087044;
+}
+
+.homeSecondaryAction {
+  background: #ffffff;
+  border: 1px solid #9eb6a7;
+  color: #133c29;
+}
+
+.homeSecondaryAction:hover {
+  background: #e9f5ed;
+  border-color: #5b9871;
+}
+
+.homePrimaryAction svg,
+.homeSecondaryAction svg {
+  height: 18px;
+  width: 18px;
+}
+
+.homeHeroTiles {
+  align-items: flex-end;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  padding-bottom: 16px;
+  position: relative;
+}
+
+.homeHeroTiles::before {
+  background: #ffffff;
+  border: 1px solid #d7e0da;
+  bottom: 0;
+  content: "";
+  height: 20px;
+  left: -12px;
+  position: absolute;
+  right: -12px;
+}
+
+.homeHeroTiles img {
+  display: block;
+  filter: drop-shadow(0 10px 10px rgba(24, 57, 38, 0.15));
+  min-width: 0;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.homeHeroTiles img:nth-child(4),
+.homeHeroTiles img:nth-child(5) {
+  transform: translateY(-18px);
+}
+
+.homeQuickNav {
+  border-bottom: 1px solid #d9e1dc;
+  border-top: 1px solid #d9e1dc;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.homeQuickNav a {
+  align-items: center;
+  color: #23372d;
+  display: flex;
+  font-size: 0.86rem;
+  font-weight: 800;
+  gap: 9px;
+  justify-content: center;
+  min-height: 64px;
+  padding: 10px 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.homeQuickNav a + a {
+  border-left: 1px solid #d9e1dc;
+}
+
+.homeQuickNav a:hover {
+  background: #f1f8f4;
+  color: #087044;
+}
+
+.homeQuickNav svg {
+  color: #087044;
+  flex: 0 0 auto;
+  height: 20px;
+  width: 20px;
+}
+
+.homeSection {
+  display: grid;
+  gap: 22px;
+}
+
+.homeSectionHeading {
+  max-width: 760px;
+}
+
+.homeSectionHeading p,
+.homeSupportBand > div > p {
+  color: #b25c00;
+  font-size: 0.72rem;
+}
+
+.homeSectionHeading h2,
+.homeQuestionPanel h2,
+.homeLearningPanel h2,
+.homeCycleHeading h2,
+.homeSupportBand h2 {
+  color: #153d27;
+  font-weight: 850;
+  margin: 0;
+}
+
+.homeSectionHeading h2 {
+  font-size: 2rem;
+  margin-top: 5px;
+}
+
+.homeSectionHeading > span {
+  color: #56655d;
+  display: block;
+  font-weight: 650;
+  margin-top: 7px;
+}
+
+.homePortalGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.homePortalCard {
+  background: #ffffff;
+  border: 1px solid #d9e1dc;
+  border-top: 4px solid #16824f;
+  border-radius: 7px;
+  display: grid;
+  gap: 12px;
+  min-height: 250px;
+  min-width: 0;
+  padding: 21px;
+}
+
+.homePortalCard.homeTone-orange {
+  border-top-color: #d97706;
+}
+
+.homePortalCard.homeTone-blue {
+  border-top-color: #1d6fb8;
+}
+
+.homePortalCard.homeTone-red {
+  border-top-color: #bd3e35;
+}
+
+.homePortalCard.homeTone-teal {
+  border-top-color: #067d7a;
+}
+
+.homePortalTopline {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.homePortalTopline > span:last-child {
+  color: #68756e;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.homePortalIcon {
+  align-items: center;
+  background: #eaf6ee;
+  border-radius: 5px;
+  color: #0c7546;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.homeTone-orange .homePortalIcon {
+  background: #fff4e6;
+  color: #b85c00;
+}
+
+.homeTone-blue .homePortalIcon {
+  background: #edf6ff;
+  color: #165f9f;
+}
+
+.homeTone-red .homePortalIcon {
+  background: #fff1f0;
+  color: #a6332c;
+}
+
+.homeTone-teal .homePortalIcon {
+  background: #e8f7f6;
+  color: #006b68;
+}
+
+.homePortalIcon svg {
+  height: 19px;
+  width: 19px;
+}
+
+.homePortalCard h3 {
+  color: #193e29;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.homePortalCard p {
+  color: #5b6861;
+  font-size: 0.91rem;
+  font-weight: 600;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.homePortalCard > a,
+.homeTextLink {
+  align-items: center;
+  align-self: end;
+  color: #075f39;
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 850;
+  gap: 7px;
+  margin-top: auto;
+  text-decoration: none;
+}
+
+.homePortalCard > a svg,
+.homeTextLink svg {
+  height: 16px;
+  width: 16px;
+}
+
+.homeFeatureGrid {
+  align-items: stretch;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
+}
+
+.homeQuestionPanel,
+.homeLearningPanel {
+  border-radius: 8px;
+  min-width: 0;
+  padding: 28px;
+}
+
+.homeQuestionPanel {
+  background: #fffaf0;
+  border: 1px solid #ead7ab;
+}
+
+.homeLearningPanel {
+  background: #f4f8fb;
+  border: 1px solid #cddbe5;
+}
+
+.homePanelLabel {
+  align-items: center;
+  color: #a85a00;
+  display: flex;
+  font-size: 0.72rem;
+  font-weight: 850;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.homeLearningPanel .homePanelLabel {
+  color: #155f92;
+}
+
+.homePanelLabel svg {
+  height: 17px;
+  width: 17px;
+}
+
+.homeQuestionPanel h2,
+.homeLearningPanel h2,
+.homeCycleHeading h2 {
+  font-size: 1.55rem;
+  line-height: 1.4;
+}
+
+.homeQuestionLead,
+.homeLearningPanel > p,
+.homeCycleHeading > p {
+  color: #56655d;
+  font-weight: 650;
+  line-height: 1.75;
+  margin: 10px 0 0;
+}
+
+.homeQuestionTiles {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  margin-top: 20px;
+  min-width: 0;
+}
+
+.homeQuestionTiles img {
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.homeQuestionChoices {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.homeQuestionChoices span {
+  background: #ffffff;
+  border: 1px solid #d8c79e;
+  border-radius: 5px;
+  color: #4b4639;
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 9px;
+  text-align: center;
+}
+
+.homeQuestionAnswer {
+  margin-top: 14px;
+}
+
+.homeQuestionAnswer summary {
+  color: #875000;
+  cursor: pointer;
+  font-weight: 850;
+  padding: 8px 0;
+  width: fit-content;
+}
+
+.homeQuestionAnswer > div {
+  align-items: flex-start;
+  background: #ffffff;
+  border-left: 4px solid #1d8a50;
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  padding: 13px 14px;
+}
+
+.homeQuestionAnswer > div svg {
+  color: #16824f;
+  flex: 0 0 auto;
+  height: 20px;
+  margin-top: 2px;
+  width: 20px;
+}
+
+.homeQuestionAnswer p {
+  color: #4d5c54;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.homeQuestionAnswer strong {
+  color: #153d27;
+}
+
+.homeQuestionPanel .homeTextLink {
+  margin-top: 18px;
+}
+
+.homeLearningSteps,
+.homeCycleList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.homeLearningSteps {
+  border-bottom: 1px solid #cedbe3;
+  margin-top: 18px;
+}
+
+.homeLearningSteps li {
+  border-top: 1px solid #cedbe3;
+}
+
+.homeLearningSteps a {
+  align-items: center;
+  color: #273b32;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 72px minmax(0, 1fr) 18px;
+  min-height: 64px;
+  padding: 9px 4px;
+  text-decoration: none;
+}
+
+.homeLearningSteps a:hover {
+  color: #0c6840;
+}
+
+.homeLearningNumber {
+  color: #16689e;
+  font-size: 0.71rem;
+  font-weight: 850;
+}
+
+.homeLearningCopy strong,
+.homeLearningCopy small {
+  display: block;
+}
+
+.homeLearningCopy strong {
+  font-size: 0.96rem;
+}
+
+.homeLearningCopy small {
+  color: #687770;
+  font-size: 0.77rem;
+  font-weight: 650;
+  margin-top: 2px;
+}
+
+.homeLearningSteps svg {
+  height: 16px;
+  width: 16px;
+}
+
+.homeLearningAction {
+  margin-top: 18px;
+}
+
+.homeCycleSection {
+  background: #12382a;
+  color: #ffffff;
+  display: grid;
+  gap: 28px;
+  padding: 34px;
+}
+
+.homeCycleHeading .homePanelLabel {
+  color: #e8b763;
+}
+
+.homeCycleHeading h2 {
+  color: #ffffff;
+}
+
+.homeCycleHeading > p {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.homeCycleList {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.homeCycleList li + li {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.homeCycleList a {
+  color: #ffffff;
+  display: grid;
+  gap: 8px;
+  min-height: 145px;
+  padding: 6px 24px;
+  position: relative;
+  text-decoration: none;
+}
+
+.homeCycleList a:hover strong {
+  color: #f5c66f;
+}
+
+.homeCycleNumber {
+  color: #f5c66f;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.homeCycleList svg {
+  color: #75d3a5;
+  height: 26px;
+  width: 26px;
+}
+
+.homeCycleList strong {
+  font-size: 1.02rem;
+}
+
+.homeCycleList small {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.homeSupportBand {
+  align-items: center;
+  border-bottom: 1px solid #d7dfda;
+  border-top: 1px solid #d7dfda;
+  display: flex;
+  gap: 28px;
+  justify-content: space-between;
+  padding: 25px 4px;
+}
+
+.homeSupportBand h2 {
+  font-size: 1.25rem;
+  margin-top: 4px;
+}
+
+.homeSupportBand nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  justify-content: flex-end;
+}
+
+.homeSupportBand nav a {
+  color: #0b6740;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 1050px) {
+  .homeHero {
+    align-items: center;
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .homeHeroTiles {
+    max-width: 560px;
+  }
+
+  .homeQuickNav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .homeQuickNav a:nth-child(4) {
+    border-left: 0;
+  }
+
+  .homeQuickNav a:nth-child(n + 4) {
+    border-top: 1px solid #d9e1dc;
+  }
+
+  .homePortalGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeFeatureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .siteMain.homePage {
+    gap: 38px;
+    padding-inline: 12px;
+    padding-top: 12px;
+  }
+
+  .homeHero {
+    gap: 30px;
+    padding: 30px 20px 26px;
+  }
+
+  body .homeHeroBrandRow .homeHeroLogo {
+    background-position: -85px -143px;
+    background-size: 230px 230px;
+    border-radius: 12px;
+    flex-basis: 52px;
+    height: 52px;
+    width: 52px;
+  }
+
+  .homeHero h1 {
+    font-size: 2.8rem;
+  }
+
+  .homeHeroTagline {
+    font-size: 1.2rem;
+  }
+
+  .homeHeroActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .homeHeroTiles {
+    gap: 3px;
+  }
+
+  .homeQuickNav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .homeQuickNav a:nth-child(3),
+  .homeQuickNav a:nth-child(5) {
+    border-left: 0;
+  }
+
+  .homeQuickNav a:nth-child(3) {
+    border-top: 1px solid #d9e1dc;
+  }
+
+  .homeQuickNav a:nth-child(4) {
+    border-left: 1px solid #d9e1dc;
+  }
+
+  .homePortalGrid,
+  .homeCycleList {
+    grid-template-columns: 1fr;
+  }
+
+  .homePortalCard {
+    min-height: 0;
+  }
+
+  .homeQuestionPanel,
+  .homeLearningPanel,
+  .homeCycleSection {
+    padding: 21px 17px;
+  }
+
+  .homeQuestionChoices {
+    grid-template-columns: 1fr;
+  }
+
+  .homeCycleList li + li {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .homeCycleList a {
+    min-height: 0;
+    padding: 18px 4px;
+  }
+
+  .homeSupportBand {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .homeSupportBand nav {
+    justify-content: flex-start;
+  }
+}
+
 .scoreTableLink {
   align-items: center;
   background: #f4faf6;
