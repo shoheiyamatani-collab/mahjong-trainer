@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の点数計算問題10問｜初心者向け実戦練習",
@@ -69,6 +70,10 @@ export default function PracticalScoreCalculationQuizPage() {
         <section className="videoArticleCaution terminalChoiceChecklist"><p className="videoArticleSectionLabel">QUIZ ROUTINE</p><h2>1問ごとの確認順</h2><ol><li><b>親か子かを見る</b><span>この動画の問題は子を想定しています。</span></li><li><b>翻数を数える</b><span>役とドラを重複なく合計します。</span></li><li><b>ロン・ツモと門前・副露を分ける</b><span>点数表の種類を決めます。</span></li><li><b>平和・七対子・満貫を確認する</b><span>専用の欄へ切り替えます。</span></li><li><b>必要な問題だけ符を数える</b><span>暗刻や待ちの符を足します。</span></li></ol></section>
 
         <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>点数表を使って復習する</h2><div><Link href="/videos/strategy/easy-score-calculation-without-fu">簡単な点数計算方法を復習する</Link><Link href="/tools/score-table">初心者向け点数早見表を見る</Link><Link href="/rules/practical-score">実戦でよく見る点数計算を見る</Link></div></section>
+        <ClearRainBasicTheoryBook
+          heading="点数を分かった上で、実戦の選択を磨く"
+          description="点数計算を使えるようになると、打点を追うか、速度を優先するか、守備に回るかをより具体的に比べられます。初級者の実戦判断をまとめて復習できる一冊です。"
+        />
       </article>
     </main>
   );

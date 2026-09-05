@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀で面子を作りやすい形7選 | 四連形・中ぶくれ・リャンカンを牌図で解説",
@@ -186,6 +187,8 @@ export default function SevenMeldBuildingShapesArticlePage() {
           <p>形を見つけたら、すべての受け入れを数える必要はありません。「この形に3を引いたらどうなる？」と、次の1枚だけを想像します。完成面子と両面が同時に残るなら、価値の高い形です。</p>
           <p>慣れてきたら牌理チェッカーへ同じ形を入力し、どの打牌が受け入れを残せるか比較すると覚えやすくなります。</p>
         </section>
+
+        <ClearRainNanikiruBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

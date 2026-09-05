@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が覚えたい強い形7選 | アガリ率を上げる牌効率",
@@ -192,6 +193,8 @@ export default function SevenStrongShapesForWinningArticlePage() {
           <p>受け入れ枚数をすべて暗算する必要はありません。たとえば4567なら、3を加えて「345＋67」、8を加えて「45＋678」と、手牌を二つの組に分けてみます。</p>
           <p>牌理チェッカーへ形を含む手牌を入力すると、残した場合と崩した場合の受け入れを比較できます。動画で覚えた形を実際に動かすと、対局中にも見つけやすくなります。</p>
         </section>
+
+        <ClearRainNanikiruBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

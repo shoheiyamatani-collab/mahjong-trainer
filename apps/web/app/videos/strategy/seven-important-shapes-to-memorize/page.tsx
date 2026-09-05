@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が覚えたい重要な形7選 | 牌効率を牌図で解説",
@@ -165,6 +166,8 @@ export default function SevenImportantShapesToMemorizePage() {
           <h2>形だけで打牌を決めない</h2>
           <p>重要形は受け入れを広くする基本ですが、ドラ、役、残り枚数、巡目によって優先順位は変わります。まず形を見つけ、その後に打点と場況を比べる順番で使いましょう。</p>
         </section>
+
+        <HirasawaTileEfficiencyBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

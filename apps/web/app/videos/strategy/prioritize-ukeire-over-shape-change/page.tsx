@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の受け入れと変化｜何切るで優先する牌効率の基本",
@@ -94,6 +95,8 @@ export default function PrioritizeUkeireOverShapeChangePage() {
           <p>愚形のリーチのみを避けてタンヤオや平和を狙う場面では、受け入れを少し減らして良形変化を残すことがあります。ただし、これは直接の受け入れを把握したうえで、打点や待ちの価値を上乗せする応用判断です。</p>
           <p>初心者のうちは例外を先に真似せず、「受け入れを最大にするなら何を切るか」を説明できるようにしてから進めば十分です。</p>
         </section>
+
+        <HirasawaTileEfficiencyBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p><h2>受け入れを実際の手牌で比べる</h2>

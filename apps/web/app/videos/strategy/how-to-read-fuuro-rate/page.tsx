@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の副露率は何％が正解？初心者向け鳴きの考え方",
@@ -129,6 +130,10 @@ export default function HowToReadFuuroRatePage() {
             <Link href="/trainer">実戦問題で判断を試す</Link>
           </div>
         </section>
+        <HirasawaTileEfficiencyBook
+          heading="鳴きの振り返りを、手作りの基準から始める"
+          description="副露率の数字だけで鳴きの良し悪しは決まりません。鳴く前後で手牌がどれだけ進むかを、受け入れとブロックの視点から確認できます。"
+        />
       </article>
     </main>
   );

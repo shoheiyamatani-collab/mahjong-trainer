@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が間違えたくない何切る問題10問 | ブロックと対子の数え方",
@@ -172,6 +173,8 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
           <p>形の強さは、手牌全体のブロック数と対子の数で変わります。両面より対子を先に整理する場面もあれば、カンチャンやペンチャンより対子を残す場面もあります。</p>
           <div className="strategyKeyMessage"><strong>順番は、ブロック数 → 対子の数 → 形の強さです。</strong>この3つを確認してから、受け入れ枚数や変化を比べましょう。</div>
         </section>
+
+        <ClearRainNanikiruBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

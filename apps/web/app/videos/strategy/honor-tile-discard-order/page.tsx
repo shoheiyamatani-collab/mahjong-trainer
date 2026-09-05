@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の字牌の捨て順｜攻めと守りで変わる考え方",
@@ -72,6 +73,8 @@ export default function HonorTileDiscardOrderPage() {
           <p className="videoArticleSectionLabel">CHECK ORDER</p><h2>字牌を切る前の確認順</h2>
           <ol><li><b>場風と自風を確認する</b><span>東南西北が役になるかを最初に分けます。</span></li><li><b>手牌の速さと役を見る</b><span>役牌を重ねる価値がある手かを確認します。</span></li><li><b>場に見えている枚数を数える</b><span>重なる枚数と他家が持つ可能性を比べます。</span></li><li><b>攻めるか守るかを決める</b><span>攻撃価値と将来の安全度を同時に比較します。</span></li></ol>
         </section>
+
+        <ClearRainNanikiruBook />
 
         <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>役牌と手作りを続けて学ぶ</h2><div><Link href="/rules/yakuhai">役牌の条件を詳しく見る</Link><Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を見る</Link><Link href="/videos/strategy/beginner">初心者向け動画へ戻る</Link></div></section>
       </article>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の牌効率を基礎から学ぶ｜初心者向け完全ガイド",
@@ -104,6 +105,8 @@ export default function TileEfficiencyCompleteBeginnerGuidePage() {
           <p className="videoArticleSectionLabel">PRACTICE ROUTINE</p><h2>実戦で迷ったときの確認順</h2>
           <ol><li><b>シャンテン数を戻さない</b><span>唯一の対子・完成面子を先に守ります。</span></li><li><b>孤立牌が残っているか</b><span>残っていれば、つながりの弱い牌から整理します。</span></li><li><b>5ブロックか6ブロックか</b><span>6ブロックなら弱い候補をひとつ外します。</span></li><li><b>イーシャンテンの型を確認する</b><span>完全形・くっつき・ヘッドレスのどれに近いかを見ます。</span></li></ol>
         </section>
+
+        <HirasawaTileEfficiencyBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p><h2>総合講座を問題で定着させる</h2>

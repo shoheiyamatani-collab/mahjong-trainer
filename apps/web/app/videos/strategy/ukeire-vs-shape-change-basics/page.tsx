@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の受け入れとは？手変わりとの違いを初心者向けに解説",
@@ -120,6 +121,8 @@ export default function UkeireVsShapeChangeBasicsPage() {
           <h2>受け入れが最大なら必ず正解、ではない</h2>
           <p>実戦では、打点、役、待ちの良さ、安全度も比較します。ただし、それらを比べるためにも、まず各打牌の受け入れを正しく把握することが土台になります。</p>
         </section>
+
+        <HirasawaTileEfficiencyBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

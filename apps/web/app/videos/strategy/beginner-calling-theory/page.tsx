@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者の鳴き方｜まず覚えたいポン・チーの3基準",
@@ -108,6 +109,10 @@ export default function BeginnerCallingTheoryPage() {
           <p className="videoArticleSectionLabel">NEXT STEP</p><h2>問題形式で鳴きを練習する</h2>
           <div><Link href="/videos/strategy/calling-to-improve-wait-quiz">待ちを良くする何鳴く問題10問へ</Link><Link href="/videos/strategy/after-calling-tenpai">鳴いてテンパイした後の判断を見る</Link><Link href="/learn/calling">ポン・チー・カンの基本を復習する</Link></div>
         </section>
+        <HirasawaTileEfficiencyBook
+          heading="鳴き判断の前に、手作りの基本を固める"
+          description="鳴きで速度を生かすには、鳴く前の手牌がどれだけ進んでいるかを見極めることが大切です。受け入れとブロックの考え方を、何切る問題で確かめられます。"
+        />
       </article>
     </main>
   );

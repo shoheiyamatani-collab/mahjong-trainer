@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者がやってはいけない何切る3選｜シャンテン数の基本",
@@ -97,6 +98,8 @@ export default function ThreeShantenMistakesBeginnersAvoidPage() {
           <p>上級者は打点、待ち、安全度を上げるため、あえてシャンテン数を戻す場合があります。ただし、それはアガリまで遅くなるリスクと、得られるリターンを比べた判断です。</p>
           <p>まずは最短で進める打牌を選べるようにすることが先です。基本の選択が分かれば、後から例外を見ても混乱しにくくなります。</p>
         </section>
+
+        <HirasawaTileEfficiencyBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p><h2>受け入れの考え方へ進む</h2>

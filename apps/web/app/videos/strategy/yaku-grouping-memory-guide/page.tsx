@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の役を簡単に覚える方法 | 初心者向け4グループ分類",
@@ -128,6 +129,10 @@ export default function YakuGroupingMemoryGuidePage() {
             <Link href="/training/yaku-quiz">役判定クイズで確認する</Link>
           </div>
         </section>
+        <HirasawaTileEfficiencyBook
+          heading="役を覚えたら、アガリやすい手作りへ"
+          description="役を暗記した次は、役の種を残しながらテンパイへ近づく手作りが大切です。受け入れやブロックの考え方を、何切る問題と一緒に基礎から確認できます。"
+        />
       </article>
     </main>
   );

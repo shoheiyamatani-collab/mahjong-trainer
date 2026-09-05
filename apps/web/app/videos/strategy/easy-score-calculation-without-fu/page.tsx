@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の点数計算を簡単に覚える方法 | 20・30・40符の見分け方",
@@ -178,6 +179,10 @@ export default function EasyScoreCalculationWithoutFuArticlePage() {
             <Link href="/rules/yaku">役一覧で翻数を確認する</Link>
           </div>
         </section>
+        <ClearRainBasicTheoryBook
+          heading="点数計算を覚えた次に、実戦判断を広げる"
+          description="点数を確認できるようになったら、その手を速く進めるか、守るか、リーチや鳴きをどう選ぶかまで考えられるようになります。初級者がつまずきやすい判断を一冊で整理できます。"
+        />
       </article>
     </main>
   );

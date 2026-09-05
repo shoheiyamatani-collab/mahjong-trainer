@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HirasawaDefenseBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "現物がないときのベタオリ | 麻雀初心者の放銃を減らす方法",
@@ -115,6 +116,8 @@ export default function NoSafeTileDefenseTechniquesPage() {
             <li><strong>序盤の外側などを最後の比較材料にする</strong></li>
           </ol>
         </section>
+
+        <HirasawaDefenseBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

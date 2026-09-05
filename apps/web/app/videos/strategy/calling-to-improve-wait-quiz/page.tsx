@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀の何鳴く問題｜待ちを良くするチー・ポン10問",
@@ -70,6 +71,10 @@ export default function CallingToImproveWaitQuizPage() {
         <section className="videoArticleCaution terminalChoiceChecklist"><p className="videoArticleSectionLabel">QUIZ ROUTINE</p><h2>問題を解くときの4ステップ</h2><ol><li><b>現在の待ちを全部挙げる</b><span>単騎や複合待ちも見落とさないようにします。</span></li><li><b>待ちの近くで鳴ける牌を探す</b><span>チーとポンを分けて確認します。</span></li><li><b>鳴いた3枚を外して再分解する</b><span>残った牌から新しい待ちを探します。</span></li><li><b>待ちの残り枚数を比較する</b><span>場に見えている牌も引いて判断します。</span></li></ol></section>
 
         <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>鳴いた後の判断へ進む</h2><div><Link href="/videos/strategy/after-calling-tenpai">鳴いてテンパイした後の思考を見る</Link><Link href="/rules/practical-waits">実戦でよく見る待ち一覧を確認する</Link><Link href="/trainer">7枚形トレーニングへ進む</Link></div></section>
+        <ClearRainBasicTheoryBook
+          heading="鳴き判断を、実戦の基準へ広げる"
+          description="待ちを良くする鳴きだけでなく、速度・打点・守備を合わせて鳴くか決める考え方を整理できます。動画の問題で得た気づきを、実戦の判断へつなげたい人に向く一冊です。"
+        />
       </article>
     </main>
   );

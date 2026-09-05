@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が上級者に勝つ確率を上げる4つの基本 | 実戦判断の入門",
@@ -177,6 +178,8 @@ export default function BeginnerWinChanceBasicsArticlePage() {
           <p>まずは「相手がリーチしたら、自分がテンパイか確認する」だけでも十分です。慣れたら、門前テンパイでリーチを候補にする、鳴く前に速さと打点を言葉にする、と1つずつ増やします。</p>
           <p>勝敗ではなく、決めた基準を使えたかを振り返りましょう。正しい判断でも負ける局はありますが、同じ判断を積み重ねるほど長期の成績は安定しやすくなります。</p>
         </section>
+
+        <ClearRainBasicTheoryBook />
 
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>

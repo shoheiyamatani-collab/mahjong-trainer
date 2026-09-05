@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が基本役の次に覚えたい10役 | 打点を伸ばす役を牌姿で解説",
@@ -357,6 +358,10 @@ export default function ImportantYakuForHigherScoresArticlePage() {
             <Link href="/videos/strategy">ほかの麻雀戦術動画を見る</Link>
           </div>
         </section>
+        <ClearRainBasicTheoryBook
+          heading="役を覚えたら、打点と速度を比べて選ぶ"
+          description="役を作るだけでなく、手を遅くしすぎずに打点を伸ばす考え方が実戦では大切です。手作り、鳴き、押し引きをつないで、役を生かす判断を学べます。"
+        />
       </article>
     </main>
   );
