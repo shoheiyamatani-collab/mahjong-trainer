@@ -1,3 +1,5 @@
+import { addedVideoGuides } from "./strategy/videoLessonData";
+
 export type VideoGuide = {
   title: string;
   description: string;
@@ -301,6 +303,8 @@ export const videoChannels: Record<VideoChannel["slug"], VideoChannel> = {
         youtubeId: "7Cy92lt82N8",
         publisher: "クリアレインのアトリエ【麻雀解説】"
       },
+      addedVideoGuides.multiSidedWaits,
+      addedVideoGuides.riichiQuiz,
       {
         title: "鳴いてテンパイした後も手を良くする",
         description: "副露してテンパイした後も、さらに鳴いて打点を上げたり、待ちを広げたりできるケースを学ぶ動画です。",
@@ -371,6 +375,7 @@ export const videoChannels: Record<VideoChannel["slug"], VideoChannel> = {
         youtubeId: "Y9XXEwNmKcE",
         publisher: "発男道場【麻雀解説ch】"
       },
+      addedVideoGuides.betaoriPractice,
       {
         title: "気づかないうちにやっている麻雀の悪い癖3選",
         description: "覚えたての頃に身につきやすい、押し引き・役なしダマテン・生牌の字牌に関する3つの癖を見直す動画を紹介します。",
@@ -413,6 +418,7 @@ export const videoChannels: Record<VideoChannel["slug"], VideoChannel> = {
         youtubeId: "pDTj3jixyY4",
         publisher: "クリアレインのアトリエ【麻雀解説】"
       },
+      addedVideoGuides.discardReadingFundamentals,
       {
         title: "リーチ宣言牌から読み取れる3つの情報",
         description: "宣言牌が1・9、安全牌、先制リーチ者の現物だった場合に、待ちや手組みをどう推測できるか学ぶ動画を紹介します。",
@@ -496,6 +502,8 @@ export const advancedStrategyChannel: VideoChannel = {
       youtubeId: "7zl8NwudR5g",
       publisher: "発男道場【麻雀解説ch】"
     },
+    addedVideoGuides.tileEfficiencyExceptions,
+    addedVideoGuides.threeDimensionalNanikiru,
     {
       title: "孤立牌2・8より1・9を残す3つのケース",
       description: "通常は2・8の方が強いという基本を踏まえ、安全度、鳴き、複合形によって1・9の価値が逆転する条件を学ぶ動画です。",
@@ -538,6 +546,8 @@ export const advancedStrategyChannel: VideoChannel = {
       youtubeId: "QN7fXjs2PaY",
       publisher: "発男道場【麻雀解説ch】"
     },
+    addedVideoGuides.clearRainBadHand,
+    addedVideoGuides.hirasawaBadHand,
     {
       title: "複合形35677は3切り？7切り？",
       description: "頭候補、鳴き、打点、くっつきの強さから、35677を5677と3567のどちらへ整理するか学ぶ動画です。",
@@ -580,6 +590,7 @@ export const advancedStrategyChannel: VideoChannel = {
       youtubeId: "7alr7PlSN2M",
       publisher: "発男道場【麻雀解説ch】"
     },
+    addedVideoGuides.blockStructureReading,
     {
       title: "ベタオリで切る牌の優先順位",
       description: "スジ、序盤の外側、ワンチャンス、モロひっかけ、無スジを比較し、ベタオリ時にどの牌から切るかを学ぶ動画です。",
@@ -594,6 +605,9 @@ export const advancedStrategyChannel: VideoChannel = {
       youtubeId: "nSVatsm2P84",
       publisher: "発男道場【麻雀解説ch】"
     },
+    addedVideoGuides.pushFoldQuiz,
+    addedVideoGuides.betaoriRiskTest,
+    addedVideoGuides.mawashiUchi,
     {
       title: "3トイツ形を効率よくさばく方法",
       description: "3組ある対子をどのように2組へ整理するか、5ブロックと6ブロックで異なる判断基準を学ぶ動画です。",
@@ -708,6 +722,7 @@ export const advancedStrategyChannel: VideoChannel = {
       articleHref: "/videos/strategy/how-to-handle-2446-shape",
       youtubeId: "7XSu0hGAfeI",
       publisher: "発男道場【麻雀解説ch】"
-    }
+    },
+    addedVideoGuides.readingQuiz
   ]
 };
