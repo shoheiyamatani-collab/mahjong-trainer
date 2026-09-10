@@ -20,3 +20,4 @@ export * from "./startingHandRanking";
 export * from "./performance";
 export * from "./workerPolicy";
 export * from "./practicalTenpai";
+export * from "./recommendation";

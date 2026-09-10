@@ -4,6 +4,7 @@ import { useEffect, useMemo, useReducer, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpenCheck, Flame, TableProperties } from "lucide-react";
+import { HandInputStrip } from "../components/HandInputStrip";
 import {
   addTile,
   analyzeDiscards,
@@ -52,6 +53,24 @@ import {
 
 type Mode = "checker" | "beginnerIishanten" | "ukeireMax" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
 
+const TRAINER_HASH_MODES: Record<string, Mode> = {
+  "iishanten-nanikiru": "beginnerIishanten",
+  "ukeire-max": "ukeireMax",
+  "score-beginner": "scoreQuizBeginner",
+  "score-hard": "scoreQuizHard",
+  "chinitsu-waits": "chinitsu",
+  "seven-shape": "sevenShape"
+};
+
+const TRAINER_MODE_HASHES: Partial<Record<Mode, string>> = {
+  beginnerIishanten: "iishanten-nanikiru",
+  ukeireMax: "ukeire-max",
+  scoreQuizBeginner: "score-beginner",
+  scoreQuizHard: "score-hard",
+  chinitsu: "chinitsu-waits",
+  sevenShape: "seven-shape"
+};
+
 interface AppState {
   counts: Counts34;
   textInput: string;
@@ -59,6 +78,16 @@ interface AppState {
 }
 
 const PRACTICE_SESSION_SIZE = 10;
+
+function createSeededRandom(seed: number): () => number {
+  let state = seed >>> 0;
+  return () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+const INITIAL_UKEIRE_QUESTION = generateHardUkeireMaxQuestion(createSeededRandom(20260910));
 
 interface UkeirePracticeMistake {
   question: UkeireMaxQuestion;
@@ -847,10 +876,26 @@ export default function Home() {
   const [state, dispatch] = useReducer(reducer, syncCounts(initialCounts));
   const selectMode = (nextMode: Mode) => {
     setMode(nextMode);
+    if (!isAnalysisTool && !isScoreCalculator) {
+      const hash = TRAINER_MODE_HASHES[nextMode];
+      if (hash) window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${hash}`);
+    }
   };
 
   useEffect(() => {
-    setMode(isScoreCalculator ? "scoring" : isAnalysisTool ? "checker" : "ukeireMax");
+    if (isScoreCalculator || isAnalysisTool) {
+      setMode(isScoreCalculator ? "scoring" : "checker");
+      return;
+    }
+
+    const syncModeFromHash = () => {
+      const hash = window.location.hash.slice(1);
+      setMode(TRAINER_HASH_MODES[hash] ?? "ukeireMax");
+    };
+
+    syncModeFromHash();
+    window.addEventListener("hashchange", syncModeFromHash);
+    return () => window.removeEventListener("hashchange", syncModeFromHash);
   }, [isAnalysisTool, isScoreCalculator]);
 
   const pageEyebrow = isScoreCalculator ? "Mahjong Score Calculator" : isAnalysisTool ? "Mahjong Analysis Tool" : "Mahjong Training";
@@ -909,6 +954,7 @@ export default function Home() {
                   <div className="practiceLevelTitle">初心者向け</div>
                 </div>
                 <div className="segments practiceSegments">
+                  <ModeButton active={mode === "beginnerIishanten"} onClick={() => selectMode("beginnerIishanten")}><BookOpenCheck aria-hidden="true" />イーシャンテン何切る</ModeButton>
                   <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}><BookOpenCheck aria-hidden="true" />7枚形トレーニング</ModeButton>
                   <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}><BookOpenCheck aria-hidden="true" />点数計算問題</ModeButton>
                 </div>
@@ -968,8 +1014,12 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
           <h2>手牌</h2>
           <span>{tiles.length} / 14</span>
         </div>
-        {handShanten != null ? <ShantenBadge shanten={handShanten} /> : null}
-        <TileStrip tiles={tiles} onTileClick={(tile) => dispatch({ type: "remove", tile })} emptyText="牌を追加してください" />
+        <HandInputStrip
+          tiles={tiles}
+          imageSrc={tileImageSrc}
+          onRemove={(tile) => dispatch({ type: "remove", tile })}
+          status={handShanten != null ? <ShantenBadge shanten={handShanten} /> : null}
+        />
         <div className="actions">
           <button type="button" onClick={() => dispatch({ type: "undo" })}>一枚戻す</button>
           <button type="button" onClick={() => dispatch({ type: "clear" })}>クリア</button>
@@ -1004,7 +1054,7 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
 }
 
 function UkeireMaxMode() {
-  const [question, setQuestion] = useState<UkeireMaxQuestion>(() => generateUkeireQuestion([]));
+  const [question, setQuestion] = useState<UkeireMaxQuestion>(INITIAL_UKEIRE_QUESTION);
   const [selected, setSelected] = useState<Tile[]>([]);
   const [checked, setChecked] = useState(false);
   const [recentQuestionKeys, setRecentQuestionKeys] = useState<string[]>([]);
@@ -2197,7 +2247,7 @@ function ScoringMode() {
           <span>{totalDisplayedTiles} / {totalDisplayTarget}</span>
         </div>
         <div className="smallLabel">手牌 {sumCounts(counts)} / {closedHandTarget}</div>
-        <TileStrip tiles={tiles} onTileClick={removeScoreTile} emptyText="牌を追加してください" />
+        <HandInputStrip tiles={tiles} imageSrc={tileImageSrc} onRemove={removeScoreTile} />
         <div className="smallLabel">副露</div>
         <MeldList melds={melds} onRemove={removeScoreMeld} />
         <div className="actions">

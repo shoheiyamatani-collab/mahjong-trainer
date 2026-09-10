@@ -1,0 +1,57 @@
+.frame {
+  min-width: 0;
+  padding: 12px;
+}
+
+.status {
+  align-items: center;
+  display: flex;
+  height: 40px;
+  margin-bottom: 4px;
+}
+
+.canvas {
+  position: relative;
+}
+
+.slots {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(14, minmax(0, 44px));
+}
+
+.slot,
+.tile {
+  aspect-ratio: 66 / 90;
+  min-width: 0;
+}
+
+.tile {
+  background: transparent;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  touch-action: manipulation;
+}
+
+.tile:focus-visible {
+  outline: 2px solid #087952;
+  outline-offset: 1px;
+}
+
+.tile img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+.empty {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}

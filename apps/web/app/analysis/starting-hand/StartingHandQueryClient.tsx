@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { type Counts34 } from "@mahjong-trainer/mahjong-core";
+import { TILE_NAMES, DEFAULT_STRATEGY_SETTINGS, type Counts34, type Wind } from "@mahjong-trainer/mahjong-core";
 import {
   StartingHandAnalysisClient,
   type AnalysisRoleId,
@@ -39,6 +39,12 @@ export function StartingHandQueryClient({ initialMode, initialRoleId }: Starting
       initialCacheKey={searchParams.get("cacheKey") ?? undefined}
       initialRankingQuality={parseRankingQuality(searchParams.get("quality"))}
       initialLowLoadMode={searchParams.get("lowLoad") === "1"}
+      initialStrategySettings={{
+        roundWind: parseWind(searchParams.get("roundWind"), DEFAULT_STRATEGY_SETTINGS.roundWind),
+        seatWind: parseWind(searchParams.get("seatWind"), DEFAULT_STRATEGY_SETTINGS.seatWind),
+        doraIndicator: TILE_NAMES.find((tile) => tile === searchParams.get("doraIndicator")) ?? null,
+      }}
+      initialMaxAdaptiveTrials={searchParams.get("maxAdaptiveTrials") === "3000" ? 3000 : 1000}
       autoRun={searchParams.get("autoRun") === "1"}
       dedicatedAnalysisTab={searchParams.get("analysisTab") === "1"}
       rankingContext={hasRankingContext ? rankingContext : undefined}
@@ -66,4 +72,8 @@ function parseOptionalNumber(value: string | null): number | undefined {
 
 function parseRankingQuality(value: string | null): RankingQuality | undefined {
   return value === "fast" || value === "adaptive" || value === "full" ? value : undefined;
+}
+
+function parseWind(value: string | null, fallback: Wind): Wind {
+  return value === "東" || value === "南" || value === "西" || value === "北" ? value : fallback;
 }

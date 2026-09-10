@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { recommendationHelp } from "./recommendationContent";
 import {
   chantaStrategyItems,
   chiitoitsuStrategyItems,
@@ -32,6 +33,7 @@ export default function StartingHandHelpPage() {
       </div>
 
       <nav className="analysisHelpNav" aria-label="ページ内メニュー">
+        <a href="#recommendations">構想のおすすめ度</a>
         <a href="#practical-tenpai">実戦テンパイスコア</a>
         <a href="#metrics">3つの到達率</a>
         <a href="#comparison-targets">比較する手役・戦略</a>
@@ -51,8 +53,16 @@ export default function StartingHandHelpPage() {
 
       <section className="analysisHelpSection">
         <h2>この機能で分かること</h2>
-        <p>入力された13枚の配牌から、7つの手役とリーチ戦略をそれぞれ全力で進めた場合に、どの狙いが専用テンパイへ到達しやすいかを比較します。</p>
+        <p>13枚の配牌から本線・対抗・サブ・ロマンを比較し、狙いの理由と方針を再評価するツモを表示します。従来の7つの手役とリーチ戦略の対局シミュレーションは、構想を考える参考データとして残しています。</p>
         <p>通常の打ち方をした場合の実戦成績や、最も勝ちやすい打ち方を示すものではありません。各AIは対象の手役またはリーチ可能テンパイを最優先して進行します。</p>
+      </section>
+
+      <section className="analysisHelpSection" id="recommendations">
+        <h2>構想のおすすめ度</h2>
+        <p>評価モデル：{recommendationHelp.version}</p>
+        <p>おすすめ度 ＝ 以下の8軸の加重平均 − 手役固定・速度低下・ドラ利用の制約による減点</p>
+        <dl>{recommendationHelp.axes.map((axis) => <div key={axis.key}><dt><strong>{axis.label}（{Math.round(axis.weight)}%）</strong></dt><dd>{axis.description}</dd></div>)}</dl>
+        {recommendationHelp.sections.map((section) => <div key={section.title}><h3>{section.title}</h3>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>)}
       </section>
 
       <section className="analysisHelpSection" id="comparison-targets">
@@ -234,7 +244,7 @@ export default function StartingHandHelpPage() {
         <ul>{simulationRuleItems.map((item) => <li key={item}>{item}</li>)}</ul>
         <h3>試行回数</h3>
         <p>試行回数が多いほど結果のばらつきは小さくなります。ただし、成立率が低い役は回数を増やしても安定しにくい場合があります。</p>
-        <p>「高速」は各AIを100試行して速報を表示します。「自動精密」は速報上位と僅差の3〜4AIだけを、同じ100試行を捨てずに1,000試行まで継続します。「全AI精密」は8AIすべてを1,000試行します。単独分析では、選択したAIだけを10,000試行する詳細分析も選べます。</p>
+        <p>「高速」は各AIを100試行して速報を表示します。「自動精密」はおすすめ度が僅差の最大4AIを、300回、1,000回へ段階的に追加します。上限3,000回も選択でき、途中で差が開けば終了します。済んだ試行は繰り返しません。「全AI精密」は8AIすべてを1,000試行します。単独分析では、選択したAIだけを10,000試行する詳細分析も選べます。</p>
         <p>計算は端末内の専用ワーカーで行います。PCでは最大4本、一般的なスマートフォンでは2本、低性能端末または低負荷モードでは1本を使うため、計算中も画面操作を妨げにくい構成です。計算は途中で中止できます。</p>
         <p>同じ条件の結果はこのタブ内へ一時保存されます。ランキングから各AIの詳細へ移動した場合や、同じ条件を再度開いた場合は保存済み結果を再利用し、不要な再計算を行いません。</p>
         <p>同じ配牌・乱数シード・AIバージョン・ルールバージョンなら、原則として同じ結果を再現できます。</p>

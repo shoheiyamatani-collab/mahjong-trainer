@@ -12,8 +12,8 @@ import {
   TOITOI_AI_VERSION,
 } from "@mahjong-trainer/mahjong-core";
 
-export const STARTING_HAND_HELP_VERSION = "help-2.2.0";
-export const STARTING_HAND_HELP_UPDATED = "2026年8月1日";
+export const STARTING_HAND_HELP_VERSION = "help-3.0.0";
+export const STARTING_HAND_HELP_UPDATED = "2026年9月7日";
 
 export const chantaStrategyItems = [
   "123・789を作るチーを優先します。",

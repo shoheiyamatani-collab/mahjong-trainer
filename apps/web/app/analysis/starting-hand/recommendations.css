@@ -1,0 +1,80 @@
+.strategyTileFieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.startingHandAnalysis .analysisRunButton { background: #18756e; color: #fff; }
+.startingHandAnalysis .analysisRunButton:hover:not(:disabled) { background: #125951; color: #fff; }
+.strategySettings { margin-top: 20px; border-top: 1px solid #dce5e1; padding-top: 14px; }
+.strategySettings summary, .strategyAllDetails > summary, .strategySimulationDetails > summary { cursor: pointer; font-weight: 700; padding: 12px 0; }
+.strategySettingsFields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-top: 12px; }
+.strategySettings p, .strategySimulationDetails > p { color: #596761; font-size: 13px; line-height: 1.7; }
+.strategyDoraPreview { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.strategyDoraPreview img { width: 26px; height: 36px; object-fit: contain; }
+.strategyRecommendations { margin: 28px 0 20px; }
+.strategyConclusion { border-top: 3px solid #18756e; padding: 22px 0 24px; }
+.strategyDiagnosis { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: #14655e; }
+.strategyDiagnosis svg { width: 22px; height: 22px; flex: 0 0 22px; }
+.strategyDiagnosis strong { font-size: 16px; }
+.strategyDiagnosis span { font-size: 13px; color: #586b65; }
+.strategyConclusion h2 { font-size: 24px; margin: 20px 0 12px; line-height: 1.45; }
+.strategyConclusion > p { font-size: 16px; line-height: 1.95; max-width: 80ch; margin: 10px 0; }
+.strategyConclusion .strategyCloseCall { font-size: 14px; color: #14655e; font-weight: 700; }
+.strategyConclusion > small, .strategyPivotSection > small { color: #65716c; font-size: 12px; line-height: 1.7; display: block; }
+.strategySectionHeading { display: flex; align-items: center; gap: 9px; margin-bottom: 16px; }
+.strategySectionHeading svg { width: 20px; height: 20px; color: #18756e; }
+.strategySectionHeading h2 { font-size: 19px; margin: 0; }
+.strategyCards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.strategyCard { min-width: 0; padding: 18px 20px; background: #fff; border: 1px solid #dce5e1; border-radius: 8px; }
+.strategyCard.primary { border-top: 4px solid #18756e; padding-top: 15px; background: #f3faf7; }
+.strategyCard.avoid { background: #f7f8f8; }
+.strategyCard > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.strategyTier { font-size: 14px; color: #14655e; font-weight: 800; border-bottom: 2px solid currentColor; padding-bottom: 3px; }
+.strategyCard.avoid .strategyTier { color: #626d68; }
+.strategyScore { display: grid; text-align: right; gap: 3px; }
+.strategyScore > small { font-size: 11px; color: #62716b; }
+.strategyScore strong { font-size: 28px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.strategyScore strong small { font-size: 12px; font-weight: 500; color: #66736e; }
+.strategyCard h3 { font-size: 19px; line-height: 1.5; margin: 10px 0 4px; overflow-wrap: anywhere; }
+.strategyTierDescription { font-size: 12px; color: #67746d; margin: 0 0 15px; }
+.strategyCard h4 { font-size: 13px; margin: 12px 0 7px; }
+.strategyCard ul { padding-left: 20px; margin: 8px 0 14px; }
+.strategyCard li, .strategyCard details p { font-size: 14px; line-height: 1.8; margin-bottom: 5px; }
+.strategyCard details > summary { cursor: pointer; font-size: 13px; color: #396258; padding: 6px 0; }
+.strategyEvidence { display: flex; flex-wrap: wrap; gap: 4px 14px; color: #64716b; font-size: 11px; line-height: 1.6; margin-top: 14px; }
+.strategyEvidence small { flex-basis: 100%; font-size: 11px; }
+.strategyPivotSection { padding: 28px 0; margin-top: 16px; border-bottom: 1px solid #dce5e1; }
+.strategyPivotSection > p { font-size: 14px; color: #52665c; }
+.strategyPivots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; margin: 12px 0; }
+.strategyPivot { display: flex; align-items: center; gap: 10px; padding: 14px 0; border-bottom: 1px solid #e2e9e5; min-width: 0; }
+.strategyPivot > img { flex: 0 0 33px; width: 33px; height: 45px; object-fit: contain; }
+.strategyPivot > svg { flex: 0 0 16px; width: 16px; height: 16px; color: #708079; }
+.strategyPivot > div:not(.strategyPivotDiscard) { display: grid; gap: 3px; flex: 1; min-width: 0; }
+.strategyPivot strong { font-size: 14px; overflow-wrap: anywhere; }
+.strategyPivot div > span { font-size: 12px; color: #18756e; }
+.strategyPivot small { color: #6e7a74; font-size: 11px; }
+.strategyPivotDiscard { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.strategyPivotDiscard > img { object-fit: contain; }
+.strategyAllDetails { padding: 12px 0; }
+.strategyHandFeatures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 12px 0; margin: 0; }
+.strategyHandFeatures dt { font-size: 12px; color: #5f6c65; }
+.strategyHandFeatures dd { margin: 4px 0 0; font-size: 15px; font-weight: 600; }
+.strategyDetailList > details { border-top: 1px solid #dce5e1; padding: 14px 0; }
+.strategyDetailList summary { cursor: pointer; font-size: 14px; }
+.strategyDetailList summary span:last-child { float: right; font-variant-numeric: tabular-nums; color: #446a5e; }
+.strategyDetailList p { font-size: 13px; line-height: 1.7; }
+.strategyAxes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; margin: 18px 0; }
+.strategyAxes > div { display: grid; grid-template-columns: 100px minmax(0, 1fr) 30px; align-items: center; gap: 8px; font-size: 12px; }
+.strategyAxes meter { width: 100%; height: 8px; }
+.strategyAxes meter::-webkit-meter-optimum-value { background: #2c8675; }
+.strategyAxes span { font-variant-numeric: tabular-nums; text-align: right; }
+.strategySamplingNote { color: #52655d; font-size: 13px; line-height: 1.7; }
+.strategySimulationDetails { border-top: 1px solid #bdcbc4; padding-top: 8px; }
+.strategySettings summary:focus-visible, .strategyCard summary:focus-visible, .strategyAllDetails summary:focus-visible, .strategySimulationDetails summary:focus-visible { outline: 2px solid #18756e; outline-offset: 4px; }
+@media (max-width: 640px) {
+  .strategyCards, .strategyPivots, .strategyAxes { grid-template-columns: minmax(0, 1fr); }
+  .strategyDiagnosis span { flex-basis: 100%; }
+  .strategyConclusion h2 { font-size: 21px; }
+  .strategyConclusion > p { font-size: 15px; }
+  .strategyCard { padding: 16px; }
+  .strategyCard.primary { padding-top: 13px; }
+  .strategyHandFeatures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strategyPivotDiscard > span { max-width: 3em; line-height: 1.5; }
+  .strategyDetailList summary span:last-child { float: none; display: block; margin: 5px 0 0 18px; }
+}
