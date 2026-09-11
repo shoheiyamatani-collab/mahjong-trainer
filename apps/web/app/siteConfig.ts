@@ -11,8 +11,10 @@ export const siteConfig = {
     tagline: "麻雀を知る、学ぶ、強くなる。"
   },
   features: {
-    // trueに戻すと、保管中のMリーグ関連導線をサイト全体へ再掲載できます。
+    // Mリーグ動画は保管したまま、必要になるまで導線を非表示にします。
     showMLeagueLinks: false,
+    // 対局情報サイトは環境変数が未設定の公開環境でも既定URLへ案内します。
+    showMLeagueDirectoryLink: Boolean(mLeagueDirectoryUrl),
     // ルール記事は残したまま、ヘッダーの入口だけを一時的に非表示にします。
     showRulesNavigation: false
   },

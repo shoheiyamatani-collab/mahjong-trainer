@@ -42,7 +42,7 @@ const navItems: SiteNavItem[] = [
     icon: "mleague",
     kind: "utility",
     tone: "mleague",
-    visible: siteConfig.features.showMLeagueLinks
+    visible: siteConfig.features.showMLeagueDirectoryLink
   },
   {
     label: "初心者ロードマップ",
