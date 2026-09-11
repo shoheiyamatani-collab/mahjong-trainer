@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Calculator, Search, SquarePlay, Target } from "lucide-react";
+import { BookOpen, Calculator, Map, Search, SquarePlay, Target, Trophy } from "lucide-react";
 
-type SiteNavIcon = "analysis" | "training" | "score" | "rules" | "video";
+type SiteNavIcon = "analysis" | "training" | "score" | "rules" | "video" | "mleague" | "roadmap";
 
 export type SiteNavItem = {
   label: string;
@@ -13,7 +13,7 @@ export type SiteNavItem = {
   external?: boolean;
   icon?: SiteNavIcon;
   kind?: "primary" | "utility";
-  tone?: "analysis" | "training" | "score" | "video";
+  tone?: "analysis" | "training" | "score" | "video" | "mleague" | "roadmap";
   visible?: boolean;
 };
 
@@ -23,6 +23,8 @@ const navIcons = {
   score: Calculator,
   rules: BookOpen,
   video: SquarePlay,
+  mleague: Trophy,
+  roadmap: Map,
 } as const;
 
 export function SiteNavigation({ items }: { items: SiteNavItem[] }) {

@@ -1,20 +1,81 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { PageHero, SectionTitle } from "../../components/SiteSections";
-import { roadmapSteps } from "../../siteData";
+import { learnArticles } from "../../siteData";
+import { RoadmapLearningBoard } from "./RoadmapLearningBoard";
 
-const roadmapVisuals: Record<number, { label: string; tiles: string[] }> = {
-  1: { label: "麻雀で使う牌の例", tiles: ["man1", "pin5", "sou7", "ji6", "man7"] },
-  2: { label: "萬子・筒子・索子・字牌の例", tiles: ["man2", "man5", "pin3", "pin8", "sou4", "sou9", "ji1", "ji7"] },
-  3: { label: "ツモって捨てる流れの例", tiles: ["man2", "man3", "man4", "pin6", "pin7", "pin8", "sou5", "sou6", "sou7"] },
-  4: { label: "面子と雀頭の例", tiles: ["man2", "man3", "man4", "pin5", "pin5", "pin5", "sou7", "sou7"] },
-  5: { label: "4面子1雀頭の例", tiles: ["man1", "man2", "man3", "pin4", "pin5", "pin6", "sou7", "sou8", "sou9", "ji7", "ji7"] },
-  6: { label: "役が必要な手牌の例", tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "ji2", "ji2"] },
-  7: { label: "ツモとロンの待ち牌例", tiles: ["man3", "man4", "man5", "pin4", "pin5", "pin6", "sou4", "sou5", "sou6", "man7"] },
-  8: { label: "鳴きで作る面子の例", tiles: ["ji7", "ji7", "ji7", "man2", "man3", "man4", "pin6", "pin7", "pin8"] },
-  9: { label: "テンパイと待ちの例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou4", "sou5", "sou6", "man5", "man6"] },
-  10: { label: "何切るで比べる手牌の例", tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou5", "sou6", "sou8", "ji1", "ji1"] },
-  11: { label: "点数計算は後から覚える例", tiles: ["man2", "man3", "man4", "pin4", "pin5", "pin6", "sou6", "sou7", "sou8", "ji5", "ji5"] }
+type RoadmapVisual = {
+  label: string;
+  groups: { label: string; tiles: string[] }[];
+};
+
+const roadmapVisuals: Record<number, RoadmapVisual> = {
+  1: {
+    label: "4つの面子と雀頭をそろえた基本のアガリ形",
+    groups: [{ label: "完成した14枚", tiles: ["man1", "man2", "man3", "man4", "man5", "man6", "pin2", "pin3", "pin4", "sou7", "sou8", "sou9", "ji7", "ji7"] }]
+  },
+  2: {
+    label: "萬子・筒子・索子・字牌の4種類",
+    groups: [
+      { label: "萬子", tiles: ["man1", "man5", "man9"] },
+      { label: "筒子", tiles: ["pin1", "pin5", "pin9"] },
+      { label: "索子", tiles: ["sou1", "sou5", "sou9"] },
+      { label: "字牌", tiles: ["ji1", "ji2", "ji3", "ji4", "ji6", "ji5", "ji7"] }
+    ]
+  },
+  3: {
+    label: "手牌13枚に1枚ツモり、不要な1枚を捨てる",
+    groups: [
+      { label: "手牌13枚", tiles: ["man1", "man2", "man3", "man4", "man5", "man6", "pin2", "pin3", "pin4", "sou6", "sou7", "sou8", "ji7"] },
+      { label: "ツモ牌", tiles: ["pin5"] }
+    ]
+  },
+  4: {
+    label: "順子・刻子が面子、同じ牌2枚が雀頭",
+    groups: [
+      { label: "順子", tiles: ["man2", "man3", "man4"] },
+      { label: "刻子", tiles: ["ji1", "ji1", "ji1"] },
+      { label: "雀頭", tiles: ["pin5", "pin5"] }
+    ]
+  },
+  5: {
+    label: "4面子1雀頭で作る14枚の基本形",
+    groups: [{ label: "4面子 ＋ 1雀頭", tiles: ["man1", "man2", "man3", "man4", "man5", "man6", "pin2", "pin3", "pin4", "sou7", "sou8", "sou9", "ji7", "ji7"] }]
+  },
+  6: {
+    label: "2から8の数牌だけで作ったタンヤオの例",
+    groups: [{ label: "役あり：タンヤオ", tiles: ["man2", "man3", "man4", "man4", "man5", "man6", "pin2", "pin3", "pin4", "sou6", "sou7", "sou8", "pin5", "pin5"] }]
+  },
+  7: {
+    label: "最後の5筒を自分で引けばツモ、相手から出ればロン",
+    groups: [
+      { label: "待っている13枚", tiles: ["man1", "man2", "man3", "man4", "man5", "man6", "pin2", "pin3", "pin4", "sou7", "sou8", "sou9", "pin5"] },
+      { label: "ツモ・ロン牌", tiles: ["pin5"] }
+    ]
+  },
+  8: {
+    label: "白をポンして、鳴いたあとにも役牌を残す例",
+    groups: [
+      { label: "ポンした白", tiles: ["ji6", "ji6", "ji6"] },
+      { label: "残りの手牌", tiles: ["man2", "man3", "man4", "man4", "man5", "man6", "pin6", "pin7", "pin8", "ji7", "ji7"] }
+    ]
+  },
+  9: {
+    label: "2萬から6萬の連続形で、1萬・4萬・7萬を待つテンパイ",
+    groups: [
+      { label: "テンパイの13枚", tiles: ["man2", "man3", "man4", "man5", "man6", "pin2", "pin3", "pin4", "sou6", "sou7", "sou8", "ji7", "ji7"] },
+      { label: "一四七待ち", tiles: ["man1", "man4", "man7"] }
+    ]
+  },
+  10: {
+    label: "つながった数牌を残し、孤立した東を切る何切る例",
+    groups: [
+      { label: "残したい13枚", tiles: ["man1", "man2", "man3", "man3", "man4", "man5", "pin4", "pin5", "pin6", "sou6", "sou7", "ji7", "ji7"] },
+      { label: "切る候補", tiles: ["ji1"] }
+    ]
+  },
+  11: {
+    label: "完成した手牌を見ながら点数計算を確認する",
+    groups: [{ label: "役牌・白のある完成形", tiles: ["man1", "man2", "man3", "man4", "man5", "man6", "pin7", "pin8", "pin9", "ji6", "ji6", "ji6", "ji7", "ji7"] }]
+  }
 };
 
 export const metadata: Metadata = {
@@ -23,50 +84,24 @@ export const metadata: Metadata = {
 };
 
 export default function LearnRoadmapPage() {
-  return (
-    <main className="siteMain learningRoadmapPage">
-      <PageHero
-        eyebrow="Roadmap"
-        title="初心者ロードマップ"
-        description="各ステップから短い記事を読めます。まずは順番に読み進めて、分からないところだけ戻って復習しましょう。"
-        primaryLink={{ label: "STEP 1から読む", href: "/learn/what-is-mahjong" }}
-        secondaryLink={{ label: "初めて学ぶへ戻る", href: "/learn" }}
-      />
+  const steps = learnArticles.map((article) => {
+    const visual = roadmapVisuals[article.step];
 
-      <section id="roadmap">
-        <SectionTitle title="初心者ロードマップ" description="麻雀をこれから覚える人向けに、最初に必要な順番だけに絞っています。" />
-        <div className="roadmapGrid">
-          {roadmapSteps.map((step) => (
-            <article className="roadmapCard" key={step.step}>
-              <div className="roadmapCardBody">
-                <div className="stepNumber">STEP {step.step}</div>
-                <h2>{step.title}</h2>
-                <p>{step.description}</p>
-                <div className="roadmapActions">
-                  <Link className="cardButton" href={step.readHref}>読む</Link>
-                </div>
-              </div>
-              <RoadmapVisual step={step.step} />
-            </article>
-          ))}
-        </div>
-      </section>
+    return {
+      step: article.step,
+      title: article.title,
+      description: article.description,
+      href: `/learn/${article.slug}`,
+      learnPoints: article.learnPoints,
+      tiles: visual?.groups.flatMap((group) => group.tiles) ?? [],
+      tileGroups: visual?.groups ?? [],
+      visualLabel: visual?.label ?? `${article.title}の牌例`
+    };
+  });
+
+  return (
+    <main className="siteMain learningRoadmapPage roadmapBoardPage">
+      <RoadmapLearningBoard steps={steps} />
     </main>
-  );
-}
-
-function RoadmapVisual({ step }: { step: number }) {
-  const visual = roadmapVisuals[step];
-
-  if (!visual) {
-    return null;
-  }
-
-  return (
-    <div className="roadmapCardVisual" aria-label={visual.label}>
-      {visual.tiles.map((tile, index) => (
-        <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-      ))}
-    </div>
   );
 }

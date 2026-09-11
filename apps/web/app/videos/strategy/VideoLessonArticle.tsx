@@ -6,6 +6,7 @@ import {
   HirasawaDefenseBook,
   HirasawaTileEfficiencyBook
 } from "../../components/VideoBookRecommendation";
+import { VideoArticleCompactContent } from "./VideoArticleCompactContent";
 import type { VideoLesson, VideoLessonBook } from "./videoLessonData";
 
 export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
@@ -27,6 +28,9 @@ export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
 
 export function VideoLessonArticle({ lesson }: { lesson: VideoLesson }) {
   const videoUrl = `https://www.youtube.com/watch?v=${lesson.guide.youtubeId}`;
+  const relatedLinks = [...lesson.nextLinks, ...lesson.relatedLinks]
+    .filter((link, index, links) => links.findIndex((candidate) => candidate.href === link.href) === index)
+    .slice(0, 4);
 
   return (
     <main className="siteMain videoArticlePage">
@@ -56,82 +60,33 @@ export function VideoLessonArticle({ lesson }: { lesson: VideoLesson }) {
             title={lesson.youtubeTitle}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            loading="lazy"
+            loading="eager"
+            referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
         <p className="videoSourceNote">
           動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">{lesson.guide.publisher}の元動画をYouTubeで見る</a>
         </p>
 
-        <aside className="videoArticleSidebar">
-          <section className="videoArticleAudience">
-            <div>
-              <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-              <h2>この動画はこんな人に向いています</h2>
-            </div>
-            <ul>
-              {lesson.recommendedFor.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </section>
-
-          <section className="videoArticleHighlights">
-            <h2>動画を見る時のポイント</h2>
-            <ol>
-              {lesson.watchPoints.map((point, index) => (
-                <li key={point.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div><strong>{point.title}</strong><p>{point.description}</p></div>
-                </li>
-              ))}
-            </ol>
-          </section>
-        </aside>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">OVERVIEW</p>
-          <h2>この動画で学べること</h2>
-          {lesson.overview.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">KEY POINTS</p>
-          <h2>内容の要点</h2>
-          <div className="videoPrincipleList">
-            {lesson.keyPoints.map((point, index) => (
-              <section className="videoPrinciple" key={point.title}>
-                <div className="videoPrincipleNumber">{index + 1}</div>
-                <div className="videoPrincipleBody">
-                  <h3>{point.title}</h3>
-                  <p>{point.description}</p>
-                </div>
-              </section>
-            ))}
+        <section className="videoArticleAudience">
+          <div>
+            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+            <h2>この動画はこんな人に向いています</h2>
           </div>
-        </section>
-
-        <section className="videoArticleCaution">
-          <p className="videoArticleSectionLabel">AT THE TABLE</p>
-          <h2>実戦で意識するポイント</h2>
           <ul>
-            {lesson.practicalPoints.map((point) => <li key={point}>{point}</li>)}
+            {lesson.recommendedFor.map((item) => <li key={item}>{item}</li>)}
           </ul>
         </section>
+
+        <VideoArticleCompactContent message={lesson.overview[0]} points={lesson.keyPoints} />
 
         {lesson.book ? <BookRecommendation book={lesson.book} /> : null}
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">RELATED</p>
-          <h2>関連する雀フォリオの記事</h2>
-          <div>
-            {lesson.relatedLinks.map((link) => <Link href={link.href} key={link.href}>{link.label}</Link>)}
-          </div>
-        </section>
-
-        <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>次に学ぶおすすめ</h2>
+          <h2>関連する練習・解説へ進む</h2>
           <div>
-            {lesson.nextLinks.map((link) => <Link href={link.href} key={link.href}>{link.label}</Link>)}
+            {relatedLinks.map((link) => <Link href={link.href} key={link.href}>{link.label}</Link>)}
           </div>
         </section>
       </article>

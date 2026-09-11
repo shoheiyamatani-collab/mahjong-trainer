@@ -26,7 +26,7 @@ const featuredChannels = [
 
 export const metadata: Metadata = {
   title: "麻雀を動画で学ぶ | 初心者・中級者向け動画記事",
-  description: "麻雀の学習動画を初心者向けと中級者以上向けに分けて紹介します。動画の見どころを牌図と解説つきで確認できます。"
+  description: "麻雀の学習動画を初心者向けと中級者以上向けに分けて紹介します。動画の見どころを短い解説で確認できます。"
 };
 
 export default function StrategyVideoPage() {
@@ -39,7 +39,7 @@ export default function StrategyVideoPage() {
         <div>
           <p className="siteEyebrow">{channel.eyebrow}</p>
           <h1>{channel.title}</h1>
-          <p>自分のレベルに合う入口を選び、動画と牌図つきの記事で麻雀を学べます。</p>
+          <p>自分のレベルに合う入口を選び、動画と短い解説記事で麻雀を学べます。</p>
         </div>
         <div className="videoBlogTiles" aria-hidden="true">
           {channel.heroTiles.map((tile) => <img key={tile} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />)}
@@ -62,7 +62,7 @@ export default function StrategyVideoPage() {
           <div className="strategyAudienceLinkCopy">
             <span>BEGINNER</span>
             <h2>初心者向け動画</h2>
-            <p>牌効率、何切る、役、点数計算、ベタオリなど、最初に身につけたい内容を動画と牌図で学びます。</p>
+            <p>牌効率、何切る、役、点数計算、ベタオリなど、最初に身につけたい内容を動画と短い要点で学びます。</p>
             <strong>{channel.guides.length}本の記事を見る</strong>
           </div>
           <div className="strategyAudienceVisual strategyAudienceVisualTypography">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が基本役の次に覚えたい10役 | 打点を伸ばす役を牌姿で解説",
@@ -270,7 +271,7 @@ export default function ImportantYakuForHigherScoresArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 役・打点</p>
           <h1>アガれるようになった次に覚えたい、打点を伸ばす10役</h1>
           <p className="videoArticleLead">リーチ・タンヤオ・役牌でアガれるようになったら、次は手牌の中にある「役の種」を見つける段階です。9分27秒の動画と14枚の牌姿を使い、実戦で狙いを持って手を進めるための10役を確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2022年1月22日</time><span>約12分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2022年1月22日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -278,91 +279,49 @@ export default function ImportantYakuForHigherScoresArticlePage() {
             src="https://www.youtube-nocookie.com/embed/XOTTtJaRGQs"
             title="【麻雀】基本役を覚えた初心者が次に覚えるべき役【10選】"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">クリアレインのアトリエ【麻雀解説】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>基本のアガリ方とリーチ・タンヤオ・役牌を覚えた人</li>
-            <li>毎回リーチだけになり、手牌からほかの役を見つけられない人</li>
-            <li>速さを大きく落とさず、1翻・2翻を上乗せしたい人</li>
-            <li>鳴くと翻数が下がる役、鳴くと消える役を整理したい人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">FIRST STEP</p>
-          <h2>役は完成してから探すのではなく、途中の手牌で気づく</h2>
-          <p>10役を一度に暗記する必要はありません。順子が似ている、同じ色に偏っている、対子や刻子が多い、1・9が面子に絡んでいる。この4つの特徴に気づければ、狙える役の候補をかなり絞れます。</p>
-          <div className="strategyKeyMessage"><strong>大切なのは、役のために無理な牌を残すことではありません。</strong>自然にそろいそうな役へ寄せ、アガリやすさを大きく落とさず打点を上乗せすることです。</div>
-          <div className="scoringYakuSignals" aria-label="役を見つける4つの手がかり">
-            <div><b>順子を見る</b><span>一盃口・三色同順・一気通貫</span></div>
-            <div><b>刻子と色を見る</b><span>対々和・混一色・清一色・三暗刻</span></div>
-            <div><b>1・9を見る</b><span>チャンタ・ジュンチャン</span></div>
-            <div><b>対子を見る</b><span>七対子</span></div>
-          </div>
-        </section>
-
-        <section className="videoArticleBodySection scoringYakuSection">
-          <p className="videoArticleSectionLabel">TEN YAKU</p>
-          <h2>14枚の牌姿で覚える、次の10役</h2>
-          <p className="scoringYakuLegend"><span></span>緑の枠が役の成立に注目する部分です。右端のアガリ牌を加えて14枚になります。</p>
-          <div className="scoringYakuGrid">
-            {yakuGuides.map((guide) => {
-              const seconds = guide.time.split(":").reduce((total, value) => total * 60 + Number(value), 0);
-              return (
-                <section key={guide.number} className="scoringYakuCard">
-                  <header>
-                    <span className="scoringYakuNumber">{guide.number}</span>
-                    <div><p>{guide.reading}</p><h3>{guide.name}</h3></div>
-                    <div className="scoringYakuBadges"><span>{guide.han}</span><span>{guide.openRule}</span></div>
-                  </header>
-                  <p>{guide.condition}</p>
-                  <YakuHand guide={guide} />
-                  <div className="meldShapePoint"><strong>見るポイント:</strong> {guide.eye}</div>
-                  <a href={`${videoUrl}&t=${seconds}s`} target="_blank" rel="noopener noreferrer">{guide.time}から動画で確認する</a>
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
+                  </div>
+                  <ul>
+                    <li>基本のアガリ方とリーチ・タンヤオ・役牌を覚えた人</li>
+                    <li>毎回リーチだけになり、手牌からほかの役を見つけられない人</li>
+                    <li>速さを大きく落とさず、1翻・2翻を上乗せしたい人</li>
+                    <li>鳴くと翻数が下がる役、鳴くと消える役を整理したい人</li>
+                  </ul>
                 </section>
-              );
-            })}
-          </div>
-        </section>
 
-        <section className="videoArticleCaution scoringYakuCaution">
-          <p className="videoArticleSectionLabel">IMPORTANT</p>
-          <h2>鳴く前に、翻数が下がるか・役が消えるかを確認する</h2>
-          <p>一盃口と七対子は門前だけの役なので、鳴くと成立しません。三色同順・一気通貫・混一色・清一色・チャンタ・ジュンチャンは鳴いても成立しますが、1翻下がります。対々和は鳴いても2翻のままです。</p>
-          <p>三暗刻は、役の対象になる3つの刻子を自分で集める必要があります。ほかの1面子を鳴くことはできますが、暗刻にしたい組をポンしないようにします。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"リーチ・タンヤオ・役牌でアガれるようになったら、次は手牌の中にある「役の種」を見つける段階です。"}
+          points={[
+            { title: "役は完成してから探すのではなく、途中の手牌で気づく", description: "10役を一度に暗記する必要はありません。" },
+            { title: "14枚の牌姿で覚える、次の10役", description: "緑の枠が役の成立に注目する部分です。" },
+            { title: "次の対局では、1局に1つだけ役の種を探す", description: "最初は「三色があるか」「同じ色に寄っているか」のどちらか1つを見るだけで十分です。" },
+          ]}
+        />
 
-        <section className="videoArticleBodySection scoringYakuPractice">
-          <p className="videoArticleSectionLabel">PRACTICE</p>
-          <h2>次の対局では、1局に1つだけ役の種を探す</h2>
-          <p>最初は「三色があるか」「同じ色に寄っているか」のどちらか1つを見るだけで十分です。全部を追うより、1つの視点を繰り返したほうが実戦で早く見つけられるようになります。</p>
-          <div className="strategyActionBox"><b>おすすめの順番</b><p>一盃口・三色同順・一気通貫 → 対々和・七対子 → 混一色・清一色 → チャンタ・ジュンチャン・三暗刻の順で牌姿に慣れましょう。</p></div>
-          <p>ここに載せた牌姿は役の形を見つけるための一例です。複数の役が重なる場合もあるため、実際の翻数は役一覧や役判定問題で確認してください。</p>
-        </section>
+        <ClearRainBasicTheoryBook
+                  heading="役を覚えたら、打点と速度を比べて選ぶ"
+                  description="役を作るだけでなく、手を遅くしすぎずに打点を伸ばす考え方が実戦では大切です。手作り、鳴き、押し引きをつないで、役を生かす判断を学べます。"
+                />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>役を牌姿で復習して、問題で見つける</h2>
-          <div>
-            <Link href="/rules/yaku">すべての役を14枚の牌姿で確認する</Link>
-            <Link href="/rules/frequent-yaku">実戦でよく見る役を先に覚える</Link>
-            <Link href="/training/yaku-quiz">役判定クイズで見つける練習をする</Link>
-            <Link href="/videos/strategy">ほかの麻雀戦術動画を見る</Link>
-          </div>
-        </section>
-        <ClearRainBasicTheoryBook
-          heading="役を覚えたら、打点と速度を比べて選ぶ"
-          description="役を作るだけでなく、手を遅くしすぎずに打点を伸ばす考え方が実戦では大切です。手作り、鳴き、押し引きをつないで、役を生かす判断を学べます。"
-        />
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>役を牌姿で復習して、問題で見つける</h2>
+                  <div>
+                    <Link href="/rules/yaku">すべての役を14枚の牌姿で確認する</Link>
+                    <Link href="/rules/frequent-yaku">実戦でよく見る役を先に覚える</Link>
+                    <Link href="/training/yaku-quiz">役判定クイズで見つける練習をする</Link>
+                    <Link href="/videos/strategy">ほかの麻雀戦術動画を見る</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

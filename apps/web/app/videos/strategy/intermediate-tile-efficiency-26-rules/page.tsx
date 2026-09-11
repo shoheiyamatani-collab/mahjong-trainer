@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀中級者向け何切る | 牌効率を高める26のセオリー",
-  description: "麻雀中級者向けに、打点判断、5ブロック理論、孤立牌、二度受け、対子選択、ドラのスライドなど、何切るで使う26の牌効率セオリーを動画と牌図で整理します。"
+  description: "麻雀中級者向けに、打点判断、5ブロック理論、孤立牌、二度受け、対子選択、ドラのスライドなど、何切るで使う26の牌効率セオリーを動画と短い要点で整理します。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=7zl8NwudR5g";
@@ -171,7 +172,7 @@ export default function IntermediateTileEfficiencyArticlePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・何切る</p>
           <h1>中級レベルの何切るに必要な、牌効率26のセオリー</h1>
           <p className="videoArticleLead">中級者の何切るは、受け入れ枚数だけでは決まりません。打点、ブロック数、二度受け、裏目の損失、守備、ドラまで同時に比べるための26項目を、動画の順番で整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月26日</time><span>約13分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月26日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -179,85 +180,41 @@ export default function IntermediateTileEfficiencyArticlePage() {
             src="https://www.youtube-nocookie.com/embed/7zl8NwudR5g"
             title="【麻雀解説】この1本で中級レベルの牌効率が身に付く！26個の知識を集約化"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
-          <ul>
-            <li>基本的な牌効率は分かるが、候補が2枚まで絞られると迷う人</li>
-            <li>受け入れ枚数が同じ打牌の優劣を説明できるようになりたい人</li>
-            <li>打点や守備を含めて何切るを考えたい人</li>
-            <li>自分の判断基準を26項目で点検したい人</li>
-          </ul>
-        </section>
+                  <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
+                  <ul>
+                    <li>基本的な牌効率は分かるが、候補が2枚まで絞られると迷う人</li>
+                    <li>受け入れ枚数が同じ打牌の優劣を説明できるようになりたい人</li>
+                    <li>打点や守備を含めて何切るを考えたい人</li>
+                    <li>自分の判断基準を26項目で点検したい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleBodySection advancedTheoryIntro">
-          <p className="videoArticleSectionLabel">HOW TO USE</p>
-          <h2>26項目を丸暗記せず、6つの比較軸で覚える</h2>
-          <div className="advancedTheoryAxes">
-            {['打点', 'ブロック', '変化', '二度受け', '裏目', '場況'].map((axis, index) => <span key={axis}><b>{index + 1}</b>{axis}</span>)}
-          </div>
-          <p>何切るで迷ったら、まず5ブロックを数え、次に受け入れの重複を外し、最後に打点・守備・裏目を比べます。すべてを毎回確認するのではなく、候補が残ったときの比較表として使いましょう。</p>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">26 RULES</p>
-          <h2>動画の章順で確認する26のセオリー</h2>
-          <div className="videoPrincipleList advancedTheoryList">
-            {theoryGroups.map((group) => (
-              <section key={group.number} className="videoPrinciple advancedTheoryGroup">
-                <div className="videoPrincipleNumber">{group.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{group.time} から</span>
-                  <h3>{group.title}</h3>
-                  <p>{group.lead}</p>
-                  <ol className="advancedTheoryRules">
-                    {group.rules.map((rule) => {
-                      ruleNumber += 1;
-                      return <li key={rule}><span>{ruleNumber}</span><p>{rule}</p></li>;
-                    })}
-                  </ol>
-                  {group.figure ? (
-                    <figure className="advancedTheoryFigure">
-                      <figcaption>{group.figure.label}</figcaption>
-                      <div className="videoArticleTileBlocks">
-                        {group.figure.groups.map((tileGroup) => (
-                          <div key={tileGroup.label} className={tileGroup.tone === 'strong' ? 'isStrong' : tileGroup.tone === 'weak' ? 'isWeak' : undefined}>
-                            <span>{tileGroup.label}</span><TileRow tiles={tileGroup.tiles} />
-                          </div>
-                        ))}
-                      </div>
-                      <p>{group.figure.note}</p>
-                    </figure>
-                  ) : null}
-                  <a href={`${videoUrl}&t=${secondsFromTime(group.time)}s`} target="_blank" rel="noopener noreferrer">{group.title}を動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
-
-        <section className="videoArticleCaution advancedTheoryCaution">
-          <p className="videoArticleSectionLabel">IMPORTANT</p>
-          <h2>セオリーは候補を比べる基準であり、絶対の答えではありません</h2>
-          <p>巡目、点数状況、ドラ、他家の仕掛け、残り枚数によって最善打は変わります。まず牌効率の基準で候補を絞り、最後にその局の条件で補正するのが中級者の考え方です。</p>
-          <div className="strategyKeyMessage"><strong>受け入れ → 打点 → 守備 → 裏目の順に比較する。</strong>自分の答えに理由を一つ足せるだけでも、何切るの精度は上がります。</div>
-        </section>
+        <VideoArticleCompactContent
+          message={"中級者の何切るは、受け入れ枚数だけでは決まりません。"}
+          points={[
+            { title: "26項目を丸暗記せず、6つの比較軸で覚える", description: "何切るで迷ったら、まず5ブロックを数え、次に受け入れの重複を外し、最後に打点・守備・裏目を比べます。" },
+            { title: "動画の章順で確認する26のセオリー", description: "" },
+            { title: "セオリーは候補を比べる基準であり、絶対の答えではありません", description: "巡目、点数状況、ドラ、他家の仕掛け、残り枚数によって最善打は変わります。" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>実際の牌姿で判断を確かめる</h2>
-          <div>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
-            <Link href="/trainer">高難易度の何切る問題を解く</Link>
-            <Link href="/videos/strategy/seven-strong-shapes-for-winning">強い形7選を牌図で復習する</Link>
-            <Link href="/videos/strategy/advanced">中級者以上向け動画へ戻る</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>実際の牌姿で判断を確かめる</h2>
+                  <div>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
+                    <Link href="/trainer">高難易度の何切る問題を解く</Link>
+                    <Link href="/videos/strategy/seven-strong-shapes-for-winning">強い形7選を牌図で復習する</Link>
+                    <Link href="/videos/strategy/advanced">中級者以上向け動画へ戻る</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

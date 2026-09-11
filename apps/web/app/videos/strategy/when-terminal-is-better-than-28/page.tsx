@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀の孤立牌1・9と2・8はどちらを残す？価値が逆転する3ケース",
@@ -84,7 +85,7 @@ export default function WhenTerminalIsBetterThan28ArticlePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・孤立牌</p>
           <h1>孤立牌の2・8より、1・9を残した方がよい3つのケース</h1>
           <p className="videoArticleLead">基本の牌効率では、1・9より2・8の方が多くの牌とつながります。しかし手牌が十分に整っているとき、鳴いて進めるとき、複合形があるときは評価が逆転します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月22日</time><span>約8分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月22日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -92,78 +93,41 @@ export default function WhenTerminalIsBetterThan28ArticlePage() {
             src="https://www.youtube-nocookie.com/embed/mah_grITelQ"
             title="【麻雀解説】孤立牌28より孤立牌19を残した方がいいケース"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
-          <ul>
-            <li>孤立牌はいつも1・9から切っている人</li>
-            <li>受け入れ枚数が多い牌だけを残してしまう人</li>
-            <li>牌効率と守備力を同時に比べたい人</li>
-            <li>鳴きを含めた受け入れを考えたい人</li>
-          </ul>
-        </section>
+                  <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
+                  <ul>
+                    <li>孤立牌はいつも1・9から切っている人</li>
+                    <li>受け入れ枚数が多い牌だけを残してしまう人</li>
+                    <li>牌効率と守備力を同時に比べたい人</li>
+                    <li>鳴きを含めた受け入れを考えたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleBodySection terminalChoiceBaseline">
-          <p className="videoArticleSectionLabel">BASIC RULE</p>
-          <h2>基本は2・8の方が1・9より強い</h2>
-          <p>孤立した2は1・2・3・4、孤立した1は1・2・3とのつながりを持ちます。何も条件がなければ、内側の2・8を残す方が面子候補を作りやすくなります。</p>
-          <div className="terminalChoiceComparison">
-            <div className="isStrong"><span>基本的に残す</span><TileRow tiles={["man2", "man8"]} /><b>変化が広い</b></div>
-            <div><span>基本的に先に切る</span><TileRow tiles={["man1", "man9"]} /><b>変化が限られる</b></div>
-          </div>
-          <div className="strategyKeyMessage"><strong>今回のポイントは「基本を覆す条件」です。</strong>まず通常の優劣を知り、そのうえで手牌全体と場況から例外を選びます。</div>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">THREE CASES</p>
-          <h2>1・9の価値が逆転する3ケース</h2>
-          <div className="videoPrincipleList terminalChoiceCases">
-            {choiceCases.map((choice) => (
-              <section key={choice.number} className="videoPrinciple terminalChoiceCase">
-                <div className="videoPrincipleNumber">{choice.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{choice.time} から</span>
-                  <h3>{choice.title}</h3>
-                  <p>{choice.summary}</p>
-                  <div className="videoArticleTileBlocks terminalChoiceTiles">
-                    <div className="isStrong"><span>{choice.keepLabel}</span><TileRow tiles={choice.keep} /></div>
-                    <div className="isWeak"><span>{choice.compareLabel}</span><TileRow tiles={choice.compare} /></div>
-                  </div>
-                  <div className="strategyActionBox"><b>なぜ1・9を残す？</b><p>{choice.reason}</p></div>
-                  <p className="terminalChoiceCaution"><strong>判断が変わる条件:</strong> {choice.caution}</p>
-                  <a href={`${videoUrl}&t=${secondsFromTime(choice.time)}s`} target="_blank" rel="noopener noreferrer">このケースを動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
-
-        <section className="videoArticleCaution terminalChoiceChecklist">
-          <p className="videoArticleSectionLabel">CHECK ORDER</p>
-          <h2>孤立牌を選ぶ前に確認する順番</h2>
-          <ol>
-            <li><b>手牌の形は足りているか</b><span>好形が十分なら安全度を上げる余裕があります。</span></li>
-            <li><b>鳴いても役が残るか</b><span>鳴けるなら自摸以外の受け入れも比較します。</span></li>
-            <li><b>周囲に複合形がないか</b><span>1345や13455は、1枚ずつ切り離さず全体で見ます。</span></li>
-            <li><b>打点が変わらないか</b><span>タンヤオなど、役の有無と打点差を最後に確認します。</span></li>
-          </ol>
-        </section>
+        <VideoArticleCompactContent
+          message={"基本の牌効率では、1・9より2・8の方が多くの牌とつながります。"}
+          points={[
+            { title: "基本は2・8の方が1・9より強い", description: "孤立した2は1・2・3・4、孤立した1は1・2・3とのつながりを持ちます。" },
+            { title: "1・9の価値が逆転する3ケース", description: "" },
+            { title: "孤立牌を選ぶ前に確認する順番", description: "" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>受け入れと安全度を実際に比較する</h2>
-          <div>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで1・2を比較する</Link>
-            <Link href="/videos/strategy/intermediate-tile-efficiency-26-rules">牌効率26のセオリーへ戻る</Link>
-            <Link href="/videos/strategy/isolated-terminal-tile-order">孤立牌1・9の切り順を復習する</Link>
-            <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>受け入れと安全度を実際に比較する</h2>
+                  <div>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで1・2を比較する</Link>
+                    <Link href="/videos/strategy/intermediate-tile-efficiency-26-rules">牌効率26のセオリーへ戻る</Link>
+                    <Link href="/videos/strategy/isolated-terminal-tile-order">孤立牌1・9の切り順を復習する</Link>
+                    <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

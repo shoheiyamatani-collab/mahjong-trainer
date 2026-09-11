@@ -5,11 +5,56 @@ type BookRecommendationCopy = {
   description?: string;
 };
 
+type BookStoreLinksProps = {
+  amazonHref: string;
+  bookTitle: string;
+  kindleUnlimitedHref?: string;
+  rakutenHref: string;
+};
+
+function BookStoreLinks({ amazonHref, bookTitle, kindleUnlimitedHref, rakutenHref }: BookStoreLinksProps) {
+  return (
+    <div className="videoArticleBookLinks">
+      <a
+        className="videoArticleBookLink"
+        href={rakutenHref}
+        target="_blank"
+        rel="nofollow sponsored noopener"
+        aria-label={`${bookTitle}を楽天で見る`}
+      >
+        楽天で見る
+      </a>
+      <a
+        className="videoArticleBookLink videoArticleBookLinkAmazon"
+        href={amazonHref}
+        target="_blank"
+        rel="nofollow sponsored noopener"
+        aria-label={`${bookTitle}をAmazonで見る`}
+      >
+        Amazonで見る
+      </a>
+      {kindleUnlimitedHref ? (
+        <a
+          className="videoArticleBookLink videoArticleBookLinkKindleUnlimited"
+          href={kindleUnlimitedHref}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          aria-label={`${bookTitle}をKindle Unlimitedで読む`}
+        >
+          Kindle Unlimitedで読む
+        </a>
+      ) : null}
+    </div>
+  );
+}
+
 const tileEfficiencyRakutenAffiliateUrl =
   "https://hb.afl.rakuten.co.jp/ichiba/572bea14.af03c695.572bea15.8642e51d/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F17420901%2F&link_type=picttext&ut=eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIxMjh4MTI4IiwibmFtIjoxLCJuYW1wIjoicmlnaHQiLCJjb20iOjEsImNvbXAiOiJkb3duIiwicHJpY2UiOjEsImJvciI6MSwiY29sIjoxLCJiYnRuIjoxLCJwcm9kIjowLCJhbXAiOmZhbHNlfQ%3D%3D";
 
 const tileEfficiencyRakutenAffiliateImageUrl =
   "https://hbb.afl.rakuten.co.jp/hgb/572bea14.af03c695.572bea15.8642e51d/?me_id=1213310&item_id=20885571&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbook%2Fcabinet%2F2485%2F9784839982485.jpg%3F_ex%3D128x128&s=128x128&t=picttext";
+
+const tileEfficiencyAmazonAffiliateUrl = "https://www.amazon.co.jp/dp/4839982481?tag=jongfolio-22";
 
 export function HirasawaTileEfficiencyBook({
   heading = "動画の内容を、本で体系的に復習する",
@@ -32,9 +77,11 @@ export function HirasawaTileEfficiencyBook({
           <h2 id="hirasawa-tile-efficiency-book-title">{heading}</h2>
           <p className="videoArticleBookTitle">麻雀・一番やさしい牌効率の教科書 <span>平澤元気 著</span></p>
           <p>{description}</p>
-          <a className="videoArticleBookLink" href={tileEfficiencyRakutenAffiliateUrl} target="_blank" rel="nofollow sponsored noopener">
-            楽天で見る
-          </a>
+          <BookStoreLinks
+            amazonHref={tileEfficiencyAmazonAffiliateUrl}
+            bookTitle="麻雀・一番やさしい牌効率の教科書"
+            rakutenHref={tileEfficiencyRakutenAffiliateUrl}
+          />
         </div>
       </div>
       <AffiliateDisclosure className="videoArticleBookDisclosure" />
@@ -47,6 +94,10 @@ const defenseRakutenAffiliateUrl =
 
 const defenseRakutenAffiliateImageUrl =
   "https://hbb.afl.rakuten.co.jp/hgb/572f1abd.13e761fc.572f1abe.dc2690f8/?me_id=1278256&item_id=21638847&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Frakutenkobo-ebooks%2Fcabinet%2F7949%2F2000012037949.jpg%3F_ex%3D128x128&s=128x128&t=picttext";
+
+const defenseAmazonAffiliateUrl = "https://www.amazon.co.jp/dp/4839981558?tag=jongfolio-22";
+
+const defenseKindleUnlimitedAffiliateUrl = "https://www.amazon.co.jp/dp/B0BD6WQGM2?tag=jongfolio-22";
 
 export function HirasawaDefenseBook() {
   return (
@@ -66,9 +117,12 @@ export function HirasawaDefenseBook() {
           <h2 id="hirasawa-defense-book-title">降りる判断を、本で整理する</h2>
           <p className="videoArticleBookTitle">麻雀・守備の基本完全ガイド <span>平澤元気 著</span></p>
           <p>現物がない場面での比較から、スジ・カベ、安全牌の選び方、押し引きの基本までを順序立てて確認できます。動画の判断基準を、実戦で迷わず使える形にしたい人に向く一冊です。</p>
-          <a className="videoArticleBookLink" href={defenseRakutenAffiliateUrl} target="_blank" rel="nofollow sponsored noopener">
-            楽天で見る
-          </a>
+          <BookStoreLinks
+            amazonHref={defenseAmazonAffiliateUrl}
+            bookTitle="麻雀・守備の基本完全ガイド"
+            kindleUnlimitedHref={defenseKindleUnlimitedAffiliateUrl}
+            rakutenHref={defenseRakutenAffiliateUrl}
+          />
         </div>
       </div>
       <AffiliateDisclosure className="videoArticleBookDisclosure" />
@@ -81,6 +135,8 @@ const clearRainBasicTheoryRakutenAffiliateUrl =
 
 const clearRainBasicTheoryRakutenAffiliateImageUrl =
   "https://hbb.afl.rakuten.co.jp/hgb/572bea14.af03c695.572bea15.8642e51d/?me_id=1213310&item_id=21338431&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbook%2Fcabinet%2F2456%2F9784537222456_1_33.jpg%3F_ex%3D128x128&s=128x128&t=picttext";
+
+const clearRainBasicTheoryAmazonAffiliateUrl = "https://www.amazon.co.jp/dp/453722245X?tag=jongfolio-22";
 
 export function ClearRainBasicTheoryBook({
   heading = "動画で学んだ判断を、一冊でつなげる",
@@ -103,9 +159,11 @@ export function ClearRainBasicTheoryBook({
           <h2 id="clear-rain-basic-theory-book-title">{heading}</h2>
           <p className="videoArticleBookTitle">初心者でも上級者に勝てる 麻雀の基本セオリー <span>クリアレイン 著</span></p>
           <p>{description}</p>
-          <a className="videoArticleBookLink" href={clearRainBasicTheoryRakutenAffiliateUrl} target="_blank" rel="nofollow sponsored noopener">
-            楽天で見る
-          </a>
+          <BookStoreLinks
+            amazonHref={clearRainBasicTheoryAmazonAffiliateUrl}
+            bookTitle="初心者でも上級者に勝てる 麻雀の基本セオリー"
+            rakutenHref={clearRainBasicTheoryRakutenAffiliateUrl}
+          />
         </div>
       </div>
       <AffiliateDisclosure className="videoArticleBookDisclosure" />
@@ -119,6 +177,8 @@ const clearRainNanikiruRakutenAffiliateUrl =
 const clearRainNanikiruRakutenAffiliateImageUrl =
   "https://hbb.afl.rakuten.co.jp/hgb/572bea14.af03c695.572bea15.8642e51d/?me_id=1213310&item_id=21281276&pc=https%3A%2F%2Fthumbnail.image.rakuten.co.jp%2F%400_mall%2Fbook%2Fcabinet%2F2319%2F9784537222319_1_4.jpg%3F_ex%3D128x128&s=128x128&t=picttext";
 
+const clearRainNanikiruAmazonAffiliateUrl = "https://www.amazon.co.jp/dp/453722231X?tag=jongfolio-22";
+
 export function ClearRainNanikiruBook() {
   return (
     <section className="videoArticleBook" aria-labelledby="clear-rain-nanikiru-book-title">
@@ -131,7 +191,11 @@ export function ClearRainNanikiruBook() {
           <h2 id="clear-rain-nanikiru-book-title">何切るの考え方を、問題で身につける</h2>
           <p className="videoArticleBookTitle">麻雀 勝者になれる「何切る」の教科書 <span>クリアレイン 著</span></p>
           <p>牌効率の基本を、厳選された何切る問題と丁寧な解説で確認できます。動画で分かった「残す形」と「切る理由」を、自分で説明できる判断へ変えたい人に向く一冊です。</p>
-          <a className="videoArticleBookLink" href={clearRainNanikiruRakutenAffiliateUrl} target="_blank" rel="nofollow sponsored noopener">楽天で見る</a>
+          <BookStoreLinks
+            amazonHref={clearRainNanikiruAmazonAffiliateUrl}
+            bookTitle="麻雀 勝者になれる「何切る」の教科書"
+            rakutenHref={clearRainNanikiruRakutenAffiliateUrl}
+          />
         </div>
       </div>
       <AffiliateDisclosure className="videoArticleBookDisclosure" />

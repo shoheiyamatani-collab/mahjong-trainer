@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "全16問で学ぶ麻雀の何切る・牌効率セオリー | 動画解説",
@@ -87,7 +88,7 @@ export default function TileEfficiencyTheoryQuizArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 何切る・牌効率</p>
           <h1>全16問で学ぶ、脱初心者の何切るセオリー</h1>
           <p className="videoArticleLead">牌効率の重要な考え方を、問題を解きながら確認できる動画です。見るだけで終わらせず、自分で一打を選び、答えの理由まで比べるための見どころをまとめます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年10月5日</time><span>約8分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年10月5日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -95,80 +96,44 @@ export default function TileEfficiencyTheoryQuizArticlePage() {
             src="https://www.youtube-nocookie.com/embed/55ZkWcsgpcs"
             title="【全16問】脱初心者に必要な何切るのセオリーを問題形式で解説"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>基本の牌効率は読んだけれど、実際の手牌で使えるか試したい人</li>
-            <li>何切る問題で正解を見ても、理由をうまく説明できない人</li>
-            <li>対子を残す基準や二度受け、孤立牌の切り順で迷う人</li>
-            <li>感覚だけでなく、ブロック数を根拠に一打を選びたい人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">HOW TO WATCH</p>
-          <h2>問題が出たら、答えの前で一度止める</h2>
-          <div className="videoPracticeSteps">
-            <div><b>STEP 1</b><h3>自分の一打を決める</h3><p>牌姿が出たら動画を止め、まず切る牌を1枚選びます。</p></div>
-            <div><b>STEP 2</b><h3>理由を言葉にする</h3><p>ブロック数、対子、受け入れのどれを基準にしたか考えます。</p></div>
-            <div><b>STEP 3</b><h3>解説と比べる</h3><p>正誤だけでなく、見落とした変化や裏目を確認します。</p></div>
-          </div>
-          <p>16問を一度に完璧にする必要はありません。間違えた問題のテーマだけを覚え、数日後にもう一度解く方が、実戦で使える判断として残りやすくなります。</p>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">CHAPTER GUIDE</p>
-          <h2>16問で確認する5つの重要テーマ</h2>
-          <p className="videoDiagramNote">牌図はセオリーを復習するための簡略例です。動画内の問題は、元動画を一時停止して挑戦してください。</p>
-          <div className="videoPrincipleList">
-            {chapters.map((chapter) => (
-              <section key={chapter.number} className="videoPrinciple">
-                <div className="videoPrincipleNumber">{chapter.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{chapter.time} から</span>
-                  <h3>{chapter.title}</h3>
-                  <p>{chapter.description}</p>
-                  <div className="videoArticleTileBlocks">
-                    {chapter.blocks.map((block, index) => (
-                      <div className={block.weak ? "isWeak" : ""} key={`${chapter.number}-${index}`}>
-                        <span>{block.label}</span>
-                        <div>{block.tiles.map((tile, tileIndex) => <img key={`${tile}-${tileIndex}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />)}</div>
-                      </div>
-                    ))}
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                  <a href={chapter.href} target="_blank" rel="noopener noreferrer">このテーマを動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
+                  <ul>
+                    <li>基本の牌効率は読んだけれど、実際の手牌で使えるか試したい人</li>
+                    <li>何切る問題で正解を見ても、理由をうまく説明できない人</li>
+                    <li>対子を残す基準や二度受け、孤立牌の切り順で迷う人</li>
+                    <li>感覚だけでなく、ブロック数を根拠に一打を選びたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution">
-          <p className="videoArticleSectionLabel">IMPORTANT</p>
-          <h2>正解の牌より「なぜ切るか」を覚える</h2>
-          <p>何切る問題は、同じ牌姿でもドラ、巡目、点数状況、相手の仕掛けによって実戦の選択が変わることがあります。この動画は、まずアガリへ近づく牌効率の基準を身につけるための教材として使うのがおすすめです。</p>
-          <p>ブロック数と受け入れを土台にし、その後で手役・打点・守備を重ねて考えると、セオリーを局面に合わせて使い分けられるようになります。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"牌効率の重要な考え方を、問題を解きながら確認できる動画です。"}
+          points={[
+            { title: "問題が出たら、答えの前で一度止める", description: "牌姿が出たら動画を止め、まず切る牌を1枚選びます。" },
+            { title: "16問で確認する5つの重要テーマ", description: "問題ごとに、正解だけでなく切る理由まで確認するのがポイントです。" },
+            { title: "正解の牌より「なぜ切るか」を覚える", description: "何切る問題は、同じ牌姿でもドラ、巡目、点数状況、相手の仕掛けによって実戦の選択が変わることがあります。" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>動画の前後に取り組む</h2>
-          <div>
-            <Link href="/videos/strategy/tile-efficiency-four-rules">先に牌効率の4法則を復習する</Link>
-            <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の切り順を詳しく見る</Link>
-            <Link href="/trainer">何切る問題で同じ考え方を試す</Link>
-            <Link href="/analysis/mahjong-tool">受け入れ枚数チェッカーで一打を比較する</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>動画の前後に取り組む</h2>
+                  <div>
+                    <Link href="/videos/strategy/tile-efficiency-four-rules">先に牌効率の4法則を復習する</Link>
+                    <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の切り順を詳しく見る</Link>
+                    <Link href="/trainer">何切る問題で同じ考え方を試す</Link>
+                    <Link href="/analysis/mahjong-tool">受け入れ枚数チェッカーで一打を比較する</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

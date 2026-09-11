@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
-  title: "麻雀で面子を作りやすい形7選 | 四連形・中ぶくれ・リャンカンを牌図で解説",
-  description: "麻雀初心者が覚えたい、四連形、中ぶくれ、亜両面、リャンカンなど面子へ発展しやすい7つの形を動画と牌図で解説します。"
+  title: "麻雀で面子を作りやすい形7選 | 四連形・中ぶくれ・リャンカンを短い要点で解説",
+  description: "麻雀初心者が覚えたい、四連形、中ぶくれ、亜両面、リャンカンなど面子へ発展しやすい7つの形を動画と短い要点で解説します。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=56xlttqbiOY";
@@ -123,8 +124,8 @@ export default function SevenMeldBuildingShapesArticlePage() {
           <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/videos/strategy">麻雀を動画で学ぶ</Link><span>›</span><span>面子を作りやすい形7選</span></nav>
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・複合形</p>
           <h1>覚えておくと得をする、面子を作りやすい7つの形</h1>
-          <p className="videoArticleLead">手牌の中にある「伸びる形」を見つけられると、面子を作る速度が上がります。四連形や中ぶくれから、少し複雑な両面カンチャンまで、何を引くと形がよくなるかを牌図で確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2023年7月29日</time><span>約10分で読める</span></div>
+          <p className="videoArticleLead">手牌の中にある「伸びる形」を見つけられると、面子を作る速度が上がります。四連形や中ぶくれから、少し複雑な両面カンチャンまで、何を引くと形がよくなるかを動画で確認します。</p>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2023年7月29日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -132,75 +133,46 @@ export default function SevenMeldBuildingShapesArticlePage() {
             src="https://www.youtube-nocookie.com/embed/56xlttqbiOY"
             title="【麻雀】初心者が絶対に覚えるべきメンツを作りやすい重要な形【7選】"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">クリアレインのアトリエ【麻雀解説】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>面子になっていない牌を、どれから切ればよいか迷う人</li>
-            <li>完成した順子の近くにある牌を、すぐ切ってしまう人</li>
-            <li>リャンカンや亜両面などの複合形を覚えたい人</li>
-            <li>受け入れ枚数を増やして、テンパイ速度を上げたい人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection meldShapeIntro">
-          <p className="videoArticleSectionLabel">HOW TO READ</p>
-          <h2>数字ではなく、間隔と重なりを見る</h2>
-          <p><strong>3456と4567は、数字が違っても同じ四連形です。</strong>萬子・筒子・索子のどれでも考え方は同じです。まずは牌が連続しているか、1つ飛びか、同じ牌が重なっているかを見ます。</p>
-          <div className="strategyKeyMessage"><strong>全部を一度に暗記しなくて大丈夫です。</strong>最初は四連形・中ぶくれ・リャンカンの3つを探し、慣れてから6枚の複合形へ進みましょう。</div>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">SEVEN PATTERNS</p>
-          <h2>牌図で覚える、面子を作りやすい7つの形</h2>
-          <div className="videoPrincipleList">
-            {patterns.map((pattern) => (
-              <section key={pattern.number} className="videoPrinciple meldShapePattern">
-                <div className="videoPrincipleNumber">{pattern.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{pattern.time} から</span>
-                  <h3>{pattern.name}<span className="meldShapeNotation">{pattern.notation}</span></h3>
-                  <p>{pattern.summary}</p>
-                  <div className="videoArticleTileBlocks meldShapeTileBlocks">
-                    <div className="isStrong"><span>覚える形</span><TileRow tiles={pattern.tiles} /></div>
-                    <div><span>特に注目する牌</span><TileRow tiles={pattern.usefulTiles} /></div>
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                  <div className="strategyActionBox"><b>どう変化する？</b><p>{pattern.example}</p></div>
-                  <p className="meldShapePoint"><strong>見るポイント:</strong> {pattern.point}</p>
-                  <a href={`${videoUrl}&t=${Number(pattern.time.split(":")[0]) * 60 + Number(pattern.time.split(":")[1])}s`} target="_blank" rel="noopener noreferrer">この形を動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
+                  <ul>
+                    <li>面子になっていない牌を、どれから切ればよいか迷う人</li>
+                    <li>完成した順子の近くにある牌を、すぐ切ってしまう人</li>
+                    <li>リャンカンや亜両面などの複合形を覚えたい人</li>
+                    <li>受け入れ枚数を増やして、テンパイ速度を上げたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution meldShapePracticeBox">
-          <p className="videoArticleSectionLabel">PRACTICE</p>
-          <h2>対局中は「引いた後」を1回だけ想像する</h2>
-          <p>形を見つけたら、すべての受け入れを数える必要はありません。「この形に3を引いたらどうなる？」と、次の1枚だけを想像します。完成面子と両面が同時に残るなら、価値の高い形です。</p>
-          <p>慣れてきたら牌理チェッカーへ同じ形を入力し、どの打牌が受け入れを残せるか比較すると覚えやすくなります。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"手牌の中にある「伸びる形」を見つけられると、面子を作る速度が上がります。"}
+          points={[
+            { title: "数字ではなく、間隔と重なりを見る", description: "3456と4567は、数字が違っても同じ四連形です。" },
+            { title: "面子を作りやすい7つの形を覚える", description: "" },
+            { title: "対局中は「引いた後」を1回だけ想像する", description: "形を見つけたら、すべての受け入れを数える必要はありません。" },
+          ]}
+        />
 
         <ClearRainNanikiruBook />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>受け入れを実際に比較する</h2>
-          <div>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比べる</Link>
-            <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を動画で学ぶ</Link>
-            <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る問題で重要セオリーを試す</Link>
-            <Link href="/trainer">麻雀トレーニングへ進む</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>受け入れを実際に比較する</h2>
+                  <div>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比べる</Link>
+                    <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を動画で学ぶ</Link>
+                    <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る問題で重要セオリーを試す</Link>
+                    <Link href="/trainer">麻雀トレーニングへ進む</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

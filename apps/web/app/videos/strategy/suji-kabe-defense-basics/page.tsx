@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀で安牌がないときは？スジとカベの安全牌の探し方",
@@ -102,7 +103,7 @@ export default function SujiKabeDefenseBasicsArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 守備・安全牌</p>
           <h1>安牌がないとき、何を切ればいい？</h1>
           <p className="videoArticleLead">現物が手元にない場面でも、すべての牌が同じ危険度とは限りません。相手の捨て牌から見る「スジ」と、見えている枚数から見る「カベ」を使い、比較的当たりにくい牌を探す方法を紹介します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2023年9月29日</time><span>約8分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2023年9月29日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -110,79 +111,44 @@ export default function SujiKabeDefenseBasicsArticlePage() {
             src="https://www.youtube-nocookie.com/embed/q5XfdejdsE8"
             title="【麻雀解説】スジとカベを使った安牌の探し方（初心者向け）"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>相手のリーチに対して現物がなく、何を切ればよいか分からない人</li>
-            <li>スジという言葉は知っているけれど、理由を説明できない人</li>
-            <li>カベ、ノーチャンス、ワンチャンスの違いを整理したい人</li>
-            <li>放銃を減らすために、守備の判断材料を増やしたい人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection videoDefenseBridge">
-          <p className="videoArticleSectionLabel">WHEN YOU HAVE NO GENBUTSU</p>
-          <h2>現物がないときの考える順番</h2>
-          <div className="videoPracticeSteps">
-            <div><b>STEP 1</b><h3>捨て牌からスジを見る</h3><p>1・4・7、2・5・8、3・6・9の関係から、両面待ちを否定できる候補を探します。</p></div>
-            <div><b>STEP 2</b><h3>見えている枚数でカベを見る</h3><p>同じ牌が3枚または4枚見えていないか数え、外側の牌を候補として比較します。</p></div>
-          </div>
-          <p>スジとカベは「絶対に安全な牌」を作る魔法ではありません。候補が複数あるときに危険度を比較し、より当たりにくい牌を選ぶための材料です。</p>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">CHAPTER GUIDE</p>
-          <h2>スジとカベを牌図で理解する</h2>
-          <p className="videoDiagramNote">赤い枠は判断の根拠として見えている牌、緑の枠は比較的当たりにくくなる候補です。どちらも完全な安全牌とは限りません。</p>
-          <div className="videoPrincipleList">
-            {defenseChapters.map((chapter) => (
-              <section key={chapter.number} className="videoPrinciple">
-                <div className="videoPrincipleNumber">{chapter.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{chapter.time} から</span>
-                  <h3>{chapter.title}</h3>
-                  <p>{chapter.description}</p>
-                  <div className="videoArticleTileBlocks">
-                    {chapter.blocks.map((block, index) => (
-                      <div className={block.weak ? "isWeak" : block.strong ? "isStrong" : ""} key={`${chapter.number}-${index}`}>
-                        <span>{block.label}</span>
-                        <div>{block.tiles.map((tile, tileIndex) => <img key={`${tile}-${tileIndex}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />)}</div>
-                      </div>
-                    ))}
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                  <a href={chapter.href} target="_blank" rel="noopener noreferrer">この解説を動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
+                  <ul>
+                    <li>相手のリーチに対して現物がなく、何を切ればよいか分からない人</li>
+                    <li>スジという言葉は知っているけれど、理由を説明できない人</li>
+                    <li>カベ、ノーチャンス、ワンチャンスの違いを整理したい人</li>
+                    <li>放銃を減らすために、守備の判断材料を増やしたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution videoDefenseWarning">
-          <p className="videoArticleSectionLabel">IMPORTANT</p>
-          <h2>スジとカベが通用するのは両面待ちへの読み</h2>
-          <p>スジはフリテンを利用して両面待ちを否定する考え方です。カベも、必要な牌が残っていないことから両面待ちを作りにくいと判断します。そのため、カンチャン、ペンチャン、単騎、シャンポンなどには当たる可能性があります。</p>
-          <p>「スジだから安全」「ノーチャンスだから絶対に通る」と断定せず、現物、相手の捨て牌、見えている枚数、巡目を合わせて比較してください。適切に使えば、根拠なく危険牌を選ぶ場面を減らす助けになります。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"現物が手元にない場面でも、すべての牌が同じ危険度とは限りません。"}
+          points={[
+            { title: "現物がないときの考える順番", description: "1・4・7、2・5・8、3・6・9の関係から、両面待ちを否定できる候補を探します。" },
+            { title: "スジとカベの仕組みを理解する", description: "スジは両面待ちの可能性を、カベは残り牌の組み合わせを比べる材料です。" },
+            { title: "スジとカベが通用するのは両面待ちへの読み", description: "スジはフリテンを利用して両面待ちを否定する考え方です。" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>動画を見たあとに復習する</h2>
-          <div>
-            <Link href="/rules/practical-waits">両面・カンチャン・シャンポン待ちを牌図で見る</Link>
-            <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の価値を復習する</Link>
-            <Link href="/videos/strategy/reach-declaration-tile-reading">次にリーチ宣言牌からの読みを学ぶ</Link>
-            <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る16問で手牌判断を練習する</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>動画を見たあとに復習する</h2>
+                  <div>
+                    <Link href="/rules/practical-waits">両面・カンチャン・シャンポン待ちを牌図で見る</Link>
+                    <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の価値を復習する</Link>
+                    <Link href="/videos/strategy/reach-declaration-tile-reading">次にリーチ宣言牌からの読みを学ぶ</Link>
+                    <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る16問で手牌判断を練習する</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

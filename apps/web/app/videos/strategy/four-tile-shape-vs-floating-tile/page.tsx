@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
-  title: "麻雀は1シャンテンに取る？4枚形と孤立牌の比較を牌図で解説",
-  description: "麻雀中級者向けに、2457・3568・2356・2458・2568の4枚形と孤立牌を比較。一向聴維持と二向聴戻しの判断を牌図で解説します。"
+  title: "麻雀は1シャンテンに取る？4枚形と孤立牌の比較を短い要点で解説",
+  description: "麻雀中級者向けに、2457・3568・2356・2458・2568の4枚形と孤立牌を比較。一向聴維持と二向聴戻しの判断を短い要点で解説します。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=ugikTxXHVP4";
@@ -84,7 +85,7 @@ export default function FourTileShapeVsFloatingTileArticlePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・シャンテン戻し</p>
           <h1>素直に1シャンテンを取る？4枚形と孤立牌の比較</h1>
           <p className="videoArticleLead">一向聴はテンパイまであと1枚ですが、次に必ず悪い待ちになるなら急ぐ価値は下がります。4枚形を維持するか、孤立牌を残して二向聴へ戻すかを5つの形で比較します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年8月12日</time><span>約9分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年8月12日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -92,83 +93,41 @@ export default function FourTileShapeVsFloatingTileArticlePage() {
             src="https://www.youtube-nocookie.com/embed/ugikTxXHVP4"
             title="【麻雀解説】素直に1シャンテン取っていいの？意外と知らない…4枚形と孤立牌の比較"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
-          <ul>
-            <li>何があってもシャンテン数を進める打牌を選んでしまう人</li>
-            <li>愚形テンパイと二向聴戻しのどちらがよいか迷う人</li>
-            <li>4枚形を見たときの両面変化を整理したい人</li>
-            <li>巡目やドラを含めて手牌の速度を判断したい人</li>
-          </ul>
-        </section>
+                  <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
+                  <ul>
+                    <li>何があってもシャンテン数を進める打牌を選んでしまう人</li>
+                    <li>愚形テンパイと二向聴戻しのどちらがよいか迷う人</li>
+                    <li>4枚形を見たときの両面変化を整理したい人</li>
+                    <li>巡目やドラを含めて手牌の速度を判断したい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleBodySection shapeVsFloatBaseline">
-          <p className="videoArticleSectionLabel">BASIC DECISION</p>
-          <h2>見るのはシャンテン数ではなく「次の待ち」</h2>
-          <div className="shapeVsFloatDecision">
-            <div className="isReturn"><span>二向聴へ戻す</span><b>愚形テンパイが濃厚</b><p>孤立牌から良形を作る見返りが大きいとき。</p></div>
-            <div className="isKeep"><span>一向聴を維持</span><b>両面テンパイの受けがある</b><p>現在の形から良形へ進むルートが残るとき。</p></div>
-          </div>
-          <p>二向聴戻しは、ただテンパイを遠ざける打ち方ではありません。テンパイ速度を一度落とし、最終的なアガリやすさを上げる選択です。</p>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">FIVE SHAPES</p>
-          <h2>牌図で比べる5つの4枚形</h2>
-          <div className="shapeVsFloatExamples">
-            {shapeExamples.map((example) => (
-              <section key={example.number} className={`shapeVsFloatExample is-${example.decision}`}>
-                <header><span>例 {example.number}</span><strong>{example.decision === 'return' ? '二向聴戻しを検討' : '一向聴を維持'}</strong></header>
-                <h3>{example.shape}と孤立3索を比較</h3>
-                <div className="shapeVsFloatTiles">
-                  <div><span>4枚形</span><TileRow tiles={example.tiles} /></div>
-                  <b>VS</b>
-                  <div><span>孤立牌</span><TileRow tiles={["sou3"]} /></div>
-                </div>
-                <h4>{example.title}</h4>
-                <p>{example.reason}</p>
-                <div className="shapeVsFloatCheckpoint"><strong>見るポイント</strong><span>{example.checkpoint}</span></div>
-              </section>
-            ))}
-          </div>
-        </section>
-
-        <section className="videoArticleCaution shapeVsFloatConditions">
-          <p className="videoArticleSectionLabel">CONDITIONS</p>
-          <h2>形以外で判断が変わる2つの条件</h2>
-          <div>
-            <section><span>孤立牌の価値</span><h3>ドラや四連形に関係するなら残しやすい</h3><div className="videoArticleTileBlocks"><div className="isStrong"><span>強い孤立牌候補</span><TileRow tiles={["sou3", "sou4", "sou5", "sou6"]} /></div></div><p>孤立牌がドラ、または四連形など強い形の一部なら、二向聴へ戻す見返りが大きくなります。</p></section>
-            <section><span>巡目</span><h3>巡目が深いほど一向聴を優先する</h3><p>序盤は変化を待てますが、9巡目前後など中盤以降はテンパイを逃す損失が大きくなります。同じ牌姿でも、巡目が深ければ一向聴維持へ寄せます。</p></section>
-          </div>
-        </section>
-
-        <section className="videoArticleCaution shapeVsFloatChecklist">
-          <p className="videoArticleSectionLabel">CHECK ORDER</p>
-          <h2>迷ったときの確認順</h2>
-          <ol>
-            <li><b>現状から両面テンパイになる牌はあるか</b><span>あるなら一向聴維持の価値が上がります。</span></li>
-            <li><b>孤立牌へくっつけば本当に良形になるか</b><span>変化の量だけでなく、変化後の質を確認します。</span></li>
-            <li><b>孤立牌はドラや強い形に関係するか</b><span>打点や発展性が高ければ二向聴戻しを選びやすくなります。</span></li>
-            <li><b>変化を待てる巡目か</b><span>巡目が深いほど、現在の一向聴を維持します。</span></li>
-          </ol>
-        </section>
+        <VideoArticleCompactContent
+          message={"一向聴はテンパイまであと1枚ですが、次に必ず悪い待ちになるなら急ぐ価値は下がります。"}
+          points={[
+            { title: "見るのはシャンテン数ではなく「次の待ち」", description: "孤立牌から良形を作る見返りが大きいとき。" },
+            { title: "5つの4枚形を比べる", description: "" },
+            { title: "形以外で判断が変わる2つの条件", description: "孤立牌がドラ、または四連形など強い形の一部なら、二向聴へ戻す見返りが大きくなります。" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>5つの形を実際に比較する</h2>
-          <div>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを確認する</Link>
-            <Link href="/videos/strategy/intermediate-tile-efficiency-26-rules">牌効率26のセオリーを読む</Link>
-            <Link href="/videos/strategy/seven-strong-shapes-for-winning">強い形7選を復習する</Link>
-            <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>5つの形を実際に比較する</h2>
+                  <div>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを確認する</Link>
+                    <Link href="/videos/strategy/intermediate-tile-efficiency-26-rules">牌効率26のセオリーを読む</Link>
+                    <Link href="/videos/strategy/seven-strong-shapes-for-winning">強い形7選を復習する</Link>
+                    <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

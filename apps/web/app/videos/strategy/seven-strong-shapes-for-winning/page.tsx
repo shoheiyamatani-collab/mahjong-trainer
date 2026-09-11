@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が覚えたい強い形7選 | アガリ率を上げる牌効率",
-  description: "麻雀初心者向けに、四連形、中ぶくれ、一枚飛び、リャンカン、離れリャンカン、カンチャン対子、両面カンチャンを動画と牌図で解説します。"
+  description: "麻雀初心者向けに、四連形、中ぶくれ、一枚飛び、リャンカン、離れリャンカン、カンチャン対子、両面カンチャンを動画と短い要点で解説します。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=_wZjkrqSeoA";
@@ -129,8 +130,8 @@ export default function SevenStrongShapesForWinningArticlePage() {
           <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/videos/strategy">麻雀を動画で学ぶ</Link><span>›</span><span>強い形7選</span></nav>
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・強い形</p>
           <h1>面白いほどアガリやすくなる、初心者が覚えたい強い形7選</h1>
-          <p className="videoArticleLead">牌を1枚ずつ見るのではなく、伸びやすい形のまとまりとして見ると、手牌を進める速度が変わります。動画で紹介される7つの形を、実際の牌画像と「次に何を引くとよいか」で整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年5月30日</time><span>約10分で読める</span></div>
+          <p className="videoArticleLead">牌を1枚ずつ見るのではなく、伸びやすい形のまとまりとして見ると、手牌を進める速度が変わります。動画で紹介される7つの形を、実際の動画と「次に何を引くとよいか」で整理します。</p>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年5月30日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -138,75 +139,46 @@ export default function SevenStrongShapesForWinningArticlePage() {
             src="https://www.youtube-nocookie.com/embed/_wZjkrqSeoA"
             title="【麻雀】面白いほどあがれる！初心者が絶対に覚えるべき強い形7選"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">クリアレインのアトリエ【麻雀解説】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>順子が完成すると、近くの牌をすぐ切ってしまう人</li>
-            <li>孤立牌と伸びる牌の違いを見分けたい人</li>
-            <li>カンチャンを残すか迷うことが多い人</li>
-            <li>何切るで受け入れの広い形を選べるようになりたい人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection meldShapeIntro">
-          <p className="videoArticleSectionLabel">FIRST STEP</p>
-          <h2>最初は3つだけ探せれば十分です</h2>
-          <p>動画内でも、覚える量が多いと感じたら<strong>四連形・中ぶくれ・一枚飛び</strong>を先に覚える方法が案内されています。この3つは見た目が分かりやすく、手牌の中でも頻繁に現れます。</p>
-          <div className="strategyKeyMessage"><strong>牌を切る前に、完成面子の前後をもう一度見る。</strong>これだけでも、伸びる形を崩すミスを減らせます。</div>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">SEVEN SHAPES</p>
-          <h2>動画の順番で覚える、アガリにつながる7つの形</h2>
-          <div className="videoPrincipleList">
-            {strongShapes.map((shape) => (
-              <section key={shape.number} className="videoPrinciple meldShapePattern">
-                <div className="videoPrincipleNumber">{shape.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{shape.time} から</span>
-                  <h3>{shape.name}<span className="meldShapeNotation">{shape.notation}</span></h3>
-                  <p>{shape.description}</p>
-                  <div className="videoArticleTileBlocks meldShapeTileBlocks">
-                    <div className="isStrong"><span>覚える形</span><TileRow tiles={shape.tiles} /></div>
-                    <div><span>注目する牌</span><TileRow tiles={shape.keyTiles} /></div>
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                  <div className="strategyActionBox"><b>何を引くと強くなる？</b><p>{shape.change}</p></div>
-                  <p className="meldShapePoint"><strong>対局中の見つけ方:</strong> {shape.recognition}</p>
-                  <a href={`${videoUrl}&t=${secondsFromTime(shape.time)}s`} target="_blank" rel="noopener noreferrer">{shape.name}を動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
+                  <ul>
+                    <li>順子が完成すると、近くの牌をすぐ切ってしまう人</li>
+                    <li>孤立牌と伸びる牌の違いを見分けたい人</li>
+                    <li>カンチャンを残すか迷うことが多い人</li>
+                    <li>何切るで受け入れの広い形を選べるようになりたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution meldShapePracticeBox">
-          <p className="videoArticleSectionLabel">HOW TO PRACTICE</p>
-          <h2>形を見つけたら、引いた後の2組を作ってみる</h2>
-          <p>受け入れ枚数をすべて暗算する必要はありません。たとえば4567なら、3を加えて「345＋67」、8を加えて「45＋678」と、手牌を二つの組に分けてみます。</p>
-          <p>牌理チェッカーへ形を含む手牌を入力すると、残した場合と崩した場合の受け入れを比較できます。動画で覚えた形を実際に動かすと、対局中にも見つけやすくなります。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"牌を1枚ずつ見るのではなく、伸びやすい形のまとまりとして見ると、手牌を進める速度が変わります。"}
+          points={[
+            { title: "最初は3つだけ探せれば十分です", description: "動画内でも、覚える量が多いと感じたら 四連形・中ぶくれ・一枚飛び を先に覚える方法が案内されています。" },
+            { title: "動画の順番で覚える、アガリにつながる7つの形", description: "" },
+            { title: "形を見つけたら、引いた後の2組を作ってみる", description: "受け入れ枚数をすべて暗算する必要はありません。" },
+          ]}
+        />
 
         <ClearRainNanikiruBook />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>牌を動かして、強い形を自分のものにする</h2>
-          <div>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
-            <Link href="/videos/strategy/seven-meld-building-shapes">7つの複合形をさらに詳しく読む</Link>
-            <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を動画で学ぶ</Link>
-            <Link href="/trainer">麻雀トレーニングで試す</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>牌を動かして、強い形を自分のものにする</h2>
+                  <div>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
+                    <Link href="/videos/strategy/seven-meld-building-shapes">7つの複合形をさらに詳しく読む</Link>
+                    <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を動画で学ぶ</Link>
+                    <Link href="/trainer">麻雀トレーニングで試す</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

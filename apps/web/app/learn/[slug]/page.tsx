@@ -178,8 +178,16 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
               ) : (
                 <InternalLinkCard title="麻雀トレーニングへ進む" description="ロードマップを読み終えたら、何切るや待ち当てで手を動かして確認します。" href="/trainer" actionLabel="練習する" />
               )}
-              <RelatedLinkCard title="関連する練習問題" target={article.relatedPractice} fallbackHref="/trainer" />
-              <RelatedLinkCard title="関連するツール" target={article.relatedTool} fallbackHref="/tools" />
+              <RelatedLinkCard
+                title={article.relatedPractice.href?.startsWith("/rules/") ? "関連する解説記事" : "関連する練習問題"}
+                target={article.relatedPractice}
+                fallbackHref="/trainer"
+              />
+              <RelatedLinkCard
+                title={article.relatedTool.href === "/tools/score-table" ? "点数早見表" : "関連するツール"}
+                target={article.relatedTool}
+                fallbackHref="/tools"
+              />
             </div>
           </section>
         </div>

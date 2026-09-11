@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀のリーチ宣言牌から何が分かる？待ちを読む3つの情報",
@@ -88,7 +89,7 @@ export default function ReachDeclarationTileReadingArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 守備・捨て牌読み</p>
           <h1>リーチ宣言牌から、何が分かる？</h1>
           <p className="videoArticleLead">リーチで横向きに置かれた牌は、ただの捨て牌ではありません。テンパイする直前まで手の中にあった牌だからこそ、相手の手順や待ちを推測するヒントになります。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年6月26日</time><span>約8分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年6月26日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -96,77 +97,43 @@ export default function ReachDeclarationTileReadingArticlePage() {
             src="https://www.youtube-nocookie.com/embed/jc5a_WT9EVU"
             title="【麻雀解説】リーチ宣言牌だけで分かること（初心者向け）"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>スジとカベを覚え、もう一歩進んだ守備を学びたい人</li>
-            <li>リーチ宣言牌を見ても、現物の確認だけで終わっている人</li>
-            <li>相手がテンパイするまでの手順を想像してみたい人</li>
-            <li>読みを断定ではなく、危険度の比較に使いたい人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection videoDefenseBridge">
-          <p className="videoArticleSectionLabel">HOW TO READ</p>
-          <h2>宣言牌は「直前まで必要だった牌」かもしれない</h2>
-          <p>リーチ宣言牌は、テンパイした巡目に捨てられた牌です。ツモ切りでなければ、その直前まで手牌に残していた理由があります。周囲の牌とつながっていたのか、安全牌として抱えていたのかを考えることで、待ちの候補に強弱をつけられます。</p>
-          <p>ただし、宣言牌だけで待ちを当てることはできません。まず現物、スジ、カベなどの基本的な安全度を確認し、宣言牌の情報は最後に加える補助材料として使います。</p>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">THREE PATTERNS</p>
-          <h2>動画で紹介される3つの読み</h2>
-          <p className="videoDiagramNote">赤い枠が読みの起点、緑の枠が注目する牌です。危険・安全を確定する図ではなく、候補を比較するための簡略例です。</p>
-          <div className="videoPrincipleList">
-            {readingPatterns.map((pattern) => (
-              <section key={pattern.number} className="videoPrinciple reachReadingPattern">
-                <div className="videoPrincipleNumber">{pattern.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{pattern.time} から</span>
-                  <h3>{pattern.title}</h3>
-                  <strong className="reachReadingSummary">{pattern.summary}</strong>
-                  <p>{pattern.detail}</p>
-                  <div className="videoArticleTileBlocks">
-                    {pattern.blocks.map((block, index) => (
-                      <div className={block.weak ? "isWeak" : block.strong ? "isStrong" : ""} key={`${pattern.number}-${index}`}>
-                        <span>{block.label}</span>
-                        <div>{block.tiles.map((tile, tileIndex) => <img key={`${tile}-${tileIndex}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />)}</div>
-                      </div>
-                    ))}
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                  <p className="reachReadingCaution">※ {pattern.caution}</p>
-                  <a href={pattern.href} target="_blank" rel="noopener noreferrer">この読みを動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
+                  <ul>
+                    <li>スジとカベを覚え、もう一歩進んだ守備を学びたい人</li>
+                    <li>リーチ宣言牌を見ても、現物の確認だけで終わっている人</li>
+                    <li>相手がテンパイするまでの手順を想像してみたい人</li>
+                    <li>読みを断定ではなく、危険度の比較に使いたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution videoDefenseWarning">
-          <p className="videoArticleSectionLabel">IMPORTANT</p>
-          <h2>「読み」は答えではなく、確率を比べる材料</h2>
-          <p>麻雀の捨て牌読みは、相手の手牌を完全に当てる技術ではありません。相手の打ち方、ドラ、手役、ツモ切りか手出しかによって意味は変わります。宣言牌の近くだから必ず危険、安全牌を切ったから必ず両面、と決めつけないことが大切です。</p>
-          <p>最初は対局中に宣言牌を1回見るだけでも十分です。現物を確認したあとに「なぜこの牌を最後まで持っていたのだろう」と考える習慣をつけると、少しずつ手順を読む力が育ちます。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"リーチで横向きに置かれた牌は、ただの捨て牌ではありません。"}
+          points={[
+            { title: "宣言牌は「直前まで必要だった牌」かもしれない", description: "リーチ宣言牌は、テンパイした巡目に捨てられた牌です。" },
+            { title: "動画で紹介される3つの読み", description: "赤い枠が読みの起点、緑の枠が注目する牌です。" },
+            { title: "「読み」は答えではなく、確率を比べる材料", description: "麻雀の捨て牌読みは、相手の手牌を完全に当てる技術ではありません。" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>基本の守備と一緒に復習する</h2>
-          <div>
-            <Link href="/videos/strategy/suji-kabe-defense-basics">スジとカベで安全牌を探す基本に戻る</Link>
-            <Link href="/rules/practical-waits">両面・カンチャン・シャンポン待ちを確認する</Link>
-            <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の価値と守備へのつながりを見る</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>基本の守備と一緒に復習する</h2>
+                  <div>
+                    <Link href="/videos/strategy/suji-kabe-defense-basics">スジとカベで安全牌を探す基本に戻る</Link>
+                    <Link href="/rules/practical-waits">両面・カンチャン・シャンポン待ちを確認する</Link>
+                    <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の価値と守備へのつながりを見る</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

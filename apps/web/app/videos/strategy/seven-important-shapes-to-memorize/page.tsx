@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
-  title: "麻雀初心者が覚えたい重要な形7選 | 牌効率を牌図で解説",
-  description: "麻雀初心者が先に覚えたい四連形、中ぶくれ、両面カンチャン、完全イーシャンテンなど7つの重要形を、動画と牌図で分かりやすく解説します。"
+  title: "麻雀初心者が覚えたい重要な形7選 | 牌効率を短い要点で解説",
+  description: "麻雀初心者が先に覚えたい四連形、中ぶくれ、両面カンチャン、完全イーシャンテンなど7つの重要形を、動画と短い要点で分かりやすく解説します。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=BkzUkNwDXjY";
@@ -109,8 +110,8 @@ export default function SevenImportantShapesToMemorizePage() {
           <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/videos/strategy">麻雀を動画で学ぶ</Link><span>›</span><span>初心者が覚えたい重要形7選</span></nav>
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・重要形</p>
           <h1>初心者が先に覚えたい、勝ちにつながる重要な牌の形7選</h1>
-          <p className="videoArticleLead">何を切るか迷う時間を減らしたいなら、よく出る強い形を先に覚えるのが近道です。動画で紹介される7形を、牌画像と「残す理由」に分けて確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年3月2日</time><span>約10分で読める</span></div>
+          <p className="videoArticleLead">何を切るか迷う時間を減らしたいなら、よく出る強い形を先に覚えるのが近道です。動画で紹介される7形を、動画と「残す理由」に分けて確認します。</p>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年3月2日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -118,68 +119,43 @@ export default function SevenImportantShapesToMemorizePage() {
             src="https://www.youtube-nocookie.com/embed/BkzUkNwDXjY"
             title="初心者が丸暗記するだけで勝てるようになる重要形7選"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">平澤元気麻雀chの元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
-          <ul>
-            <li>牌のつながりを見ても、どれが強い形か分からない人</li>
-            <li>完成した面子の近くにある牌をすぐ切ってしまう人</li>
-            <li>何切るで受け入れの広い選択をできるようになりたい人</li>
-            <li>完全イーシャンテンを牌図から見つけたい人</li>
-          </ul>
-        </section>
+                  <div><p className="videoArticleSectionLabel">RECOMMENDED FOR</p><h2>この動画はこんな人に向いています</h2></div>
+                  <ul>
+                    <li>牌のつながりを見ても、どれが強い形か分からない人</li>
+                    <li>完成した面子の近くにある牌をすぐ切ってしまう人</li>
+                    <li>何切るで受け入れの広い選択をできるようになりたい人</li>
+                    <li>完全イーシャンテンを牌図から見つけたい人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">FIRST POINT</p>
-          <h2>形を覚えると「次に何を引きたいか」が見える</h2>
-          <p>牌効率は難しい計算から始めなくても大丈夫です。よく出る形と、その形が受け入れる牌をセットで覚えると、アガリへ近づく打牌を選びやすくなります。</p>
-          <div className="strategyKeyMessage"><strong>最初は四連形と中ぶくれから。</strong>対局中にこの2つを見つけて残せるだけでも、両面を作れる回数が増えていきます。</div>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">SEVEN SHAPES</p>
-          <h2>牌図で覚える7つの重要形</h2>
-          <div className="videoPrincipleList">
-            {shapes.map((shape) => (
-              <section key={shape.number} className="videoPrinciple meldShapePattern">
-                <div className="videoPrincipleNumber">{shape.number}</div>
-                <div className="videoPrincipleBody">
-                  <h3>{shape.name}<span className="meldShapeNotation">{shape.notation}</span></h3>
-                  <p>{shape.explanation}</p>
-                  <div className="videoArticleTileBlocks meldShapeTileBlocks">
-                    <div className="isStrong"><span>残したい形</span><TileRow tiles={shape.tiles} /></div>
-                    <div><span>主な受け入れ</span><TileRow tiles={shape.drawTiles} /></div>
-                  </div>
-                  <div className="strategyActionBox"><b>打つときの要点</b><p>{shape.action}</p></div>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
-
-        <section className="videoArticleCaution">
-          <p className="videoArticleSectionLabel">CAUTION</p>
-          <h2>形だけで打牌を決めない</h2>
-          <p>重要形は受け入れを広くする基本ですが、ドラ、役、残り枚数、巡目によって優先順位は変わります。まず形を見つけ、その後に打点と場況を比べる順番で使いましょう。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"何を切るか迷う時間を減らしたいなら、よく出る強い形を先に覚えるのが近道です。"}
+          points={[
+            { title: "形を覚えると「次に何を引きたいか」が見える", description: "牌効率は難しい計算から始めなくても大丈夫です。" },
+            { title: "先に覚えたい7つの重要形", description: "" },
+            { title: "形だけで打牌を決めない", description: "重要形は受け入れを広くする基本ですが、ドラ、役、残り枚数、巡目によって優先順位は変わります。" },
+          ]}
+        />
 
         <HirasawaTileEfficiencyBook />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>覚えた形を実際の手牌で試す</h2>
-          <div>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比べる</Link>
-            <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を復習する</Link>
-            <Link href="/videos/strategy/seven-strong-shapes-for-winning">別の強い形7選も見る</Link>
-            <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る問題で理解を確認する</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>覚えた形を実際の手牌で試す</h2>
+                  <div>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比べる</Link>
+                    <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を復習する</Link>
+                    <Link href="/videos/strategy/seven-strong-shapes-for-winning">別の強い形7選も見る</Link>
+                    <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る問題で理解を確認する</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

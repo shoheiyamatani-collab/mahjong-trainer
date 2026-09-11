@@ -310,9 +310,9 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
   ],
   "score-later": [
     {
-      title: "点数より先に形と役を見る",
-      description: "初心者は、点数計算より先にアガれる形か、役があるかを判断できるようにします。",
-      badges: ["学習順"],
+      title: "完成した手の点数を確認する",
+      description: "アガリ形と役を確認したら、親子・ロンツモ・符・翻の順に点数を見ます。",
+      badges: ["点数計算"],
       rows: [
         {
           label: "形",
@@ -320,7 +320,7 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
           tone: "answer",
           note: "4面子1雀頭があります。"
         },
-        { label: "役", tiles: ["ji7", "ji7", "ji7"], tone: "answer", note: "中の役牌があります。点数はこの後に確認します。" }
+        { label: "役", tiles: ["ji7", "ji7", "ji7"], tone: "answer", note: "中の役牌で1翻です。ほかの役やドラも足して翻数を確認します。" }
       ]
     },
     {

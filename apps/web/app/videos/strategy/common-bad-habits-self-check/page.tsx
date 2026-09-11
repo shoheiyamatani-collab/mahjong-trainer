@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀初心者に多い悪い癖3選 | 気づかない打ち方をセルフチェック",
-  description: "リーチへの中途半端な対応、役なしダマテン、生牌の字牌を残しすぎる癖を動画と牌図で解説。次の対局で直す行動をセルフチェックできます。"
+  description: "リーチへの中途半端な対応、役なしダマテン、生牌の字牌を残しすぎる癖を動画と短い要点で解説。次の対局で直す行動をセルフチェックできます。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=HH56Dvq8n8A";
@@ -103,7 +104,7 @@ export default function CommonBadHabitsSelfCheckArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 振り返り・悪癖改善</p>
           <h1>その打ち方、無意識の癖になっていませんか？</h1>
           <p className="videoArticleLead">麻雀を覚えて対局数が増えると、誰にも指摘されないまま同じ判断を繰り返すことがあります。初心者に多い3つの癖を確認し、次の対局で直す行動を1つ決めましょう。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年1月26日</time><span>約8分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年1月26日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -111,86 +112,45 @@ export default function CommonBadHabitsSelfCheckArticlePage() {
             src="https://www.youtube-nocookie.com/embed/HH56Dvq8n8A"
             title="【麻雀解説】すぐ直して！勝てない人の悪癖（初心者向け）"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">発男道場【麻雀解説ch】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>ルールは分かるようになったのに、なかなか成績が安定しない人</li>
-            <li>普段、自分の打牌を指摘してもらえる機会が少ない人</li>
-            <li>リーチ対応や字牌の切り時を感覚だけで決めている人</li>
-            <li>牌譜検討で何を振り返ればよいか分からない人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection habitSelfCheckSection">
-          <p className="videoArticleSectionLabel">SELF CHECK</p>
-          <h2>まず、当てはまるものを確認する</h2>
-          <p>当てはまる項目があっても問題ありません。気づけた項目は、次から直せる項目です。</p>
-          <div className="habitChecklist">
-            {checklist.map((item) => (
-              <label key={item}><input type="checkbox" /> <span>{item}</span></label>
-            ))}
-          </div>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">THREE HABITS</p>
-          <h2>初心者に多い3つの癖と直し方</h2>
-          <p className="videoDiagramNote">牌図は判断のポイントを示す簡略例です。ルールや局面により例外があるため、毎回同じ牌を切るという意味ではありません。</p>
-          <div className="videoPrincipleList">
-            {habits.map((habit) => (
-              <section key={habit.number} className="videoPrinciple habitReviewPattern">
-                <div className="videoPrincipleNumber">{habit.number}</div>
-                <div className="videoPrincipleBody">
-                  <span className="videoChapterTime">{habit.time} から</span>
-                  <h3>{habit.title}</h3>
-                  <div className="habitBeforeAfter">
-                    <div><b>ありがちな行動</b><p>{habit.commonAction}</p></div>
-                    <div><b>なぜ損になりやすい？</b><p>{habit.why}</p></div>
-                    <div><b>次からこう直す</b><p>{habit.correction}</p></div>
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                  <div className="videoArticleTileBlocks">
-                    {habit.blocks.map((block, index) => (
-                      <div className={block.weak ? "isWeak" : block.strong ? "isStrong" : ""} key={`${habit.number}-${index}`}>
-                        <span>{block.label}</span>
-                        <div>{block.tiles.map((tile, tileIndex) => <img key={`${tile}-${tileIndex}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />)}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <p className="reachReadingCaution">※ {habit.caution}</p>
-                  <a href={habit.href} target="_blank" rel="noopener noreferrer">この癖を動画の該当箇所から見る</a>
-                </div>
-              </section>
-            ))}
-          </div>
-        </section>
+                  <ul>
+                    <li>ルールは分かるようになったのに、なかなか成績が安定しない人</li>
+                    <li>普段、自分の打牌を指摘してもらえる機会が少ない人</li>
+                    <li>リーチ対応や字牌の切り時を感覚だけで決めている人</li>
+                    <li>牌譜検討で何を振り返ればよいか分からない人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution habitActionBox">
-          <p className="videoArticleSectionLabel">ONE ACTION</p>
-          <h2>次の対局では、1つだけ意識する</h2>
-          <p>3つを一度に直そうとすると、対局中に考えることが増えすぎます。チェックがついた中から1つ選び、「リーチを受けたら押すか降りるか言葉にする」「テンパイしたら役を確認する」など、具体的な行動に変えましょう。</p>
-          <p>対局後は、結果ではなくその行動ができたかを振り返ります。放銃した、アガれなかったという結果だけで判断しないことが、癖を直す近道です。</p>
-        </section>
+        <VideoArticleCompactContent
+          message={"麻雀を覚えて対局数が増えると、誰にも指摘されないまま同じ判断を繰り返すことがあります。"}
+          points={[
+            { title: "まず、当てはまるものを確認する", description: "当てはまる項目があっても問題ありません。" },
+            { title: "初心者に多い3つの癖と直し方", description: "自分に当てはまる癖を一つ選び、次の対局で直す行動を決めます。" },
+            { title: "次の対局では、1つだけ意識する", description: "3つを一度に直そうとすると、対局中に考えることが増えすぎます。" },
+          ]}
+        />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>苦手だった項目を復習する</h2>
-          <div>
-            <Link href="/videos/strategy/betaori-three-principles">ベタオリの切る順番を詳しく学ぶ</Link>
-            <Link href="/videos/strategy/suji-kabe-defense-basics">スジとカベで安全牌を探す</Link>
-            <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則で手作りを復習する</Link>
-            <Link href="/rules/yaku">役一覧でアガれる条件を確認する</Link>
-            <Link href="/trainer">麻雀トレーニングで判断を試す</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>苦手だった項目を復習する</h2>
+                  <div>
+                    <Link href="/videos/strategy/betaori-three-principles">ベタオリの切る順番を詳しく学ぶ</Link>
+                    <Link href="/videos/strategy/suji-kabe-defense-basics">スジとカベで安全牌を探す</Link>
+                    <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則で手作りを復習する</Link>
+                    <Link href="/rules/yaku">役一覧でアガれる条件を確認する</Link>
+                    <Link href="/trainer">麻雀トレーニングで判断を試す</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

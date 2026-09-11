@@ -1,3 +1,9 @@
+const mLeagueDirectoryUrl =
+  process.env.NEXT_PUBLIC_MLEAGUE_DIRECTORY_URL ??
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:3001/mleague"
+    : "https://mleague-player-directory.shohei-yamatani.chatgpt.site/mleague");
+
 export const siteConfig = {
   brand: {
     name: "雀フォリオ",
@@ -13,9 +19,7 @@ export const siteConfig = {
   externalSites: {
     mLeaguePlayerDirectory: {
       label: "Mリーグについて知る",
-      href:
-        process.env.NEXT_PUBLIC_MLEAGUE_DIRECTORY_URL ??
-        "https://mleague-player-directory.shohei-yamatani.chatgpt.site/mleague"
+      href: mLeagueDirectoryUrl
     }
   }
 } as const;

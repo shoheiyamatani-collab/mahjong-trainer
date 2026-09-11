@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
+import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
   title: "麻雀初心者が間違えたくない何切る問題10問 | ブロックと対子の数え方",
-  description: "麻雀初心者向けの何切る全10問を紹介。浮き牌、6ブロック、カンチャン比較、対子の数、複合ターツの判断を牌図で分かりやすく整理します。"
+  description: "麻雀初心者向けの何切る全10問を紹介。浮き牌、6ブロック、カンチャン比較、対子の数、複合ターツの判断を短い要点で分かりやすく整理します。"
 };
 
 const videoUrl = "https://www.youtube.com/watch?v=8ZsxOw6-NJs";
@@ -64,7 +65,7 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・何切る</p>
           <h1>初心者が間違えたくない、何切る問題10問</h1>
           <p className="videoArticleLead">何切るで迷ったとき、いきなり受け入れ枚数を数える必要はありません。まずブロック数、次に対子の数、最後に形の強さを見る。この順番を全10問で身につける動画です。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年4月11日</time><span>約9分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年4月11日</time><span>約3分で読める</span></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -72,121 +73,46 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
             src="https://www.youtube-nocookie.com/embed/8ZsxOw6-NJs"
             title="【麻雀】初心者が絶対に間違えてはいけない何切る問題【全10問】"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
+            allowFullScreen loading="lazy" />
         </div>
         <p className="videoSourceNote">動画提供: <a href={videoUrl} target="_blank" rel="noopener noreferrer">クリアレインのアトリエ【麻雀解説】の元動画をYouTubeで見る</a></p>
 
         <section className="videoArticleAudience">
-          <div>
-            <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
-            <h2>この動画はこんな人に向いています</h2>
-          </div>
-          <ul>
-            <li>何切る問題を解き始めたばかりの人</li>
-            <li>両面が大切なのは知っていても、対子をいつ崩すか迷う人</li>
-            <li>5ブロックと6ブロックを数えずに切ってしまう人</li>
-            <li>複合ターツが出ると、何を残せばよいか分からなくなる人</li>
-          </ul>
-        </section>
-
-        <section className="videoArticleBodySection beginnerNanikiruHowTo">
-          <p className="videoArticleSectionLabel">HOW TO WATCH</p>
-          <h2>動画を止めて、理由まで声に出してから答えを見る</h2>
-          <ol>
-            <li><strong>問題が出たら一時停止する</strong><span>正解を見る前に、自分で1枚選びます。</span></li>
-            <li><strong>ブロック数と対子の数を数える</strong><span>「5ブロック・2対子」のように言葉にします。</span></li>
-            <li><strong>切る理由を一言で決める</strong><span>浮き牌だから、6ブロックだから、対子が余るから、と根拠を持ちます。</span></li>
-            <li><strong>動画の解説と根拠を比べる</strong><span>正解したかより、判断手順が同じだったかを確認します。</span></li>
-          </ol>
-        </section>
-
-        <section className="videoArticleBodySection">
-          <p className="videoArticleSectionLabel">THREE CHECKS</p>
-          <h2>何切るで最初に見る3つ</h2>
-          <div className="beginnerNanikiruChecks">
-            <section>
-              <span>CHECK 1</span>
-              <h3>浮き牌があるか</h3>
-              <p>5ブロックが足りているなら、どの面子候補にも関係していない牌から整理します。</p>
-              <div className="beginnerNanikiruIllustration">
-                <TileGroup tiles={["man2", "man3", "man4"]} label="面子" />
-                <TileGroup tiles={["man6", "man7"]} label="ターツ" />
-                <TileGroup tiles={["pin3", "pin4"]} label="ターツ" />
-                <TileGroup tiles={["ji7"]} label="浮き牌" weak />
-              </div>
-            </section>
-            <section>
-              <span>CHECK 2</span>
-              <h3>ブロックが5つか6つか</h3>
-              <p>6ブロックなら1つ外す必要があります。ペンチャンなど、受け入れや変化が弱い形を探します。</p>
-              <div className="beginnerNanikiruIllustration">
-                <TileGroup tiles={["man2", "man3"]} />
-                <TileGroup tiles={["man6", "man7"]} />
-                <TileGroup tiles={["pin3", "pin4"]} />
-                <TileGroup tiles={["pin7", "pin8"]} />
-                <TileGroup tiles={["sou4", "sou5"]} />
-                <TileGroup tiles={["sou8", "sou9"]} label="弱い候補" weak />
-              </div>
-            </section>
-            <section>
-              <span>CHECK 3</span>
-              <h3>対子が何組あるか</h3>
-              <p>2対子と3対子では、残したい形が変わります。雀頭候補が足りるか、余っているかを先に確認します。</p>
-              <div className="beginnerNanikiruIllustration">
-                <TileGroup tiles={["man4", "man4"]} label="対子1" />
-                <TileGroup tiles={["pin6", "pin6"]} label="対子2" />
-                <TileGroup tiles={["sou1", "sou1"]} label="対子3" weak />
-              </div>
-            </section>
-          </div>
-        </section>
-
-        <section className="videoArticleBodySection beginnerNanikiruAnswers">
-          <p className="videoArticleSectionLabel">TEN QUESTIONS</p>
-          <h2>全10問の答えと覚えるポイント</h2>
-          <div className="videoArticleCaution beginnerNanikiruSpoiler">
-            <strong>先に動画の問題を解いてから開きましょう。</strong>
-            <p>各問の答えは、見出しを押したときだけ表示されます。</p>
-          </div>
-          <div className="beginnerNanikiruAnswerList">
-            {answers.map((answer) => {
-              const [minutes, seconds] = answer.time.split(":").map(Number);
-              const startAt = minutes * 60 + seconds;
-              return (
-                <details key={answer.number}>
-                  <summary><span>第{answer.number}問</span><b>{answer.title}</b><small>{answer.time}から</small></summary>
-                  <div className="beginnerNanikiruAnswerBody">
-                    <div className="beginnerNanikiruCutTile"><span>正解</span><Tile tile={answer.tile} selected /><strong>{answer.tileLabel}切り</strong></div>
-                    <p>{answer.reason}</p>
-                    <a href={`${videoUrl}&t=${startAt}s`} target="_blank" rel="noopener noreferrer">第{answer.number}問を動画で確認する</a>
+                  <div>
+                    <p className="videoArticleSectionLabel">RECOMMENDED FOR</p>
+                    <h2>この動画はこんな人に向いています</h2>
                   </div>
-                </details>
-              );
-            })}
-          </div>
-        </section>
+                  <ul>
+                    <li>何切る問題を解き始めたばかりの人</li>
+                    <li>両面が大切なのは知っていても、対子をいつ崩すか迷う人</li>
+                    <li>5ブロックと6ブロックを数えずに切ってしまう人</li>
+                    <li>複合ターツが出ると、何を残せばよいか分からなくなる人</li>
+                  </ul>
+                </section>
 
-        <section className="videoArticleCaution beginnerNanikiruCaution">
-          <p className="videoArticleSectionLabel">IMPORTANT</p>
-          <h2>「対子は弱い」「ペンチャンは弱い」だけで決めない</h2>
-          <p>形の強さは、手牌全体のブロック数と対子の数で変わります。両面より対子を先に整理する場面もあれば、カンチャンやペンチャンより対子を残す場面もあります。</p>
-          <div className="strategyKeyMessage"><strong>順番は、ブロック数 → 対子の数 → 形の強さです。</strong>この3つを確認してから、受け入れ枚数や変化を比べましょう。</div>
-        </section>
+        <VideoArticleCompactContent
+          message={"何切るで迷ったとき、いきなり受け入れ枚数を数える必要はありません。"}
+          points={[
+            { title: "動画を止めて、理由まで声に出してから答えを見る", description: "" },
+            { title: "何切るで最初に見る3つ", description: "5ブロックが足りているなら、どの面子候補にも関係していない牌から整理します。" },
+            { title: "全10問の答えと覚えるポイント", description: "各問の答えは、見出しを押したときだけ表示されます。" },
+          ]}
+        />
 
         <ClearRainNanikiruBook />
 
         <section className="videoArticleNext">
-          <p className="videoArticleSectionLabel">NEXT STEP</p>
-          <h2>同じ判断を自分の手で試す</h2>
-          <div>
-            <Link href="/trainer">何切る問題を解く</Link>
-            <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
-            <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を動画で学ぶ</Link>
-            <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">全16問の何切るセオリーへ進む</Link>
-          </div>
-        </section>
-      </article>
+                  <p className="videoArticleSectionLabel">NEXT STEP</p>
+                  <h2>同じ判断を自分の手で試す</h2>
+                  <div>
+                    <Link href="/trainer">何切る問題を解く</Link>
+                    <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
+                    <Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を動画で学ぶ</Link>
+                    <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">全16問の何切るセオリーへ進む</Link>
+                  </div>
+                </section>
+
+</article>
     </main>
   );
 }

@@ -36,14 +36,25 @@ const navItems: SiteNavItem[] = [
     tone: "video"
   },
   {
-    label: "Mリーグ厳選切り抜きを見る",
-    href: "/videos/mleague-clips",
-    visible: siteConfig.features.showMLeagueLinks
-  },
-  {
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
     href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
     external: true,
+    icon: "mleague",
+    kind: "utility",
+    tone: "mleague",
+    visible: siteConfig.features.showMLeagueLinks
+  },
+  {
+    label: "初心者ロードマップ",
+    href: "/learn/roadmap",
+    activePrefixes: ["/learn"],
+    icon: "roadmap",
+    kind: "utility",
+    tone: "roadmap"
+  },
+  {
+    label: "Mリーグ厳選切り抜きを見る",
+    href: "/videos/mleague-clips",
     visible: siteConfig.features.showMLeagueLinks
   }
 ];
