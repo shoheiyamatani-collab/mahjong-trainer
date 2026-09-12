@@ -17,6 +17,8 @@ apps/web/.next-stale-*/
 apps/web/.next-dev.*.log
 .devserver.*.log
 apps/web/out/
+apps/mleague/.next/
+apps/mleague/out/
 .vercel/
 .wrangler/
 *.tsbuildinfo

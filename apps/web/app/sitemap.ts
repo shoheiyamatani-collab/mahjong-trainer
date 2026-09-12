@@ -16,6 +16,7 @@ const staticPaths = [
   "/contact",
   "/learn",
   "/learn/roadmap",
+  "/mleague",
   "/privacy",
   "/rules",
   "/rules/frequent-yaku",

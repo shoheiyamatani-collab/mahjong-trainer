@@ -3,10 +3,12 @@
   "private": true,
   "packageManager": "pnpm@11.7.0",
   "scripts": {
-    "build": "pnpm build:web",
+    "build": "pnpm build:web && pnpm build:mleague && node scripts/merge-mleague-output.mjs",
     "dev": "pnpm dev:web",
     "dev:web": "pnpm --filter @mahjong-trainer/web dev",
+    "dev:mleague": "pnpm --filter @mahjong-trainer/mleague dev",
     "build:web": "pnpm --filter @mahjong-trainer/web build",
+    "build:mleague": "pnpm --filter @mahjong-trainer/mleague build",
     "test": "pnpm --filter @mahjong-trainer/mahjong-core test",
     "typecheck": "pnpm -r typecheck"
   },
