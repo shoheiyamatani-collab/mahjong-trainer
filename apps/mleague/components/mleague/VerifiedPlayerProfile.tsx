@@ -3,6 +3,10 @@ import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { ExternalLink } from "@/components/ExternalLink";
 import { siteConfig } from "@/config/site";
 import { teams } from "@/data/mleague/teams";
+import {
+  getAmazonBookLink,
+  getRakutenBookLink,
+} from "@/lib/mleague/affiliateLinks";
 import { formatVerifiedDate } from "@/lib/mleague/formatDate";
 import { getCurrentMembership } from "@/lib/mleague/getPlayers";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
@@ -41,6 +45,12 @@ export function VerifiedPlayerProfile({
     ? teams.find((team) => team.id === currentMembership.teamId)
     : undefined;
   const publishedBooks = books.filter((book) => book.isPublished);
+  const hasAmazonAffiliateLink = publishedBooks.some(
+    (book) => getAmazonBookLink(book).sponsored,
+  );
+  const hasAffiliateLink =
+    hasAmazonAffiliateLink ||
+    publishedBooks.some((book) => getRakutenBookLink(book).sponsored);
   const officialAccounts = [
     profile.officialAccounts.x
       ? { platform: "X", ...profile.officialAccounts.x }
@@ -157,6 +167,14 @@ export function VerifiedPlayerProfile({
                 <BookCard key={book.id} book={book} />
               ))}
             </div>
+            {hasAffiliateLink ? (
+              <p className="book-affiliate-disclosure book-section-affiliate-disclosure">
+                商品リンクにはアフィリエイト広告が含まれます。
+                {hasAmazonAffiliateLink
+                  ? " Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。"
+                  : ""}
+              </p>
+            ) : null}
           </section>
         ) : null}
 

@@ -58,23 +58,14 @@ function BookLink({
   );
 }
 
-function formatReleaseDate(value: string) {
-  const [year, month, day] = value.split("-").map(Number);
-  if (day) return `${year}年${month}月${day}日`;
-  if (month) return `${year}年${month}月`;
-  return `${year}年`;
-}
-
 export function BookCard({ book }: { book: PlayerBook }) {
   const coverImageUrl =
     getSafeExternalUrl(book.coverImageUrl || undefined) ||
     getAmazonBookCoverUrl(book);
-  const publisherUrl = getSafeExternalUrl(book.publisherUrl || undefined);
   const isbnSuffix = book.isbn13?.replace(/-/g, "").slice(-4);
   const amazonLink = getAmazonBookLink(book);
   const rakutenLink = getRakutenBookLink(book);
   const hasRetailLink = Boolean(amazonLink.href || rakutenLink.href);
-  const hasAffiliateLink = amazonLink.sponsored || rakutenLink.sponsored;
 
   return (
     <article className="book-card">
@@ -92,50 +83,14 @@ export function BookCard({ book }: { book: PlayerBook }) {
           <span className="book-role">{roleLabels[book.role]}</span>
           <h3>{book.title}</h3>
         </div>
-        <dl className="book-meta">
-          {book.coauthors?.length ? (
+        {book.coauthors?.length ? (
+          <dl className="book-meta">
             <div>
               <dt>{contributorLabels[book.role]}</dt>
               <dd>{book.coauthors.join("、")}</dd>
             </div>
-          ) : null}
-          {book.publisher ? (
-            <div>
-              <dt>出版社</dt>
-              <dd>
-                {publisherUrl ? (
-                  <a
-                    className="text-link"
-                    href={publisherUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {book.publisher}
-                  </a>
-                ) : (
-                  book.publisher
-                )}
-              </dd>
-            </div>
-          ) : null}
-          {book.releaseDate ? (
-            <div>
-              <dt>発売日</dt>
-              <dd>{formatReleaseDate(book.releaseDate)}</dd>
-            </div>
-          ) : book.releaseYear ? (
-            <div>
-              <dt>発売年</dt>
-              <dd>{book.releaseYear}年</dd>
-            </div>
-          ) : null}
-          {book.isbn13 ? (
-            <div>
-              <dt>ISBN</dt>
-              <dd>{book.isbn13}</dd>
-            </div>
-          ) : null}
-        </dl>
+          </dl>
+        ) : null}
         {book.description ? <p>{book.description}</p> : null}
         {hasRetailLink ? (
           <div className="book-affiliate-links">
@@ -151,14 +106,6 @@ export function BookCard({ book }: { book: PlayerBook }) {
               store="rakuten"
               sponsored={rakutenLink.sponsored}
             />
-            {hasAffiliateLink ? (
-              <p className="book-affiliate-disclosure">
-                商品リンクにはアフィリエイト広告が含まれます。
-                {amazonLink.sponsored
-                  ? " Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。"
-                  : ""}
-              </p>
-            ) : null}
           </div>
         ) : null}
       </div>
