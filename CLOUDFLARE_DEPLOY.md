@@ -14,7 +14,7 @@ Cloudflare Pages（ビルドと静的ファイル配信）
 独自ドメイン
 ```
 
-API、データベース、認証、SSR、ISR、Pages Functions、Workersは使用しません。麻雀の計算とトレーニングはブラウザ内JavaScriptで動きます。そのため、D1、KV、R2、Durable Objects、Cloudflare Imagesも不要です。
+API、データベース、認証、SSR、ISRは使用しません。麻雀の計算とトレーニングはブラウザ内JavaScriptで動きます。Mリーグ情報だけは、別リポジトリで管理するサイトを同一ドメインの`/mleague`配下へつなぐため、限定的なPages Functionを使用します。D1、KV、R2、Durable Objects、Cloudflare Imagesは不要です。
 
 Cloudflare Pagesはビルド時に`CF_PAGES=1`を自動設定します。`apps/web/next.config.mjs`は、この値がある場合だけ`output: "export"`を有効にします。通常のVercelビルドでは従来の構成とトップページのリダイレクトを維持します。
 
@@ -109,7 +109,8 @@ Vercel用の`VERCEL_OIDC_TOKEN`をCloudflareへ移す必要はありません。
 - Build output directory: `apps/web/out`
 - Node.js: `22.16.0`
 - pnpm: `11.7.0`
-- Pages Functions、D1、KV、R2、Durable Objects: 作成しない
+- Pages Functions: `/mleague`と専用アセットの中継にのみ使用
+- D1、KV、R2、Durable Objects: 作成しない
 
 ## 10. 初回デプロイと確認
 

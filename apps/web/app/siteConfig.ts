@@ -1,8 +1,7 @@
 const mLeagueDirectoryUrl =
-  process.env.NEXT_PUBLIC_MLEAGUE_DIRECTORY_URL ??
   (process.env.NODE_ENV === "development"
-    ? "http://localhost:3001/mleague"
-    : "https://mleague-player-directory.shohei-yamatani.chatgpt.site/mleague");
+    ? process.env.NEXT_PUBLIC_MLEAGUE_DIRECTORY_URL ?? "http://localhost:3001/mleague"
+    : "/mleague");
 
 export const siteConfig = {
   brand: {
@@ -21,7 +20,8 @@ export const siteConfig = {
   externalSites: {
     mLeaguePlayerDirectory: {
       label: "Mリーグについて知る",
-      href: mLeagueDirectoryUrl
+      href: mLeagueDirectoryUrl,
+      external: mLeagueDirectoryUrl.startsWith("http")
     }
   }
 } as const;

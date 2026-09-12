@@ -38,7 +38,8 @@ const navItems: SiteNavItem[] = [
   {
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
     href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
-    external: true,
+    external: siteConfig.externalSites.mLeaguePlayerDirectory.external,
+    activePrefixes: ["/mleague"],
     icon: "mleague",
     kind: "utility",
     tone: "mleague",
