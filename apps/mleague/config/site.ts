@@ -17,6 +17,8 @@ export const siteConfig = {
     clips: "/clips",
     recentClips: "/clips/recent",
     highlightClips: "/clips/highlights",
+    yakumanClips: "/clips/highlights/yakuman",
+    memorableClips: "/clips/highlights/moments",
     teams: "/teams",
     events: "/events",
     policy: "/policy",

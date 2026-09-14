@@ -6473,6 +6473,13 @@ textarea:focus {
   line-height: 1.55;
 }
 
+.clip-video-body .clip-video-context {
+  margin: 0.45rem 0 0;
+  color: #b9f3ff;
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+
 .clip-watch-link {
   margin-top: auto;
   color: var(--broadcast-cyan);
