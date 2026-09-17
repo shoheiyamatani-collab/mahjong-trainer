@@ -2,6 +2,7 @@ export type HighlightClip = {
   id: string;
   tag: string;
   title: string;
+  summary?: string;
   channel: string;
   url: string;
   isShort?: boolean;

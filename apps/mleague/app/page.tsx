@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClipVideoGrid } from "@/app/clips/highlights/ClipVideoGrid";
+import { latestMatchHighlight } from "@/app/clips/recent-clips";
 import { ExternalLink } from "@/components/ExternalLink";
 import { siteConfig } from "@/config/site";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
@@ -218,6 +220,9 @@ export default function MatchInformationPage() {
             <Link className="button-secondary" href={siteConfig.routes.players}>
               選手について知る
             </Link>
+            <Link className="button-secondary" href={siteConfig.routes.stats}>
+              今シーズンの成績を見る
+            </Link>
           </div>
         </div>
       </section>
@@ -268,6 +273,24 @@ export default function MatchInformationPage() {
             </section>
           ))}
         </div>
+      </section>
+
+      <section className="home-match-highlight" aria-labelledby="home-match-highlight-title">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">LATEST MATCH HIGHLIGHT</span>
+            <h2 id="home-match-highlight-title">9月15日のハイライト</h2>
+          </div>
+          <Link className="text-link" href={siteConfig.routes.recentClips}>
+            最近の切り抜きを見る
+          </Link>
+        </div>
+
+        <ClipVideoGrid
+          clips={[latestMatchHighlight]}
+          ariaLabel="9月15日の公式ハイライト動画"
+          numberLabel="HIGHLIGHT"
+        />
       </section>
 
       <section className="upcoming-schedule" aria-labelledby="upcoming-title">

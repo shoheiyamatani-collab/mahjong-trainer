@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ExternalLink } from "@/components/ExternalLink";
 import { siteConfig } from "@/config/site";
 import { formatVerifiedDate } from "@/lib/mleague/formatDate";
+import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
 import type { Player, Team } from "@/types/mleague";
 
 type TeamCardProps = {
@@ -12,7 +13,7 @@ type TeamCardProps = {
 
 export function TeamCard({ team, players, index }: TeamCardProps) {
   return (
-    <article className="team-card">
+    <article className="team-card" style={getTeamThemeStyle(team.id)}>
       <span className="team-index" aria-hidden="true">
         {String(index + 1).padStart(2, "0")}
       </span>

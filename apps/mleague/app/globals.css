@@ -5191,7 +5191,13 @@ a {
   border-left: 0.24rem solid var(--team-accent, var(--broadcast-cyan));
   border-radius: 0.12rem;
   background:
-    linear-gradient(100deg, color-mix(in srgb, var(--team-accent) 10%, transparent), transparent 48%),
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--team-accent) 16%, transparent) 0%,
+      color-mix(in srgb, var(--team-accent) 11%, transparent) calc(var(--team-balance, 68%) - 8%),
+      color-mix(in srgb, var(--team-secondary) 14%, transparent) calc(var(--team-balance, 68%) + 8%),
+      color-mix(in srgb, var(--team-secondary) 10%, transparent) 100%
+    ),
     linear-gradient(145deg, rgb(11 29 58 / 98%), rgb(5 15 32 / 98%));
   box-shadow: var(--shadow-card);
 }
@@ -5202,7 +5208,11 @@ a {
   right: 0;
   width: 5.5rem;
   height: 1px;
-  background: var(--team-accent, var(--broadcast-cyan));
+  background: linear-gradient(
+    90deg,
+    var(--team-accent, var(--broadcast-cyan)),
+    var(--team-secondary, var(--broadcast-magenta))
+  );
   content: "";
   box-shadow: 0 0 12px color-mix(in srgb, var(--team-accent) 65%, transparent);
 }
@@ -5703,7 +5713,13 @@ textarea:focus {
   min-height: 8.3rem;
   padding: 1.4rem 1.5rem 1.25rem;
   background:
-    linear-gradient(110deg, color-mix(in srgb, var(--team-accent) 17%, transparent), transparent 60%),
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--team-accent) 20%, transparent) 0%,
+      color-mix(in srgb, var(--team-accent) 13%, transparent) calc(var(--team-balance, 68%) - 8%),
+      color-mix(in srgb, var(--team-secondary) 17%, transparent) calc(var(--team-balance, 68%) + 8%),
+      color-mix(in srgb, var(--team-secondary) 10%, transparent) 100%
+    ),
     rgb(4 14 31 / 48%);
 }
 
@@ -6202,11 +6218,48 @@ textarea:focus {
   background:
     linear-gradient(
       105deg,
-      color-mix(in srgb, var(--team-accent, var(--broadcast-blue)) 20%, #07152b) 0%,
-      #07152b 52%,
-      #040a18 100%
+      color-mix(in srgb, var(--team-accent, var(--broadcast-blue)) 25%, #07152b) 0%,
+      color-mix(in srgb, var(--team-accent, var(--broadcast-blue)) 18%, #07152b)
+        calc(var(--team-balance, 68%) - 8%),
+      color-mix(in srgb, var(--team-secondary, var(--broadcast-magenta)) 20%, #07152b)
+        calc(var(--team-balance, 68%) + 8%),
+      color-mix(in srgb, var(--team-secondary, var(--broadcast-magenta)) 12%, #040a18) 100%
     );
   color: #ffffff;
+}
+
+.team-profile-page .page-header {
+  border-left-color: var(--team-accent, var(--broadcast-cyan));
+  background:
+    linear-gradient(
+      108deg,
+      color-mix(in srgb, var(--team-accent) 23%, #07152b) 0%,
+      color-mix(in srgb, var(--team-accent) 16%, #07152b)
+        calc(var(--team-balance, 68%) - 8%),
+      color-mix(in srgb, var(--team-secondary) 20%, #07152b)
+        calc(var(--team-balance, 68%) + 8%),
+      color-mix(in srgb, var(--team-secondary) 12%, #040a18) 100%
+    );
+}
+
+.team-profile-page .page-header::before {
+  width: min(52%, 28rem);
+  background: linear-gradient(90deg, var(--team-accent), var(--team-secondary));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--team-secondary) 45%, transparent);
+}
+
+.team-profile-page .page-header .eyebrow {
+  color: color-mix(in srgb, var(--team-accent) 72%, white);
+}
+
+.team-profile-page .content-card {
+  background:
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--team-accent) 7%, transparent) 0 var(--team-balance, 68%),
+      color-mix(in srgb, var(--team-secondary) 8%, transparent) var(--team-balance, 68%) 100%
+    ),
+    linear-gradient(145deg, rgb(11 29 58 / 96%), rgb(5 15 32 / 98%));
 }
 
 .profile-hero.profile-hero-without-avatar .page-title {
@@ -6480,6 +6533,17 @@ textarea:focus {
   font-weight: 750;
 }
 
+.clip-video-body .clip-video-summary {
+  margin: 0.65rem 0 0;
+  color: #d2ddeb;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.clip-video-body .clip-video-channel {
+  margin-top: 0.65rem;
+}
+
 .clip-watch-link {
   margin-top: auto;
   color: var(--broadcast-cyan);
@@ -6518,7 +6582,12 @@ textarea:focus {
   margin-top: clamp(2.6rem, 5vw, 4.6rem);
 }
 
-.latest-results .section-heading {
+.home-match-highlight {
+  margin-top: clamp(2.6rem, 5vw, 4.6rem);
+}
+
+.latest-results .section-heading,
+.home-match-highlight .section-heading {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -6527,8 +6596,31 @@ textarea:focus {
   border-bottom: 1px solid var(--broadcast-line);
 }
 
-.latest-results .section-heading h2 {
+.latest-results .section-heading h2,
+.home-match-highlight .section-heading h2 {
   margin-bottom: 0;
+}
+
+.home-match-highlight .clip-video-grid {
+  grid-template-columns: minmax(0, 64rem);
+}
+
+.home-match-highlight .clip-video-card {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
+}
+
+.home-match-highlight .clip-thumbnail-link,
+.home-match-highlight .clip-thumbnail {
+  min-height: 100%;
+}
+
+.home-match-highlight .clip-thumbnail {
+  aspect-ratio: auto;
+}
+
+.home-match-highlight .clip-video-body {
+  min-height: 0;
 }
 
 .result-match-grid {
@@ -6661,9 +6753,19 @@ textarea:focus {
 }
 
 @media (max-width: 680px) {
-  .latest-results .section-heading {
+  .latest-results .section-heading,
+  .home-match-highlight .section-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .home-match-highlight .clip-video-card {
+    display: block;
+  }
+
+  .home-match-highlight .clip-thumbnail {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -6676,5 +6778,336 @@ textarea:focus {
   .result-points {
     grid-column: 2;
     font-size: 0.82rem;
+  }
+}
+
+/* 2026-27 team and player standings */
+.season-ranking-header .eyebrow {
+  display: block;
+  margin-bottom: 0.55rem;
+}
+
+.season-ranking-heading {
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--broadcast-line);
+}
+
+.season-ranking-heading h2 {
+  margin: 0.2rem 0 0;
+  color: var(--broadcast-text);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.season-ranking-heading p {
+  margin: 0.4rem 0 0;
+  font-size: 0.88rem;
+}
+
+.season-team-ranking-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.season-team-ranking-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.35rem minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: center;
+  min-width: 0;
+  padding: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--broadcast-line-soft);
+  border-left: 0.22rem solid var(--team-accent, var(--broadcast-cyan));
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--team-accent) 10%, transparent), transparent 48%),
+    linear-gradient(145deg, rgb(11 29 58 / 98%), rgb(5 15 32 / 98%));
+  box-shadow: var(--shadow-card);
+}
+
+.season-team-ranking-card::after {
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: 5rem;
+  height: 1px;
+  background: var(--team-accent, var(--broadcast-cyan));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--team-accent) 60%, transparent);
+  content: "";
+}
+
+.season-ranking-position {
+  display: flex;
+  width: 3.1rem;
+  height: 3.1rem;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid rgb(255 255 255 / 18%);
+  background: rgb(2 10 24 / 52%);
+}
+
+.season-ranking-position b {
+  color: white;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 1.28rem;
+  line-height: 1;
+}
+
+.season-ranking-position small {
+  margin-top: 0.22rem;
+  color: #7185a1;
+  font-size: 0.48rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.season-team-ranking-card:first-child .season-ranking-position {
+  border-color: rgb(242 193 78 / 58%);
+  background: rgb(242 193 78 / 12%);
+}
+
+.season-team-ranking-card:first-child .season-ranking-position b {
+  color: #ffe19a;
+}
+
+.season-team-ranking-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.season-team-ranking-main a {
+  overflow: hidden;
+  color: var(--broadcast-text);
+  font-size: clamp(0.92rem, 1.8vw, 1.08rem);
+  font-weight: 900;
+  line-height: 1.35;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.season-team-ranking-main a:hover,
+.season-team-ranking-main a:focus-visible {
+  color: var(--broadcast-cyan);
+}
+
+.season-team-ranking-main > span {
+  margin-top: 0.2rem;
+  color: var(--broadcast-muted);
+  font-size: 0.68rem;
+}
+
+.season-point-value {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.86rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.season-point-value.is-positive {
+  color: #65e7ff;
+}
+
+.season-point-value.is-negative {
+  color: #ff91bf;
+}
+
+.season-point-value.is-neutral {
+  color: #a7b6ca;
+}
+
+.season-team-ranking-detail {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0.1rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--broadcast-line-soft);
+}
+
+.season-team-ranking-detail > div {
+  padding-inline: 0.55rem;
+  border-right: 1px solid var(--broadcast-line-soft);
+  text-align: center;
+}
+
+.season-team-ranking-detail > div:last-child {
+  border-right: 0;
+}
+
+.season-team-ranking-detail dt {
+  color: #7185a1;
+  font-size: 0.6rem;
+  font-weight: 750;
+}
+
+.season-team-ranking-detail dd {
+  margin: 0.1rem 0 0;
+  color: #eaf2ff;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 850;
+}
+
+.season-player-table-wrap {
+  margin-top: 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--broadcast-line-soft);
+  background: rgb(4 13 29 / 72%);
+  box-shadow: var(--shadow-card);
+}
+
+.season-player-table {
+  width: 100%;
+  min-width: 54rem;
+  border-collapse: collapse;
+}
+
+.season-player-table th,
+.season-player-table td {
+  padding: 0.72rem 0.75rem;
+  border-right: 1px solid var(--broadcast-line-soft);
+  border-bottom: 1px solid var(--broadcast-line-soft);
+  color: #dce6f4;
+  font-size: 0.78rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.season-player-table tr:last-child th,
+.season-player-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.season-player-table th:last-child,
+.season-player-table td:last-child {
+  border-right: 0;
+}
+
+.season-player-table thead th {
+  background: #0b2346;
+  color: var(--broadcast-cyan);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.season-player-table tbody tr {
+  background: rgb(5 15 32 / 64%);
+}
+
+.season-player-table tbody tr:hover {
+  background: color-mix(in srgb, var(--team-accent) 9%, #07152b);
+}
+
+.season-player-table tbody th {
+  min-width: 14rem;
+  padding: 0;
+  text-align: left;
+}
+
+.season-player-rank {
+  width: 4rem;
+  color: #93a5bd !important;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.86rem !important;
+  font-weight: 900;
+}
+
+.season-player-table tbody tr:first-child .season-player-rank {
+  color: #ffe19a !important;
+}
+
+.season-player-link {
+  display: flex;
+  align-items: stretch;
+  gap: 0.72rem;
+  min-height: 3.65rem;
+  padding: 0.55rem 0.75rem;
+  color: var(--broadcast-text);
+  text-decoration: none;
+}
+
+.season-player-link > span:first-child {
+  width: 0.22rem;
+  flex: 0 0 auto;
+  background: var(--team-accent, var(--broadcast-cyan));
+  box-shadow: 0 0 9px color-mix(in srgb, var(--team-accent) 50%, transparent);
+}
+
+.season-player-link > span:last-child {
+  display: flex;
+  min-width: 0;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.season-player-link strong {
+  overflow: hidden;
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+}
+
+.season-player-link small {
+  margin-top: 0.12rem;
+  overflow: hidden;
+  color: #8498b2;
+  font-size: 0.62rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+}
+
+.season-player-link:hover strong,
+.season-player-link:focus-visible strong {
+  color: var(--broadcast-cyan);
+}
+
+.season-ranking-source {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--broadcast-line-soft);
+  border-left: 0.2rem solid var(--broadcast-cyan);
+  background: rgb(5 17 36 / 76%);
+}
+
+.season-ranking-source strong {
+  color: var(--broadcast-text);
+  font-size: 0.78rem;
+}
+
+.season-ranking-source p {
+  margin: 0.15rem 0 0;
+  color: var(--broadcast-muted);
+  font-size: 0.72rem;
+}
+
+@media (max-width: 820px) {
+  .season-team-ranking-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .season-team-ranking-card {
+    grid-template-columns: 3rem minmax(0, 1fr);
+  }
+
+  .season-team-ranking-card > .season-point-value {
+    grid-column: 2;
+  }
+
+  .season-ranking-source {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

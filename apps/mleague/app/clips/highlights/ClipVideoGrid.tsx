@@ -41,7 +41,8 @@ export function ClipVideoGrid({ clips, ariaLabel, numberLabel }: ClipVideoGridPr
                 {[clip.date, clip.competition].filter(Boolean).join(" / ")}
               </p>
             ) : null}
-            <p>{clip.channel}</p>
+            {clip.summary ? <p className="clip-video-summary">{clip.summary}</p> : null}
+            <p className="clip-video-channel">{clip.channel}</p>
             <ExternalLink className="clip-watch-link" href={clip.url}>
               YouTubeで見る <span aria-hidden="true">→</span>
             </ExternalLink>

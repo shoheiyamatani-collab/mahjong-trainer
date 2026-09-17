@@ -4,6 +4,7 @@ type TeamTheme = {
   accent: string;
   accentStrong: string;
   secondary: string;
+  balance?: string;
   soft: string;
   softAlt: string;
   secondarySoft: string;
@@ -15,6 +16,7 @@ type TeamThemeStyle = CSSProperties & {
   "--team-accent": string;
   "--team-accent-strong": string;
   "--team-secondary": string;
+  "--team-balance": string;
   "--team-soft": string;
   "--team-soft-alt": string;
   "--team-secondary-soft": string;
@@ -57,14 +59,14 @@ export const teamThemes: Record<string, TeamTheme> = {
     onAccent: "#ffffff",
   },
   "team-drivens": {
-    accent: "#b71a35",
-    accentStrong: "#7b0f20",
-    secondary: "#cedb27",
-    soft: "#fbe3e7",
-    softAlt: "#f8f9dd",
-    secondarySoft: "#f2f5bf",
-    ink: "#63101f",
-    onAccent: "#ffffff",
+    accent: "#a7d129",
+    accentStrong: "#638314",
+    secondary: "#123b45",
+    soft: "#edf7d1",
+    softAlt: "#e7f0f2",
+    secondarySoft: "#d6e7e9",
+    ink: "#31460a",
+    onAccent: "#10232a",
   },
   "team-furinkazan": {
     accent: "#d61718",
@@ -77,14 +79,14 @@ export const teamThemes: Record<string, TeamTheme> = {
     onAccent: "#ffffff",
   },
   "team-phoenix": {
-    accent: "#e62519",
-    accentStrong: "#a21a13",
-    secondary: "#f4e62b",
-    soft: "#fce5e1",
-    softAlt: "#fffbdc",
-    secondarySoft: "#fff8be",
-    ink: "#752019",
-    onAccent: "#ffffff",
+    accent: "#f36a21",
+    accentStrong: "#a83c0c",
+    secondary: "#f2b521",
+    soft: "#ffede1",
+    softAlt: "#fff6dc",
+    secondarySoft: "#ffebbb",
+    ink: "#75300f",
+    onAccent: "#21150d",
   },
   "team-sakuraknights": {
     accent: "#ef92ae",
@@ -129,7 +131,8 @@ export const teamThemes: Record<string, TeamTheme> = {
   "team-jets": {
     accent: "#e60012",
     accentStrong: "#a8000d",
-    secondary: "#006835",
+    secondary: "#009852",
+    balance: "50%",
     soft: "#ffe4e5",
     softAlt: "#eff8f3",
     secondarySoft: "#dcefe5",
@@ -145,6 +148,7 @@ export function getTeamThemeStyle(teamId?: string): TeamThemeStyle {
     "--team-accent": theme.accent,
     "--team-accent-strong": theme.accentStrong,
     "--team-secondary": theme.secondary,
+    "--team-balance": theme.balance || "68%",
     "--team-soft": theme.soft,
     "--team-soft-alt": theme.softAlt,
     "--team-secondary-soft": theme.secondarySoft,

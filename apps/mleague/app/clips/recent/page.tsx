@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import { ClipVideoGrid } from "../highlights/ClipVideoGrid";
+import { recentClips } from "../recent-clips";
 
 export const metadata: Metadata = {
   title: "最近の切り抜き",
@@ -15,12 +17,14 @@ export default function RecentClipsPage() {
       </Link>
       <header className="page-header directory-page-header">
         <h1 className="page-title">最近の切り抜き</h1>
-        <p className="page-lead">直近の対局や話題の場面を、ここに追加していきます。</p>
+        <p className="page-lead">
+          Mリーグ公式YouTubeから、直近の対局や話題の場面を新しい順に掲載しています。
+        </p>
       </header>
-      <section className="clip-empty-state" aria-label="掲載準備中">
-        <strong>COMING SOON…</strong>
-        <p>切り抜き動画を準備しています。</p>
-      </section>
+      <ClipVideoGrid clips={recentClips} ariaLabel="最近の切り抜き動画一覧" numberLabel="NEW" />
+      <p className="match-source-note">
+        2026年9月17日にMリーグ公式YouTubeチャンネルの公開状況を確認しました。
+      </p>
     </main>
   );
 }

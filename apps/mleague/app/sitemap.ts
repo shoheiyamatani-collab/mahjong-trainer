@@ -9,6 +9,7 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "",
+    "/stats",
     "/players",
     "/teams",
     "/pros",
@@ -28,7 +29,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return paths.map((path) => ({
     url: `${siteConfig.siteOrigin}${siteConfig.basePath}${path}`,
-    changeFrequency: path === "" ? "weekly" : "monthly",
+    changeFrequency:
+      path === "/stats" ? "daily" : path === "" ? "weekly" : "monthly",
     priority: path === "" ? 0.9 : path.split("/").length <= 2 ? 0.8 : 0.6,
   }));
 }

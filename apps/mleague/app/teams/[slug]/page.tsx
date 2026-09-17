@@ -9,6 +9,7 @@ import { siteConfig } from "@/config/site";
 import { teams } from "@/data/mleague/teams";
 import { formatVerifiedDate } from "@/lib/mleague/formatDate";
 import { getTeamBySlug } from "@/lib/mleague/getTeamBySlug";
+import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
 
 type TeamPageProps = {
   params: Promise<{ slug: string }>;
@@ -41,7 +42,11 @@ export default async function TeamPage({ params }: TeamPageProps) {
   ).sort();
 
   return (
-    <main id="main-content" className="page-shell">
+    <main
+      id="main-content"
+      className="page-shell team-profile-page"
+      style={getTeamThemeStyle(result.team.id)}
+    >
       <header className="page-header">
         <span className="eyebrow">TEAM PROFILE</span>
         <h1 className="page-title">{result.team.name}</h1>

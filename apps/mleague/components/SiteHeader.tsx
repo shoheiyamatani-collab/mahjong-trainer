@@ -24,6 +24,7 @@ export function SiteHeader() {
             ← 雀フォリオへ戻る
           </a>
           <Link href={siteConfig.routes.home}>対局情報</Link>
+          <Link href={siteConfig.routes.stats}>今シーズンの成績</Link>
           <Link href={siteConfig.routes.players}>選手について知る</Link>
           <Link href={siteConfig.routes.clips}>Mリーグ切り抜きを見る</Link>
           <Link href={siteConfig.routes.policy}>掲載方針</Link>
