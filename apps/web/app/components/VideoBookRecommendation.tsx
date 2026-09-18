@@ -12,6 +12,15 @@ type BookStoreLinksProps = {
   rakutenHref: string;
 };
 
+export type ProBookRecommendationData = {
+  title: string;
+  author: string;
+  description: string;
+  amazonHref: string;
+  rakutenHref: string;
+  imageHref: string;
+};
+
 function BookStoreLinks({ amazonHref, bookTitle, kindleUnlimitedHref, rakutenHref }: BookStoreLinksProps) {
   return (
     <div className="videoArticleBookLinks">
@@ -45,6 +54,28 @@ function BookStoreLinks({ amazonHref, bookTitle, kindleUnlimitedHref, rakutenHre
         </a>
       ) : null}
     </div>
+  );
+}
+
+export function ProVideoBookRecommendation({ book }: { book: ProBookRecommendationData }) {
+  const headingId = `pro-book-${book.amazonHref.match(/dp\/([^?]+)/)?.[1] ?? "recommendation"}`;
+
+  return (
+    <section className="videoArticleBook" aria-labelledby={headingId}>
+      <div className="videoArticleBookMain">
+        <a className="videoArticleBookCover" href={book.rakutenHref} target="_blank" rel="nofollow sponsored noopener" aria-label={`${book.title}を楽天で見る`}>
+          <img src={book.imageHref} alt={book.title} loading="lazy" />
+        </a>
+        <div className="videoArticleBookContent">
+          <p className="videoArticleSectionLabel">BOOK RECOMMENDATION</p>
+          <h2 id={headingId}>動画の思考を、本人の著書で深める</h2>
+          <p className="videoArticleBookTitle">{book.title} <span>{book.author}</span></p>
+          <p>{book.description}</p>
+          <BookStoreLinks amazonHref={book.amazonHref} bookTitle={book.title} rakutenHref={book.rakutenHref} />
+        </div>
+      </div>
+      <AffiliateDisclosure className="videoArticleBookDisclosure" />
+    </section>
   );
 }
 

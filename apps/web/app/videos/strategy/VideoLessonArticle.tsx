@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import {
   ClearRainBasicTheoryBook,
   ClearRainNanikiruBook,
@@ -28,10 +29,12 @@ export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
 
 export function VideoLessonArticle({
   lesson,
-  parent
+  parent,
+  bookRecommendation
 }: {
   lesson: VideoLesson;
   parent?: { href: string; label: string };
+  bookRecommendation?: ReactNode;
 }) {
   const videoUrl = `https://www.youtube.com/watch?v=${lesson.guide.youtubeId}`;
   const relatedLinks = [...lesson.nextLinks, ...lesson.relatedLinks]
@@ -92,6 +95,7 @@ export function VideoLessonArticle({
 
         <VideoArticleCompactContent message={lesson.overview[0]} points={lesson.keyPoints} />
 
+        {bookRecommendation}
         {lesson.book ? <BookRecommendation book={lesson.book} /> : null}
 
         <section className="videoArticleNext">

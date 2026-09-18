@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ProVideoBookRecommendation } from "../../../../components/VideoBookRecommendation";
 import { VideoLessonArticle } from "../../VideoLessonArticle";
 import { getProVideoLesson, proVideoLessons } from "../proVideoData";
 
@@ -44,6 +45,7 @@ export default async function ProVideoArticlePage({ params }: ProVideoPageProps)
     <VideoLessonArticle
       lesson={lesson}
       parent={{ href: "/videos/strategy/pro", label: "プロの実戦解説" }}
+      bookRecommendation={lesson.proBook ? <ProVideoBookRecommendation book={lesson.proBook} /> : null}
     />
   );
 }

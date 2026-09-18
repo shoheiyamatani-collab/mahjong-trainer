@@ -19,12 +19,41 @@ type ProVideoSource = {
   relatedLabel: string;
 };
 
+export type ProBookRecommendation = {
+  title: string;
+  author: string;
+  description: string;
+  amazonHref: string;
+  rakutenHref: string;
+  imageHref: string;
+};
+
 export type ProVideoLesson = VideoLesson & {
   player: string;
   publishedAt: string;
+  proBook?: ProBookRecommendation;
 };
 
 const publisher = "発男道場【麻雀解説ch】";
+
+const rakutenLayoutToken = "eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIxMjh4MTI4IiwibmFtIjoxLCJuYW1wIjoicmlnaHQiLCJjb20iOjEsImNvbXAiOiJkb3duIiwicHJpY2UiOjEsImJvciI6MSwiY29sIjoxLCJiYnRuIjoxLCJwcm9kIjowLCJhbXAiOmZhbHNlfQ%3D%3D";
+
+function rakutenBookHref(productUrl: string) {
+  return `https://hb.afl.rakuten.co.jp/ichiba/572bea14.af03c695.572bea15.8642e51d/?pc=${encodeURIComponent(productUrl)}&link_type=picttext&ut=${rakutenLayoutToken}`;
+}
+
+const proBooks: Record<string, ProBookRecommendation> = {
+  "堀慎吾プロ": { title: "堀慎吾×渋川難波 麻雀 天才の思考 魔神の選択", author: "堀慎吾・渋川難波 著", description: "二人のトッププロが同じ局面をどう捉え、どこで判断を分けるのかを比較できます。動画で見た思考の組み立てを、対話形式でもう一段深く学べる一冊です。", amazonHref: "https://www.amazon.co.jp/dp/4046064242?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/17512484/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/4240/9784046064240_1_7.jpg" },
+  "渋川難波プロ": { title: "堀慎吾×渋川難波 麻雀 天才の思考 魔神の選択", author: "堀慎吾・渋川難波 著", description: "二人のトッププロが同じ局面をどう捉え、どこで判断を分けるのかを比較できます。動画で見た思考の組み立てを、対話形式でもう一段深く学べる一冊です。", amazonHref: "https://www.amazon.co.jp/dp/4046064242?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/17512484/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/4240/9784046064240_1_7.jpg" },
+  "仲林圭プロ": { title: "逆算から勝つ麻雀", author: "仲林圭 著", description: "目標から逆算して、その局面で何を優先するかを整理する仲林プロの思考法を学べます。実戦解説で語られた判断を、自分でも再現したい人におすすめです。", amazonHref: "https://www.amazon.co.jp/dp/4910825193?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/17778240/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/5199/9784910825199_1_5.jpg" },
+  "園田賢プロ": { title: "麻雀のネクストレベルの扉を開く 魔術の麻雀", author: "園田賢 著", description: "局面の情報を組み合わせ、定石だけでは決めきれない一打を考えるための一冊です。園田プロならではの柔軟な発想を文章でも掘り下げられます。", amazonHref: "https://www.amazon.co.jp/dp/4801305490?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/16936209/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/5496/9784801305496_1_2.jpg" },
+  "鈴木優プロ": { title: "麻雀 攻撃特化の書", author: "鈴木優 著", description: "前へ出るべき局面と、その攻撃に十分な見返りがあるかを整理できます。動画で見た踏み込みの根拠を、体系的に確認したい人に向く一冊です。", amazonHref: "https://www.amazon.co.jp/dp/4801941133?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/bookfan/bk-4801941133/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/bookfan/cabinet/01110/bk4801941133.jpg" },
+  "伊達朱里紗プロ": { title: "伊達朱里紗は二兎を追う ～「好き」から天職へ～", author: "伊達朱里紗 著", description: "声優とプロ雀士、二つの世界で挑戦を続ける伊達プロ自身の言葉に触れられます。打牌技術だけでなく、勝負への向き合い方も知りたい人へ。", amazonHref: "https://www.amazon.co.jp/dp/484707338X?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/17630717/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/3380/9784847073380_1_2.jpg" },
+  "醍醐大プロ": { title: "孤高の麻雀", author: "醍醐大 著", description: "長い実戦経験から培った、局面を冷静に捉える醍醐プロの麻雀観を学べます。動画の一打を支える考え方まで知りたい人におすすめです。", amazonHref: "https://www.amazon.co.jp/dp/4801946038?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/bookfan/bk-4801946038/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/bookfan/cabinet/01164/bk4801946038.jpg" },
+  "松本吉弘プロ": { title: "初代Mリーガー松本のベストバランス麻雀", author: "松本吉弘 著", description: "攻撃と守備のどちらかに偏らず、局面に合うバランスを選ぶ基準を整理できます。実戦解説の判断を自分の対局へ持ち帰るのに役立つ一冊です。", amazonHref: "https://www.amazon.co.jp/dp/4839969264?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/15845104/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9264/9784839969264.jpg" },
+  "石井一馬プロ": { title: "麻雀偏差値70へのメソッド 改訂版", author: "石井一馬 著", description: "読み、手組み、押し引きを一段高い精度へ引き上げるための考え方を学べます。動画で気になった判断を、項目ごとに復習したい人に向きます。", amazonHref: "https://www.amazon.co.jp/dp/4801947042?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/bookfan/bk-4801947042/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/bookfan/cabinet/01179/bk4801947042.jpg" },
+  "朝倉康心プロ": { title: "麻雀の失敗学", author: "朝倉康心 著", description: "結果だけで打牌を評価せず、失敗から再現性のある改善点を見つける方法を学べます。安定した判断と振り返りを身につけたい人におすすめです。", amazonHref: "https://www.amazon.co.jp/dp/4801919324?tag=jongfolio-22", rakutenHref: rakutenBookHref("https://item.rakuten.co.jp/book/15896059/"), imageHref: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9327/9784801919327.jpg" }
+};
 
 const proVideoSources: ProVideoSource[] = [
   {
@@ -292,28 +321,6 @@ const proVideoSources: ProVideoSource[] = [
     relatedLabel: "打ち方の悪癖を見直す"
   },
   {
-    slug: "kuwata-kenta-practical-commentary",
-    player: "桑田憲汰プロ",
-    title: "桑田憲汰プロ｜最強位3連覇の超プラス思考",
-    youtubeTitle: "【麻雀実戦解説】最強位3連覇の「超プラス思考」最短で勝つマインドと打ち方に迫る(桑田憲汰プロ)",
-    youtubeId: "UtAZ1AZ5n6o",
-    publishedAt: "2026-02-28",
-    dateLabel: "2026年2月28日",
-    duration: "1時間19分22秒",
-    category: "条件戦・メンタル",
-    description: "桑田憲汰プロの実戦を通して、勝つための判断と結果に左右されない考え方を学ぶ解説です。",
-    focus: "前向きさを勢いと捉えず、次に選べる最善手へ集中するための思考として見るのがおすすめです。",
-    summary: "過去の失敗や不運を引きずらず、現在の局面で選べる行動へ意識を戻す実戦的なメンタルと判断を学べます。",
-    recommendedFor: ["ミスや放銃を次局まで引きずりやすい人", "条件戦の考え方を学びたい人", "判断とメンタルを一緒に整えたい人"],
-    points: [
-      { title: "今の局面へ集中する", description: "前局の結果ではなく、現在見えている条件から考えます。" },
-      { title: "勝ち筋を具体化する", description: "必要な打点や着順条件を先に整理します。" },
-      { title: "前向きさを判断に変える", description: "気持ちだけで押さず、選べる最善手へ集中します。" }
-    ],
-    relatedHref: "/videos/strategy/push-fold-judgment-ten-questions",
-    relatedLabel: "押し引き判断を問題で確認する"
-  },
-  {
     slug: "nishimura-yuichiro-practical-commentary",
     player: "西村雄一郎プロ",
     title: "西村雄一郎プロ｜現雀王・天鳳位の思考に迫る",
@@ -341,6 +348,7 @@ export const proVideoLessons: ProVideoLesson[] = proVideoSources.map((source) =>
   slug: `pro/${source.slug}`,
   player: source.player,
   publishedAt: source.publishedAt,
+  proBook: proBooks[source.player],
   guide: {
     title: source.title,
     description: source.description,
