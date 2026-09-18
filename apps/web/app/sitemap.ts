@@ -3,7 +3,7 @@ import { learnArticles } from "./siteData";
 import { getSiteUrl } from "./seoConfig";
 import { siteConfig } from "./siteConfig";
 import { yakuArticles } from "./rules/yakuArticleData";
-import { advancedStrategyChannel, videoChannels } from "./videos/videoData";
+import { advancedStrategyChannel, proStrategyChannel, videoChannels } from "./videos/videoData";
 
 export const dynamic = "force-static";
 
@@ -32,7 +32,8 @@ const staticPaths = [
   "/videos/strategy",
   "/videos/strategy/advanced",
   "/videos/strategy/advanced/calling-read",
-  "/videos/strategy/beginner"
+  "/videos/strategy/beginner",
+  "/videos/strategy/pro"
 ];
 
 const analysisRoles = ["chanta", "flush", "chiitoitsu", "ikkitsuukan", "toitoi", "pinfu", "tanyao", "sanshoku", "riichi"];
@@ -42,7 +43,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const videoArticlePaths = [
     ...videoChannels.strategy.guides,
     ...(siteConfig.features.showMLeagueLinks ? videoChannels["mleague-clips"].guides : []),
-    ...advancedStrategyChannel.guides
+    ...advancedStrategyChannel.guides,
+    ...proStrategyChannel.guides
   ].flatMap((guide) => (guide.articleHref ? [guide.articleHref] : []));
 
   const paths = new Set([

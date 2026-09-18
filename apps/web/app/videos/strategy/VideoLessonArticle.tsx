@@ -26,7 +26,13 @@ export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
   };
 }
 
-export function VideoLessonArticle({ lesson }: { lesson: VideoLesson }) {
+export function VideoLessonArticle({
+  lesson,
+  parent
+}: {
+  lesson: VideoLesson;
+  parent?: { href: string; label: string };
+}) {
   const videoUrl = `https://www.youtube.com/watch?v=${lesson.guide.youtubeId}`;
   const relatedLinks = [...lesson.nextLinks, ...lesson.relatedLinks]
     .filter((link, index, links) => links.findIndex((candidate) => candidate.href === link.href) === index)
@@ -41,6 +47,12 @@ export function VideoLessonArticle({ lesson }: { lesson: VideoLesson }) {
             <span>›</span>
             <Link href="/videos/strategy">麻雀を動画で学ぶ</Link>
             <span>›</span>
+            {parent ? (
+              <>
+                <Link href={parent.href}>{parent.label}</Link>
+                <span>›</span>
+              </>
+            ) : null}
             <span>{lesson.guide.category}</span>
           </nav>
           <p className="siteEyebrow">VIDEO GUIDE / {lesson.guide.category}</p>

@@ -1127,7 +1127,7 @@ body .homeHeroBrandRow .homeHeroLogo {
   border-radius: 8px;
   display: grid;
   gap: 8px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 8px;
 }
 
@@ -1278,7 +1278,7 @@ body .homeHeroBrandRow .homeHeroLogo {
 .strategyAudienceLinks {
   display: grid;
   gap: 18px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .strategyAudienceLink {
@@ -1299,6 +1299,10 @@ body .homeHeroBrandRow .homeHeroLogo {
 
 .strategyAudienceLink.isAdvanced {
   border-top-color: #1971c2;
+}
+
+.strategyAudienceLink.isPro {
+  border-top-color: #7b3fa1;
 }
 
 .strategyAudienceLinkCopy {
@@ -1329,6 +1333,11 @@ body .homeHeroBrandRow .homeHeroLogo {
 
 .strategyAudienceLink.isAdvanced .strategyAudienceLinkCopy strong {
   color: #0b67b2;
+}
+
+.strategyAudienceLink.isPro .strategyAudienceLinkCopy > span,
+.strategyAudienceLink.isPro .strategyAudienceLinkCopy strong {
+  color: #6b2f92;
 }
 
 .strategyAudienceTiles {
@@ -2131,6 +2140,15 @@ body .homeHeroBrandRow .homeHeroLogo {
   .videoBlogSidebar section {
     padding-right: 20px;
   }
+
+  .strategyAudienceSwitch {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .strategyAudienceSwitch a:last-child {
+    grid-column: 1 / -1;
+  }
+
 }
 
 @media (max-width: 640px) {
@@ -2150,6 +2168,10 @@ body .homeHeroBrandRow .homeHeroLogo {
   .strategyAudienceSwitch,
   .strategyAudienceLink {
     grid-template-columns: 1fr;
+  }
+
+  .strategyAudienceSwitch a:last-child {
+    grid-column: auto;
   }
 
   .strategyAudienceLinks {

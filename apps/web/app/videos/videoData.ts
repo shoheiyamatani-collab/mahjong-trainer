@@ -1,4 +1,5 @@
 import { addedVideoGuides } from "./strategy/videoLessonData";
+import { proVideoLessons } from "./strategy/pro/proVideoData";
 
 export type VideoGuide = {
   title: string;
@@ -725,4 +726,17 @@ export const advancedStrategyChannel: VideoChannel = {
     },
     addedVideoGuides.readingQuiz
   ]
+};
+
+export const proStrategyChannel: VideoChannel = {
+  slug: "strategy",
+  eyebrow: "Professional Mahjong Commentary",
+  title: "プロの思考を実戦動画で学ぶ",
+  description: "プロ本人が一半荘を打ちながら、一打ごとの理由、相手の見方、押し引きの判断を話す発男道場の「麻雀実戦解説」を紹介します。",
+  accent: "blue",
+  heroTiles: ["man2", "man3", "man4", "pin4", "pin5", "pin6"],
+  guides: proVideoLessons.map((lesson) => ({
+    ...lesson.guide,
+    articleHref: `/videos/strategy/${lesson.slug}`
+  }))
 };

@@ -3,11 +3,12 @@ import { ComingSoonBadge } from "../components/Badges";
 import { siteConfig } from "../siteConfig";
 import { getStrategyCategory, strategyCategoryOrder, type VideoChannel, type VideoGuide } from "./videoData";
 
-export function VideoChannelPage({ channel, strategyAudience }: { channel: VideoChannel; strategyAudience?: "beginner" | "advanced" }) {
+export function VideoChannelPage({ channel, strategyAudience }: { channel: VideoChannel; strategyAudience?: "beginner" | "advanced" | "pro" }) {
   const isStrategy = channel.slug === "strategy";
   const isBeginnerStrategy = isStrategy && strategyAudience === "beginner";
-  const categoryLabel = (guide: VideoGuide) => (isStrategy ? getStrategyCategory(guide.category) : guide.category);
-  const categories: Array<{ label: string; count: number; href?: string }> = isStrategy
+  const usesStrategyCategoryGroups = isStrategy && strategyAudience !== "pro";
+  const categoryLabel = (guide: VideoGuide) => (usesStrategyCategoryGroups ? getStrategyCategory(guide.category) : guide.category);
+  const categories: Array<{ label: string; count: number; href?: string }> = usesStrategyCategoryGroups
     ? strategyCategoryOrder
         .map((label) => ({ label, count: channel.guides.filter((guide) => categoryLabel(guide) === label).length }))
         .filter((category) => category.count > 0)
@@ -55,6 +56,11 @@ export function VideoChannelPage({ channel, strategyAudience }: { channel: Video
             <span>INTERMEDIATE +</span>
             <strong>中級者以上向け動画</strong>
             <small>より深い読みと実戦判断</small>
+          </Link>
+          <Link className={strategyAudience === "pro" ? "isActive" : ""} href="/videos/strategy/pro">
+            <span>ADVANCED / PRO</span>
+            <strong>プロの実戦解説</strong>
+            <small>一半荘を通してプロの思考を学ぶ</small>
           </Link>
         </nav>
       ) : null}

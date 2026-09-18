@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, BarChart3, BookOpenCheck } from "lucide-react";
-import { advancedStrategyChannel, videoChannels, type VideoGuide } from "../videoData";
+import { advancedStrategyChannel, proStrategyChannel, videoChannels, type VideoGuide } from "../videoData";
 import styles from "./VideoPracticeGateway.module.css";
 
 type Recommendation = {
@@ -15,7 +15,7 @@ type Recommendation = {
   tone: "practice" | "analysis";
 };
 
-const strategyGuides = [...videoChannels.strategy.guides, ...advancedStrategyChannel.guides];
+const strategyGuides = [...videoChannels.strategy.guides, ...advancedStrategyChannel.guides, ...proStrategyChannel.guides];
 
 export default function VideoPracticeGateway() {
   const pathname = usePathname();

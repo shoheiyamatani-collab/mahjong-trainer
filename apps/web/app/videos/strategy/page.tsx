@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "../../siteConfig";
-import { advancedStrategyChannel, videoChannels } from "../videoData";
+import { advancedStrategyChannel, proStrategyChannel, videoChannels } from "../videoData";
 
 const featuredChannels = [
   {
@@ -25,13 +25,13 @@ const featuredChannels = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: "麻雀を動画で学ぶ | 初心者・中級者向け動画記事",
-  description: "麻雀の学習動画を初心者向けと中級者以上向けに分けて紹介します。動画の見どころを短い解説で確認できます。"
+  title: "麻雀を動画で学ぶ | 初心者からプロの実戦解説まで",
+  description: "麻雀の学習動画を初心者、中級者以上、プロの実戦解説に分けて紹介します。動画の見どころを短い解説で確認できます。"
 };
 
 export default function StrategyVideoPage() {
   const channel = videoChannels.strategy;
-  const publishedGuides = [...channel.guides, ...advancedStrategyChannel.guides];
+  const publishedGuides = [...channel.guides, ...advancedStrategyChannel.guides, ...proStrategyChannel.guides];
 
   return (
     <main className="siteMain videoBlogPage videoChannel-blue strategyAudienceHub">
@@ -54,7 +54,7 @@ export default function StrategyVideoPage() {
       <section className="strategyAudienceIntro">
         <p className="videoBlogSectionLabel">CHOOSE YOUR LEVEL</p>
         <h2>レベルに合わせて動画を選ぶ</h2>
-        <p>これまで掲載した動画は、麻雀を覚えたばかりの方が順番に学べる「初心者向け動画」にまとめています。</p>
+        <p>基礎を順番に覚えたい方から、プロの一半荘を通して判断を深めたい方まで、目的に合う入口を選べます。</p>
       </section>
 
       <div className="strategyAudienceLinks">
@@ -79,6 +79,18 @@ export default function StrategyVideoPage() {
           </div>
           <div className="strategyAudienceVisual strategyAudienceVisualTypography">
             <img src="/images/videos/mahjong-intermediate-typography.webp" alt="読む・押す・引くを深く学ぶ中級者以上向け案内" />
+          </div>
+        </Link>
+
+        <Link href="/videos/strategy/pro" className="strategyAudienceLink isPro">
+          <div className="strategyAudienceLinkCopy">
+            <span>ADVANCED / PRO</span>
+            <h2>プロの実戦解説</h2>
+            <p>プロ本人が一半荘を打ちながら話す、一打の理由、相手の見方、押し引きの判断から実戦の思考を学びます。</p>
+            <strong>{proStrategyChannel.guides.length}本の記事を見る</strong>
+          </div>
+          <div className="strategyAudienceVisual strategyAudienceVisualTypography">
+            <img src="/images/videos/mahjong-pro-typography.webp" alt="プロの一打から読みと選択の根拠を学ぶ上級者向け案内" />
           </div>
         </Link>
       </div>
