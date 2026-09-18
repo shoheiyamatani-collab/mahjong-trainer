@@ -4,6 +4,7 @@ import { PlayerProfile } from "@/components/mleague/PlayerProfile";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { players } from "@/data/mleague/players";
 import { teams } from "@/data/mleague/teams";
+import { playerVideoGuides } from "@/data/mleague/videoGuides";
 import { getPlayerBySlug } from "@/lib/mleague/getPlayerBySlug";
 import { getCurrentMembership } from "@/lib/mleague/getPlayers";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
@@ -359,6 +360,7 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
   const result = getPlayerBySlug(slug);
   if (!result) notFound();
   const currentMembership = getCurrentMembership(result.player.id);
+  const videoGuides = playerVideoGuides[result.player.slug] ?? [];
 
   return (
     <main
@@ -367,6 +369,20 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
       style={getTeamThemeStyle(currentMembership?.teamId)}
     >
       <PlayerProfile {...result} />
+      {videoGuides.length > 0 ? (
+        <section className="content-card content-section section player-learning-links" aria-labelledby="player-video-guides-title">
+          <span className="eyebrow">LEARN FROM THE PRO</span>
+          <h2 id="player-video-guides-title">この選手の実戦解説で思考を学ぶ</h2>
+          <p>プロフィールや成績とあわせて、一打ごとの判断を本人が解説する動画記事を確認できます。</p>
+          <ul className="plain-list">
+            {videoGuides.map((guide) => (
+              <li key={guide.href}>
+                <a className="text-link" href={guide.href}>{guide.label}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
       <UnofficialNotice />
     </main>
   );

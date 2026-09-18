@@ -36,6 +36,18 @@ export type ProVideoLesson = VideoLesson & {
 
 const publisher = "発男道場【麻雀解説ch】";
 
+const playerProfileSlugs: Record<string, string> = {
+  "堀慎吾プロ": "hori-shingo",
+  "仲林圭プロ": "nakabayashi-kei",
+  "園田賢プロ": "sonoda-ken",
+  "鈴木優プロ": "suzuki-yu",
+  "伊達朱里紗プロ": "date-arisa",
+  "醍醐大プロ": "daigo-hiroshi",
+  "松本吉弘プロ": "matsumoto-yoshihiro",
+  "石井一馬プロ": "ishii-kazuma",
+  "朝倉康心プロ": "asakura-koshin"
+};
+
 const rakutenLayoutToken = "eyJwYWdlIjoiaXRlbSIsInR5cGUiOiJwaWN0dGV4dCIsInNpemUiOiIxMjh4MTI4IiwibmFtIjoxLCJuYW1wIjoicmlnaHQiLCJjb20iOjEsImNvbXAiOiJkb3duIiwicHJpY2UiOjEsImJvciI6MSwiY29sIjoxLCJiYnRuIjoxLCJwcm9kIjowLCJhbXAiOmZhbHNlfQ%3D%3D";
 
 function rakutenBookHref(productUrl: string) {
@@ -372,6 +384,9 @@ export const proVideoLessons: ProVideoLesson[] = proVideoSources.map((source) =>
   practicalPoints: ["動画を止めて自分の候補を一枚決める", "プロの結論より先に判断材料を比べる", "気になった一打だけを牌譜や解析ツールで振り返る"],
   relatedLinks: [
     { href: source.relatedHref, label: source.relatedLabel },
+    ...(playerProfileSlugs[source.player]
+      ? [{ href: `/mleague/players/${playerProfileSlugs[source.player]}/`, label: `${source.player.replace("プロ", "")}のプロフィール・所属・成績を見る` }]
+      : []),
     { href: "/analysis/mahjong-tool", label: "牌理チェッカーで打牌候補を比較する" },
     { href: "/trainer", label: "麻雀トレーニングで判断を試す" }
   ],
