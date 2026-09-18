@@ -4110,6 +4110,15 @@ body .homeHeroBrandRow .homeHeroLogo {
     grid-template-columns: 42px minmax(78px, 0.95fr) minmax(54px, 0.7fr) minmax(54px, 0.7fr);
   }
 
+  .analysisWorkspacePage .discardCard {
+    overflow-x: visible;
+  }
+
+  .analysisWorkspacePage .discardGrid {
+    grid-template-columns: 42px minmax(78px, 0.95fr) minmax(54px, 0.7fr) minmax(54px, 0.7fr);
+    min-width: 0;
+  }
+
   .discardGrid > div:first-child img {
     width: 38px;
   }
@@ -4150,6 +4159,24 @@ body .homeHeroBrandRow .homeHeroLogo {
 
   .ukeireCell {
     grid-column: 1 / -1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .ukeireCell .tileStrip {
+    display: grid;
+    gap: 3px;
+    grid-template-columns: repeat(8, minmax(0, 32px));
+    max-width: 100%;
+    overflow-x: visible;
+  }
+
+  .ukeireCell .tileStrip > img,
+  .ukeireCell .tileStrip > .stripTileButton,
+  .ukeireCell .tileStrip img {
+    max-width: 32px;
+    min-width: 0;
+    width: 100%;
   }
 }
 
