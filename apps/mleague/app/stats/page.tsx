@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: `Mリーグ${currentSeason} チーム・個人成績`,
   description:
     `Mリーグ${currentSeason}レギュラーシーズンのチーム順位と個人成績を掲載する非公式ページです。`,
+  alternates: { canonical: "/mleague/stats/" },
 };
 
 type Ranked<T> = T & { rank: number };

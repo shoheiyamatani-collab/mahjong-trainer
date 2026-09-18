@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "選手イベント情報（準備中）｜Mリーグ選手名鑑",
   description:
     "麻雀店ゲスト、公開対局、トークイベント、大会など、公式発表を確認した情報の掲載準備ページです。",
+  alternates: { canonical: "/mleague/events/" },
 };
 
 export default function EventsPage() {

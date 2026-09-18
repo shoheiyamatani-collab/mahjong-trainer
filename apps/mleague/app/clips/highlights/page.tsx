@@ -6,6 +6,7 @@ import { memorableClips, yakumanClips } from "./highlight-clips";
 export const metadata: Metadata = {
   title: "過去の名場面切り抜き",
   description: "Mリーグの役満集と、それ以外の名場面集を選べるページです。",
+  alternates: { canonical: "/mleague/clips/highlights/" },
 };
 
 const highlightCategories = [

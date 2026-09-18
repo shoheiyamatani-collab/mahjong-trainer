@@ -5,7 +5,9 @@ const siteOrigin =
 const basePath = "/mleague";
 
 export const siteConfig = {
-  name: process.env.NEXT_PUBLIC_SITE_NAME || "Mリーグ対局情報",
+  name: process.env.NEXT_PUBLIC_SITE_NAME || "雀フォリオ Mリーグ",
+  parentName: "雀フォリオ",
+  parentUrl: siteOrigin,
   siteOrigin,
   homeUrl: process.env.NEXT_PUBLIC_SITE_HOME_URL || `${siteOrigin}${basePath}`,
   mahjongAppUrl: process.env.NEXT_PUBLIC_MAHJONG_APP_URL || "",

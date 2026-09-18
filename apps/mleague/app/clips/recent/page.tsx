@@ -7,6 +7,7 @@ import { recentClips } from "../recent-clips";
 export const metadata: Metadata = {
   title: "最近の切り抜き",
   description: "最近のMリーグ切り抜きを掲載するページです。",
+  alternates: { canonical: "/mleague/clips/recent/" },
 };
 
 export default function RecentClipsPage() {

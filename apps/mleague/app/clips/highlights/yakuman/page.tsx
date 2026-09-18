@@ -7,6 +7,7 @@ import { yakumanClips } from "../highlight-clips";
 export const metadata: Metadata = {
   title: "役満集",
   description: "Mリーグで生まれた役満の名場面切り抜きを掲載するページです。",
+  alternates: { canonical: "/mleague/clips/highlights/yakuman/" },
 };
 
 export default function YakumanClipsPage() {

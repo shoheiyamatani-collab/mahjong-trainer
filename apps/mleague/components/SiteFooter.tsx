@@ -18,13 +18,16 @@ export function SiteFooter() {
           </p>
         </div>
         <nav className="footer-links" aria-label="フッターナビゲーション">
+          <a href="/">雀フォリオ トップ</a>
+          <a href="/videos/strategy">麻雀を動画で学ぶ</a>
+          <a href="/trainer">麻雀トレーニング</a>
           <Link href={siteConfig.routes.policy}>掲載方針</Link>
           <Link href={siteConfig.routes.correctionRequest}>訂正・削除依頼</Link>
-          <Link href={`${siteConfig.routes.policy}#privacy`}>プライバシーポリシー</Link>
-          <Link href={`${siteConfig.routes.policy}#contact`}>お問い合わせ</Link>
-          <Link href={`${siteConfig.routes.policy}#operator`}>運営者情報</Link>
+          <a href="/privacy">プライバシーポリシー</a>
+          <a href="/contact">お問い合わせ</a>
+          <a href="/about">運営者情報</a>
         </nav>
-        <p className="copyright">© {new Date().getFullYear()} {siteConfig.name}</p>
+        <p className="copyright">© {new Date().getFullYear()} 雀フォリオ / JONGFOLIO</p>
       </div>
     </footer>
   );

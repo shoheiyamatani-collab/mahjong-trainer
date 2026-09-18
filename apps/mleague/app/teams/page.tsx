@@ -6,6 +6,7 @@ import { getTeamsWithCurrentPlayers } from "@/lib/mleague/getTeams";
 export const metadata: Metadata = {
   title: "チーム一覧｜Mリーグ選手名鑑",
   description: "Mリーグ参加チームと現在の所属選手を確認できる非公式一覧です。",
+  alternates: { canonical: "/mleague/teams/" },
 };
 
 export default function TeamsPage() {

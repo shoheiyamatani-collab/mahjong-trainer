@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: "Mリーグ切り抜きを見る",
   description: "最近のMリーグ切り抜きと、過去の名場面切り抜きを選べるページです。",
+  alternates: { canonical: "/mleague/clips/" },
 };
 
 const clipCategories = [

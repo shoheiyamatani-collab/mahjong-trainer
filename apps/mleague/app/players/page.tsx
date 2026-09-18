@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Mリーグ選手名鑑｜チーム別の選手一覧",
   description:
     "Mリーグで活動する麻雀プロを、所属チームごとに確認できる非公式選手名鑑です。",
+  alternates: { canonical: "/mleague/players/" },
 };
 
 export default function PlayersPage() {

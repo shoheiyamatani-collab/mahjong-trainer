@@ -7,6 +7,7 @@ import { memorableClips } from "../highlight-clips";
 export const metadata: Metadata = {
   title: "名場面集",
   description: "Mリーグの劇的な逆転や印象的な対局の切り抜きを掲載するページです。",
+  alternates: { canonical: "/mleague/clips/highlights/moments/" },
 };
 
 export default function MemorableClipsPage() {

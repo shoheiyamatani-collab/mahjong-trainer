@@ -13,15 +13,15 @@ export function SiteHeader() {
             <i />
           </span>
           <span className="brand-copy">
-            <small>M.LEAGUE DATA HUB</small>
+            <small>JONGFOLIO / M.LEAGUE</small>
             <span>
-              {siteConfig.name} <span className="unofficial-badge">非公式</span>
+              雀フォリオ <strong>Mリーグ</strong> <span className="unofficial-badge">非公式</span>
             </span>
           </span>
         </Link>
         <nav className="site-nav" aria-label="主要ナビゲーション">
           <a className="jongfolio-home-link" href="/">
-            ← 雀フォリオへ戻る
+            雀フォリオ トップ
           </a>
           <Link href={siteConfig.routes.home}>対局情報</Link>
           <Link href={siteConfig.routes.stats}>今シーズンの成績</Link>
