@@ -54,9 +54,8 @@ const portalItems = [
 ] as const;
 
 const todayQuestionTiles = [
-  "man3", "man4", "man5", "man6", "man8", "man8",
-  "pin1", "pin2", "pin3", "pin4",
-  "sou3", "sou4", "sou5", "sou6"
+  "man2", "man3", "man3", "man5", "man5", "man6", "man7",
+  "sou1", "sou1", "sou1", "sou3", "sou4", "sou5", "sou8"
 ] as const;
 
 export default function HomePage() {
@@ -102,27 +101,27 @@ export default function HomePage() {
           </div>
           <h2>今日の1問</h2>
           <p className="homeQuestionLead">このイーシャンテン、最も受け入れが広い打牌はどれでしょう？</p>
-          <div className="homeQuestionTiles" aria-label="3萬 4萬 5萬 6萬 8萬 8萬 1筒 2筒 3筒 4筒 3索 4索 5索 6索">
+          <div className="homeQuestionTiles" aria-label="2萬 3萬 3萬 5萬 5萬 6萬 7萬 1索 1索 1索 3索 4索 5索 8索">
             {todayQuestionTiles.map((tile, index) => (
               <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
             ))}
           </div>
           <div className="homeQuestionChoices" aria-label="選択肢">
             <div className="homeQuestionChoice">
-              <img src="/tiles/pin1-66-90-l-emb.png" alt="1筒" />
+              <img src="/tiles/man2-66-90-l-emb.png" alt="2萬" />
             </div>
             <div className="homeQuestionChoice">
-              <img src="/tiles/pin4-66-90-l-emb.png" alt="4筒" />
+              <img src="/tiles/man5-66-90-l-emb.png" alt="5萬" />
             </div>
             <div className="homeQuestionChoice">
-              <img src="/tiles/man8-66-90-l-emb.png" alt="8萬" />
+              <img src="/tiles/man3-66-90-l-emb.png" alt="3萬" />
             </div>
           </div>
           <details className="homeQuestionAnswer">
             <summary>答えを見る</summary>
             <div>
               <CheckCircle2 aria-hidden="true" />
-              <p><strong>正解は1筒または4筒。</strong>どちらもイーシャンテンを保ち、有効牌16種・54枚で最大です。</p>
+              <p><strong>正解は2萬。</strong>3萬の対子候補と5567萬の伸びを残せるため、イーシャンテンを保ちながら受け入れ33枚で最も広くなります。</p>
             </div>
           </details>
           <div className="homeCheckerPitch">
@@ -132,7 +131,7 @@ export default function HomePage() {
               <p>牌理チェッカーなら、受け入れ枚数に加えて良形率・超良形率・有効牌を打牌ごとに比較できます。</p>
             </div>
           </div>
-          <Link className="homeCheckerCta" href="/analysis/mahjong-tool#analysis-results">
+          <Link className="homeCheckerCta" href="/analysis/mahjong-tool?hand=0%2C1%2C2%2C0%2C2%2C1%2C1%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C3%2C0%2C1%2C1%2C1%2C0%2C0%2C1%2C0%2C0%2C0%2C0%2C0%2C0%2C0%2C0&autoRun=1#analysis-results">
             <span>
               <strong>牌理チェッカーで打牌の差を見る</strong>
               <small>この牌姿の解析結果をすぐに表示</small>
