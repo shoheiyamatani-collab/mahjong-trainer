@@ -5,7 +5,8 @@ import { yakuArticles } from "../yakuArticleData";
 
 export const metadata: Metadata = {
   title: "麻雀 役一覧 | 初心者向けに牌図つきで解説",
-  description: "麻雀の標準的な役を、リーチ、タンヤオ、役牌、平和、七対子、混一色、清一色、役満まで牌図つきで解説します。"
+  description: "麻雀の標準的な役を、リーチ、タンヤオ、役牌、平和、七対子、混一色、清一色、役満まで牌図つきで解説します。",
+  alternates: { canonical: "/rules/yaku" }
 };
 
 type YakuItem = {

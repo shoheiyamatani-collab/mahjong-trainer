@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { JsonLd } from "../../components/JsonLd";
+import { getSiteUrl } from "../../seoConfig";
 import {
   ClearRainBasicTheoryBook,
   ClearRainNanikiruBook,
@@ -37,12 +39,40 @@ export function VideoLessonArticle({
   bookRecommendation?: ReactNode;
 }) {
   const videoUrl = `https://www.youtube.com/watch?v=${lesson.guide.youtubeId}`;
+  const articlePath = `/videos/strategy/${lesson.slug}`;
+  const siteUrl = getSiteUrl();
+  const publishedAt = toIsoDate(lesson.guide.dateLabel);
+  const videoStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: lesson.youtubeTitle,
+    description: lesson.guide.description,
+    thumbnailUrl: [`https://i.ytimg.com/vi/${lesson.guide.youtubeId}/maxresdefault.jpg`],
+    ...(publishedAt ? { uploadDate: publishedAt } : {}),
+    embedUrl: `https://www.youtube-nocookie.com/embed/${lesson.guide.youtubeId}`,
+    contentUrl: videoUrl,
+    inLanguage: "ja-JP",
+    isFamilyFriendly: true,
+    mainEntityOfPage: `${siteUrl}${articlePath}`,
+    publisher: { "@id": `${siteUrl}/#organization` }
+  };
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "トップ", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "麻雀を動画で学ぶ", item: `${siteUrl}/videos/strategy` },
+      ...(parent ? [{ "@type": "ListItem", position: 3, name: parent.label, item: `${siteUrl}${parent.href}` }] : []),
+      { "@type": "ListItem", position: parent ? 4 : 3, name: lesson.guide.title, item: `${siteUrl}${articlePath}` }
+    ]
+  };
   const relatedLinks = [...lesson.nextLinks, ...lesson.relatedLinks]
     .filter((link, index, links) => links.findIndex((candidate) => candidate.href === link.href) === index)
     .slice(0, 4);
 
   return (
     <main className="siteMain videoArticlePage">
+      <JsonLd data={[videoStructuredData, breadcrumbStructuredData]} />
       <article>
         <header className="videoArticleHeader">
           <nav aria-label="パンくずリスト">
@@ -108,6 +138,12 @@ export function VideoLessonArticle({
       </article>
     </main>
   );
+}
+
+function toIsoDate(dateLabel: string) {
+  const match = dateLabel.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+  if (!match) return undefined;
+  return `${match[1]}-${match[2].padStart(2, "0")}-${match[3].padStart(2, "0")}`;
 }
 
 function BookRecommendation({ book }: { book: VideoLessonBook }) {

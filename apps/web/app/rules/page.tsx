@@ -28,7 +28,8 @@ const ruleVisuals: Record<string, { kind: "tiles"; tiles: string[]; label: strin
 
 export const metadata: Metadata = {
   title: "実践でよく使う麻雀の基本 | 役・点数計算・待ち・一向聴",
-  description: "実践で頻出する麻雀の役、点数計算、待ち、一向聴の形を確認できる入口です。これが分かれば9割方問題なしを目指します。"
+  description: "実践で頻出する麻雀の役、点数計算、待ち、一向聴の形を確認できる入口です。これが分かれば9割方問題なしを目指します。",
+  alternates: { canonical: "/rules" }
 };
 
 export default function RulesPage() {

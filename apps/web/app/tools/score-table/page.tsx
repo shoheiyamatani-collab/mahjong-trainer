@@ -5,7 +5,8 @@ import { InternalLinkCard, SectionTitle } from "../../components/SiteSections";
 
 export const metadata: Metadata = {
   title: "麻雀 点数計算表の見方 | 初心者向け早見表",
-  description: "麻雀の点数計算表を初心者向けに解説します。子か親か、ロンかツモか、符と翻、平和・七対子・満貫以上の読み方を説明します。"
+  description: "麻雀の点数計算表を初心者向けに解説します。子か親か、ロンかツモか、符と翻、平和・七対子・満貫以上の読み方を説明します。",
+  alternates: { canonical: "/tools/score-table" }
 };
 
 const scoreTables = [

@@ -6,6 +6,7 @@ import { StartingHandQueryClient } from "./StartingHandQueryClient";
 export const metadata: Metadata = {
   title: "手役何狙う？チェッカー | 配牌分析",
   description: "13枚の配牌から7つの手役とリーチ戦略を独立シミュレーションし、実戦テンパイスコアを比較します。",
+  alternates: { canonical: "/analysis/starting-hand" }
 };
 
 export default function StartingHandAnalysisPage() {

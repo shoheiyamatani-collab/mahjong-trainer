@@ -26,7 +26,8 @@ const featuredChannels = [
 
 export const metadata: Metadata = {
   title: "麻雀を動画で学ぶ | 初心者からプロの実戦解説まで",
-  description: "麻雀の学習動画を初心者、中級者以上、プロの実戦解説に分けて紹介します。動画の見どころを短い解説で確認できます。"
+  description: "麻雀の学習動画を初心者、中級者以上、プロの実戦解説に分けて紹介します。動画の見どころを短い解説で確認できます。",
+  alternates: { canonical: "/videos/strategy" }
 };
 
 export default function StrategyVideoPage() {

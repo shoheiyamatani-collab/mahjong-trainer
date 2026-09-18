@@ -6,7 +6,8 @@ import { yakuQuizQuestions } from "./quizData";
 export const metadata: Metadata = {
   title: "麻雀 役判定クイズ | 牌姿を見て基本役を確認",
   description:
-    "麻雀初心者向けに、牌姿を見てリーチ・タンヤオ・役牌・平和・七対子などの基本役を判定する練習ページです。牌画像つきで役の条件を復習できます。"
+    "麻雀初心者向けに、牌姿を見てリーチ・タンヤオ・役牌・平和・七対子などの基本役を判定する練習ページです。牌画像つきで役の条件を復習できます。",
+  alternates: { canonical: "/training/yaku-quiz" }
 };
 
 export default function YakuQuizPage() {

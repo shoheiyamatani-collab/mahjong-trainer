@@ -5,7 +5,8 @@ import { SectionTitle } from "../components/SiteSections";
 export const metadata: Metadata = {
   title: "麻雀 初めて学ぶ | 初心者ロードマップ・ルール・便利ツール",
   description:
-    "麻雀をこれから始める初心者向けの学習入口です。初心者ロードマップ、実践で頻出する点数計算や待ち、点数計算や何切るを確認できる麻雀便利ツールへ進めます。"
+    "麻雀をこれから始める初心者向けの学習入口です。初心者ロードマップ、実践で頻出する点数計算や待ち、点数計算や何切るを確認できる麻雀便利ツールへ進めます。",
+  alternates: { canonical: "/learn" }
 };
 
 const roadmapTiles = ["man1", "man2", "man3", "pin4", "pin5", "pin6", "ji7"];

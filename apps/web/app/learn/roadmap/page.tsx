@@ -80,7 +80,8 @@ const roadmapVisuals: Record<number, RoadmapVisual> = {
 
 export const metadata: Metadata = {
   title: "麻雀 初心者ロードマップ | はじめての麻雀学習順",
-  description: "麻雀初心者が、基本ルール、牌の種類、アガリ形、役、待ち、何切る、点数計算まで順番に学べるロードマップです。"
+  description: "麻雀初心者が、基本ルール、牌の種類、アガリ形、役、待ち、何切る、点数計算まで順番に学べるロードマップです。",
+  alternates: { canonical: "/learn/roadmap" }
 };
 
 export default function LearnRoadmapPage() {
