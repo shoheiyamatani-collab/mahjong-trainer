@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
 
 export const metadata: Metadata = {
-  title: { absolute: "Mリーグ対局情報" },
+  title: { absolute: "Mリーグ対局情報｜雀フォリオ" },
   description:
     "Mリーグ2026-27シーズンの最新結果、次回対局日時、対戦チーム、視聴リンク、直近の試合日程を掲載する非公式情報ページです。",
   alternates: { canonical: siteConfig.homeUrl },
@@ -330,3 +330,4 @@ export default function MatchInformationPage() {
     </main>
   );
 }
+
