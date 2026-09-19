@@ -14,6 +14,7 @@ export const siteConfig = {
   basePath,
   routes: {
     home: "/",
+    calendar: "/calendar",
     stats: "/stats",
     players: "/players",
     mahjongPros: "/pros",

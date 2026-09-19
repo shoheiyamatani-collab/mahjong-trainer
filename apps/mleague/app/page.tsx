@@ -273,6 +273,9 @@ export default function MatchInformationPage() {
             <Link className="button-secondary" href={siteConfig.routes.stats}>
               今シーズンの成績を見る
             </Link>
+            <Link className="button-secondary" href={siteConfig.routes.calendar}>
+              対局カレンダーを見る
+            </Link>
           </div>
         </div>
       </section>
@@ -349,9 +352,9 @@ export default function MatchInformationPage() {
             <span className="eyebrow">UPCOMING MATCHES</span>
             <h2 id="upcoming-title">直近の対戦予定</h2>
           </div>
-          <ExternalLink className="text-link" href="https://m-league.jp/games/">
-            公式サイトで全日程を見る
-          </ExternalLink>
+          <Link className="text-link" href={siteConfig.routes.calendar}>
+            対局カレンダーで全日程を見る
+          </Link>
         </div>
 
         <ol className="upcoming-match-list">
