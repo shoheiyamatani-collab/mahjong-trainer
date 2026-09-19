@@ -6008,6 +6008,65 @@ textarea:focus {
   letter-spacing: 0.04em;
 }
 
+.current-season-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 1.35rem;
+  padding: 0.9rem 1rem;
+  border-left: 0.28rem solid var(--team-accent, var(--broadcast-cyan));
+  background: color-mix(
+    in srgb,
+    var(--team-accent, var(--broadcast-cyan)) 11%,
+    #07152b
+  );
+}
+
+.current-season-heading h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+}
+
+.current-season-heading span {
+  display: block;
+  margin-top: 0.24rem;
+  color: #9eb0c8;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.career-scoreboard.current-season-scoreboard {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.current-season-source {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  align-items: baseline;
+}
+
+.career-history {
+  margin-top: 2.4rem;
+  padding-top: 0.2rem;
+  border-top: 1px solid var(--broadcast-line-soft);
+}
+
+.career-history-heading {
+  margin-top: 1.35rem;
+}
+
+.career-history-empty {
+  margin: 2rem 0 0;
+  padding: 1rem;
+  border: 1px solid var(--broadcast-line-soft);
+  color: var(--broadcast-muted);
+}
+
 .career-scoreboard {
   display: grid;
   grid-template-columns: minmax(15rem, 0.9fr) minmax(0, 1.4fr);
@@ -6185,7 +6244,8 @@ textarea:focus {
 
 @media (max-width: 520px) {
   .mleague-stats-heading,
-  .season-stats-heading {
+  .season-stats-heading,
+  .current-season-heading {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.35rem;

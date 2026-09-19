@@ -99,7 +99,11 @@ export function PlayerProfile({
               根拠の確認できない評価や、断定的な人物評は掲載しません。
             </p>
           </section>
-          <MLeagueStats stats={careerStats} results={seasonResults} />
+          <MLeagueStats
+            playerId={player.id}
+            stats={careerStats}
+            results={seasonResults}
+          />
           <SeasonHistory memberships={memberships} teams={teams} />
           <PlayerSources sources={player.sources} />
         </div>

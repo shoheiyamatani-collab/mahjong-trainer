@@ -129,7 +129,11 @@ export function VerifiedPlayerProfile({
           </dl>
         </section>
 
-        <MLeagueStats stats={careerStats} results={seasonResults} />
+        <MLeagueStats
+          playerId={player.id}
+          stats={careerStats}
+          results={seasonResults}
+        />
 
         <section className="content-card content-section" aria-labelledby="official-accounts-title">
           <h2 id="official-accounts-title">公式アカウント</h2>
