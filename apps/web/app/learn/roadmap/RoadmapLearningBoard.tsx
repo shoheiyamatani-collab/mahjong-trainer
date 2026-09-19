@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, BookOpenCheck, Check, ChevronRight, Clock3, Map } from "lucide-react";
+import { ArrowRight, BookOpen, BookOpenCheck, Check, ChevronRight, Clock3, ListChecks, Map } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -51,6 +51,20 @@ export function RoadmapLearningBoard({ steps }: { steps: RoadmapBoardStep[] }) {
             <span style={{ width: `${progress}%` }} />
           </span>
         </div>
+
+        <nav className="roadmapBoardReferences" aria-label="初心者向けの学習資料">
+          <p>調べる・確認する</p>
+          <Link href="/learn/glossary">
+            <BookOpen aria-hidden="true" />
+            <span><strong>麻雀用語辞典</strong><small>読み方と意味から探す</small></span>
+            <ChevronRight aria-hidden="true" />
+          </Link>
+          <Link href="/rules/yaku">
+            <ListChecks aria-hidden="true" />
+            <span><strong>麻雀役一覧</strong><small>翻数と牌姿で確認する</small></span>
+            <ChevronRight aria-hidden="true" />
+          </Link>
+        </nav>
 
         <label className="roadmapBoardMobileSelect">
           <span>学ぶステップを選ぶ</span>

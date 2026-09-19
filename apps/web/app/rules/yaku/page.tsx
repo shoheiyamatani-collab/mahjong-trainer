@@ -955,7 +955,7 @@ export default function YakuPage() {
         eyebrow="Yaku Guide"
         title="麻雀 役一覧"
         description="初心者が先に覚えたい役から、慣れたら覚える役、役満まで牌の形で確認できます。最初はリーチ・タンヤオ・役牌・ツモから覚えれば大丈夫です。"
-        primaryLink={{ label: "初心者ロードマップへ戻る", href: "/learn" }}
+        primaryLink={{ label: "初心者ロードマップへ戻る", href: "/learn/roadmap" }}
         secondaryLink={{ label: "役を練習する", href: "/trainer" }}
       />
 
@@ -978,7 +978,7 @@ export default function YakuPage() {
       </section>
 
       {yakuGroups.map((group) => (
-        <section className={`yakuGroupSection yakuGroup-${group.tone}`} key={group.title}>
+        <section className={`yakuGroupSection yakuGroup-${group.tone}`} id={group.tone === "yakuman" ? "yakuman" : undefined} key={group.title}>
           <SectionTitle title={group.title} description={group.description} />
           <div className="yakuCardGrid">
             {group.items.map((item) => (
@@ -991,6 +991,7 @@ export default function YakuPage() {
       <section>
         <SectionTitle title="役を覚えたら" description="読んだだけで終わらせず、練習問題や点数表で確認すると定着しやすくなります。" />
         <div className="linkCardGrid">
+          <InternalLinkCard title="麻雀用語辞典" description="翻・符・門前・テンパイなど、役の説明に出てくる言葉を確認します。" href="/learn/glossary" actionLabel="用語を調べる" />
           <InternalLinkCard title="あがるための役について知ろう" description="アガリに必要な役の考え方をロードマップ記事で確認します。" href="/learn/yaku-required" />
           <InternalLinkCard title="実戦問題で練習する" description="何切るや待ち当てで、役が見える手を増やしていきます。" href="/trainer" />
           <InternalLinkCard title="点数表を見る" description="平和や七対子の点数は、早見表で確認できます。" href="/tools/score-table" />

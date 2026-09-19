@@ -15,6 +15,7 @@ const staticPaths = [
   "/analysis/starting-hand/help",
   "/contact",
   "/learn",
+  "/learn/glossary",
   "/learn/roadmap",
   "/mleague",
   "/privacy",
