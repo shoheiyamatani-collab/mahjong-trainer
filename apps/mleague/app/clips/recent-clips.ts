@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "CzzyTesP_uk",
-  tag: "9/17 ハイライト",
-  title: "9/17 ハイライト｜本田朋広の雷電初戦トップ、石井一馬のオーラス逆転",
+  id: "-Z_P4zVr_v8",
+  tag: "9/18 ハイライト",
+  title: "9/18 ハイライト｜黒沢咲と堀慎吾がトップ",
   summary:
-    "本田朋広がTEAM雷電のシーズン初戦をトップで飾り、石井一馬がオーラスで逆転トップを決めた9月17日の公式ハイライトです。",
+    "第1試合は黒沢咲が62.5ポイント、第2試合は堀慎吾が51.0ポイントでトップを獲得した9月18日の公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=CzzyTesP_uk",
-  date: "2026年9月18日公開",
-  competition: "9月17日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=-Z_P4zVr_v8",
+  date: "2026年9月19日公開",
+  competition: "9月18日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "CzzyTesP_uk",
+    tag: "9/17 ハイライト",
+    title: "9/17 ハイライト｜本田朋広の雷電初戦トップ、石井一馬のオーラス逆転",
+    summary:
+      "本田朋広がTEAM雷電のシーズン初戦をトップで飾り、石井一馬がオーラスで逆転トップを決めた9月17日の公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=CzzyTesP_uk",
+    date: "2026年9月18日公開",
+    competition: "9月17日 Mリーグ公式ハイライト",
+  },
   {
     id: "PGofTgy9ExA",
     tag: "茅森早香",
