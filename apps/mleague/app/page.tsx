@@ -39,32 +39,72 @@ type MatchResult = {
 };
 
 const nextMatch: UpcomingMatch = {
-  date: "9.17",
-  day: "木",
+  date: "9.21",
+  day: "月",
   teams: [
-    { name: "EARTH JETS", slug: "earth-jets", teamId: "team-jets" },
-    { name: "赤坂ドリブンズ", slug: "akasaka-drivens", teamId: "team-drivens" },
-    { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
+    {
+      name: "赤坂ドリブンズ",
+      slug: "akasaka-drivens",
+      teamId: "team-drivens",
+    },
+    {
+      name: "KADOKAWAサクラナイツ",
+      slug: "kadokawa-sakura-knights",
+      teamId: "team-sakuraknights",
+    },
+    { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
     { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
   ],
 };
 
 const upcomingMatches: UpcomingMatch[] = [
   {
-    date: "9.18",
-    day: "金",
+    date: "9.21",
+    day: "月・B卓",
     teams: [
+      { name: "EARTH JETS", slug: "earth-jets", teamId: "team-jets" },
+      {
+        name: "EX風林火山",
+        slug: "ex-furinkazan",
+        teamId: "team-furinkazan",
+      },
+      {
+        name: "セガサミーフェニックス",
+        slug: "sega-sammy-phoenix",
+        teamId: "team-phoenix",
+      },
+      { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
+    ],
+  },
+  {
+    date: "9.22",
+    day: "火・A卓",
+    teams: [
+      { name: "EX風林火山", slug: "ex-furinkazan", teamId: "team-furinkazan" },
       {
         name: "KADOKAWAサクラナイツ",
         slug: "kadokawa-sakura-knights",
         teamId: "team-sakuraknights",
       },
+      { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
+      { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
+    ],
+  },
+  {
+    date: "9.22",
+    day: "火・B卓",
+    teams: [
       {
         name: "KONAMI麻雀格闘倶楽部",
         slug: "konami-mahjong-fight-club",
         teamId: "team-fightclub",
       },
-      { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
+      {
+        name: "セガサミーフェニックス",
+        slug: "sega-sammy-phoenix",
+        teamId: "team-phoenix",
+      },
+      { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
       { name: "U-NEXT Pirates", slug: "u-next-pirates", teamId: "team-pirates" },
     ],
   },
@@ -76,39 +116,39 @@ const latestResults: MatchResult[] = [
     entries: [
       {
         rank: 1,
+        player: "黒沢咲",
+        playerSlug: "kurosawa-saki",
+        points: 62.5,
+        name: "TEAM RAIDEN / 雷電",
+        slug: "team-raiden",
+        teamId: "team-raiden",
+      },
+      {
+        rank: 2,
         player: "尻無濱航",
         playerSlug: "shirinashihama-wataru",
-        points: 64.9,
+        points: 14.6,
         name: "KADOKAWAサクラナイツ",
         slug: "kadokawa-sakura-knights",
         teamId: "team-sakuraknights",
       },
       {
-        rank: 2,
-        player: "醍醐大",
-        playerSlug: "daigo-hiroshi",
-        points: 13.2,
-        name: "セガサミーフェニックス",
-        slug: "sega-sammy-phoenix",
-        teamId: "team-phoenix",
-      },
-      {
         rank: 3,
-        player: "二階堂亜樹",
-        playerSlug: "nikaido-aki",
-        points: -22.9,
-        name: "EX風林火山",
-        slug: "ex-furinkazan",
-        teamId: "team-furinkazan",
+        player: "瑞原明奈",
+        playerSlug: "mizuhara-akina",
+        points: -26.5,
+        name: "U-NEXT Pirates",
+        slug: "u-next-pirates",
+        teamId: "team-pirates",
       },
       {
         rank: 4,
-        player: "鈴木たろう",
-        playerSlug: "suzuki-taro",
-        points: -55.2,
-        name: "赤坂ドリブンズ",
-        slug: "akasaka-drivens",
-        teamId: "team-drivens",
+        player: "佐々木寿人",
+        playerSlug: "sasaki-hisato",
+        points: -50.6,
+        name: "KONAMI麻雀格闘倶楽部",
+        slug: "konami-mahjong-fight-club",
+        teamId: "team-fightclub",
       },
     ],
   },
@@ -117,39 +157,39 @@ const latestResults: MatchResult[] = [
     entries: [
       {
         rank: 1,
-        player: "茅森早香",
-        playerSlug: "kayamori-sayaka",
-        points: 69.7,
-        name: "セガサミーフェニックス",
-        slug: "sega-sammy-phoenix",
-        teamId: "team-phoenix",
-      },
-      {
-        rank: 2,
-        player: "内川幸太郎",
-        playerSlug: "uchikawa-kotaro",
-        points: 26.3,
-        name: "EX風林火山",
-        slug: "ex-furinkazan",
-        teamId: "team-furinkazan",
-      },
-      {
-        rank: 3,
-        player: "浅見真紀",
-        playerSlug: "asami-maki",
-        points: -14.2,
-        name: "赤坂ドリブンズ",
-        slug: "akasaka-drivens",
-        teamId: "team-drivens",
-      },
-      {
-        rank: 4,
-        player: "岡田紗佳",
-        playerSlug: "okada-sayaka",
-        points: -81.8,
+        player: "堀慎吾",
+        playerSlug: "hori-shingo",
+        points: 51,
         name: "KADOKAWAサクラナイツ",
         slug: "kadokawa-sakura-knights",
         teamId: "team-sakuraknights",
+      },
+      {
+        rank: 2,
+        player: "鈴木優",
+        playerSlug: "suzuki-yu",
+        points: 7.7,
+        name: "U-NEXT Pirates",
+        slug: "u-next-pirates",
+        teamId: "team-pirates",
+      },
+      {
+        rank: 3,
+        player: "本田朋広",
+        playerSlug: "honda-tomohiro",
+        points: -17.1,
+        name: "TEAM RAIDEN / 雷電",
+        slug: "team-raiden",
+        teamId: "team-raiden",
+      },
+      {
+        rank: 4,
+        player: "伊達朱里紗",
+        playerSlug: "date-arisa",
+        points: -41.6,
+        name: "KONAMI麻雀格闘倶楽部",
+        slug: "konami-mahjong-fight-club",
+        teamId: "team-fightclub",
       },
     ],
   },
@@ -192,17 +232,17 @@ export default function MatchInformationPage() {
 
           <div
             className="next-match-date"
-            aria-label="2026年9月17日 木曜日 19時開始"
+            aria-label="2026年9月21日 月曜日 19時開始 A卓"
           >
             <span>{nextMatch.date}</span>
             <div>
-              <strong>THU / 木</strong>
+              <strong>MON / 月</strong>
               <small>19:00 START</small>
             </div>
           </div>
 
           <div className="next-match-teams">
-            <span className="match-status">MATCH DAY 03</span>
+            <span className="match-status">MATCH DAY 05 / A卓</span>
             <ul>
               {nextMatch.teams.map((team) => (
                 <TeamLink team={team} key={team.teamId} />
@@ -231,7 +271,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">9月15日の対局結果</h2>
+            <h2 id="latest-results-title">9月18日の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
@@ -279,7 +319,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST MATCH HIGHLIGHT</span>
-            <h2 id="home-match-highlight-title">9月15日のハイライト</h2>
+            <h2 id="home-match-highlight-title">9月17日のハイライト</h2>
           </div>
           <Link className="text-link" href={siteConfig.routes.recentClips}>
             最近の切り抜きを見る
@@ -288,7 +328,7 @@ export default function MatchInformationPage() {
 
         <ClipVideoGrid
           clips={[latestMatchHighlight]}
-          ariaLabel="9月15日の公式ハイライト動画"
+          ariaLabel="9月17日の公式ハイライト動画"
           numberLabel="HIGHLIGHT"
         />
       </section>
@@ -306,9 +346,9 @@ export default function MatchInformationPage() {
 
         <ol className="upcoming-match-list">
           {upcomingMatches.map((match, index) => (
-            <li className="upcoming-match-card" key={match.date}>
+            <li className="upcoming-match-card" key={`${match.date}-${match.day}`}>
               <span className="upcoming-match-number">
-                {String(index + 4).padStart(2, "0")}
+                {String(index + 6).padStart(2, "0")}
               </span>
               <div className="upcoming-match-date">
                 <strong>{match.date}</strong>
@@ -324,10 +364,9 @@ export default function MatchInformationPage() {
         </ol>
 
         <p className="match-source-note">
-          Mリーグ公式の試合日程・結果を2026年9月16日に確認しました。対局予定は変更される場合があります。
+          Mリーグ公式の試合日程・結果を2026年9月19日に確認しました。対局予定は変更される場合があります。
         </p>
       </section>
     </main>
   );
 }
-

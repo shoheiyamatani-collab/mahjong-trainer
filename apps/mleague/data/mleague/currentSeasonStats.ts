@@ -1,6 +1,6 @@
 export const currentSeason = "2026-27";
-export const currentSeasonStatsVerifiedAt = "2026-09-17";
-export const currentSeasonStatsThrough = "2026-09-15";
+export const currentSeasonStatsVerifiedAt = "2026-09-19";
+export const currentSeasonStatsThrough = "2026-09-18";
 export const currentSeasonStatsSourceUrl = "https://m-league.jp/stats/";
 
 export type CurrentSeasonPlayerStatLine = {
@@ -23,7 +23,7 @@ export const emptyCurrentSeasonStat: CurrentSeasonPlayerStatLine = {
   fourthPlaceCount: 0,
 };
 
-// Mリーグ公式「2026-27 チーム成績表」を2026年9月17日に確認。
+// Mリーグ公式「2026-27 チーム成績表」を2026年9月19日に確認。
 // 未出場の選手はページ側で0試合として補完します。
 export const currentSeasonPlayerStatsByPlayerId: Record<
   string,
@@ -57,11 +57,11 @@ export const currentSeasonPlayerStatsByPlayerId: Record<
     fourthPlaceCount: 1,
   },
   "player-shirinashihama-wataru": {
-    matchesPlayed: 1,
-    points: 64.9,
-    averagePlacement: 1,
+    matchesPlayed: 2,
+    points: 79.5,
+    averagePlacement: 1.5,
     firstPlaceCount: 1,
-    secondPlaceCount: 0,
+    secondPlaceCount: 1,
     thirdPlaceCount: 0,
     fourthPlaceCount: 0,
   },
@@ -138,13 +138,13 @@ export const currentSeasonPlayerStatsByPlayerId: Record<
     fourthPlaceCount: 0,
   },
   "player-sasaki-hisato": {
-    matchesPlayed: 1,
-    points: -14,
-    averagePlacement: 3,
+    matchesPlayed: 2,
+    points: -64.6,
+    averagePlacement: 3.5,
     firstPlaceCount: 0,
     secondPlaceCount: 0,
     thirdPlaceCount: 1,
-    fourthPlaceCount: 0,
+    fourthPlaceCount: 1,
   },
   "player-takizawa-kazunori": {
     matchesPlayed: 1,
@@ -172,5 +172,122 @@ export const currentSeasonPlayerStatsByPlayerId: Record<
     secondPlaceCount: 1,
     thirdPlaceCount: 0,
     fourthPlaceCount: 0,
+  },
+  "player-honda-tomohiro": {
+    matchesPlayed: 2,
+    points: 39.6,
+    averagePlacement: 2,
+    firstPlaceCount: 1,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 1,
+    fourthPlaceCount: 0,
+  },
+  "player-hiro-shibata": {
+    matchesPlayed: 1,
+    points: 13.2,
+    averagePlacement: 2,
+    firstPlaceCount: 0,
+    secondPlaceCount: 1,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 0,
+  },
+  "player-tojo-rio": {
+    matchesPlayed: 1,
+    points: -14.1,
+    averagePlacement: 3,
+    firstPlaceCount: 0,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 1,
+    fourthPlaceCount: 0,
+  },
+  "player-watanabe-futoshi": {
+    matchesPlayed: 1,
+    points: -55.8,
+    averagePlacement: 4,
+    firstPlaceCount: 0,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 1,
+  },
+  "player-ishii-kazuma": {
+    matchesPlayed: 1,
+    points: 55.6,
+    averagePlacement: 1,
+    firstPlaceCount: 1,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 0,
+  },
+  "player-sonoda-ken": {
+    matchesPlayed: 1,
+    points: 15.5,
+    averagePlacement: 2,
+    firstPlaceCount: 0,
+    secondPlaceCount: 1,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 0,
+  },
+  "player-suzuki-daisuke": {
+    matchesPlayed: 1,
+    points: -10.1,
+    averagePlacement: 3,
+    firstPlaceCount: 0,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 1,
+    fourthPlaceCount: 0,
+  },
+  "player-hagiwara-masato": {
+    matchesPlayed: 1,
+    points: -61,
+    averagePlacement: 4,
+    firstPlaceCount: 0,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 1,
+  },
+  "player-kurosawa-saki": {
+    matchesPlayed: 1,
+    points: 62.5,
+    averagePlacement: 1,
+    firstPlaceCount: 1,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 0,
+  },
+  "player-mizuhara-akina": {
+    matchesPlayed: 1,
+    points: -26.5,
+    averagePlacement: 3,
+    firstPlaceCount: 0,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 1,
+    fourthPlaceCount: 0,
+  },
+  "player-hori-shingo": {
+    matchesPlayed: 1,
+    points: 51,
+    averagePlacement: 1,
+    firstPlaceCount: 1,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 0,
+  },
+  "player-suzuki-yu": {
+    matchesPlayed: 1,
+    points: 7.7,
+    averagePlacement: 2,
+    firstPlaceCount: 0,
+    secondPlaceCount: 1,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 0,
+  },
+  "player-date-arisa": {
+    matchesPlayed: 1,
+    points: -41.6,
+    averagePlacement: 4,
+    firstPlaceCount: 0,
+    secondPlaceCount: 0,
+    thirdPlaceCount: 0,
+    fourthPlaceCount: 1,
   },
 };

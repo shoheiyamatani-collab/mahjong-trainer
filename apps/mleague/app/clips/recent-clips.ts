@@ -1,18 +1,19 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "CQwcMGPRxs8",
-  tag: "9/15 ハイライト",
-  title: "9/15 ハイライト｜尻無濱航のデビュー戦、醍醐大の倍満、茅森早香の裏4",
+  id: "CzzyTesP_uk",
+  tag: "9/17 ハイライト",
+  title: "9/17 ハイライト｜本田朋広の雷電初戦トップ、石井一馬のオーラス逆転",
   summary:
-    "尻無濱航のデビュー戦、醍醐大の倍満、茅森早香の裏ドラ4枚、内川幸太郎の見どころ局をまとめた公式ハイライトです。",
+    "本田朋広がTEAM雷電のシーズン初戦をトップで飾り、石井一馬がオーラスで逆転トップを決めた9月17日の公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=CQwcMGPRxs8",
-  date: "2026年9月16日公開",
-  competition: "9月15日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=CzzyTesP_uk",
+  date: "2026年9月18日公開",
+  competition: "9月17日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
+  latestMatchHighlight,
   {
     id: "PGofTgy9ExA",
     tag: "茅森早香",
@@ -45,7 +46,17 @@ export const recentClips: readonly HighlightClip[] = [
     date: "2026年9月16日公開",
     competition: "9月15日 第1試合・東2局2本場",
   },
-  latestMatchHighlight,
+  {
+    id: "CQwcMGPRxs8",
+    tag: "9/15 ハイライト",
+    title: "9/15 ハイライト｜尻無濱航のデビュー戦、醍醐大の倍満、茅森早香の裏4",
+    summary:
+      "尻無濱航のデビュー戦、醍醐大の倍満、茅森早香の裏ドラ4枚、内川幸太郎の見どころ局をまとめた公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=CQwcMGPRxs8",
+    date: "2026年9月16日公開",
+    competition: "9月15日 Mリーグ公式ハイライト",
+  },
   {
     id: "01zIiyDXfwI",
     tag: "9/14 ハイライト",
