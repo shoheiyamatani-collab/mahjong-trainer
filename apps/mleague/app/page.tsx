@@ -38,6 +38,16 @@ type MatchResult = {
   entries: MatchResultEntry[];
 };
 
+function getHighlightHeading(tag: string) {
+  const date = tag.match(/^(\d{1,2})\/(\d{1,2})\s+ハイライト$/);
+
+  return date
+    ? `${Number(date[1])}月${Number(date[2])}日のハイライト`
+    : tag;
+}
+
+const latestHighlightHeading = getHighlightHeading(latestMatchHighlight.tag);
+
 const nextMatch: UpcomingMatch = {
   date: "9.21",
   day: "月",
@@ -319,7 +329,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST MATCH HIGHLIGHT</span>
-            <h2 id="home-match-highlight-title">9月17日のハイライト</h2>
+            <h2 id="home-match-highlight-title">{latestHighlightHeading}</h2>
           </div>
           <Link className="text-link" href={siteConfig.routes.recentClips}>
             最近の切り抜きを見る
@@ -328,7 +338,7 @@ export default function MatchInformationPage() {
 
         <ClipVideoGrid
           clips={[latestMatchHighlight]}
-          ariaLabel="9月17日の公式ハイライト動画"
+          ariaLabel={`${latestHighlightHeading}公式動画`}
           numberLabel="HIGHLIGHT"
         />
       </section>
