@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteSections";
-import { yakuArticles } from "../yakuArticleData";
 
 export const metadata: Metadata = {
   title: "麻雀 役一覧 | 初心者向けに牌図つきで解説",
@@ -567,7 +565,6 @@ const yakuGroups = [
   }
 ];
 
-const yakuArticleHrefByName = new Map(yakuArticles.map((article) => [article.name, `/rules/${article.slug}`]));
 
 const yakuTileExamples: Record<string, YakuTileExample> = {
   リーチ: {
@@ -1003,8 +1000,10 @@ export default function YakuPage() {
 
 function YakuCard({ item }: { item: YakuItem }) {
   const openClass = item.openNote.includes("不可") ? "open-ng" : item.openNote.includes("下がる") ? "open-down" : item.openNote.includes("限定") ? "open-special" : "open-ok";
-  const priorityClass = item.beginnerPriority === "まず覚える" ? "priority-first" : item.beginnerPriority === "次に覚える" ? "priority-next" : "priority-later";
   const tileExample = yakuTileExamples[item.name];
+  const compactTiles = tileExample
+    ? [...tileExample.blocks.flatMap((block) => block.tiles), tileExample.winningTile]
+    : item.tiles;
 
   return (
     <article className="yakuCard">
@@ -1016,50 +1015,17 @@ function YakuCard({ item }: { item: YakuItem }) {
         <div className="yakuBadges">
           <span className="badge-han">{item.han}</span>
           <span className={openClass}>{item.openNote}</span>
-          <span className={priorityClass}>{item.beginnerPriority}</span>
         </div>
       </div>
       <p className="yakuSummary">{item.summary}</p>
-      <div className="yakuTileExample">
-        <span>{item.tileLabel}</span>
-        {tileExample ? (
-          <div className="yakuHandFigure" aria-label={`${item.name}の14枚の牌姿例`}>
-            <div className="yakuHandTiles">
-              {tileExample.blocks.map((block, blockIndex) => (
-                <div className={`yakuTileBlock${block.highlight ? " isHighlighted" : ""}`} key={`${item.name}-block-${blockIndex}`}>
-                  {block.label ? <span className="yakuTileBlockLabel">{block.label}</span> : null}
-                  <div className="yakuTileBlockTiles">
-                    {block.tiles.map((tile, tileIndex) => (
-                      <img key={`${item.name}-${blockIndex}-${tile}-${tileIndex}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="yakuWinningTile">
-              <span>アガリ牌</span>
-              <img src={`/tiles/${tileExample.winningTile}-66-90-l-emb.png`} alt="" />
-            </div>
-          </div>
-        ) : (
-          <div className="yakuTileStrip" aria-label={`${item.name}の牌例`}>
-            {item.tiles.map((tile, index) => (
-              <img key={`${item.name}-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-            ))}
-          </div>
-        )}
-      </div>
-      <dl className="yakuPointList">
-        <div className="yakuPointItem yakuPoint-focus">
-          <dt>見るポイント</dt>
-          <dd>{item.point}</dd>
+      <figure className="yakuCompactFigure" aria-label={`${item.name}の牌姿例：${item.tileLabel}`}>
+        <div className="yakuTileStrip" aria-hidden="true">
+          {compactTiles.map((tile, index) => (
+            <img key={`${item.name}-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
+          ))}
         </div>
-        <div className="yakuPointItem yakuPoint-caution">
-          <dt>※ 注意</dt>
-          <dd>{item.caution}</dd>
-        </div>
-      </dl>
-      <Link className="textLink" href={yakuArticleHrefByName.get(item.name) ?? item.href ?? "/rules/yaku"}>{item.name}をもう少し詳しく見る</Link>
+        <figcaption>{item.tileLabel}</figcaption>
+      </figure>
     </article>
   );
 }

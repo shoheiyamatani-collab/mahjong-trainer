@@ -12685,3 +12685,92 @@ body .roadmapBoardPage {
     gap: 9px;
   }
 }
+
+/* Compact yaku index */
+.yakuGuidePage .yakuCardGrid {
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.yakuGuidePage .yakuCard {
+  align-content: start;
+  gap: 9px;
+  padding: 14px;
+}
+
+.yakuGuidePage .yakuCardHeader {
+  align-items: center;
+  gap: 8px;
+}
+
+.yakuGuidePage .yakuKana {
+  font-size: 0.65rem !important;
+  margin-bottom: 3px !important;
+}
+
+.yakuGuidePage .yakuCard h2 {
+  font-size: 1.2rem;
+}
+
+.yakuGuidePage .yakuBadges {
+  gap: 4px;
+}
+
+.yakuGuidePage .yakuBadges span {
+  font-size: 0.65rem;
+  padding: 5px 7px;
+}
+
+.yakuGuidePage .yakuSummary {
+  display: -webkit-box;
+  font-size: 0.8rem;
+  font-weight: 750;
+  line-height: 1.55;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.yakuCompactFigure {
+  background: #f7faf8;
+  border: 1px solid #e1e8e4;
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 8px;
+}
+
+.yakuCompactFigure .yakuTileStrip {
+  width: 100%;
+}
+
+.yakuCompactFigure .yakuTileStrip img {
+  max-width: 27px;
+}
+
+.yakuCompactFigure figcaption {
+  color: #5c6e65;
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+@media (max-width: 1100px) {
+  .yakuGuidePage .yakuCardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .yakuGuidePage .yakuCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .yakuGuidePage .yakuCard {
+    padding: 12px;
+  }
+
+  .yakuGuidePage .yakuCardHeader {
+    display: flex;
+  }
+}
