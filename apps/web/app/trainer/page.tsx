@@ -982,6 +982,7 @@ export default function Home() {
       </nav> : null}
 
       {isAnalysisTool && mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
+      {isAnalysisTool && mode === "checker" ? <AnalysisToolGuide /> : null}
       {!isAnalysisTool && mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
       {!isAnalysisTool && mode === "ukeireMax" ? <UkeireMaxMode /> : null}
       {!isAnalysisTool && mode === "chinitsu" ? <ChinitsuMode /> : null}
@@ -990,6 +991,41 @@ export default function Home() {
       {!isAnalysisTool && mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
       {isScoreCalculator && mode === "scoring" ? <ScoringMode /> : null}
     </main>
+  );
+}
+
+function AnalysisToolGuide() {
+  return (
+    <section className="analysisMethodGuide" aria-labelledby="analysis-method-title">
+      <p className="eyebrow">HOW TO READ</p>
+      <h2 id="analysis-method-title">牌理チェッカーで分かること</h2>
+      <p>
+        14枚の手牌を入力すると、切る牌ごとにシャンテン数を保てる有効牌、その残り枚数、良形率を比較できます。
+        単純な受け入れ枚数だけでなく、次のツモで両面や多面待ちへ進みやすいかまで見て、候補の性質を確かめるためのツールです。
+      </p>
+      <div className="analysisMethodGrid">
+        <section>
+          <h3>受け入れ枚数</h3>
+          <p>シャンテン数を進める牌が山に最大何枚残っているかを示します。まず候補を絞る基準になります。</p>
+        </section>
+        <section>
+          <h3>良形率・超良形率</h3>
+          <p>枚数が同じ候補でも、その先に両面や複合形が残るかを比較できます。速度だけでは見えない形の質を確認できます。</p>
+        </section>
+        <section>
+          <h3>有効牌の内訳</h3>
+          <p>どの牌を引けば前進するのかを牌画像で確認できます。見落としていたくっつきや複合受け入れの復習に使えます。</p>
+        </section>
+      </div>
+      <p className="analysisMethodNote">
+        牌理は判断の土台です。実戦ではドラ、打点、巡目、安全度、点棒状況も合わせて最終的な一打を選んでください。
+      </p>
+      <nav className="analysisMethodLinks" aria-label="牌理チェッカーに関連する学習">
+        <Link href="/trainer#iishanten-nanikiru">イーシャンテン何切るで練習する</Link>
+        <Link href="/learn/glossary">麻雀用語を確認する</Link>
+        <Link href="/videos/strategy/beginner">牌効率の動画解説を見る</Link>
+      </nav>
+    </section>
   );
 }
 

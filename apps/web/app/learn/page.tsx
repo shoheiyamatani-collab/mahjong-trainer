@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionTitle } from "../components/SiteSections";
+import { learningGuides } from "./guides/guideData";
 
 export const metadata: Metadata = {
   title: "麻雀 初めて学ぶ | 初心者ロードマップ・ルール・便利ツール",
@@ -66,6 +67,23 @@ export default function LearnPage() {
               <Link href="/trainer">麻雀トレーニングを見る</Link>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section className="learningGuideHub">
+        <SectionTitle
+          title="牌効率をもう一歩深く学ぶ"
+          description="受け入れや待ちを牌図で確認し、牌理チェッカーの数値を自分で読めるようになるための実戦ガイドです。"
+        />
+        <div className="learningGuideHubGrid">
+          {learningGuides.map((guide, index) => (
+            <article key={guide.slug}>
+              <span>GUIDE {String(index + 1).padStart(2, "0")}</span>
+              <h2>{guide.title}</h2>
+              <p>{guide.description}</p>
+              <Link href={`/learn/guides/${guide.slug}`}>記事を読む</Link>
+            </article>
+          ))}
         </div>
       </section>
     </main>

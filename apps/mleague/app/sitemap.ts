@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublishedPlayers } from "@/lib/mleague/getPlayers";
 import { getPublishedTeams } from "@/lib/mleague/getTeams";
-import { saikouisenMembers } from "@/lib/saikouisen/members";
 import { siteConfig } from "@/config/site";
 
 export const dynamic = "force-static";
@@ -13,7 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/calendar",
     "/players",
     "/teams",
-    "/pros",
     "/clips",
     "/clips/recent",
     "/clips/highlights",
@@ -28,7 +26,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPaths,
     ...getPublishedPlayers().map((player) => `/players/${player.slug}`),
     ...getPublishedTeams().map((team) => `/teams/${team.slug}`),
-    ...saikouisenMembers.map((member) => `/pros/${member.slug}`),
   ];
 
   return paths.map((path) => ({

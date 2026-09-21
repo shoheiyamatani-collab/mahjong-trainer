@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     "最高位戦日本プロ麻雀協会の会員プロフィールを、入会期ごとに確認できる非公式名鑑です。",
   alternates: { canonical: "/mleague/pros/" },
+  robots: { index: false, follow: true },
 };
 
 export default function MahjongProsPage() {

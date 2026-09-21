@@ -4,6 +4,7 @@ import { getSiteUrl } from "./seoConfig";
 import { siteConfig } from "./siteConfig";
 import { yakuArticles } from "./rules/yakuArticleData";
 import { advancedStrategyChannel, proStrategyChannel, videoChannels } from "./videos/videoData";
+import { learningGuides } from "./learn/guides/guideData";
 
 export const dynamic = "force-static";
 
@@ -51,6 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = new Set([
     ...staticPaths,
     ...learnArticles.map((article) => `/learn/${article.slug}`),
+    ...learningGuides.map((guide) => `/learn/guides/${guide.slug}`),
     ...yakuArticles.map((article) => `/rules/${article.slug}`),
     ...analysisRoles.map((role) => `/analysis/starting-hand/${role}`),
     ...videoArticlePaths

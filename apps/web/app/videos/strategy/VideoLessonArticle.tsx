@@ -125,6 +125,31 @@ export function VideoLessonArticle({
 
         <VideoArticleCompactContent message={lesson.overview[0]} points={lesson.keyPoints} />
 
+        <section className="videoArticleBodySection">
+          <p className="videoArticleSectionLabel">WATCH POINTS</p>
+          <h2>動画を見るときの着眼点</h2>
+          <div className="videoPrincipleList">
+            {lesson.watchPoints.map((point, index) => (
+              <section className="videoPrinciple" key={point.title}>
+                <div className="videoPrincipleNumber">{index + 1}</div>
+                <div className="videoPrincipleBody">
+                  <h3>{point.title}</h3>
+                  <p>{point.description}</p>
+                </div>
+              </section>
+            ))}
+          </div>
+        </section>
+
+        <section className="videoArticleBodySection">
+          <p className="videoArticleSectionLabel">PRACTICE</p>
+          <h2>見終わった後に実戦で試すこと</h2>
+          <p>{lesson.overview[1] ?? lesson.guide.focus}</p>
+          <ol className="videoArticlePracticeList">
+            {lesson.practicalPoints.map((point) => <li key={point}>{point}</li>)}
+          </ol>
+        </section>
+
         {bookRecommendation}
         {lesson.book ? <BookRecommendation book={lesson.book} /> : null}
 
