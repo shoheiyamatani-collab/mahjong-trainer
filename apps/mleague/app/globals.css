@@ -7334,6 +7334,17 @@ textarea:focus {
 }
 
 /* 2026-27 team and player standings */
+.eyebrow {
+  padding: 0.38rem 0.72rem;
+  border: 1px solid rgb(54 216 255 / 58%);
+  background: #0b2445;
+  color: #f7fbff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+}
+
 .season-ranking-header .eyebrow {
   display: block;
   margin-bottom: 0.55rem;
