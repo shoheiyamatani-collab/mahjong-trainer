@@ -1,0 +1,39 @@
+name: Update M League stats
+
+on:
+  schedule:
+    - cron: "20 21 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-mleague-stats
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch and validate official stats
+        run: node scripts/update-mleague-stats.mjs
+      - name: Test the updater
+        run: node --test scripts/update-mleague-stats.test.mjs
+      - name: Commit changed stats
+        shell: bash
+        run: |
+          if git diff --quiet -- apps/mleague/data/mleague/currentSeasonStats.json; then
+            echo "Official stats have not changed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/mleague/data/mleague/currentSeasonStats.json
+          git commit -m "Update M League current season stats"
+          git push
