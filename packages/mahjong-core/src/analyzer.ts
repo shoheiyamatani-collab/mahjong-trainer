@@ -29,9 +29,14 @@ export interface DiscardAnalysis {
   tenpaiDetails: TenpaiDetail[];
 }
 
-export function analyzeDiscards(counts: Counts34): DiscardAnalysis[] {
+export interface AnalyzeDiscardsOptions {
+  includeTenpaiDetails?: boolean;
+}
+
+export function analyzeDiscards(counts: Counts34, options: AnalyzeDiscardsOptions = {}): DiscardAnalysis[] {
   validateCounts(counts, 14);
   const results: DiscardAnalysis[] = [];
+  const includeTenpaiDetails = options.includeTenpaiDetails ?? true;
 
   counts.forEach((count, discardIndex) => {
     if (count === 0) return;
@@ -40,7 +45,7 @@ export function analyzeDiscards(counts: Counts34): DiscardAnalysis[] {
     afterDiscard[discardIndex] -= 1;
     const shanten = normalShanten(afterDiscard);
     const ukeire = calculateUkeire(afterDiscard, shanten);
-    const tenpaiDetails = shanten === 1 ? calculateTenpaiDetails(afterDiscard, ukeire) : [];
+    const tenpaiDetails = includeTenpaiDetails && shanten === 1 ? calculateTenpaiDetails(afterDiscard, ukeire) : [];
     const goodShapeTiles = tenpaiDetails.filter((detail) => detail.winningTiles >= GOOD_WAIT_THRESHOLD).reduce((sum, detail) => sum + detail.drawTiles, 0);
     const superGoodShapeTiles = tenpaiDetails.filter((detail) => detail.winningTiles >= SUPER_GOOD_WAIT_THRESHOLD).reduce((sum, detail) => sum + detail.drawTiles, 0);
     const ukeireTiles = ukeire.reduce((sum, tile) => sum + 4 - afterDiscard[tileIndex(tile)]!, 0);

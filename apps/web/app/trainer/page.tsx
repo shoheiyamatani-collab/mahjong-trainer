@@ -37,6 +37,7 @@ import {
   toggleChinitsuRankSelection,
   toggleSevenShapeRankSelection,
   toggleUkeireMaxSelection,
+  validateCounts,
   type ChinitsuWaitQuestion,
   type Counts34,
   type DiscardAnalysis,
@@ -144,6 +145,7 @@ const SCORE_MELD_OPTIONS: Array<{ kind: ScoreMeldInputKind; label: string }> = [
 
 type Action =
   | { type: "add"; tile: Tile }
+  | { type: "replace"; counts: Counts34 }
   | { type: "remove"; tile: Tile }
   | { type: "undo" }
   | { type: "clear" }
@@ -820,6 +822,13 @@ const initialCounts = parseHand(SAMPLE_HAND);
 
 function reducer(state: AppState, action: Action): AppState {
   try {
+    if (action.type === "replace") {
+      validateCounts(action.counts);
+      if (sumCounts(action.counts) > 14) {
+        return { ...state, error: "手牌は14枚までです。" };
+      }
+      return syncCounts(action.counts.slice());
+    }
     if (action.type === "add") {
       if (sumCounts(state.counts) >= 14) {
         return { ...state, error: "手牌は14枚までです。" };
@@ -881,6 +890,14 @@ export default function Home() {
       if (hash) window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${hash}`);
     }
   };
+
+  useEffect(() => {
+    if (!isAnalysisTool) return;
+    const hand = new URLSearchParams(window.location.search).get("hand");
+    if (!hand) return;
+    const counts = hand.split(",").map((value) => Number(value));
+    dispatch({ type: "replace", counts });
+  }, [isAnalysisTool]);
 
   useEffect(() => {
     if (isScoreCalculator || isAnalysisTool) {

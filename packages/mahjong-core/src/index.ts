@@ -7,6 +7,7 @@ export * from "./scoring";
 export * from "./sevenShapes";
 export * from "./handScore";
 export * from "./beginnerIishanten";
+export * from "./dailyNanikiru";
 export * from "./chantaSimulation";
 export * from "./flush";
 export * from "./chiitoitsu";
