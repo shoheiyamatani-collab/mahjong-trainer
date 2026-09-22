@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "-Z_P4zVr_v8",
-  tag: "9/18 ハイライト",
-  title: "9/18 ハイライト｜黒沢咲と堀慎吾がトップ",
+  id: "9cNZtidLbMs",
+  tag: "9/21 ハイライト",
+  title: "【2026/9/21 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "第1試合は黒沢咲が62.5ポイント、第2試合は堀慎吾が51.0ポイントでトップを獲得した9月18日の公式ハイライトです。",
+    "二卓同時開催初日。渡辺太、園田賢、勝又健志、白鳥翔、多井隆晴、佐野ひなこ、竹内元太、瀬戸熊直樹、本田朋広の見どころ局を収めた公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=-Z_P4zVr_v8",
-  date: "2026年9月19日公開",
-  competition: "9月18日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=9cNZtidLbMs",
+  date: "2026年9月22日公開",
+  competition: "9月21日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "-Z_P4zVr_v8",
+    tag: "9/18 ハイライト",
+    title: "9/18 ハイライト｜黒沢咲と堀慎吾がトップ",
+    summary:
+      "第1試合は黒沢咲が62.5ポイント、第2試合は堀慎吾が51.0ポイントでトップを獲得した9月18日の公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=-Z_P4zVr_v8",
+    date: "2026年9月19日公開",
+    competition: "9月18日 Mリーグ公式ハイライト",
+  },
   {
     id: "CzzyTesP_uk",
     tag: "9/17 ハイライト",
