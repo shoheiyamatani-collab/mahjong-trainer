@@ -1,17 +1,17 @@
 {
   "season": "2026-27",
-  "verifiedAt": "2026-09-21",
-  "through": "2026-09-18",
+  "verifiedAt": "2026-09-22",
+  "through": "2026-09-21",
   "sourceUrl": "https://m-league.jp/stats/",
   "players": {
     "player-ishii-kazuma": {
-      "matchesPlayed": 1,
-      "points": 55.6,
-      "averagePlacement": 1,
+      "matchesPlayed": 2,
+      "points": -4.8,
+      "averagePlacement": 2.5,
       "firstPlaceCount": 1,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
-      "fourthPlaceCount": 0
+      "fourthPlaceCount": 1
     },
     "player-miura-tomohiro": {
       "matchesPlayed": 1,
@@ -23,11 +23,11 @@
       "fourthPlaceCount": 1
     },
     "player-aikawa-megumu": {
-      "matchesPlayed": 1,
-      "points": 58,
-      "averagePlacement": 1,
+      "matchesPlayed": 2,
+      "points": 53.9,
+      "averagePlacement": 1.5,
       "firstPlaceCount": 1,
-      "secondPlaceCount": 0,
+      "secondPlaceCount": 1,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
     },
@@ -50,21 +50,21 @@
       "fourthPlaceCount": 1
     },
     "player-hori-shingo": {
-      "matchesPlayed": 1,
-      "points": 51,
-      "averagePlacement": 1,
+      "matchesPlayed": 2,
+      "points": -3.7,
+      "averagePlacement": 2.5,
       "firstPlaceCount": 1,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
-      "fourthPlaceCount": 0
+      "fourthPlaceCount": 1
     },
     "player-akutsu-shota": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": -15.2,
+      "averagePlacement": 3,
       "firstPlaceCount": 0,
       "secondPlaceCount": 0,
-      "thirdPlaceCount": 0,
+      "thirdPlaceCount": 1,
       "fourthPlaceCount": 0
     },
     "player-shirinashihama-wataru": {
@@ -113,20 +113,20 @@
       "fourthPlaceCount": 0
     },
     "player-oi-takaharu": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
-      "firstPlaceCount": 0,
+      "matchesPlayed": 1,
+      "points": 70.9,
+      "averagePlacement": 1,
+      "firstPlaceCount": 1,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
     },
     "player-shiratori-sho": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": 10.6,
+      "averagePlacement": 2,
       "firstPlaceCount": 0,
-      "secondPlaceCount": 0,
+      "secondPlaceCount": 1,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
     },
@@ -149,12 +149,12 @@
       "fourthPlaceCount": 0
     },
     "player-sonoda-ken": {
-      "matchesPlayed": 1,
-      "points": 15.5,
-      "averagePlacement": 2,
+      "matchesPlayed": 2,
+      "points": -9.2,
+      "averagePlacement": 2.5,
       "firstPlaceCount": 0,
       "secondPlaceCount": 1,
-      "thirdPlaceCount": 0,
+      "thirdPlaceCount": 1,
       "fourthPlaceCount": 0
     },
     "player-suzuki-taro": {
@@ -176,10 +176,10 @@
       "fourthPlaceCount": 0
     },
     "player-watanabe-futoshi": {
-      "matchesPlayed": 1,
-      "points": -55.8,
-      "averagePlacement": 4,
-      "firstPlaceCount": 0,
+      "matchesPlayed": 2,
+      "points": 11.7,
+      "averagePlacement": 2.5,
+      "firstPlaceCount": 1,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 1
@@ -203,21 +203,21 @@
       "fourthPlaceCount": 0
     },
     "player-takeuchi-genta": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": 14.7,
+      "averagePlacement": 2,
       "firstPlaceCount": 0,
-      "secondPlaceCount": 0,
+      "secondPlaceCount": 1,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
     },
     "player-sano-hinako": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": -30.5,
+      "averagePlacement": 3,
       "firstPlaceCount": 0,
       "secondPlaceCount": 0,
-      "thirdPlaceCount": 0,
+      "thirdPlaceCount": 1,
       "fourthPlaceCount": 0
     },
     "player-suzuki-daisuke": {
@@ -230,20 +230,20 @@
       "fourthPlaceCount": 0
     },
     "player-nakada-kana": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": -62.9,
+      "averagePlacement": 4,
       "firstPlaceCount": 0,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
-      "fourthPlaceCount": 0
+      "fourthPlaceCount": 1
     },
     "player-shimoishi-geki": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": 8.5,
+      "averagePlacement": 2,
       "firstPlaceCount": 0,
-      "secondPlaceCount": 0,
+      "secondPlaceCount": 1,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
     },
@@ -266,10 +266,10 @@
       "fourthPlaceCount": 1
     },
     "player-setokuma-naoki": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
-      "firstPlaceCount": 0,
+      "matchesPlayed": 1,
+      "points": 101.9,
+      "averagePlacement": 1,
+      "firstPlaceCount": 1,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
@@ -284,12 +284,12 @@
       "fourthPlaceCount": 0
     },
     "player-honda-tomohiro": {
-      "matchesPlayed": 2,
-      "points": 39.6,
-      "averagePlacement": 2,
+      "matchesPlayed": 3,
+      "points": 20,
+      "averagePlacement": 2.33,
       "firstPlaceCount": 1,
       "secondPlaceCount": 0,
-      "thirdPlaceCount": 1,
+      "thirdPlaceCount": 2,
       "fourthPlaceCount": 0
     },
     "player-sasaki-hisato": {
@@ -338,22 +338,22 @@
       "fourthPlaceCount": 0
     },
     "player-katsumata-kenji": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
-      "firstPlaceCount": 0,
+      "matchesPlayed": 1,
+      "points": 65.3,
+      "averagePlacement": 1,
+      "firstPlaceCount": 1,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
       "fourthPlaceCount": 0
     },
     "player-nagai-kosuke": {
-      "matchesPlayed": 0,
-      "points": 0,
-      "averagePlacement": null,
+      "matchesPlayed": 1,
+      "points": -67.3,
+      "averagePlacement": 4,
       "firstPlaceCount": 0,
       "secondPlaceCount": 0,
       "thirdPlaceCount": 0,
-      "fourthPlaceCount": 0
+      "fourthPlaceCount": 1
     },
     "player-uchikawa-kotaro": {
       "matchesPlayed": 1,
