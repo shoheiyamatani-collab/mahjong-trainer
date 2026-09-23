@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "9cNZtidLbMs",
-  tag: "9/21 ハイライト",
-  title: "【2026/9/21 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "fZNwTPh63bg",
+  tag: "9/22 ハイライト",
+  title: "【2026/9/22 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "二卓同時開催初日。渡辺太、園田賢、勝又健志、白鳥翔、多井隆晴、佐野ひなこ、竹内元太、瀬戸熊直樹、本田朋広の見どころ局を収めた公式ハイライトです。",
+    "岡田紗佳、松本吉弘、佐々木寿人、中田花奈が各試合でトップを獲得した9月22日の公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=9cNZtidLbMs",
-  date: "2026年9月22日公開",
-  competition: "9月21日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=fZNwTPh63bg",
+  date: "2026年9月23日公開",
+  competition: "9月22日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "9cNZtidLbMs",
+    tag: "9/21 ハイライト",
+    title: "【2026/9/21 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "二卓同時開催初日。渡辺太、園田賢、勝又健志、白鳥翔、多井隆晴、佐野ひなこ、竹内元太、瀬戸熊直樹、本田朋広の見どころ局を収めた公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=9cNZtidLbMs",
+    date: "2026年9月22日公開",
+    competition: "9月21日 Mリーグ公式ハイライト",
+  },
   {
     id: "-Z_P4zVr_v8",
     tag: "9/18 ハイライト",
