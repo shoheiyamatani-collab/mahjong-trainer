@@ -66,12 +66,6 @@ export default function HowToReadFuuroRatePage() {
             { title: "副露率に唯一の正解がない4つの理由", description: "" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook
-                  heading="鳴きの振り返りを、手作りの基準から始める"
-                  description="副露率の数字だけで鳴きの良し悪しは決まりません。鳴く前後で手牌がどれだけ進むかを、受け入れとブロックの視点から確認できます。"
-                />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>鳴きの条件と実戦判断を確認する</h2>
@@ -82,6 +76,12 @@ export default function HowToReadFuuroRatePage() {
                     <Link href="/trainer">実戦問題で判断を試す</Link>
                   </div>
                 </section>
+
+        <HirasawaTileEfficiencyBook
+                  heading="鳴きの振り返りを、手作りの基準から始める"
+                  description="副露率の数字だけで鳴きの良し悪しは決まりません。鳴く前後で手牌がどれだけ進むかを、受け入れとブロックの視点から確認できます。"
+                />
+
 
 </article>
     </main>

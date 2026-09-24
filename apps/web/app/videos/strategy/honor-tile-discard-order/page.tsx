@@ -46,10 +46,10 @@ export default function HonorTileDiscardOrderPage() {
             { title: "守りを考えると、後で切りやすい字牌を残す", description: "特定の相手がすでに捨てた字牌は、その相手には現物です。" },
           ]}
         />
+        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>役牌と手作りを続けて学ぶ</h2><div><Link href="/rules/yakuhai">役牌の条件を詳しく見る</Link><Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を見る</Link><Link href="/videos/strategy/beginner">初心者向け動画へ戻る</Link></div></section>
 
         <ClearRainNanikiruBook />
 
-        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>役牌と手作りを続けて学ぶ</h2><div><Link href="/rules/yakuhai">役牌の条件を詳しく見る</Link><Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を見る</Link><Link href="/videos/strategy/beginner">初心者向け動画へ戻る</Link></div></section>
 
 </article>
     </main>

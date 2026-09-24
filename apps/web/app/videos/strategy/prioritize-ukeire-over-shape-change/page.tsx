@@ -53,13 +53,13 @@ export default function PrioritizeUkeireOverShapeChangePage() {
             { title: "両面は「作ること」ではなく「面子を完成させやすい」から強い", description: "両面が良いのは、2種類の牌で面子が完成するからです。" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p><h2>受け入れを実際の手牌で比べる</h2>
                   <div><Link href="/videos/strategy/ukeire-vs-shape-change-basics">受け入れと手変わりの基礎を復習する</Link><Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link><Link href="/videos/strategy/tile-efficiency-four-rules">初心者向け牌効率の4法則へ進む</Link></div>
                 </section>
+
+        <HirasawaTileEfficiencyBook />
+
 
 </article>
     </main>

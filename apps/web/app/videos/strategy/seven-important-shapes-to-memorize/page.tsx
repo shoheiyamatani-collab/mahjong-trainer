@@ -141,9 +141,6 @@ export default function SevenImportantShapesToMemorizePage() {
             { title: "形だけで打牌を決めない", description: "重要形は受け入れを広くする基本ですが、ドラ、役、残り枚数、巡目によって優先順位は変わります。" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>覚えた形を実際の手牌で試す</h2>
@@ -154,6 +151,9 @@ export default function SevenImportantShapesToMemorizePage() {
                     <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る問題で理解を確認する</Link>
                   </div>
                 </section>
+
+        <HirasawaTileEfficiencyBook />
+
 
 </article>
     </main>

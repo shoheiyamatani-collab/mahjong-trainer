@@ -53,13 +53,13 @@ export default function ThreeShantenMistakesBeginnersAvoidPage() {
             { title: "役のために完成面子を壊さない", description: "一色手が見えても、完成した面子を壊さなければ作れない役は、初心者のうちは無理に追わない方が安定します。" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p><h2>受け入れの考え方へ進む</h2>
                   <div><Link href="/videos/strategy/ukeire-vs-shape-change-basics">受け入れと手変わりの違いを覚える</Link><Link href="/videos/strategy/prioritize-ukeire-over-shape-change">変化より受け入れを優先する理由を見る</Link><Link href="/trainer">何切る問題で確認する</Link></div>
                 </section>
+
+        <HirasawaTileEfficiencyBook />
+
 
 </article>
     </main>

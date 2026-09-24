@@ -11,6 +11,7 @@ import {
 } from "../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "./VideoArticleCompactContent";
 import type { VideoLesson, VideoLessonBook } from "./videoLessonData";
+import { isVideoArticleIndexable } from "./videoSeoPolicy";
 
 export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
   const canonical = `/videos/strategy/${lesson.slug}`;
@@ -18,6 +19,7 @@ export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
   return {
     title: lesson.guide.title,
     description: lesson.guide.description,
+    robots: isVideoArticleIndexable(canonical) ? undefined : { index: false, follow: true },
     alternates: { canonical },
     openGraph: {
       type: "article",
@@ -150,9 +152,6 @@ export function VideoLessonArticle({
           </ol>
         </section>
 
-        {bookRecommendation}
-        {lesson.book ? <BookRecommendation book={lesson.book} /> : null}
-
         <section className="videoArticleNext">
           <p className="videoArticleSectionLabel">NEXT STEP</p>
           <h2>関連する練習・解説へ進む</h2>
@@ -160,6 +159,9 @@ export function VideoLessonArticle({
             {relatedLinks.map((link) => <Link href={link.href} key={link.href}>{link.label}</Link>)}
           </div>
         </section>
+
+        {bookRecommendation}
+        {lesson.book ? <BookRecommendation book={lesson.book} /> : null}
       </article>
     </main>
   );

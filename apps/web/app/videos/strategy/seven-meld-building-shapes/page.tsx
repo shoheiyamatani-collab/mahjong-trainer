@@ -158,9 +158,6 @@ export default function SevenMeldBuildingShapesArticlePage() {
             { title: "対局中は「引いた後」を1回だけ想像する", description: "形を見つけたら、すべての受け入れを数える必要はありません。" },
           ]}
         />
-
-        <ClearRainNanikiruBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>受け入れを実際に比較する</h2>
@@ -171,6 +168,9 @@ export default function SevenMeldBuildingShapesArticlePage() {
                     <Link href="/trainer">麻雀トレーニングへ進む</Link>
                   </div>
                 </section>
+
+        <ClearRainNanikiruBook />
+
 
 </article>
     </main>

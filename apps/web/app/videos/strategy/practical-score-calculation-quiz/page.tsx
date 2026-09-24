@@ -44,13 +44,13 @@ export default function PracticalScoreCalculationQuizPage() {
             { title: "平和なし・副露・七対子を分ける", description: "動画では、平和なしの門前ツモ・ロン、副露したツモ・ロン、七対子を順番に出題します。" },
           ]}
         />
+        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>点数表を使って復習する</h2><div><Link href="/videos/strategy/easy-score-calculation-without-fu">簡単な点数計算方法を復習する</Link><Link href="/tools/score-table">初心者向け点数早見表を見る</Link><Link href="/rules/practical-score">実戦でよく見る点数計算を見る</Link></div></section>
 
         <ClearRainBasicTheoryBook
                   heading="点数を分かった上で、実戦の選択を磨く"
                   description="点数計算を使えるようになると、打点を追うか、速度を優先するか、守備に回るかをより具体的に比べられます。初級者の実戦判断をまとめて復習できる一冊です。"
                 />
 
-        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>点数表を使って復習する</h2><div><Link href="/videos/strategy/easy-score-calculation-without-fu">簡単な点数計算方法を復習する</Link><Link href="/tools/score-table">初心者向け点数早見表を見る</Link><Link href="/rules/practical-score">実戦でよく見る点数計算を見る</Link></div></section>
 
 </article>
     </main>

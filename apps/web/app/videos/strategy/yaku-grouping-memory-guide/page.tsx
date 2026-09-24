@@ -66,12 +66,6 @@ export default function YakuGroupingMemoryGuidePage() {
             { title: "面子の形で覚える", description: "順子、刻子、対子のどれを集めているかを見る方法です。" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook
-                  heading="役を覚えたら、アガリやすい手作りへ"
-                  description="役を暗記した次は、役の種を残しながらテンパイへ近づく手作りが大切です。受け入れやブロックの考え方を、何切る問題と一緒に基礎から確認できます。"
-                />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>グループを役一覧の牌姿と結びつける</h2>
@@ -82,6 +76,12 @@ export default function YakuGroupingMemoryGuidePage() {
                     <Link href="/training/yaku-quiz">役判定クイズで確認する</Link>
                   </div>
                 </section>
+
+        <HirasawaTileEfficiencyBook
+                  heading="役を覚えたら、アガリやすい手作りへ"
+                  description="役を暗記した次は、役の種を残しながらテンパイへ近づく手作りが大切です。受け入れやブロックの考え方を、何切る問題と一緒に基礎から確認できます。"
+                />
+
 
 </article>
     </main>

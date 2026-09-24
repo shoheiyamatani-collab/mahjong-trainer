@@ -933,6 +933,14 @@ body .homeHeroBrandRow .homeHeroLogo {
   width: 18px;
 }
 
+.toolHeaderLinks {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
 .modeGroups,
 .modeSelector {
   display: grid;
@@ -2338,6 +2346,7 @@ body .homeHeroBrandRow .homeHeroLogo {
 
 .analysisToolbarCount,
 .analysisToolbar button,
+.analysisHelpButton,
 .analysisRunButton {
   align-items: center;
   background: #ffffff;
@@ -2353,6 +2362,16 @@ body .homeHeroBrandRow .homeHeroLogo {
   text-decoration: none;
 }
 
+.analysisHelpButton {
+  gap: 7px;
+}
+
+.analysisHelpButton svg,
+.toolInlineHelpLink svg {
+  height: 17px;
+  width: 17px;
+}
+
 .analysisToolbar button {
   cursor: pointer;
 }
@@ -2362,6 +2381,16 @@ body .homeHeroBrandRow .homeHeroLogo {
   border-color: #06703f;
   color: #ffffff;
   min-width: 170px;
+}
+
+.toolInlineHelpLink {
+  align-items: center;
+  color: #1764ad;
+  display: inline-flex;
+  font-size: 0.86rem;
+  font-weight: 900;
+  gap: 6px;
+  text-decoration: none;
 }
 
 .analysisWorkspacePage .modeSelector {
@@ -5717,6 +5746,113 @@ body .homeHeroBrandRow .homeHeroLogo {
   margin-right: 8px;
 }
 
+.yakuOpenAnswer {
+  align-items: start;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.yakuOpenAnswer > strong {
+  border-radius: 8px;
+  font-size: 0.9rem;
+  padding: 8px 10px;
+}
+
+.yakuOpenAnswer > strong.is-openable {
+  background: #e9f8ed;
+  border: 1px solid rgba(23, 108, 61, 0.2);
+  color: #0c6539;
+}
+
+.yakuOpenAnswer > strong.is-closed-only {
+  background: #fff3df;
+  border: 1px solid rgba(217, 104, 0, 0.24);
+  color: #8a4a00;
+}
+
+.yakuCombinationList {
+  border-block: 1px solid var(--line);
+  display: grid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.yakuCombinationList li {
+  align-items: start;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 6px 18px;
+  grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr);
+  padding: 12px 0;
+}
+
+.yakuCombinationList li:first-child {
+  border-top: 0;
+}
+
+.yakuCombinationList strong,
+.yakuCombinationList a {
+  color: #0c6539;
+  font-weight: 1000;
+  line-height: 1.6;
+}
+
+.yakuCombinationList a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.yakuCombinationList span {
+  color: #46534d;
+  font-size: 0.94rem;
+  font-weight: 700;
+  line-height: 1.75;
+}
+
+.yakuPracticeSection {
+  background: #fffaf0;
+  border-color: rgba(217, 128, 0, 0.3);
+}
+
+.yakuPracticeLabel {
+  color: #9a5600;
+  font-size: 0.74rem;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.yakuPracticeAnswer {
+  background: #ffffff;
+  border: 1px solid rgba(23, 63, 35, 0.2);
+  border-radius: 8px;
+  margin-top: 4px;
+  padding: 0 14px;
+}
+
+.yakuPracticeAnswer summary {
+  color: #0c6539;
+  cursor: pointer;
+  font-weight: 1000;
+  padding: 12px 0;
+}
+
+.yakuPracticeAnswer[open] {
+  padding-bottom: 14px;
+}
+
+.yakuPracticeAnswer > strong {
+  color: #173f23;
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.yakuPracticeAnswer p {
+  font-size: 0.94rem;
+}
+
 .exampleSection {
   background: #fff9db;
   border-color: rgba(240, 140, 0, 0.32);
@@ -6405,6 +6541,11 @@ body .homeHeroBrandRow .homeHeroLogo {
 @media (max-width: 640px) {
   .articleAside {
     padding: 15px;
+  }
+
+  .yakuOpenAnswer,
+  .yakuCombinationList li {
+    grid-template-columns: 1fr;
   }
 
   .tileFigureCard {
@@ -8449,6 +8590,141 @@ body .homeHeroBrandRow .homeHeroLogo {
   max-width: 920px;
 }
 
+.toolHelpLead {
+  color: var(--muted);
+  line-height: 1.75;
+  margin: 10px 0 0;
+  max-width: 690px;
+}
+
+.toolHelpSummaryGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.toolHelpSummaryGrid > div {
+  background: #f4f8f5;
+  border-left: 4px solid #2f9e44;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+}
+
+.toolHelpSummaryGrid strong {
+  color: #174d2b;
+}
+
+.toolHelpSummaryGrid span {
+  color: #536159;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.toolHelpSteps {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+
+.toolHelpSteps li {
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 36px minmax(0, 1fr);
+  padding: 16px;
+}
+
+.toolHelpSteps li > span {
+  align-items: center;
+  background: #176b3b;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  font-weight: 900;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.toolHelpSteps h3,
+.toolHelpSteps p {
+  margin: 0;
+}
+
+.toolHelpSteps p {
+  color: #536159;
+  margin-top: 4px;
+}
+
+.toolHelpDefinitions {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.toolHelpDefinitions > div {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(100px, 150px) minmax(0, 1fr);
+  padding: 14px 0;
+}
+
+.toolHelpDefinitions dt {
+  color: #174d2b;
+  font-weight: 900;
+}
+
+.toolHelpDefinitions dd {
+  line-height: 1.8;
+  margin: 0;
+}
+
+.toolHelpRelatedLinks {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.toolHelpRelatedLinks a {
+  align-items: center;
+  border: 1px solid #9ccbad;
+  color: #176b3b;
+  display: flex;
+  font-weight: 900;
+  justify-content: center;
+  min-height: 52px;
+  padding: 10px 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.toolHelpFinish {
+  margin-top: 24px;
+}
+
+.toolHelpFinish h2,
+.toolHelpFinish p {
+  margin-top: 0;
+}
+
+.toolHelpFinish .analysisBackButton {
+  align-items: center;
+  background: #176b3b;
+  color: #ffffff;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 18px;
+}
+
 .analysisHelpTopline {
   border-bottom: 3px solid #2f9e44;
   padding-bottom: 18px;
@@ -8638,6 +8914,16 @@ body .homeHeroBrandRow .homeHeroLogo {
   .analysisHelpNav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .toolHelpSummaryGrid,
+  .toolHelpRelatedLinks {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .toolHelpDefinitions > div {
+    gap: 4px;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

@@ -98,9 +98,6 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
             { title: "全10問の答えと覚えるポイント", description: "各問の答えは、見出しを押したときだけ表示されます。" },
           ]}
         />
-
-        <ClearRainNanikiruBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>同じ判断を自分の手で試す</h2>
@@ -111,6 +108,9 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
                     <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">全16問の何切るセオリーへ進む</Link>
                   </div>
                 </section>
+
+        <ClearRainNanikiruBook />
+
 
 </article>
     </main>

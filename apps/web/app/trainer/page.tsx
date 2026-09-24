@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useReducer, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpenCheck, Flame, TableProperties } from "lucide-react";
+import { BookOpenCheck, CircleHelp, Flame, TableProperties } from "lucide-react";
 import { HandInputStrip } from "../components/HandInputStrip";
 import {
   addTile,
@@ -926,16 +926,23 @@ export default function Home() {
           <h1>{pageTitle}</h1>
         </div>
         {isScoreCalculator ? (
-          <Link className="scoreTableLink" href="/tools/score-table">
-            <TableProperties aria-hidden="true" />
-            点数早見表を見る
-          </Link>
+          <div className="toolHeaderLinks">
+            <Link className="scoreTableLink" href="/tools/score-table">
+              <TableProperties aria-hidden="true" />
+              点数早見表を見る
+            </Link>
+            <Link className="scoreTableLink" href="/tools/help">
+              <CircleHelp aria-hidden="true" />
+              使い方
+            </Link>
+          </div>
         ) : null}
         {isAnalysisTool ? (
           <div className="analysisToolbar" aria-label="解析ツール操作">
             <span className="analysisToolbarCount">手牌 {sumCounts(state.counts)} / 14</span>
             <button type="button" onClick={() => dispatch({ type: "sample" })}>サンプル牌姿</button>
             <button type="button" onClick={() => dispatch({ type: "clear" })}>手牌をクリア</button>
+            <Link className="analysisHelpButton" href="/analysis/mahjong-tool/help"><CircleHelp aria-hidden="true" />使い方</Link>
             <a className="analysisRunButton" href="#analysis-results">解析結果を見る</a>
           </div>
         ) : null}
@@ -1194,6 +1201,7 @@ function UkeireMaxMode() {
       <section className="panel handPanel">
         <div className="panelHeader">
           <h2>🔥 受け入れMAX星人何切る</h2>
+          <Link className="toolInlineHelpLink" href="/trainer/ukeire-max/help"><CircleHelp aria-hidden="true" />遊び方</Link>
         </div>
         <ProblemTileStrip counts={question.counts} selected={selectedSet} onTileClick={toggle} />
         <div className="actions">

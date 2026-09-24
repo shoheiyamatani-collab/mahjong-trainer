@@ -19,7 +19,7 @@ export function TeamMemberList({ players, memberships }: TeamMemberListProps) {
   const pastPlayers = players.filter((player) => pastIds.has(player.id));
 
   return (
-    <div className="two-column">
+    <div className={pastPlayers.length ? "two-column" : undefined}>
       <section className="content-card">
         <h2>現在所属している選手</h2>
         {currentPlayers.length ? (
@@ -40,18 +40,16 @@ export function TeamMemberList({ players, memberships }: TeamMemberListProps) {
           <p>確認済みデータはありません。</p>
         )}
       </section>
-      <section className="content-card">
-        <h2>過去に所属していた選手</h2>
-        {pastPlayers.length ? (
+      {pastPlayers.length ? (
+        <section className="content-card">
+          <h2>過去に所属していた選手</h2>
           <ul className="member-list">
             {pastPlayers.map((player) => (
               <li key={player.id}>{player.displayName}</li>
             ))}
           </ul>
-        ) : (
-          <p>現在の掲載データには該当者がいません。</p>
-        )}
-      </section>
+        </section>
+      ) : null}
     </div>
   );
 }

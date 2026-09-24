@@ -304,12 +304,6 @@ export default function ImportantYakuForHigherScoresArticlePage() {
             { title: "次の対局では、1局に1つだけ役の種を探す", description: "最初は「三色があるか」「同じ色に寄っているか」のどちらか1つを見るだけで十分です。" },
           ]}
         />
-
-        <ClearRainBasicTheoryBook
-                  heading="役を覚えたら、打点と速度を比べて選ぶ"
-                  description="役を作るだけでなく、手を遅くしすぎずに打点を伸ばす考え方が実戦では大切です。手作り、鳴き、押し引きをつないで、役を生かす判断を学べます。"
-                />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>役を牌姿で復習して、問題で見つける</h2>
@@ -320,6 +314,12 @@ export default function ImportantYakuForHigherScoresArticlePage() {
                     <Link href="/videos/strategy">ほかの麻雀戦術動画を見る</Link>
                   </div>
                 </section>
+
+        <ClearRainBasicTheoryBook
+                  heading="役を覚えたら、打点と速度を比べて選ぶ"
+                  description="役を作るだけでなく、手を遅くしすぎずに打点を伸ばす考え方が実戦では大切です。手作り、鳴き、押し引きをつないで、役を生かす判断を学べます。"
+                />
+
 
 </article>
     </main>

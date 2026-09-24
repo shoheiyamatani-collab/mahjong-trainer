@@ -164,9 +164,6 @@ export default function SevenStrongShapesForWinningArticlePage() {
             { title: "形を見つけたら、引いた後の2組を作ってみる", description: "受け入れ枚数をすべて暗算する必要はありません。" },
           ]}
         />
-
-        <ClearRainNanikiruBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>牌を動かして、強い形を自分のものにする</h2>
@@ -177,6 +174,9 @@ export default function SevenStrongShapesForWinningArticlePage() {
                     <Link href="/trainer">麻雀トレーニングで試す</Link>
                   </div>
                 </section>
+
+        <ClearRainNanikiruBook />
+
 
 </article>
     </main>

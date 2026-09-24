@@ -121,12 +121,6 @@ export default function EasyScoreCalculationWithoutFuArticlePage() {
             { title: "よく出る3パターンを見分ける", description: "" },
           ]}
         />
-
-        <ClearRainBasicTheoryBook
-                  heading="点数計算を覚えた次に、実戦判断を広げる"
-                  description="点数を確認できるようになったら、その手を速く進めるか、守るか、リーチや鳴きをどう選ぶかまで考えられるようになります。初級者がつまずきやすい判断を一冊で整理できます。"
-                />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>点数表とツールで答え合わせする</h2>
@@ -137,6 +131,12 @@ export default function EasyScoreCalculationWithoutFuArticlePage() {
                     <Link href="/rules/yaku">役一覧で翻数を確認する</Link>
                   </div>
                 </section>
+
+        <ClearRainBasicTheoryBook
+                  heading="点数計算を覚えた次に、実戦判断を広げる"
+                  description="点数を確認できるようになったら、その手を速く進めるか、守るか、リーチや鳴きをどう選ぶかまで考えられるようになります。初級者がつまずきやすい判断を一冊で整理できます。"
+                />
+
 
 </article>
     </main>

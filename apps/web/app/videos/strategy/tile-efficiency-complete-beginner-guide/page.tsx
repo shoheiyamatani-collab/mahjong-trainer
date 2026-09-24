@@ -52,13 +52,13 @@ export default function TileEfficiencyCompleteBeginnerGuidePage() {
             { title: "序盤は孤立牌の弱い順から整理する", description: "中央の牌ほど、周辺の多くの牌とターツを作れます。" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p><h2>総合講座を問題で定着させる</h2>
                   <div><Link href="/videos/strategy/tile-efficiency-four-rules">初心者向け牌効率の4法則を見る</Link><Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを確認する</Link><Link href="/trainer">何切る問題で練習する</Link></div>
                 </section>
+
+        <HirasawaTileEfficiencyBook />
+
 
 </article>
     </main>

@@ -5,6 +5,7 @@ import { siteConfig } from "./siteConfig";
 import { yakuArticles } from "./rules/yakuArticleData";
 import { advancedStrategyChannel, proStrategyChannel, videoChannels } from "./videos/videoData";
 import { learningGuides } from "./learn/guides/guideData";
+import { isVideoArticleIndexable } from "./videos/strategy/videoSeoPolicy";
 
 export const dynamic = "force-static";
 
@@ -12,6 +13,7 @@ const staticPaths = [
   "/about",
   "/advertising",
   "/analysis/mahjong-tool",
+  "/analysis/mahjong-tool/help",
   "/analysis/starting-hand",
   "/analysis/starting-hand/help",
   "/contact",
@@ -26,9 +28,11 @@ const staticPaths = [
   "/rules/practical-waits",
   "/rules/yaku",
   "/tools",
+  "/tools/help",
   "/tools/score-table",
   "/terms",
   "/trainer",
+  "/trainer/ukeire-max/help",
   "/training/yaku-quiz",
   ...(siteConfig.features.showMLeagueLinks ? ["/videos/mleague-clips"] : []),
   "/videos/strategy",
@@ -47,7 +51,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...(siteConfig.features.showMLeagueLinks ? videoChannels["mleague-clips"].guides : []),
     ...advancedStrategyChannel.guides,
     ...proStrategyChannel.guides
-  ].flatMap((guide) => (guide.articleHref ? [guide.articleHref] : []));
+  ]
+    .flatMap((guide) => (guide.articleHref ? [guide.articleHref] : []))
+    .filter(isVideoArticleIndexable);
 
   const paths = new Set([
     ...staticPaths,

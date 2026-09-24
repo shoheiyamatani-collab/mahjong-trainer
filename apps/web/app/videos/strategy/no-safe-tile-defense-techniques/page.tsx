@@ -66,9 +66,6 @@ export default function NoSafeTileDefenseTechniquesPage() {
             { title: "対子・暗刻は数巡しのぐ候補になる", description: "同じ牌を2枚または3枚持っていると、その1種類を通すだけで複数巡をしのげます。" },
           ]}
         />
-
-        <HirasawaDefenseBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>守備の基本と組み合わせる</h2>
@@ -79,6 +76,9 @@ export default function NoSafeTileDefenseTechniquesPage() {
                     <Link href="/trainer">実戦問題で判断を練習する</Link>
                   </div>
                 </section>
+
+        <HirasawaDefenseBook />
+
 
 </article>
     </main>

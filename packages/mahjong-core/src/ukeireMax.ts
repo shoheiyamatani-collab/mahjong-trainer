@@ -149,11 +149,13 @@ export function buildUkeireMaxQuestion(counts: Counts34): UkeireMaxQuestion | nu
 export function generateUkeireMaxQuestion(
   rng: () => number = Math.random,
   maxAttempts = DEFAULT_MAX_ATTEMPTS,
-  config: DifficultUkeireQuestionConfig = DIFFICULT_UKEIRE_QUESTION_CONFIG
+  config: DifficultUkeireQuestionConfig = DIFFICULT_UKEIRE_QUESTION_CONFIG,
+  recentHands: string[] = []
 ): UkeireMaxQuestion {
+  const recent = new Set(recentHands);
   for (const seed of shuffledDifficultSeeds(rng)) {
     const question = buildUkeireMaxQuestion(parseHand(seed));
-    if (question && evaluateDifficultUkeireQuestion(question, config).accepted) return question;
+    if (question && !recent.has(ukeireMaxHandKey(question.counts)) && evaluateDifficultUkeireQuestion(question, config).accepted) return question;
   }
 
   let fallback: UkeireMaxQuestion | null = null;
@@ -162,7 +164,7 @@ export function generateUkeireMaxQuestion(
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const question = buildUkeireMaxQuestion(randomNumberHand(rng));
-    if (!question) continue;
+    if (!question || recent.has(ukeireMaxHandKey(question.counts))) continue;
     if (!fallback) fallback = question;
 
     const evaluation = evaluateDifficultUkeireQuestion(question, config);
@@ -190,7 +192,7 @@ export function generateUkeireMaxQuestion(
 
   for (const seed of shuffledSeeds(rng)) {
     const seeded = buildUkeireMaxQuestion(parseHand(seed));
-    if (seeded) return seeded;
+    if (seeded && !recent.has(ukeireMaxHandKey(seeded.counts))) return seeded;
   }
 
   const finalFallback = buildUkeireMaxQuestion(parseHand("1455m2345677p678s"));
@@ -203,11 +205,13 @@ export function generateUkeireMaxQuestion(
 export function generateHardUkeireMaxQuestion(
   rng: () => number = Math.random,
   maxAttempts = DEFAULT_MAX_ATTEMPTS,
-  config: DifficultUkeireQuestionConfig = HARD_UKEIRE_QUESTION_CONFIG
+  config: DifficultUkeireQuestionConfig = HARD_UKEIRE_QUESTION_CONFIG,
+  recentHands: string[] = []
 ): UkeireMaxQuestion {
+  const recent = new Set(recentHands);
   for (const seed of shuffledDifficultSeeds(rng)) {
     const question = buildUkeireMaxQuestion(parseHand(seed));
-    if (question && evaluateDifficultUkeireQuestion(question, config).accepted) return question;
+    if (question && !recent.has(ukeireMaxHandKey(question.counts)) && evaluateDifficultUkeireQuestion(question, config).accepted) return question;
   }
 
   let fallback: UkeireMaxQuestion | null = null;
@@ -216,7 +220,7 @@ export function generateHardUkeireMaxQuestion(
 
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const question = buildUkeireMaxQuestion(randomNumberHand(rng));
-    if (!question) continue;
+    if (!question || recent.has(ukeireMaxHandKey(question.counts))) continue;
 
     const evaluation = evaluateDifficultUkeireQuestion(question, config);
     if (hasTripletOrNearShape(question.counts) && !fallback) fallback = question;
@@ -243,7 +247,12 @@ export function generateHardUkeireMaxQuestion(
     }
   }
 
-  return generateUkeireMaxQuestion(rng, maxAttempts, relaxedConfig(config));
+  return generateUkeireMaxQuestion(rng, maxAttempts, relaxedConfig(config), recentHands);
+}
+
+export function ukeireMaxHandKey(counts: Counts34): string {
+  validateCounts(counts, 14);
+  return counts.slice(0, NUMBER_TILE_COUNT).join("");
 }
 
 export function evaluateUkeireMaxAnswer(question: UkeireMaxQuestion, selected: Tile[]): UkeireMaxAnswerState {

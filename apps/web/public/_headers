@@ -1,0 +1,103 @@
+# Generated from app/videos/strategy/videoSeoPolicy.json.
+# Keep thin video articles available to readers while excluding them from search results.
+/videos/strategy/*
+  X-Robots-Tag: noindex, follow
+
+/videos/strategy
+  ! X-Robots-Tag
+
+/videos/strategy/beginner
+  ! X-Robots-Tag
+
+/videos/strategy/advanced
+  ! X-Robots-Tag
+
+/videos/strategy/pro
+  ! X-Robots-Tag
+
+/videos/strategy/beginner-win-chance-basics
+  ! X-Robots-Tag
+
+/videos/strategy/yaku-grouping-memory-guide
+  ! X-Robots-Tag
+
+/videos/strategy/three-shanten-mistakes-beginners-avoid
+  ! X-Robots-Tag
+
+/videos/strategy/ukeire-vs-shape-change-basics
+  ! X-Robots-Tag
+
+/videos/strategy/tile-efficiency-complete-beginner-guide
+  ! X-Robots-Tag
+
+/videos/strategy/seven-important-shapes-to-memorize
+  ! X-Robots-Tag
+
+/videos/strategy/beginner-nanikiru-ten-questions
+  ! X-Robots-Tag
+
+/videos/strategy/honor-tile-discard-order
+  ! X-Robots-Tag
+
+/videos/strategy/beginner-calling-theory
+  ! X-Robots-Tag
+
+/videos/strategy/calling-to-improve-wait-quiz
+  ! X-Robots-Tag
+
+/videos/strategy/multi-sided-waits-23-patterns
+  ! X-Robots-Tag
+
+/videos/strategy/important-yaku-for-higher-scores
+  ! X-Robots-Tag
+
+/videos/strategy/easy-score-calculation-without-fu
+  ! X-Robots-Tag
+
+/videos/strategy/practical-score-calculation-quiz
+  ! X-Robots-Tag
+
+/videos/strategy/betaori-three-principles
+  ! X-Robots-Tag
+
+/videos/strategy/suji-kabe-defense-basics
+  ! X-Robots-Tag
+
+/videos/strategy/no-safe-tile-defense-techniques
+  ! X-Robots-Tag
+
+/videos/strategy/betaori-practice-ten-questions
+  ! X-Robots-Tag
+
+/videos/strategy/push-fold-judgment-ten-questions
+  ! X-Robots-Tag
+
+/videos/strategy/riichi-judgment-ten-questions
+  ! X-Robots-Tag
+
+/videos/strategy/playing-bad-starting-hands
+  ! X-Robots-Tag
+
+/videos/strategy/advanced/calling-read
+  ! X-Robots-Tag
+
+/videos/strategy/discard-reading-fundamentals
+  ! X-Robots-Tag
+
+/videos/strategy/when-not-to-follow-tile-efficiency
+  ! X-Robots-Tag
+
+/videos/strategy/intermediate-tile-efficiency-26-rules
+  ! X-Robots-Tag
+
+/videos/strategy/when-terminal-is-better-than-28
+  ! X-Robots-Tag
+
+/videos/strategy/three-dimensional-nanikiru
+  ! X-Robots-Tag
+
+/videos/strategy/betaori-risk-test-intermediate
+  ! X-Robots-Tag
+
+/videos/strategy/mawashi-uchi-counterattack
+  ! X-Robots-Tag

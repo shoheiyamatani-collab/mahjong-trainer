@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1 --port 3000",
+    "prebuild": "node scripts/generate-video-seo-headers.mjs",
     "build": "next build",
     "typecheck": "tsc --project tsconfig.json"
   },

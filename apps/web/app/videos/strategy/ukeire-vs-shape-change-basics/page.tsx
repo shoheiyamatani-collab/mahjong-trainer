@@ -65,9 +65,6 @@ export default function UkeireVsShapeChangeBasicsPage() {
             { title: "1種類の受け入れと、2種類の変化を同列に数えない", description: "12萬は3萬を引けば面子が完成します。" },
           ]}
         />
-
-        <HirasawaTileEfficiencyBook />
-
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>手牌を入力して受け入れを確かめる</h2>
@@ -78,6 +75,9 @@ export default function UkeireVsShapeChangeBasicsPage() {
                     <Link href="/trainer">何切る問題で判断を試す</Link>
                   </div>
                 </section>
+
+        <HirasawaTileEfficiencyBook />
+
 
 </article>
     </main>

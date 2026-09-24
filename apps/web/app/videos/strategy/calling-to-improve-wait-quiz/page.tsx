@@ -44,13 +44,13 @@ export default function CallingToImproveWaitQuizPage() {
             { title: "単騎が2つの面子をつないでいる形に注目", description: "単騎待ちの手で2つの順子が連結している場合、その連結部分に関係する牌を鳴くと、残った牌が両面・ノベタンなどへ変わることがあります。" },
           ]}
         />
+        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>鳴いた後の判断へ進む</h2><div><Link href="/videos/strategy/after-calling-tenpai">鳴いてテンパイした後の思考を見る</Link><Link href="/rules/practical-waits">実戦でよく見る待ち一覧を確認する</Link><Link href="/trainer">7枚形トレーニングへ進む</Link></div></section>
 
         <ClearRainBasicTheoryBook
                   heading="鳴き判断を、実戦の基準へ広げる"
                   description="待ちを良くする鳴きだけでなく、速度・打点・守備を合わせて鳴くか決める考え方を整理できます。動画の問題で得た気づきを、実戦の判断へつなげたい人に向く一冊です。"
                 />
 
-        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>鳴いた後の判断へ進む</h2><div><Link href="/videos/strategy/after-calling-tenpai">鳴いてテンパイした後の思考を見る</Link><Link href="/rules/practical-waits">実戦でよく見る待ち一覧を確認する</Link><Link href="/trainer">7枚形トレーニングへ進む</Link></div></section>
 
 </article>
     </main>

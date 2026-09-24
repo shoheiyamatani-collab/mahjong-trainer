@@ -11,6 +11,8 @@ outputs/
 Thumbs.db
 
 node_modules/
+output/
+.roadmap-dev.*.log
 .next/
 apps/web/.next/
 apps/web/.next-stale-*/

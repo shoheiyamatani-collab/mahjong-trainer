@@ -20,7 +20,8 @@ export async function generateMetadata({ params }: YakuArticlePageProps): Promis
 
   return {
     title: article.seoTitle,
-    description: article.description
+    description: article.description,
+    alternates: { canonical: `/rules/${article.slug}` }
   };
 }
 
@@ -63,6 +64,46 @@ export default async function YakuArticlePage({ params }: YakuArticlePageProps) 
 
           <ArticleTileFigures figures={[article.figure, ...(article.extraFigures ?? [])]} />
 
+          {article.openExplanation ? (
+            <section className="articleSection yakuOpenSection">
+              <h2>鳴いても成立する？</h2>
+              <div className="yakuOpenAnswer">
+                <strong className={article.openNote.includes("不可") ? "is-closed-only" : "is-openable"}>
+                  {article.openNote}
+                </strong>
+                <p>{article.openExplanation}</p>
+              </div>
+            </section>
+          ) : null}
+
+          {article.compatibleYaku?.length ? (
+            <section className="articleSection">
+              <h2>複合しやすい役</h2>
+              <p>この役だけで考えず、手牌の形に合う役を重ねると打点を伸ばせます。</p>
+              <ul className="yakuCombinationList">
+                {article.compatibleYaku.map((related) => (
+                  <li key={related.name}>
+                    {related.href ? (
+                      <Link href={related.href}>{related.name}</Link>
+                    ) : (
+                      <strong>{related.name}</strong>
+                    )}
+                    <span>{related.detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {article.strategy?.length ? (
+            <section className="articleSection">
+              <h2>実戦での考え方</h2>
+              {article.strategy.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </section>
+          ) : null}
+
           <section className="articleSection">
             <h2>初心者が見るポイント</h2>
             <ul className="misconceptionList">
@@ -87,6 +128,24 @@ export default async function YakuArticlePage({ params }: YakuArticlePageProps) 
               </div>
             ) : null}
           </section>
+
+          {article.practiceQuestion ? (
+            <section className="articleSection yakuPracticeSection">
+              <span className="yakuPracticeLabel">PRACTICE</span>
+              <h2>実戦問題</h2>
+              <p className="quizQuestion">{article.practiceQuestion.prompt}</p>
+              <ol className="quizChoices">
+                {article.practiceQuestion.choices.map((choice) => (
+                  <li key={choice}>{choice}</li>
+                ))}
+              </ol>
+              <details className="yakuPracticeAnswer">
+                <summary>答えを見る</summary>
+                <strong>{article.practiceQuestion.answer}</strong>
+                <p>{article.practiceQuestion.explanation}</p>
+              </details>
+            </section>
+          ) : null}
         </div>
       </article>
 

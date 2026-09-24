@@ -16,12 +16,20 @@ import {
   scoreComplexShape,
   sumCounts,
   toggleUkeireMaxSelection,
+  ukeireMaxHandKey,
   type Counts34,
   type DiscardAnalysis,
   type UkeireMaxQuestion
 } from "../src";
 
 describe("ukeire max questions", () => {
+  it("skips hands recorded in recent history", () => {
+    const first = generateUkeireMaxQuestion(() => 0.25);
+    const second = generateUkeireMaxQuestion(() => 0.25, 1000, undefined, [ukeireMaxHandKey(first.counts)]);
+
+    expect(ukeireMaxHandKey(second.counts)).not.toBe(ukeireMaxHandKey(first.counts));
+  });
+
   it("builds a question from a 14-tile no-honor hand", () => {
     const question = buildUkeireMaxQuestion(parseHand("1455m2345677p678s"));
 
