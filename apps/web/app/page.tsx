@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { generateDailyNanikiru, japanDate } from "@mahjong-trainer/mahjong-core";
 import { DailyNanikiruQuestion } from "./components/DailyNanikiruQuestion";
+import { siteConfig } from "./siteConfig";
 
 export const metadata: Metadata = {
   title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
@@ -90,6 +91,61 @@ export default function HomePage() {
       </nav>
 
       <DailyNanikiruQuestion initialProblem={initialDailyProblem} />
+
+      <section className="homeIntroSection" aria-labelledby="home-intro-title">
+        <div className="homeSectionHeading">
+          <p>ABOUT JONGFOLIO</p>
+          <h2 id="home-intro-title">雀フォリオは、初心者から実戦派まで使える麻雀学習サイトです</h2>
+          <span>
+            ルールや役を覚えるところから、何切る・牌効率・点数計算・対局戦術まで。
+            解説を読んで終わりにせず、練習問題と解析ツールを行き来しながら実戦力を伸ばせます。
+          </span>
+        </div>
+
+        <div className="homeIntroGrid">
+          <section className="homeIntroBlock" aria-labelledby="home-audience-title">
+            <h3 id="home-audience-title">こんな方におすすめ</h3>
+            <ul className="homeAudienceList">
+              <li>麻雀のルールや役を基礎から順番に学びたい方</li>
+              <li>何切るや点数計算を繰り返し練習したい方</li>
+              <li>自分の打牌を数値と牌姿で詳しく振り返りたい方</li>
+              <li>Mリーグやプロ雀士の思考から実戦判断を学びたい方</li>
+            </ul>
+          </section>
+
+          <section className="homeIntroBlock" aria-labelledby="home-features-title">
+            <h3 id="home-features-title">雀フォリオでできること</h3>
+            <ul className="homeSiteFeatureList">
+              <li>
+                <Link href="/learn/roadmap">独自解説で基礎から体系的に学ぶ</Link>
+                <p>初心者ロードマップ、役一覧、用語辞典で、迷いにくい順番に麻雀の土台を作れます。</p>
+              </li>
+              <li>
+                <Link href="/trainer">練習ツールで実戦力をつける</Link>
+                <p>何切るや点数計算を練習し、牌理チェッカーで受け入れ枚数や良形率まで詳しく確認できます。</p>
+              </li>
+              <li>
+                <Link href="/videos/strategy">動画解説で判断の考え方を学ぶ</Link>
+                <p>初心者向けの基礎からプロの実戦解説まで、テーマに合う動画と独自の要約を一緒に読めます。</p>
+              </li>
+              <li>
+                {siteConfig.externalSites.mLeaguePlayerDirectory.external ? (
+                  <a
+                    href={siteConfig.externalSites.mLeaguePlayerDirectory.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Mリーグとプロ雀士を知る
+                  </a>
+                ) : (
+                  <Link href={siteConfig.externalSites.mLeaguePlayerDirectory.href}>Mリーグとプロ雀士を知る</Link>
+                )}
+                <p>最新対局結果、順位、チーム、選手名鑑をまとめて確認し、プロの成績や歩みを追えます。</p>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </section>
     </main>
   );
 }

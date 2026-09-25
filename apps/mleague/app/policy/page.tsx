@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { siteConfig } from "@/config/site";
 
@@ -50,31 +49,37 @@ export default function PolicyPage() {
           <section className="content-card content-section">
             <h2>訂正・削除と権利者対応</h2>
             <p>
-              掲載内容に誤りが確認された場合は、可能な範囲で訂正または削除に対応します。権利者からご連絡があった場合も、内容を確認のうえ対応を検討します。
+              掲載内容に誤りが確認された場合は、可能な範囲で訂正または削除に対応します。権利者・関係者からご連絡があった場合も、対象ページと内容を確認のうえ対応します。
             </p>
-            <Link className="button-secondary" href={siteConfig.routes.correctionRequest}>
-              訂正・削除依頼へ
-            </Link>
+            <a className="button-secondary" href={`${siteConfig.parentUrl}/contact`}>
+              お問い合わせページへ
+            </a>
           </section>
           <section className="content-card content-section" id="privacy">
             <h2>プライバシーポリシー</h2>
             <p>
-              訂正・削除依頼で入力された連絡先は、依頼内容の確認と返信のためにのみ利用する想定です。現在は送信機能が未実装のため、フォームの入力内容は保存されません。実運用開始前に保存期間、委託先、問い合わせ窓口を確定し、本項を更新します。
+              お問い合わせで取得する氏名、メールアドレス、内容は、依頼内容の確認と返信のために利用します。Cookie、アクセス解析、広告配信を含む利用者情報の取り扱いは、雀フォリオ共通のプライバシーポリシーに従います。
             </p>
+            <a className="text-link" href={`${siteConfig.parentUrl}/privacy`}>
+              プライバシーポリシーを確認する
+            </a>
           </section>
         </div>
         <aside>
           <section className="content-card content-section" id="contact">
             <h2>お問い合わせ</h2>
             <p>
-              現在、一般お問い合わせ窓口は準備中です。掲載情報に関するご連絡は訂正・削除依頼ページをご利用ください。
+              掲載情報の訂正・削除、権利関係、リンク切れなどのご連絡は、雀フォリオのお問い合わせ窓口で受け付けています。対象ページのURLと具体的な内容を添えてご連絡ください。
             </p>
+            <a className="text-link" href={`${siteConfig.parentUrl}/contact`}>
+              contact@jongfolio.comへ問い合わせる
+            </a>
           </section>
           <section className="content-card content-section" id="operator">
             <h2>運営者情報</h2>
-            <p>
-              運営者情報は公開準備中です。公開前に運営主体と連絡先を設定します。
-            </p>
+            <p>運営：雀フォリオ運営</p>
+            <p>サイト名：雀フォリオ / JONGFOLIO</p>
+            <p>URL：<a className="text-link" href={siteConfig.parentUrl}>{siteConfig.parentUrl}</a></p>
           </section>
         </aside>
       </div>

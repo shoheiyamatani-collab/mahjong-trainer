@@ -420,6 +420,73 @@ body .homeHeroBrandRow .homeHeroLogo {
   grid-template-columns: 1fr;
 }
 
+.homeIntroSection {
+  border-top: 1px solid #d9e1dc;
+  display: grid;
+  gap: 32px;
+  padding-top: 42px;
+}
+
+.homeIntroSection .homeSectionHeading {
+  max-width: 900px;
+}
+
+.homeIntroGrid {
+  align-items: start;
+  display: grid;
+  gap: 54px;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.6fr);
+}
+
+.homeIntroBlock h3 {
+  color: #153d27;
+  font-size: 1.18rem;
+  font-weight: 850;
+  margin: 0 0 16px;
+}
+
+.homeAudienceList {
+  color: #405149;
+  display: grid;
+  gap: 12px;
+  line-height: 1.7;
+  margin: 0;
+  padding-left: 1.3rem;
+}
+
+.homeAudienceList li::marker {
+  color: #0a7c4d;
+}
+
+.homeSiteFeatureList {
+  display: grid;
+  gap: 0 30px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.homeSiteFeatureList li {
+  border-top: 1px solid #d9e1dc;
+  min-width: 0;
+  padding: 16px 0 18px;
+}
+
+.homeSiteFeatureList a {
+  color: #075f39;
+  font-weight: 850;
+  text-underline-offset: 4px;
+}
+
+.homeSiteFeatureList p {
+  color: #56655d;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.75;
+  margin: 7px 0 0;
+}
+
 .homeQuestionPanel,
 .homeLearningPanel {
   border-radius: 8px;
@@ -833,6 +900,11 @@ body .homeHeroBrandRow .homeHeroLogo {
   .homeFeatureGrid {
     grid-template-columns: 1fr;
   }
+
+  .homeIntroGrid {
+    gap: 32px;
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 760px) {
@@ -870,6 +942,15 @@ body .homeHeroBrandRow .homeHeroLogo {
 
   .homePortalGrid,
   .homeCycleList {
+    grid-template-columns: 1fr;
+  }
+
+  .homeIntroSection {
+    gap: 26px;
+    padding-top: 32px;
+  }
+
+  .homeSiteFeatureList {
     grid-template-columns: 1fr;
   }
 

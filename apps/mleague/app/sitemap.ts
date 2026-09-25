@@ -17,9 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/clips/highlights",
     "/clips/highlights/yakuman",
     "/clips/highlights/moments",
-    "/events",
     "/policy",
-    "/correction-request",
   ];
 
   const paths = [

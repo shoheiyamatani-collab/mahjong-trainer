@@ -4,7 +4,9 @@ import { videoChannels } from "../videoData";
 
 export const metadata: Metadata = {
   title: "Mリーグ厳選切り抜きを見る | 名局・選手の判断を解説",
-  description: "Mリーグの厳選動画を、注目する局面、選手の判断、初心者向けの見どころと一緒に紹介する麻雀動画メディアです。"
+  description: "Mリーグの厳選動画を、注目する局面、選手の判断、初心者向けの見どころと一緒に紹介する麻雀動画メディアです。",
+  alternates: { canonical: "/videos/mleague-clips" },
+  robots: { index: false, follow: true }
 };
 
 export default function MLeagueClipsPage() {

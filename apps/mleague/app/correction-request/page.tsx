@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "訂正・削除依頼｜Mリーグ選手名鑑",
   description: "掲載情報の訂正、削除、権利、リンク切れに関する連絡フォームです。",
   alternates: { canonical: "/mleague/correction-request/" },
+  robots: { index: false, follow: true },
 };
 
 export default function CorrectionRequestPage() {

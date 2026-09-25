@@ -184,7 +184,13 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
                 fallbackHref="/trainer"
               />
               <RelatedLinkCard
-                title={article.relatedTool.href === "/tools/score-table" ? "点数早見表" : "関連するツール"}
+                title={
+                  article.relatedTool.href === "/tools/score-table"
+                    ? "点数早見表"
+                    : article.relatedTool.href === "/trainer"
+                      ? "関連する麻雀トレーニング"
+                      : "関連するツール"
+                }
                 target={article.relatedTool}
                 fallbackHref="/tools"
               />

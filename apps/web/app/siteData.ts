@@ -167,7 +167,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "雀頭はアガリ形に1組必要な、同じ牌2枚の組み合わせです。"
     },
     relatedPractice: { label: "7枚形 多面待ちを練習する", href: trainerHref },
-    relatedTool: { label: "待ち判定ツール", status: "comingSoon" }
+    relatedTool: { label: "麻雀トレーニングで待ちを練習する", href: trainerHref, status: "available" }
   },
   {
     slug: "winning-shape",
@@ -190,7 +190,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "基本形は4面子1雀頭です。雀頭は同じ牌2枚の組です。"
     },
     relatedPractice: { label: "待ち当て問題を解く", href: trainerHref },
-    relatedTool: { label: "待ち判定ツール", status: "comingSoon" }
+    relatedTool: { label: "麻雀トレーニングで待ちを練習する", href: trainerHref, status: "available" }
   },
   {
     slug: "yaku-required",
@@ -282,7 +282,7 @@ export const learnArticles: LearnArticle[] = [
       explanation: "テンパイになったら、どの牌でアガれるかを考えます。"
     },
     relatedPractice: { label: "待ち当て問題を解く", href: trainerHref },
-    relatedTool: { label: "待ち判定ツール", status: "comingSoon" }
+    relatedTool: { label: "麻雀トレーニングで待ちを練習する", href: trainerHref, status: "available" }
   },
   {
     slug: "basic-nanikiru",

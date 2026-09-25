@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "麻雀店ゲスト、公開対局、トークイベント、大会など、公式発表を確認した情報の掲載準備ページです。",
   alternates: { canonical: "/mleague/events/" },
+  robots: { index: false, follow: true },
 };
 
 export default function EventsPage() {
