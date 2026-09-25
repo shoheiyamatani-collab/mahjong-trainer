@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "fZNwTPh63bg",
-  tag: "9/22 ハイライト",
-  title: "【2026/9/22 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "YpSGdLUxUKg",
+  tag: "9/24 ハイライト",
+  title: "【2026/9/24 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "岡田紗佳、松本吉弘、佐々木寿人、中田花奈が各試合でトップを獲得した9月22日の公式ハイライトです。",
+    "二卓同時開催となった9月24日の対局を振り返る、Mリーグ公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=fZNwTPh63bg",
-  date: "2026年9月23日公開",
-  competition: "9月22日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=YpSGdLUxUKg",
+  date: "2026年9月25日公開",
+  competition: "9月24日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "fZNwTPh63bg",
+    tag: "9/22 ハイライト",
+    title: "【2026/9/22 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "岡田紗佳、松本吉弘、佐々木寿人、中田花奈が各試合でトップを獲得した9月22日の公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=fZNwTPh63bg",
+    date: "2026年9月23日公開",
+    competition: "9月22日 Mリーグ公式ハイライト",
+  },
   {
     id: "9cNZtidLbMs",
     tag: "9/21 ハイライト",
