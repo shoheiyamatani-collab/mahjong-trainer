@@ -1101,6 +1101,40 @@ main {
   font-weight: 700;
 }
 
+.player-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.player-insight-grid > div {
+  padding: var(--space-5);
+  border: 1px solid color-mix(in srgb, var(--team-accent, #5ea7d8) 65%, white);
+  border-radius: var(--radius-md);
+  background: #102a46;
+  box-shadow: inset 0 3px 0 var(--team-accent, #5ea7d8);
+}
+
+.player-insight-grid h3 {
+  margin: 0 0 var(--space-2);
+  color: #ffffff;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+}
+
+.player-insight-grid p {
+  margin: 0;
+  color: #f4f8fc;
+  line-height: 1.8;
+}
+
+@media (max-width: 720px) {
+  .player-insight-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .official-account-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -62,6 +62,8 @@ export const recentClips: readonly HighlightClip[] = [
     id: "PGofTgy9ExA",
     tag: "茅森早香",
     title: "暗カンで裏ドラ4枚全乗り!? 驚愕の倍満で鮮烈な大逆転劇！",
+    summary:
+      "暗カンした牌が裏ドラになり、茅森早香の手が一気に倍満へ伸びる驚きの展開を短く楽しめます。",
     channel: "M.LEAGUE [プロ麻雀リーグ]",
     url: "https://www.youtube.com/shorts/PGofTgy9ExA",
     isShort: true,
@@ -72,6 +74,8 @@ export const recentClips: readonly HighlightClip[] = [
     id: "hgqSRDVBa7I",
     tag: "内川幸太郎",
     title: "これぞ“真紅の烈風”な赤牌制覇の一発ツモ！",
+    summary:
+      "赤牌を生かした内川幸太郎のリーチが一発ツモにつながる、打点とスピードが凝縮された一局です。",
     channel: "M.LEAGUE [プロ麻雀リーグ]",
     url: "https://www.youtube.com/shorts/hgqSRDVBa7I",
     isShort: true,

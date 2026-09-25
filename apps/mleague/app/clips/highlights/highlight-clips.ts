@@ -10,7 +10,70 @@ export type HighlightClip = {
   competition?: string;
 };
 
-export const yakumanClips: readonly HighlightClip[] = [
+const clipEditorialNotes: Readonly<Record<string, string>> = {
+  VNcXfxNfF3M: "終盤の逆転条件が絡む中、堀慎吾が小四喜を完成させるまでの緊張感に注目です。",
+  "2TtRuHvgnSg": "ファイナル進出を大きく引き寄せた、滝沢和典の親四暗刻を試合の流れとともに振り返れます。",
+  xFwdABCKhWI: "テンパイを一度外した鈴木たろうが四暗刻へたどり着く、構想と決断が際立つ一局です。",
+  "2WnA9YydO1g": "高宮まりが自身初の役満を成就する瞬間を、卓上の空気の変化とともに楽しめます。",
+  iZ5oCzTdL6Y: "2023シーズンに生まれた複数の役満を続けて見比べられるダイジェストです。",
+  KBhCqYKsPT8: "堀慎吾の小四喜を対局映像だけでなく、楽屋の反応と感想戦からも味わえる一本です。",
+  GMZIHTB9Au4: "開局直後から下石戟が親の大三元を仕上げる、速度と破壊力が際立つ場面です。",
+  UXbfKTRMMKY: "黒沢咲が四暗刻単騎で大逆転を決めるまでの、静かな手組みと劇的な結末が見どころです。",
+  oVoMFMOhRLk: "近藤誠一がMリーグ2019最初の役満を大三元で決めた、シーズンを象徴する一局です。",
+  fxQtTolXgfU: "Mリーグ史上初の役満となった佐々木寿人の国士無双。その歴史的瞬間を確認できます。",
+  z9tbXxF_YCw: "東1局から魚谷侑未が国士無双を成就し、試合の空気を一変させる場面です。",
+  hLC80pstk7o: "大舞台のファイナルで朝倉康心が親の大三元を決める重圧と、本人の振り返りが見どころです。",
+  "1h3vJ_vx_JY": "レギュラー最終戦で園田賢が国士無双を完成させる、順位争いの緊張感に満ちた一局です。",
+  PDl0C8JMHHg: "開幕初日に伊達朱里紗が四暗刻を和了する、シーズン序盤から生まれた衝撃の場面です。",
+  vqXvgrSHjr8: "二階堂瑠美が親番で四暗刻をツモり、一撃で大きく局面を動かす迫力を味わえます。",
+  "I3Sv-WxHjk4": "浅井堂岐が鳴ける牌を見送り、四暗刻への道を選び切った判断に注目したい一局です。",
+  HxkbCvUJB6E: "三色同刻も見える珍しい手牌から、白鳥翔が四暗刻を完成させる変化の多い一局です。",
+  W2jraWXAukY: "滝沢和典が大三元を決めた初期Mリーグの役満。三元牌がそろう過程を楽しめます。",
+  rm2KrdrK3FU: "前原雄大が親番で大三元を炸裂させる、打点の大きさと場の緊迫感が伝わる一局です。",
+  "9fYhjDfdNQ0": "瀬戸熊直樹がMリーグで初めて四暗刻を成就した、記録にも残る場面です。",
+  RAd7IbvQVKM: "沢崎誠らしい落ち着いた進行から四暗刻を仕上げる、手牌育成の妙が光る一局です。",
+  eZ9bdpIp6hM: "白鳥翔が通常の四暗刻より難しい単騎待ちを選び、役満を狙い切る勝負手です。",
+  Y5U5hKxSmSA: "魚谷侑未が四暗刻をツモるまでの手牌の伸びと、和了の瞬間の熱気を振り返れます。",
+  "8IYr3FHyxZU": "松本吉弘がスピード感のある進行で四暗刻を完成させる、鮮烈な役満シーンです。",
+  OFqWQLeTvR4: "嶺上開花が絡む展開から堀慎吾が四暗刻へ到達する、偶然と構想が重なる一局です。",
+  "S-JENyeKLZ8": "松本吉弘がリーチ一発ツモで四暗刻を決める、結末まで目が離せない劇的な場面です。",
+  "94-FlWHQ0rQ": "セミファイナルで佐々木寿人が親の四暗刻を決め、勝負を大きく動かした一局です。",
+  NnCtLPnDVkA: "二階堂亜樹が四暗刻単騎をリーチして押し切る、覚悟の選択が際立つ場面です。",
+  "-GxK80NY3o0": "オーラスで園田賢が国士無双を成就。最後まで逆転を追う条件戦の醍醐味があります。",
+  YPdYrUVO7j8: "滝沢和典が親の四暗刻をツモっても表情を崩さない、打牌と所作まで印象的な一局です。",
+  jNQnHNC3xas: "チームが苦しい状況で鈴木大介が大三元を成就する、勝負強さが表れた場面です。",
+  aNaQUBFzweg: "勝又健志が国士無双でチームの窮地を救う、局面と結果の重みが伝わる一局です。",
+  iHFVTGjj5uo: "シーズン開幕戦で仲林圭が四暗刻を完成させる、スタートから衝撃的な一局です。",
+  fM8VwdwVLMk: "岡田紗佳が国士無双13面待ちを完成させる、待ちの広さと希少性が際立つ場面です。",
+  nCwcxTuMAJY: "特別対局で村上淳が四暗刻を決める、普段のリーグ戦とは違う空気も楽しめます。",
+  "o8iU3-6Uebg": "初戦ラスの状況から園田賢が大三元で流れを変える、トーナメントならではの一撃です。",
+  OvjaPcfaHMI: "黒沢咲が再び四暗刻単騎を成就。大物手を育て切る打ち筋に注目です。",
+  RYh81ICq4VQ: "伊達朱里紗が10万点を超えるトップを記録した、得点の伸び方まで圧巻の短編です。",
+  RkYZlAWVll0: "オーラスの好配牌を受けた滝沢和典と追う多井隆晴。着順争いの駆け引きが見どころです。",
+  gQWXAOqXd5M: "全員テンパイの緊迫した局面で放銃を回避し続ける、守備判断を楽しめる一局です。",
+  V5ay0eETSgM: "黒沢咲の打ち筋とTEAM雷電らしい物語性が凝縮された、ファンに長く語られる場面です。",
+  S2MHTglmAqg: "近藤誠一が一発ツモと裏ドラの条件を満たして倍満へ届く、逆転条件の妙が詰まった一局です。",
+  B7AeodujvK0: "丸山奏子がロンを見逃し、最終ツモの倍満で4着から逆転。デビュー戦の決断が光ります。",
+  gLavgu41_pk: "内川幸太郎が危険牌を止めてから三倍満をツモる、守備と攻撃が連続する名場面です。",
+  KlKddK1mCvk: "トップまで大差のオーラスで白鳥翔が清一色ドラ6を仕上げる、漫画のような逆転劇です。",
+  "4R7FLjnTck0": "普段は打牌の速い佐々木寿人が128秒考え抜く、選択の重さを追体験できる場面です。",
+  wSP6ylhDnj4: "瑞原明奈が高め三色ツモという厳しい条件を満たす、オーラスの点数計算も面白い一局です。",
+  czf5jbD4yVA: "魚谷侑未が2軒リーチを制し、高めツモと裏ドラで逆転する終盤戦の名場面です。",
+  XIglNVrxU_4: "佐々木寿人が13翻の親三倍満を決める、役満ではない最高峰の打点を味わえます。",
+  H2BePFxGijk: "多井隆晴が他家の攻勢を読み切って危険牌を止める、守備技術に焦点を当てた一局です。",
+  "6TfEHQZxfZQ": "村上淳がオーラスの満貫ツモで逆転し、チームの4連勝をつないだ物語性のある一局です。",
+  "fTBYL7lwa-I": "鈴木たろうがリーチをかけず満貫直撃を選ぶ、局面判断の巧さが分かる逆転劇です。",
+  IjiG7TgzMnA: "満貫を放銃した直後、萩原聖人が三色同順の跳満で取り返す展開の速さが魅力です。",
+};
+
+function addEditorialNotes(clips: readonly HighlightClip[]): readonly HighlightClip[] {
+  return clips.map((clip) => ({
+    ...clip,
+    summary: clip.summary ?? clipEditorialNotes[clip.id],
+  }));
+}
+
+const yakumanClipCatalog: readonly HighlightClip[] = [
   {
     id: "VNcXfxNfF3M",
     tag: "小四喜",
@@ -313,7 +376,7 @@ export const yakumanClips: readonly HighlightClip[] = [
   },
 ] as const;
 
-export const memorableClips: readonly HighlightClip[] = [
+const memorableClipCatalog: readonly HighlightClip[] = [
   {
     id: "RYh81ICq4VQ",
     tag: "10万点超",
@@ -448,3 +511,6 @@ export const memorableClips: readonly HighlightClip[] = [
     competition: "Mリーグ本戦・萩原聖人",
   },
 ] as const;
+
+export const yakumanClips = addEditorialNotes(yakumanClipCatalog);
+export const memorableClips = addEditorialNotes(memorableClipCatalog);

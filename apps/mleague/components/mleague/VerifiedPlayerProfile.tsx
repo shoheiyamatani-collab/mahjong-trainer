@@ -3,6 +3,7 @@ import { FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { ExternalLink } from "@/components/ExternalLink";
 import { siteConfig } from "@/config/site";
 import { teams } from "@/data/mleague/teams";
+import { getPlayerInsight } from "@/data/mleague/player-insights";
 import {
   getAmazonBookLink,
   getRakutenBookLink,
@@ -45,6 +46,7 @@ export function VerifiedPlayerProfile({
     ? teams.find((team) => team.id === currentMembership.teamId)
     : undefined;
   const publishedBooks = books.filter((book) => book.isPublished);
+  const insight = getPlayerInsight(player.slug);
   const hasAmazonAffiliateLink = publishedBooks.some(
     (book) => getAmazonBookLink(book).sponsored,
   );
@@ -128,6 +130,25 @@ export function VerifiedPlayerProfile({
             </div>
           </dl>
         </section>
+
+        {insight ? (
+          <section className="content-card content-section" aria-labelledby="player-insight-title">
+            <h2 id="player-insight-title">打ち筋・注目対局</h2>
+            <div className="player-insight-grid">
+              <div>
+                <h3>打ち筋・特徴</h3>
+                <p>{insight.style}</p>
+              </div>
+              <div>
+                <h3>印象的な実戦エピソード</h3>
+                <p>{insight.episode}</p>
+              </div>
+            </div>
+            <p className="verified-date">
+              公式プロフィール、公式対局映像、掲載成績をもとに編集部が要約しています。出典はページ下部に掲載しています。
+            </p>
+          </section>
+        ) : null}
 
         <MLeagueStats
           playerId={player.id}
