@@ -49,30 +49,29 @@ function getHighlightHeading(tag: string) {
 const latestHighlightHeading = getHighlightHeading(latestMatchHighlight.tag);
 
 const nextMatch: UpcomingMatch = {
-  date: "9.24",
-  day: "木",
+  date: "9.28",
+  day: "月",
   teams: [
     { name: "EARTH JETS", slug: "earth-jets", teamId: "team-jets" },
-    { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
+    {
+      name: "KADOKAWAサクラナイツ",
+      slug: "kadokawa-sakura-knights",
+      teamId: "team-sakuraknights",
+    },
     {
       name: "セガサミーフェニックス",
       slug: "sega-sammy-phoenix",
       teamId: "team-phoenix",
     },
-    { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
+    { name: "U-NEXT Pirates", slug: "u-next-pirates", teamId: "team-pirates" },
   ],
 };
 
 const upcomingMatches: UpcomingMatch[] = [
   {
-    date: "9.24",
-    day: "木・B卓",
+    date: "9.28",
+    day: "月・B卓",
     teams: [
-      {
-        name: "赤坂ドリブンズ",
-        slug: "akasaka-drivens",
-        teamId: "team-drivens",
-      },
       {
         name: "EX風林火山",
         slug: "ex-furinkazan",
@@ -83,39 +82,44 @@ const upcomingMatches: UpcomingMatch[] = [
         slug: "konami-mahjong-fight-club",
         teamId: "team-fightclub",
       },
+      { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
+      { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
+    ],
+  },
+  {
+    date: "9.29",
+    day: "火・A卓",
+    teams: [
+      {
+        name: "EX風林火山",
+        slug: "ex-furinkazan",
+        teamId: "team-furinkazan",
+      },
+      { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
+      { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
       { name: "U-NEXT Pirates", slug: "u-next-pirates", teamId: "team-pirates" },
     ],
   },
   {
-    date: "9.25",
-    day: "金・A卓",
+    date: "9.29",
+    day: "火・B卓",
     teams: [
       {
         name: "赤坂ドリブンズ",
         slug: "akasaka-drivens",
         teamId: "team-drivens",
       },
+      {
+        name: "KONAMI麻雀格闘倶楽部",
+        slug: "konami-mahjong-fight-club",
+        teamId: "team-fightclub",
+      },
       { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
-      { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
-      { name: "U-NEXT Pirates", slug: "u-next-pirates", teamId: "team-pirates" },
-    ],
-  },
-  {
-    date: "9.25",
-    day: "金・B卓",
-    teams: [
-      { name: "EARTH JETS", slug: "earth-jets", teamId: "team-jets" },
       {
-        name: "EX風林火山",
-        slug: "ex-furinkazan",
-        teamId: "team-furinkazan",
+        name: "セガサミーフェニックス",
+        slug: "sega-sammy-phoenix",
+        teamId: "team-phoenix",
       },
-      {
-        name: "KADOKAWAサクラナイツ",
-        slug: "kadokawa-sakura-knights",
-        teamId: "team-sakuraknights",
-      },
-      { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
     ],
   },
 ];
@@ -126,39 +130,39 @@ const latestResults: MatchResult[] = [
     entries: [
       {
         rank: 1,
-        player: "岡田紗佳",
-        playerSlug: "okada-sayaka",
-        points: 60.8,
-        name: "KADOKAWAサクラナイツ",
-        slug: "kadokawa-sakura-knights",
-        teamId: "team-sakuraknights",
+        player: "朝倉康心",
+        playerSlug: "asakura-koshin",
+        points: 74,
+        name: "U-NEXT Pirates",
+        slug: "u-next-pirates",
+        teamId: "team-pirates",
       },
       {
         rank: 2,
-        player: "内川幸太郎",
-        playerSlug: "uchikawa-kotaro",
-        points: 14.1,
-        name: "EX風林火山",
-        slug: "ex-furinkazan",
-        teamId: "team-furinkazan",
+        player: "浅見真紀",
+        playerSlug: "asami-maki",
+        points: -1.8,
+        name: "赤坂ドリブンズ",
+        slug: "akasaka-drivens",
+        teamId: "team-drivens",
       },
       {
         rank: 3,
-        player: "日向藍子",
-        playerSlug: "hinata-aiko",
-        points: -27,
-        name: "渋谷ABEMAS",
-        slug: "shibuya-abemas",
-        teamId: "team-abemas",
-      },
-      {
-        rank: 4,
         player: "萩原聖人",
         playerSlug: "hagiwara-masato",
-        points: -47.9,
+        points: -25.1,
         name: "TEAM RAIDEN / 雷電",
         slug: "team-raiden",
         teamId: "team-raiden",
+      },
+      {
+        rank: 4,
+        player: "日向藍子",
+        playerSlug: "hinata-aiko",
+        points: -47.1,
+        name: "渋谷ABEMAS",
+        slug: "shibuya-abemas",
+        teamId: "team-abemas",
       },
     ],
   },
@@ -169,37 +173,37 @@ const latestResults: MatchResult[] = [
         rank: 1,
         player: "松本吉弘",
         playerSlug: "matsumoto-yoshihiro",
-        points: 78.2,
+        points: 53.2,
         name: "渋谷ABEMAS",
         slug: "shibuya-abemas",
         teamId: "team-abemas",
       },
       {
         rank: 2,
-        player: "勝又健志",
-        playerSlug: "katsumata-kenji",
-        points: 2.8,
-        name: "EX風林火山",
-        slug: "ex-furinkazan",
-        teamId: "team-furinkazan",
+        player: "仲林圭",
+        playerSlug: "nakabayashi-kei",
+        points: 5.5,
+        name: "U-NEXT Pirates",
+        slug: "u-next-pirates",
+        teamId: "team-pirates",
       },
       {
         rank: 3,
-        player: "阿久津翔太",
-        playerSlug: "akutsu-shota",
-        points: -24.8,
-        name: "KADOKAWAサクラナイツ",
-        slug: "kadokawa-sakura-knights",
-        teamId: "team-sakuraknights",
-      },
-      {
-        rank: 4,
-        player: "黒沢咲",
-        playerSlug: "kurosawa-saki",
-        points: -56.2,
+        player: "瀬戸熊直樹",
+        playerSlug: "setokuma-naoki",
+        points: -18.1,
         name: "TEAM RAIDEN / 雷電",
         slug: "team-raiden",
         teamId: "team-raiden",
+      },
+      {
+        rank: 4,
+        player: "鈴木たろう",
+        playerSlug: "suzuki-taro",
+        points: -40.6,
+        name: "赤坂ドリブンズ",
+        slug: "akasaka-drivens",
+        teamId: "team-drivens",
       },
     ],
   },
@@ -208,39 +212,39 @@ const latestResults: MatchResult[] = [
     entries: [
       {
         rank: 1,
-        player: "佐々木寿人",
-        playerSlug: "sasaki-hisato",
-        points: 82.2,
-        name: "KONAMI麻雀格闘倶楽部",
-        slug: "konami-mahjong-fight-club",
-        teamId: "team-fightclub",
+        player: "堀慎吾",
+        playerSlug: "hori-shingo",
+        points: 60.9,
+        name: "KADOKAWAサクラナイツ",
+        slug: "kadokawa-sakura-knights",
+        teamId: "team-sakuraknights",
       },
       {
         rank: 2,
-        player: "鈴木優",
-        playerSlug: "suzuki-yu",
-        points: -2.1,
-        name: "U-NEXT Pirates",
-        slug: "u-next-pirates",
-        teamId: "team-pirates",
-      },
-      {
-        rank: 3,
-        player: "茅森早香",
-        playerSlug: "kayamori-sayaka",
-        points: -29.4,
-        name: "セガサミーフェニックス",
-        slug: "sega-sammy-phoenix",
-        teamId: "team-phoenix",
-      },
-      {
-        rank: 4,
-        player: "鈴木大介",
-        playerSlug: "suzuki-daisuke",
-        points: -50.7,
+        player: "下石戟",
+        playerSlug: "shimoishi-geki",
+        points: 5.9,
         name: "BEAST X",
         slug: "beast-x",
         teamId: "team-beast",
+      },
+      {
+        rank: 3,
+        player: "逢川恵夢",
+        playerSlug: "aikawa-megumu",
+        points: -16.6,
+        name: "EARTH JETS",
+        slug: "earth-jets",
+        teamId: "team-jets",
+      },
+      {
+        rank: 4,
+        player: "内川幸太郎",
+        playerSlug: "uchikawa-kotaro",
+        points: -50.2,
+        name: "EX風林火山",
+        slug: "ex-furinkazan",
+        teamId: "team-furinkazan",
       },
     ],
   },
@@ -249,39 +253,39 @@ const latestResults: MatchResult[] = [
     entries: [
       {
         rank: 1,
-        player: "中田花奈",
-        playerSlug: "nakada-kana",
-        points: 89.3,
-        name: "BEAST X",
-        slug: "beast-x",
-        teamId: "team-beast",
+        player: "尻無濱航",
+        playerSlug: "shirinashihama-wataru",
+        points: 57.7,
+        name: "KADOKAWAサクラナイツ",
+        slug: "kadokawa-sakura-knights",
+        teamId: "team-sakuraknights",
       },
       {
         rank: 2,
-        player: "滝沢和典",
-        playerSlug: "takizawa-kazunori",
-        points: -1.8,
-        name: "KONAMI麻雀格闘倶楽部",
-        slug: "konami-mahjong-fight-club",
-        teamId: "team-fightclub",
+        player: "勝又健志",
+        playerSlug: "katsumata-kenji",
+        points: 9.5,
+        name: "EX風林火山",
+        slug: "ex-furinkazan",
+        teamId: "team-furinkazan",
       },
       {
         rank: 3,
-        player: "仲林圭",
-        playerSlug: "nakabayashi-kei",
-        points: -27.3,
-        name: "U-NEXT Pirates",
-        slug: "u-next-pirates",
-        teamId: "team-pirates",
+        player: "石井一馬",
+        playerSlug: "ishii-kazuma",
+        points: -23.4,
+        name: "EARTH JETS",
+        slug: "earth-jets",
+        teamId: "team-jets",
       },
       {
         rank: 4,
-        player: "佐野ひなこ",
-        playerSlug: "sano-hinako",
-        points: -60.2,
-        name: "セガサミーフェニックス",
-        slug: "sega-sammy-phoenix",
-        teamId: "team-phoenix",
+        player: "中田花奈",
+        playerSlug: "nakada-kana",
+        points: -43.8,
+        name: "BEAST X",
+        slug: "beast-x",
+        teamId: "team-beast",
       },
     ],
   },
@@ -324,7 +328,7 @@ export default function MatchInformationPage() {
 
           <div
             className="next-match-date"
-            aria-label="2026年9月24日 木曜日 19時開始 A卓"
+            aria-label="2026年9月28日 月曜日 19時開始 A卓"
           >
             <span>{nextMatch.date}</span>
             <div>
@@ -334,7 +338,7 @@ export default function MatchInformationPage() {
           </div>
 
           <div className="next-match-teams">
-            <span className="match-status">MATCH DAY 09 / A卓</span>
+            <span className="match-status">MATCH DAY 13 / A卓</span>
             <ul>
               {nextMatch.teams.map((team) => (
                 <TeamLink team={team} key={team.teamId} />
@@ -366,7 +370,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">9月22日の対局結果</h2>
+            <h2 id="latest-results-title">9月25日の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
@@ -443,7 +447,7 @@ export default function MatchInformationPage() {
           {upcomingMatches.map((match, index) => (
             <li className="upcoming-match-card" key={`${match.date}-${match.day}`}>
               <span className="upcoming-match-number">
-                {String(index + 10).padStart(2, "0")}
+                {String(index + 14).padStart(2, "0")}
               </span>
               <div className="upcoming-match-date">
                 <strong>{match.date}</strong>
@@ -459,7 +463,7 @@ export default function MatchInformationPage() {
         </ol>
 
         <p className="match-source-note">
-          Mリーグ公式の試合日程・結果を2026年9月23日に確認しました。対局予定は変更される場合があります。
+          Mリーグ公式の試合日程・結果を2026年9月26日に確認しました。対局予定は変更される場合があります。
         </p>
       </section>
     </main>
