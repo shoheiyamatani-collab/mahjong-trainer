@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionTitle } from "../components/SiteSections";
-import { learningGuides } from "./guides/guideData";
 
 export const metadata: Metadata = {
   title: "麻雀 初めて学ぶ | 初心者ロードマップ・ルール・便利ツール",
@@ -72,18 +71,16 @@ export default function LearnPage() {
 
       <section className="learningGuideHub">
         <SectionTitle
-          title="牌効率をもう一歩深く学ぶ"
-          description="受け入れや待ちを牌図で確認し、牌理チェッカーの数値を自分で読めるようになるための実戦ガイドです。"
+          title="テーマから麻雀を学ぶ"
+          description="牌効率、何切る、守備、鳴き、点数計算を、牌姿つきの記事で学べるガイド集です。"
         />
-        <div className="learningGuideHubGrid">
-          {learningGuides.map((guide, index) => (
-            <article key={guide.slug}>
-              <span>GUIDE {String(index + 1).padStart(2, "0")}</span>
-              <h2>{guide.title}</h2>
-              <p>{guide.description}</p>
-              <Link href={`/learn/guides/${guide.slug}`}>記事を読む</Link>
-            </article>
-          ))}
+        <div className="learningGuideHubCta">
+          <div>
+            <p className="siteEyebrow">14 PRACTICAL GUIDES</p>
+            <h2>知りたい内容を選んで読む</h2>
+            <p>5ブロック理論、待ちの形、受け入れ、スジ・カベ、鳴き判断、点数計算20問までまとめています。</p>
+          </div>
+          <Link href="/learn/guides">麻雀を学ぶページへ</Link>
         </div>
       </section>
     </main>

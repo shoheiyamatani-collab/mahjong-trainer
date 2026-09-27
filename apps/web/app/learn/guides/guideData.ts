@@ -1,9 +1,24 @@
 import type { TileFigure } from "../../components/TileFigures";
+import { requestedLearningGuides } from "./requestedGuideData";
 
 export type LearningGuideSection = {
   heading: string;
   paragraphs: string[];
   bullets?: string[];
+};
+
+export type LearningGuidePracticeItem = {
+  prompt: string;
+  tiles: string[];
+  conditions: string;
+  answer: string;
+  explanation: string;
+};
+
+export type LearningGuidePractice = {
+  heading: string;
+  description: string;
+  items: LearningGuidePracticeItem[];
 };
 
 export type LearningGuide = {
@@ -18,9 +33,10 @@ export type LearningGuide = {
   toolLink: { href: string; label: string; description: string };
   relatedSlugs: string[];
   screenshot?: { src: string; alt: string; caption: string };
+  practice?: LearningGuidePractice;
 };
 
-export const learningGuides: LearningGuide[] = [
+const foundationalLearningGuides: LearningGuide[] = [
   {
     slug: "tile-efficiency-and-ukeire",
     title: "牌効率と受け入れの基本",
@@ -207,6 +223,11 @@ export const learningGuides: LearningGuide[] = [
     toolLink: { href: "/analysis/mahjong-tool", label: "牌理チェッカーを開く", description: "サンプル牌姿から試すことも、自分の14枚を入力して比較することもできます。" },
     relatedSlugs: ["tile-efficiency-and-ukeire", "good-shape-rate"]
   }
+];
+
+export const learningGuides: LearningGuide[] = [
+  ...foundationalLearningGuides,
+  ...requestedLearningGuides
 ];
 
 export function getLearningGuide(slug: string) {

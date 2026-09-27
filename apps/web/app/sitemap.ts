@@ -18,6 +18,7 @@ const staticPaths = [
   "/analysis/starting-hand/help",
   "/contact",
   "/learn",
+  "/learn/guides",
   "/learn/glossary",
   "/learn/roadmap",
   "/privacy",

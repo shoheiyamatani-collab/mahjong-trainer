@@ -13,7 +13,7 @@ export type SiteNavItem = {
   external?: boolean;
   icon?: SiteNavIcon;
   kind?: "primary" | "utility";
-  tone?: "analysis" | "training" | "score" | "video" | "mleague" | "roadmap";
+  tone?: "analysis" | "training" | "score" | "learning" | "video" | "mleague" | "roadmap";
   visible?: boolean;
 };
 

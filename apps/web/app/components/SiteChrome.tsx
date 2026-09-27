@@ -21,11 +21,12 @@ const navItems: SiteNavItem[] = [
   },
   { label: "点数計算ツール", href: "/tools", icon: "score", kind: "utility", tone: "score" },
   {
-    label: "麻雀のルール",
-    href: "/learn",
+    label: "麻雀を学ぶ",
+    href: "/learn/guides",
+    activePrefixes: ["/learn/guides"],
     icon: "rules",
     kind: "utility",
-    visible: siteConfig.features.showRulesNavigation
+    tone: "learning"
   },
   {
     label: "動画で学ぶ",
@@ -48,7 +49,7 @@ const navItems: SiteNavItem[] = [
   {
     label: "初心者ロードマップ",
     href: "/learn/roadmap",
-    activePrefixes: ["/learn"],
+    activePrefixes: ["/learn/roadmap"],
     icon: "roadmap",
     kind: "utility",
     tone: "roadmap"
@@ -64,6 +65,7 @@ const footerContentItems = [
   { label: "麻雀解析ツール", href: "/analysis/mahjong-tool" },
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀点数計算ツール", href: "/tools" },
+  { label: "麻雀を学ぶ", href: "/learn/guides" },
   { label: "動画で学ぶ", href: "/videos/strategy" }
 ];
 

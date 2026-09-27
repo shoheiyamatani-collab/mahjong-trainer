@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArticleTileFigures } from "../../../components/TileFigures";
+import { ArticleTileFigures, getTileName } from "../../../components/TileFigures";
 import { JsonLd } from "../../../components/JsonLd";
 import { getSiteUrl } from "../../../seoConfig";
 import { getLearningGuide, learningGuides } from "../guideData";
@@ -39,13 +39,13 @@ export default async function GuidePage({ params }: GuidePageProps) {
         { "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, inLanguage: "ja-JP", mainEntityOfPage: articleUrl, author: { "@id": `${siteUrl}/#organization` }, publisher: { "@id": `${siteUrl}/#organization` } },
         { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
           { "@type": "ListItem", position: 1, name: "トップ", item: siteUrl },
-          { "@type": "ListItem", position: 2, name: "麻雀を学ぶ", item: `${siteUrl}/learn` },
+          { "@type": "ListItem", position: 2, name: "麻雀を学ぶ", item: `${siteUrl}/learn/guides` },
           { "@type": "ListItem", position: 3, name: guide.title, item: articleUrl }
         ] }
       ]} />
       <article className="learningGuideArticle">
         <header className="learningGuideHeader">
-          <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/learn">麻雀を学ぶ</Link><span>›</span><span>{guide.title}</span></nav>
+          <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/learn/guides">麻雀を学ぶ</Link><span>›</span><span>{guide.title}</span></nav>
           <p className="siteEyebrow">MAHJONG PRACTICAL GUIDE</p>
           <h1>{guide.title}</h1>
           <p>{guide.lead}</p>
@@ -65,6 +65,32 @@ export default async function GuidePage({ params }: GuidePageProps) {
         ))}
 
         <ArticleTileFigures figures={guide.figures} />
+
+        {guide.practice ? (
+          <section className="articleSection learningGuidePractice">
+            <p className="siteEyebrow">PRACTICE</p>
+            <h2>{guide.practice.heading}</h2>
+            <p>{guide.practice.description}</p>
+            <div className="learningGuidePracticeGrid">
+              {guide.practice.items.map((item) => (
+                <article key={item.prompt}>
+                  <h3>{item.prompt}</h3>
+                  <div className="learningGuidePracticeTiles" aria-label={item.tiles.map(getTileName).join("、")}>
+                    {item.tiles.map((tile, index) => (
+                      <img key={`${item.prompt}-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={getTileName(tile)} />
+                    ))}
+                  </div>
+                  <p className="learningGuidePracticeConditions">{item.conditions}</p>
+                  <details>
+                    <summary>答えを見る</summary>
+                    <strong>{item.answer}</strong>
+                    <p>{item.explanation}</p>
+                  </details>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         {guide.screenshot ? (
           <figure className="learningGuideScreenshot">

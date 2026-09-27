@@ -62,6 +62,10 @@ const tileNames: Record<string, string> = {
   ji7: "中"
 };
 
+export function getTileName(tile: string) {
+  return tileNames[tile] ?? tile;
+}
+
 export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
   if (!figures?.length) return null;
 
@@ -130,9 +134,9 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
 
 function TileStrip({ tiles, compact = false }: { tiles: string[]; compact?: boolean }) {
   return (
-    <div className={compact ? "articleTileStrip compact" : "articleTileStrip"} aria-label={tiles.map((tile) => tileNames[tile] ?? tile).join("、")}>
+    <div className={compact ? "articleTileStrip compact" : "articleTileStrip"} aria-label={tiles.map(getTileName).join("、")}>
       {tiles.map((tile, index) => (
-        <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />
+        <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={getTileName(tile)} />
       ))}
     </div>
   );
