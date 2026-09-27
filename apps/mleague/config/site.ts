@@ -4,12 +4,16 @@ const siteOrigin =
 
 const basePath = "/mleague";
 
+function withTrailingSlash(url: string): string {
+  return `${url.replace(/\/+$/, "")}/`;
+}
+
 export const siteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME || "雀フォリオ Mリーグ",
   parentName: "雀フォリオ",
   parentUrl: siteOrigin,
   siteOrigin,
-  homeUrl: process.env.NEXT_PUBLIC_SITE_HOME_URL || `${siteOrigin}${basePath}`,
+  homeUrl: withTrailingSlash(process.env.NEXT_PUBLIC_SITE_HOME_URL || `${siteOrigin}${basePath}`),
   mahjongAppUrl: process.env.NEXT_PUBLIC_MAHJONG_APP_URL || "",
   basePath,
   routes: {

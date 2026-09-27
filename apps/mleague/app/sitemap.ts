@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   return paths.map((path) => ({
-    url: `${siteConfig.siteOrigin}${siteConfig.basePath}${path}`,
+    url: `${siteConfig.siteOrigin}${siteConfig.basePath}${path}/`.replace(/\/{2,}$/, "/"),
     changeFrequency:
       path === "/stats" ? "daily" : path === "" ? "weekly" : "monthly",
     priority: path === "" ? 0.9 : path.split("/").length <= 2 ? 0.8 : 0.6,
