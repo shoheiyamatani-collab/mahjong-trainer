@@ -3,7 +3,15 @@ import source from "./currentSeasonStats.json";
 export const currentSeason = source.season;
 export const currentSeasonStatsVerifiedAt = source.verifiedAt;
 export const currentSeasonStatsThrough = source.through;
+export const currentSeasonStatsCompletedTablesOnThrough =
+  source.completedTablesOnThrough ?? 1;
+export const currentSeasonStatsTotalTablesOnThrough =
+  source.totalTablesOnThrough ?? currentSeasonStatsCompletedTablesOnThrough;
 export const currentSeasonStatsSourceUrl = source.sourceUrl;
+export const currentSeasonStatsProgressLabel =
+  currentSeasonStatsCompletedTablesOnThrough < currentSeasonStatsTotalTablesOnThrough
+    ? `${currentSeasonStatsThrough.replaceAll("-", ".")} ${currentSeasonStatsCompletedTablesOnThrough}/${currentSeasonStatsTotalTablesOnThrough}卓終了時点`
+    : `${currentSeasonStatsThrough.replaceAll("-", ".")} 対局終了時点`;
 
 export type CurrentSeasonPlayerStatLine = {
   matchesPlayed: number;

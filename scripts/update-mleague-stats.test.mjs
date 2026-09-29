@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { inferStatsThrough, parseOfficialStats, parsePlayerIdMap } from "./update-mleague-stats.mjs";
+import { inferStatsProgress, inferStatsThrough, parseOfficialStats, parsePlayerIdMap } from "./update-mleague-stats.mjs";
 
 function playerSource(names) {
   return names.map((name, index) => `{
@@ -56,4 +56,16 @@ test("latest completed schedule date is inferred from aggregate match count", ()
     { date: "2026-09-15", tables: [["team-a", "team-b", "team-c", "team-d"]] },
   `;
   assert.equal(inferStatsThrough(schedule, 16), "2026-09-15");
+});
+
+test("a partially completed two-table date reports table progress", () => {
+  const schedule = `
+    { date: "2026-09-28", tables: [["team-a", "team-b", "team-c", "team-d"], ["team-e", "team-f", "team-g", "team-h"]] },
+    { date: "2026-09-29", tables: [["team-a", "team-b", "team-c", "team-d"], ["team-e", "team-f", "team-g", "team-h"]] },
+  `;
+  assert.deepEqual(inferStatsProgress(schedule, 24), {
+    through: "2026-09-29",
+    completedTables: 1,
+    totalTables: 2,
+  });
 });

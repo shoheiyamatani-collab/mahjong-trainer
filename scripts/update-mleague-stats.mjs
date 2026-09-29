@@ -114,19 +114,32 @@ export function parseOfficialStats(html, playerIdMap) {
   return { season, players };
 }
 
-export function inferStatsThrough(scheduleSource, totalPlayerMatches) {
+export function inferStatsProgress(scheduleSource, totalPlayerMatches) {
   let cumulativeMatches = 0;
-  let through = null;
   const pattern = /\{\s*date:\s*"(\d{4}-\d{2}-\d{2})",\s*tables:\s*(\[[^\n]+\])\s*\}/g;
   for (const match of scheduleSource.matchAll(pattern)) {
     const teamEntries = [...match[2].matchAll(/"team-[^"]+"/g)].length;
     if (teamEntries % 4 !== 0) throw new Error(`日程のチーム数が不正です: ${match[1]}`);
-    cumulativeMatches += (teamEntries / 4) * 8;
-    if (cumulativeMatches === totalPlayerMatches) through = match[1];
-    if (cumulativeMatches > totalPlayerMatches) break;
+    const totalTables = teamEntries / 4;
+    const dayPlayerMatches = totalTables * 8;
+    if (totalPlayerMatches <= cumulativeMatches + dayPlayerMatches) {
+      const completedPlayerMatches = totalPlayerMatches - cumulativeMatches;
+      if (completedPlayerMatches <= 0 || completedPlayerMatches % 8 !== 0) {
+        throw new Error(`合計${totalPlayerMatches}半荘は日程の卓数と一致しません`);
+      }
+      return {
+        through: match[1],
+        completedTables: completedPlayerMatches / 8,
+        totalTables,
+      };
+    }
+    cumulativeMatches += dayPlayerMatches;
   }
-  if (!through) throw new Error(`合計${totalPlayerMatches}半荘に対応する対局日を判定できません`);
-  return through;
+  throw new Error(`合計${totalPlayerMatches}半荘に対応する対局日を判定できません`);
+}
+
+export function inferStatsThrough(scheduleSource, totalPlayerMatches) {
+  return inferStatsProgress(scheduleSource, totalPlayerMatches).through;
 }
 
 function japanDate() {
@@ -153,10 +166,13 @@ export async function updateStats({ html, write = true } = {}) {
   const previous = JSON.parse(previousText);
   const totalPlayerMatches = Object.values(parsed.players).reduce((sum, stat) => sum + stat.matchesPlayed, 0);
   const changed = stableStats(previous) !== stableStats(parsed);
+  const progress = inferStatsProgress(scheduleSource, totalPlayerMatches);
   const next = changed ? {
     season: parsed.season,
     verifiedAt: japanDate(),
-    through: inferStatsThrough(scheduleSource, totalPlayerMatches),
+    through: progress.through,
+    completedTablesOnThrough: progress.completedTables,
+    totalTablesOnThrough: progress.totalTables,
     sourceUrl: STATS_URL,
     players: parsed.players,
   } : previous;

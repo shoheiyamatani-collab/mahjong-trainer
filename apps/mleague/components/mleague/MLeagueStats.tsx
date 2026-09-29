@@ -4,8 +4,8 @@ import { siteConfig } from "@/config/site";
 import {
   currentSeason,
   currentSeasonPlayerStatsByPlayerId,
+  currentSeasonStatsProgressLabel,
   currentSeasonStatsSourceUrl,
-  currentSeasonStatsThrough,
   emptyCurrentSeasonStat,
 } from "@/data/mleague/currentSeasonStats";
 import { formatVerifiedDate } from "@/lib/mleague/formatDate";
@@ -88,7 +88,7 @@ export function MLeagueStats({ playerId, stats, results }: MLeagueStatsProps) {
       <div className="current-season-heading">
         <div>
           <h3>{currentSeason} 今シーズン成績</h3>
-          <span>{currentSeasonStatsThrough.replaceAll("-", ".")} 対局終了時点</span>
+          <span>{currentSeasonStatsProgressLabel}</span>
         </div>
         <Link className="text-link" href={siteConfig.routes.stats}>
           全選手の順位を見る

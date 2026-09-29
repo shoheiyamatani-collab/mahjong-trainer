@@ -6,8 +6,8 @@ import { siteConfig } from "@/config/site";
 import {
   currentSeason,
   currentSeasonPlayerStatsByPlayerId,
+  currentSeasonStatsProgressLabel,
   currentSeasonStatsSourceUrl,
-  currentSeasonStatsThrough,
   currentSeasonStatsVerifiedAt,
   emptyCurrentSeasonStat,
   type CurrentSeasonPlayerStatLine,
@@ -273,7 +273,7 @@ export default function CurrentSeasonStatsPage() {
         <div>
           <strong>更新基準</strong>
           <p>
-            {currentSeasonStatsThrough.replaceAll("-", ".")} 対局終了時点／
+            {currentSeasonStatsProgressLabel}／
             {currentSeasonStatsVerifiedAt.replaceAll("-", ".")} 確認
           </p>
         </div>

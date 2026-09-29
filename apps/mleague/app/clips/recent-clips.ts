@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "Y68EvM8hxdg",
-  tag: "9/25 ハイライト",
-  title: "【2026/9/25 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "uOr7XN7atyo",
+  tag: "9/28 ハイライト",
+  title: "【2026/9/28 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "堀慎吾、尻無濱航、松本吉弘、萩原聖人、朝倉康心、逢川恵夢の見どころ局を収めた9月25日のMリーグ公式ハイライトです。",
+    "岡田紗佳、滝沢和典、高宮まり、多井隆晴、佐野ひなこ、瑞原明奈、仲林圭、東城りおの見どころ局を収めた9月28日のMリーグ公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=Y68EvM8hxdg",
-  date: "2026年9月26日公開",
-  competition: "9月25日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=uOr7XN7atyo",
+  date: "2026年9月29日公開",
+  competition: "9月28日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "Y68EvM8hxdg",
+    tag: "9/25 ハイライト",
+    title: "【2026/9/25 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "堀慎吾、尻無濱航、松本吉弘、萩原聖人、朝倉康心、逢川恵夢の見どころ局を収めた9月25日のMリーグ公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=Y68EvM8hxdg",
+    date: "2026年9月26日公開",
+    competition: "9月25日 Mリーグ公式ハイライト",
+  },
   {
     id: "YpSGdLUxUKg",
     tag: "9/24 ハイライト",

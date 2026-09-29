@@ -2,6 +2,8 @@
   "season": "2026-27",
   "verifiedAt": "2026-09-30",
   "through": "2026-09-29",
+  "completedTablesOnThrough": 2,
+  "totalTablesOnThrough": 2,
   "sourceUrl": "https://m-league.jp/stats/",
   "players": {
     "player-ishii-kazuma": {

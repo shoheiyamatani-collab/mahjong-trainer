@@ -3,7 +3,11 @@ import Link from "next/link";
 import { ExternalLink } from "@/components/ExternalLink";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { siteConfig } from "@/config/site";
-import { currentSeasonStatsThrough } from "@/data/mleague/currentSeasonStats";
+import {
+  currentSeasonStatsCompletedTablesOnThrough,
+  currentSeasonStatsThrough,
+  currentSeasonStatsTotalTablesOnThrough,
+} from "@/data/mleague/currentSeasonStats";
 import {
   regularSeasonSchedule,
   regularSeasonScheduleSourceUrl,
@@ -36,8 +40,12 @@ const scheduleByDate: ReadonlyMap<string, RegularSeasonMatchDay> = new Map(
   regularSeasonSchedule.map((matchDay) => [matchDay.date, matchDay]),
 );
 const teamById = new Map(teams.map((team) => [team.id, team]));
+const isLatestDateComplete =
+  currentSeasonStatsCompletedTablesOnThrough >= currentSeasonStatsTotalTablesOnThrough;
 const firstUpcomingDate = regularSeasonSchedule.find(
-  (matchDay) => matchDay.date > currentSeasonStatsThrough,
+  (matchDay) =>
+    matchDay.date > currentSeasonStatsThrough ||
+    (matchDay.date === currentSeasonStatsThrough && !isLatestDateComplete),
 )?.date;
 
 const shortTeamNames: Record<ScheduleTeamId, string> = {
@@ -164,7 +172,9 @@ export default function MatchCalendarPage() {
 
                     const key = dateKey(year, month, day);
                     const matchDay = scheduleByDate.get(key);
-                    const isFinished = key <= currentSeasonStatsThrough;
+                    const isFinished =
+                      key < currentSeasonStatsThrough ||
+                      (key === currentSeasonStatsThrough && isLatestDateComplete);
                     const isNext = key === firstUpcomingDate;
                     const dayOfWeek = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
 
