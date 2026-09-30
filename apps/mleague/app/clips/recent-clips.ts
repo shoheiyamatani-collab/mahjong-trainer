@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "uOr7XN7atyo",
-  tag: "9/28 ハイライト",
-  title: "【2026/9/28 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "TSotCjxkZAI",
+  tag: "9/29 ハイライト",
+  title: "【2026/9/29 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "岡田紗佳、滝沢和典、高宮まり、多井隆晴、佐野ひなこ、瑞原明奈、仲林圭、東城りおの見どころ局を収めた9月28日のMリーグ公式ハイライトです。",
+    "渡辺太、園田賢、永井孝典、高宮まり、日向藍子、竹内元太、本田朋広、黒沢咲、鈴木大介、中田花奈の見どころ局を収めた9月29日のMリーグ公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=uOr7XN7atyo",
-  date: "2026年9月29日公開",
-  competition: "9月28日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=TSotCjxkZAI",
+  date: "2026年9月30日公開",
+  competition: "9月29日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "uOr7XN7atyo",
+    tag: "9/28 ハイライト",
+    title: "【2026/9/28 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "岡田紗佳、滝沢和典、高宮まり、多井隆晴、佐野ひなこ、瑞原明奈、仲林圭、東城りおの見どころ局を収めた9月28日のMリーグ公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=uOr7XN7atyo",
+    date: "2026年9月29日公開",
+    competition: "9月28日 Mリーグ公式ハイライト",
+  },
   {
     id: "Y68EvM8hxdg",
     tag: "9/25 ハイライト",

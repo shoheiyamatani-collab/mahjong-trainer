@@ -49,9 +49,10 @@ function getHighlightHeading(tag: string) {
 const latestHighlightHeading = getHighlightHeading(latestMatchHighlight.tag);
 
 const nextMatch: UpcomingMatch = {
-  date: "9.29",
-  day: "火",
+  date: "10.1",
+  day: "木",
   teams: [
+    { name: "EARTH JETS", slug: "earth-jets", teamId: "team-jets" },
     {
       name: "赤坂ドリブンズ",
       slug: "akasaka-drivens",
@@ -62,7 +63,6 @@ const nextMatch: UpcomingMatch = {
       slug: "konami-mahjong-fight-club",
       teamId: "team-fightclub",
     },
-    { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
     {
       name: "セガサミーフェニックス",
       slug: "sega-sammy-phoenix",
@@ -72,28 +72,6 @@ const nextMatch: UpcomingMatch = {
 };
 
 const upcomingMatches: UpcomingMatch[] = [
-  {
-    date: "10.1",
-    day: "木・A卓",
-    teams: [
-      { name: "EARTH JETS", slug: "earth-jets", teamId: "team-jets" },
-      {
-        name: "赤坂ドリブンズ",
-        slug: "akasaka-drivens",
-        teamId: "team-drivens",
-      },
-      {
-        name: "KONAMI麻雀格闘倶楽部",
-        slug: "konami-mahjong-fight-club",
-        teamId: "team-fightclub",
-      },
-      {
-        name: "セガサミーフェニックス",
-        slug: "sega-sammy-phoenix",
-        teamId: "team-phoenix",
-      },
-    ],
-  },
   {
     date: "10.1",
     day: "木・B卓",
@@ -124,6 +102,28 @@ const upcomingMatches: UpcomingMatch[] = [
       },
       { name: "TEAM RAIDEN / 雷電", slug: "team-raiden", teamId: "team-raiden" },
       { name: "BEAST X", slug: "beast-x", teamId: "team-beast" },
+    ],
+  },
+  {
+    date: "10.2",
+    day: "金・B卓",
+    teams: [
+      {
+        name: "赤坂ドリブンズ",
+        slug: "akasaka-drivens",
+        teamId: "team-drivens",
+      },
+      {
+        name: "KADOKAWAサクラナイツ",
+        slug: "kadokawa-sakura-knights",
+        teamId: "team-sakuraknights",
+      },
+      { name: "渋谷ABEMAS", slug: "shibuya-abemas", teamId: "team-abemas" },
+      {
+        name: "セガサミーフェニックス",
+        slug: "sega-sammy-phoenix",
+        teamId: "team-phoenix",
+      },
     ],
   },
 ];
@@ -211,6 +211,88 @@ const latestResults: MatchResult[] = [
       },
     ],
   },
+  {
+    label: "B卓・第1試合",
+    entries: [
+      {
+        rank: 1,
+        player: "渡辺太",
+        playerSlug: "watanabe-futoshi",
+        points: 62,
+        name: "赤坂ドリブンズ",
+        slug: "akasaka-drivens",
+        teamId: "team-drivens",
+      },
+      {
+        rank: 2,
+        player: "竹内元太",
+        playerSlug: "takeuchi-genta",
+        points: 14.6,
+        name: "セガサミーフェニックス",
+        slug: "sega-sammy-phoenix",
+        teamId: "team-phoenix",
+      },
+      {
+        rank: 3,
+        player: "日向藍子",
+        playerSlug: "hinata-aiko",
+        points: -26.8,
+        name: "渋谷ABEMAS",
+        slug: "shibuya-abemas",
+        teamId: "team-abemas",
+      },
+      {
+        rank: 4,
+        player: "伊達朱里紗",
+        playerSlug: "date-arisa",
+        points: -49.8,
+        name: "KONAMI麻雀格闘倶楽部",
+        slug: "konami-mahjong-fight-club",
+        teamId: "team-fightclub",
+      },
+    ],
+  },
+  {
+    label: "B卓・第2試合",
+    entries: [
+      {
+        rank: 1,
+        player: "園田賢",
+        playerSlug: "sonoda-ken",
+        points: 78.3,
+        name: "赤坂ドリブンズ",
+        slug: "akasaka-drivens",
+        teamId: "team-drivens",
+      },
+      {
+        rank: 2,
+        player: "高宮まり",
+        playerSlug: "takamiya-mari",
+        points: 19.1,
+        name: "KONAMI麻雀格闘倶楽部",
+        slug: "konami-mahjong-fight-club",
+        teamId: "team-fightclub",
+      },
+      {
+        rank: 3,
+        player: "竹内元太",
+        playerSlug: "takeuchi-genta",
+        points: -30.5,
+        name: "セガサミーフェニックス",
+        slug: "sega-sammy-phoenix",
+        teamId: "team-phoenix",
+      },
+      {
+        rank: 4,
+        player: "松本吉弘",
+        playerSlug: "matsumoto-yoshihiro",
+        points: -66.9,
+        name: "渋谷ABEMAS",
+        slug: "shibuya-abemas",
+        teamId: "team-abemas",
+      },
+    ],
+  },
 ];
 
 function formatPoints(points: number) {
@@ -250,17 +332,17 @@ export default function MatchInformationPage() {
 
           <div
             className="next-match-date"
-            aria-label="2026年9月29日 火曜日 19時開始 B卓"
+            aria-label="2026年10月1日 木曜日 19時開始 A卓"
           >
             <span>{nextMatch.date}</span>
             <div>
-              <strong>TUE / 火</strong>
+              <strong>THU / 木</strong>
               <small>19:00 START</small>
             </div>
           </div>
 
           <div className="next-match-teams">
-            <span className="match-status">MATCH DAY 16 / B卓</span>
+            <span className="match-status">MATCH DAY 17 / A卓</span>
             <ul>
               {nextMatch.teams.map((team) => (
                 <TeamLink team={team} key={team.teamId} />
@@ -292,7 +374,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">9月29日 A卓の対局結果</h2>
+            <h2 id="latest-results-title">9月29日の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
@@ -369,7 +451,7 @@ export default function MatchInformationPage() {
           {upcomingMatches.map((match, index) => (
             <li className="upcoming-match-card" key={`${match.date}-${match.day}`}>
               <span className="upcoming-match-number">
-                {String(index + 17).padStart(2, "0")}
+                {String(index + 18).padStart(2, "0")}
               </span>
               <div className="upcoming-match-date">
                 <strong>{match.date}</strong>
@@ -385,7 +467,7 @@ export default function MatchInformationPage() {
         </ol>
 
         <p className="match-source-note">
-          Mリーグ公式の試合日程・結果を2026年9月29日に確認しました。対局予定は変更される場合があります。
+          Mリーグ公式の試合日程・結果を2026年9月30日に確認しました。対局予定は変更される場合があります。
         </p>
       </section>
     </main>
