@@ -396,7 +396,8 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "中級",
     target: "点数申告に慣れたい人",
     focus: "条件から点数を出す練習",
-    status: "comingSoon"
+    href: scoreCalculatorHref,
+    status: "available"
   }
 ];
 

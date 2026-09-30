@@ -45,7 +45,7 @@ export function SeasonHistory({ memberships, teams }: SeasonHistoryProps) {
             </table>
           </div>
         ) : (
-          <p>所属履歴は準備中です。</p>
+          <p>公式情報から確認できる所属履歴はありません。</p>
         )}
       </section>
     </>

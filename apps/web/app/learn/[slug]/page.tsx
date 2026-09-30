@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ComingSoonBadge } from "../../components/Badges";
 import { InternalLinkCard, SectionTitle } from "../../components/SiteSections";
 import { ArticleTileFigures } from "../../components/TileFigures";
 import { getAdjacentLearnArticles, getLearnArticle, learnArticles, type LinkTarget } from "../../siteData";
@@ -203,21 +202,16 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
 }
 
 function RelatedLinkCard({ title, target, fallbackHref }: { title: string; target: LinkTarget; fallbackHref: string }) {
-  const isComingSoon = target.status === "comingSoon" || !target.href;
+  const href = target.href ?? fallbackHref;
   return (
     <article className="internalLinkCard">
       <div>
         <div className="cardTopline">
           <h3>{title}</h3>
-          {isComingSoon ? <ComingSoonBadge /> : null}
         </div>
         <p>{target.label}</p>
       </div>
-      {isComingSoon ? (
-        <span aria-disabled="true">準備中</span>
-      ) : (
-        <Link href={target.href ?? fallbackHref}>{target.label}</Link>
-      )}
+      <Link href={href}>{target.label}</Link>
     </article>
   );
 }

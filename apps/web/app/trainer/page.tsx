@@ -997,6 +997,7 @@ export default function Home() {
       {!isAnalysisTool && mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
       {!isAnalysisTool && mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
       {isScoreCalculator && mode === "scoring" ? <ScoringMode /> : null}
+      {!isAnalysisTool && !isScoreCalculator ? <TrainerOverview /> : null}
     </main>
   );
 }
@@ -1031,6 +1032,41 @@ function AnalysisToolGuide() {
         <Link href="/trainer#iishanten-nanikiru">イーシャンテン何切るで練習する</Link>
         <Link href="/learn/glossary">麻雀用語を確認する</Link>
         <Link href="/videos/strategy/beginner">牌効率の動画解説を見る</Link>
+      </nav>
+    </section>
+  );
+}
+
+function TrainerOverview() {
+  return (
+    <section className="analysisMethodGuide trainerOverview" aria-labelledby="trainer-overview-title">
+      <p className="eyebrow">TRAINING GUIDE</p>
+      <h2 id="trainer-overview-title">麻雀トレーニングの使い方</h2>
+      <p>
+        このページでは、牌効率、受け入れ、待ち、点数計算を、牌を見て自分で答える形式で反復できます。
+        初心者向けは一向聴の何切る、7枚形、基本の点数計算から始められ、高難易度では複雑な受け入れ比較、清一色の待ち、点数計算HARDに挑戦できます。
+      </p>
+      <div className="analysisMethodGrid">
+        <section>
+          <h3>結果の見方</h3>
+          <p>正解だけでなく、有効牌の種類と残り枚数、待ちの形、点数の内訳を確認します。間違えた理由まで振り返ると、似た牌姿でも判断しやすくなります。</p>
+        </section>
+        <section>
+          <h3>実戦へのつなげ方</h3>
+          <p>受け入れが広い打牌は速度の基準になりますが、実戦ではドラ、役、巡目、点棒状況、他家への安全度を含む守備判断も必要です。練習結果を絶対の正解ではなく判断の土台として使います。</p>
+        </section>
+        <section>
+          <h3>繰り返し練習</h3>
+          <p>苦手なモードを続けて解き、迷った形は牌理チェッカーで候補を比較します。基礎用語や考え方が曖昧なときは、初心者ロードマップと学習記事へ戻って復習できます。</p>
+        </section>
+      </div>
+      <p className="analysisMethodNote">
+        本トレーニングは一般的なルールと計算をもとにした学習補助です。採用ルールや場況によって実戦の最善打が変わる点に注意してください。
+      </p>
+      <nav className="analysisMethodLinks" aria-label="麻雀トレーニングに関連する学習">
+        <Link href="/analysis/mahjong-tool">牌理チェッカーで候補を比較する</Link>
+        <Link href="/learn/roadmap">初心者ロードマップで順番に学ぶ</Link>
+        <Link href="/learn/guides">麻雀の学習記事を読む</Link>
       </nav>
     </section>
   );
@@ -2880,25 +2916,6 @@ function Stat({ label, value, className }: { label: string; value: string; class
       <div className="smallLabel">{label}</div>
       <div className={className ? `statValue ${className}` : "statValue"}>{value}</div>
     </div>
-  );
-}
-
-function PlaceholderMode({ mode }: { mode: Mode }) {
-  const labels: Record<Mode, string> = {
-    checker: "牌理チェッカー",
-    beginnerIishanten: "🔰 イーシャンテン何切る",
-    ukeireMax: "🔥 受け入れMAX星人何切る",
-    scoreQuizBeginner: "🔰 点数計算問題",
-    scoreQuizHard: "🔥 点数計算HARD",
-    scoring: "🔰 点数計算チェッカー",
-    chinitsu: "🔥 清一色待ち当て",
-    sevenShape: "🔰 7枚形トレーニング"
-  };
-  return (
-    <section className="panel placeholder">
-      <h2>{labels[mode]}</h2>
-      <p>Next.js版ではまず牌理チェッカーを移植済みです。このモードは次の段階で移植します。</p>
-    </section>
   );
 }
 

@@ -72,7 +72,7 @@ export default function PolicyPage() {
               掲載情報の訂正・削除、権利関係、リンク切れなどのご連絡は、雀フォリオのお問い合わせ窓口で受け付けています。対象ページのURLと具体的な内容を添えてご連絡ください。
             </p>
             <a className="text-link" href={`${siteConfig.parentUrl}/contact`}>
-              contact@jongfolio.comへ問い合わせる
+              お問い合わせページを開く
             </a>
           </section>
           <section className="content-card content-section" id="operator">
@@ -80,6 +80,10 @@ export default function PolicyPage() {
             <p>運営：雀フォリオ運営</p>
             <p>サイト名：雀フォリオ / JONGFOLIO</p>
             <p>URL：<a className="text-link" href={siteConfig.parentUrl}>{siteConfig.parentUrl}</a></p>
+            <div className="link-row">
+              <a className="text-link" href={`${siteConfig.parentUrl}/about`}>運営者情報を確認する</a>
+              <a className="text-link" href={`${siteConfig.parentUrl}/terms`}>利用規約を確認する</a>
+            </div>
           </section>
         </aside>
       </div>

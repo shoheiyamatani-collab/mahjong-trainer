@@ -75,7 +75,7 @@ export function PlayerProfile({
         <div>
           <section className="content-card content-section">
             <h2>人物紹介</h2>
-            <p>{player.biography || "確認済みの紹介文を準備中です。"}</p>
+            <p>{player.biography || "公式情報から確認できる紹介文は掲載していません。"}</p>
           </section>
           <section className="content-card content-section">
             <h2>主なタイトル・実績</h2>
@@ -89,12 +89,12 @@ export function PlayerProfile({
                 ))}
               </ul>
             ) : (
-              <p>確認済みの情報を準備中です。</p>
+              <p>公式情報から確認できる主なタイトル・実績は掲載していません。</p>
             )}
           </section>
           <section className="content-card content-section">
             <h2>打ち筋や特徴</h2>
-            <p>{player.playStyleSummary || "準備中"}</p>
+            <p>{player.playStyleSummary || "根拠を確認できる打ち筋の説明は掲載していません。"}</p>
             <p className="verified-date">
               根拠の確認できない評価や、断定的な人物評は掲載しません。
             </p>
@@ -127,7 +127,7 @@ export function PlayerProfile({
                 </li>
               ))}
               {!player.officialProfileUrl && socialLinks.length === 0 ? (
-                <li>確認済みリンクは準備中です。</li>
+                <li>掲載できる公式リンクはありません。</li>
               ) : null}
             </ul>
           </section>
@@ -146,7 +146,7 @@ export function PlayerProfile({
           <section className="content-card">
             <h2>出演イベント</h2>
             <p>
-              公式発表を確認できるゲスト・大会・トークイベント情報を、今後掲載予定です。
+              ゲスト・大会・トークイベントは、一般向けの公式発表を確認できる情報だけを扱います。
             </p>
             <Link className="text-link" href={siteConfig.routes.events}>
               イベント掲載方針を見る

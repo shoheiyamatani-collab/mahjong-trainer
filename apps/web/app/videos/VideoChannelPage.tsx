@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ComingSoonBadge } from "../components/Badges";
 import { siteConfig } from "../siteConfig";
 import { getStrategyCategory, strategyCategoryOrder, type VideoChannel, type VideoGuide } from "./videoData";
 
@@ -121,7 +120,7 @@ function PostRow({ categoryLabel, guide, index }: { categoryLabel: string; guide
         <p>{guide.description}</p>
         <div className="videoPostFooter">
           <span>{guide.focus}</span>
-          {guide.articleHref ? <Link className="videoArticleLink" href={guide.articleHref}>記事を読む</Link> : <span className="videoArticlePending" aria-disabled="true">記事を準備中</span>}
+          {guide.articleHref ? <Link className="videoArticleLink" href={guide.articleHref}>記事を読む</Link> : null}
         </div>
       </div>
     </article>
@@ -145,9 +144,7 @@ function VideoPostVisual({ guide, variant }: { guide: VideoGuide; variant: strin
 
   return (
     <div className={`videoBlogThumbnail videoBlogThumbnail-${variant}`}>
-      <span className="videoPlayMark" aria-hidden="true">▶</span>
-      <ComingSoonBadge />
-      <p>紹介動画を選定中</p>
+      <p>Mリーグ公式動画ガイド</p>
     </div>
   );
 }

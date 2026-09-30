@@ -24,6 +24,7 @@ export function SiteFooter() {
           <Link href={siteConfig.routes.policy}>掲載方針</Link>
           <Link href={siteConfig.routes.correctionRequest}>訂正・削除依頼</Link>
           <a href="/privacy">プライバシーポリシー</a>
+          <a href="/terms">利用規約</a>
           <a href="/contact">お問い合わせ</a>
           <a href="/about">運営者情報</a>
         </nav>

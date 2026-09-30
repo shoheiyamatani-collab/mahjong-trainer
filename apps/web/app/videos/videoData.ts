@@ -450,7 +450,7 @@ export const videoChannels: Record<VideoChannel["slug"], VideoChannel> = {
         focus: "何局・何巡目を見るべきかを記事内で明記します。",
         level: "対局を楽しみたい人",
         category: "名局",
-        dateLabel: "公開準備中",
+        dateLabel: "公式動画を厳選",
         readingTime: "7分で読める",
         relatedHref: "/rules/practical-score",
         relatedLabel: "実戦の点数を確認する"
@@ -461,7 +461,7 @@ export const videoChannels: Record<VideoChannel["slug"], VideoChannel> = {
         focus: "選手名、対戦相手、注目したい判断を整理します。",
         level: "Mリーグをもっと知りたい人",
         category: "選手・対局",
-        dateLabel: "公開準備中",
+        dateLabel: "公式動画を厳選",
         readingTime: "6分で読める",
         relatedHref: "/trainer",
         relatedLabel: "同じ形を練習する"
@@ -472,7 +472,7 @@ export const videoChannels: Record<VideoChannel["slug"], VideoChannel> = {
         focus: "専門用語を補足し、初めて見る人にも流れが分かる記事にします。",
         level: "Mリーグ初心者",
         category: "初心者向け",
-        dateLabel: "公開準備中",
+        dateLabel: "公式動画を厳選",
         readingTime: "5分で読める",
         relatedHref: "/learn",
         relatedLabel: "麻雀の基本を確認する"

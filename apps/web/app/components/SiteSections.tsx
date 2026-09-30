@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ComingSoonBadge, DifficultyBadge } from "./Badges";
+import { DifficultyBadge } from "./Badges";
 import type { CardStatus, LinkTarget, TrainingItem } from "../siteData";
 
 type PageHeroProps = {
@@ -48,7 +48,6 @@ export function CategoryCard({
   description,
   href,
   actionLabel,
-  status = "available",
   tone = "green"
 }: {
   title: string;
@@ -62,14 +61,9 @@ export function CategoryCard({
     <article className={`categoryCard tone-${tone}`}>
       <div className="cardTopline">
         <h3>{title}</h3>
-        {status === "comingSoon" ? <ComingSoonBadge /> : null}
       </div>
       <p>{description}</p>
-      {href ? (
-        <Link className="cardButton" href={href}>{actionLabel}</Link>
-      ) : (
-        <span className="cardButton disabled" aria-disabled="true">{actionLabel}</span>
-      )}
+      {href ? <Link className="cardButton" href={href}>{actionLabel}</Link> : null}
     </article>
   );
 }
@@ -78,7 +72,6 @@ export function InternalLinkCard({
   title,
   description,
   href,
-  status = "available",
   actionLabel = "進む"
 }: {
   title: string;
@@ -93,8 +86,7 @@ export function InternalLinkCard({
         <h3>{title}</h3>
         <p>{description}</p>
       </div>
-      {status === "comingSoon" ? <ComingSoonBadge /> : null}
-      {href ? <Link href={href}>{actionLabel}</Link> : <span aria-disabled="true">準備中</span>}
+      {href ? <Link href={href}>{actionLabel}</Link> : null}
     </article>
   );
 }
@@ -106,7 +98,6 @@ export function TrainingCard({ item }: { item: TrainingItem }) {
         <h3>{item.title}</h3>
         <div className="badgeRow">
           <DifficultyBadge difficulty={item.difficulty} />
-          {item.status === "comingSoon" ? <ComingSoonBadge /> : null}
         </div>
       </div>
       <dl className="cardFacts">
@@ -119,11 +110,7 @@ export function TrainingCard({ item }: { item: TrainingItem }) {
           <dd>{item.focus}</dd>
         </div>
       </dl>
-      {item.href ? (
-        <Link className="cardButton" href={item.href}>{item.title}を始める</Link>
-      ) : (
-        <span className="cardButton disabled" aria-disabled="true">準備中</span>
-      )}
+      {item.href ? <Link className="cardButton" href={item.href}>{item.title}を始める</Link> : null}
     </article>
   );
 }

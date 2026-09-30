@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: TeamPageProps): Promise<Metad
     ? {
         title: `${result.team.name}｜所属選手・沿革・シーズン成績`,
         description: `${result.team.name}の所属選手、チームの特徴、沿革、シーズン別最終順位、メンバーの加入・退団の変遷を公式情報に基づいて紹介します。`,
+        alternates: { canonical: `/mleague/teams/${slug}/` },
       }
     : { title: "チームが見つかりません" };
 }
@@ -89,7 +90,9 @@ export default async function TeamPage({ params }: TeamPageProps) {
       <header className="page-header">
         <span className="eyebrow">TEAM PROFILE</span>
         <h1 className="page-title">{result.team.name}</h1>
-        <p className="page-lead">{result.team.description || "説明を準備中です。"}</p>
+        <p className="page-lead">
+          {result.team.description || `${result.team.name}の所属選手、沿革、シーズン成績を紹介します。`}
+        </p>
         <div className="link-row">
           <ExternalLink className="button" href={result.team.officialWebsiteUrl}>
             公式情報を確認

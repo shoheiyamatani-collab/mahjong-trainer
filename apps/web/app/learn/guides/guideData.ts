@@ -42,11 +42,11 @@ const foundationalLearningGuides: LearningGuide[] = [
     title: "牌効率と受け入れの基本",
     seoTitle: "麻雀の牌効率と受け入れとは？数え方と何切るの考え方",
     description: "麻雀の牌効率と受け入れを、シャンテン数、有効牌の種類、残り枚数の順に牌図つきで解説します。",
-    lead: "牌効率は、アガリへ近づく選択を比べるための土台です。まずシャンテン数を悪化させず、そのうえで次に手が進む牌を数えると、何切るの候補を整理しやすくなります。",
+    lead: "牌効率の意味を理解したら、実際の牌姿で受け入れを数えてみましょう。この実践記事では、シャンテン数を悪化させない候補を残し、有効牌の種類と残り枚数を計算する手順を解説します。用語から確認したい方は「牌効率とは何か」から読むと進めやすくなります。",
     takeaways: ["シャンテン数を先に比べる", "有効牌は種類と残り枚数を分けて数える", "受け入れ最大が常に実戦の最善とは限らない"],
     sections: [
       {
-        heading: "牌効率はアガリまでの距離を縮める考え方",
+        heading: "実践ではシャンテン数から候補を絞る",
         paragraphs: [
           "牌効率では、現在の手牌がアガリから何段階離れているかをシャンテン数で確認します。打牌後のシャンテン数が同じ候補同士なら、次にシャンテン数を進める牌が多い方を比べます。",
           "大切なのは、いきなり受け入れ枚数だけを見ないことです。受け入れが多く見えても、シャンテン数を戻してしまう打牌なら、通常は比較の土俵が異なります。"
@@ -80,7 +80,7 @@ const foundationalLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/analysis/mahjong-tool", label: "牌理チェッカーで受け入れを比較する", description: "14枚の手牌を入力し、打牌候補ごとの有効牌と残り枚数を確認できます。" },
-    relatedSlugs: ["good-shape-rate", "mahjong-checker-examples"]
+    relatedSlugs: ["what-is-tile-efficiency", "good-shape-rate", "mahjong-checker-examples"]
   },
   {
     slug: "good-shape-rate",

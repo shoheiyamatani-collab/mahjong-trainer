@@ -11075,27 +11075,28 @@ body .siteNav a.siteNavLink--roadmap.isActive::after {
   body .siteNav a.siteNavLink--primary,
   body .siteNav a.siteNavLink--utility {
     flex: 1 1 0;
-    font-size: 0.82rem;
-    gap: 6px;
+    font-size: clamp(0.62rem, 0.9vw, 0.7rem);
+    gap: 4px;
+    line-height: 1;
     min-width: 0;
-    padding-inline: 8px;
+    overflow: hidden;
+    padding-inline: 4px;
+    white-space: nowrap;
+  }
+
+  body .siteNav a.siteNavLink span {
+    min-width: 0;
+    text-align: center;
+    white-space: nowrap;
   }
 
   body .siteNav a.siteNavLink--mleague {
     flex: 1.25 1 0;
-    line-height: 1.25;
-    overflow: hidden;
-    white-space: normal;
-  }
-
-  body .siteNav a.siteNavLink--mleague span {
-    overflow-wrap: anywhere;
-    text-align: center;
   }
 
   body .siteNav .siteNavIcon {
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
   }
 }
 

@@ -6,10 +6,10 @@ export function EventPreview({ events }: { events: PlayerEvent[] }) {
   if (events.length === 0) {
     return (
       <div className="empty-state">
-        <span className="eyebrow">準備中</span>
+        <span className="eyebrow">OFFICIAL SOURCES ONLY</span>
         <h2>選手に会えるイベント情報</h2>
         <p>
-          一般向けに事前告知された公式イベントだけを掲載するため、確認フローを整備しています。
+          現在、掲載基準を満たすイベント情報はありません。選手本人、店舗、チーム、所属団体、主催者の公式発表を確認できる情報だけを掲載します。
         </p>
         <Link className="text-link" href={siteConfig.routes.policy}>
           掲載方針を確認する

@@ -4,9 +4,9 @@ import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { playerEvents } from "@/data/mleague/events";
 
 export const metadata: Metadata = {
-  title: "選手イベント情報（準備中）｜Mリーグ選手名鑑",
+  title: "選手イベント情報｜Mリーグ選手名鑑",
   description:
-    "麻雀店ゲスト、公開対局、トークイベント、大会など、公式発表を確認した情報の掲載準備ページです。",
+    "麻雀店ゲスト、公開対局、トークイベント、大会など、公式発表を確認できるイベントだけを扱う情報ページです。",
   alternates: { canonical: "/mleague/events/" },
   robots: { index: false, follow: true },
 };
@@ -18,7 +18,7 @@ export default function EventsPage() {
         <span className="eyebrow">EVENTS</span>
         <h1 className="page-title">選手に会えるイベント情報</h1>
         <p className="page-lead">
-          麻雀店ゲスト、公開対局、トークイベント、大会、サイン会などの掲載機能を準備しています。
+          麻雀店ゲスト、公開対局、トークイベント、大会、サイン会など、一般向けに公式発表された情報を扱います。
         </p>
       </header>
       <UnofficialNotice />

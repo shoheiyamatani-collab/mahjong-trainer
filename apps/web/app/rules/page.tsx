@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ComingSoonBadge } from "../components/Badges";
 import { InternalLinkCard, PageHero, SectionTitle } from "../components/SiteSections";
 import { ruleItems } from "../siteData";
 
@@ -54,10 +53,9 @@ export default function RulesPage() {
               <RuleCardVisual title={item.title} />
               <div className="cardTopline">
                 <h2>{item.title}</h2>
-                {item.status === "comingSoon" ? <ComingSoonBadge /> : null}
               </div>
               <p>{item.description}</p>
-              {item.href ? <a className="textLink" href={item.href}>読む</a> : <span className="mutedText">記事は準備中です</span>}
+              {item.href ? <a className="textLink" href={item.href}>読む</a> : null}
             </article>
           ))}
         </div>
