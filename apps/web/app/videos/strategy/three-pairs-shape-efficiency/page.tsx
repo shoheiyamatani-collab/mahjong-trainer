@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/three-pairs-shape-efficiency"),
   title: "麻雀の3トイツはどうさばく？対子を2組へ整理する牌効率",
   description: "麻雀中級者向けに、3トイツ形で崩す対子の選び方を短い要点で解説。5ブロック、6ブロック、鳴ける手、複合形の例外を整理します。"
 };

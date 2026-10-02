@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/practical-score-calculation-quiz"),
   title: "麻雀の点数計算問題10問｜初心者向け実戦練習",
   description: "平和のロン・ツモ、副露、七対子、満貫、40符・50符など、実戦でよく出る麻雀の点数計算を問題形式で学びます。"
 };

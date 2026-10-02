@@ -11,6 +11,7 @@
     "typecheck": "tsc --project tsconfig.json"
   },
   "dependencies": {
+    "@mahjong-trainer/content-index-policy": "workspace:*",
     "@mahjong-trainer/mahjong-core": "workspace:*",
     "lucide-react": "^1.35.0",
     "next": "^15.0.0",

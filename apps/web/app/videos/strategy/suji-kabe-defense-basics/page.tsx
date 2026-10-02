@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/suji-kabe-defense-basics"),
   title: "麻雀で安牌がないときは？スジとカベの安全牌の探し方",
   description: "現物がないときに当たりにくい牌を探すスジとカベを初心者向けに解説。1・4・7のスジ、ノーチャンスとワンチャンス、過信できない待ちを牌図で紹介します。"
 };

@@ -17,6 +17,9 @@ importers:
 
   apps/mleague:
     dependencies:
+      '@mahjong-trainer/content-index-policy':
+        specifier: workspace:*
+        version: link:../../packages/content-index-policy
       next:
         specifier: ^15.0.0
         version: 15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -51,6 +54,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@mahjong-trainer/content-index-policy':
+        specifier: workspace:*
+        version: link:../../packages/content-index-policy
       '@mahjong-trainer/mahjong-core':
         specifier: workspace:*
         version: link:../../packages/mahjong-core
@@ -79,6 +85,18 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.9.3
+
+  packages/content-index-policy:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.7.4
+        version: 22.20.0
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.1
+        version: 2.1.9(@types/node@22.20.0)(lightningcss@1.32.0)
 
   packages/mahjong-core:
     devDependencies:

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { VideoChannelPage } from "../../VideoChannelPage";
 import { proStrategyChannel } from "../../videoData";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/pro"),
   title: "麻雀上級者向け動画 | プロの思考を実戦解説で学ぶ",
   description: "発男道場の麻雀実戦解説から、プロ本人が一半荘を打ちながら話す手組み、読み、押し引きの思考を紹介します。",
   alternates: { canonical: "/videos/strategy/pro" },

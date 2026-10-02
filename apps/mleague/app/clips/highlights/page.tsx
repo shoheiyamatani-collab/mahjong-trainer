@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { memorableClips, yakumanClips } from "./highlight-clips";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/clips/highlights"),
   title: "過去の名場面切り抜き",
   description: "Mリーグの役満集と、それ以外の名場面集を選べるページです。",
   alternates: { canonical: "/mleague/clips/highlights/" },

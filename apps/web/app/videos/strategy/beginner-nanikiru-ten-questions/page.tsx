@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/beginner-nanikiru-ten-questions"),
   title: "麻雀初心者が間違えたくない何切る問題10問 | ブロックと対子の数え方",
   description: "麻雀初心者向けの何切る全10問を紹介。浮き牌、6ブロック、カンチャン比較、対子の数、複合ターツの判断を短い要点で分かりやすく整理します。"
 };

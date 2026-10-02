@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/easy-score-calculation-without-fu"),
   title: "麻雀の点数計算を簡単に覚える方法 | 20・30・40符の見分け方",
   description: "符計算をすべて暗記する前に、門前ツモ・門前ロン・鳴きを20符、30符、40符へ分類する方法を動画と短い要点で解説。親子・翻数・点数表の見方も紹介します。"
 };

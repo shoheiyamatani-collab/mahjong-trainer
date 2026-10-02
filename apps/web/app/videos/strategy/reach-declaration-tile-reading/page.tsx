@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/reach-declaration-tile-reading"),
   title: "麻雀のリーチ宣言牌から何が分かる？待ちを読む3つの情報",
   description: "リーチ宣言牌が1・9、安全牌、先制リーチ者の現物だった場合に読み取れる情報を初心者向けに解説。待ちの危険度を牌図で比較し、読みを過信しないポイントも紹介します。"
 };

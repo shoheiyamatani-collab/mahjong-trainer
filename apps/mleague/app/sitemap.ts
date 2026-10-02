@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { shouldIncludeInSitemap } from "@mahjong-trainer/content-index-policy";
 import { getPublishedPlayers } from "@/lib/mleague/getPlayers";
 import { getPublishedTeams } from "@/lib/mleague/getTeams";
 import { siteConfig } from "@/config/site";
@@ -26,10 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...getPublishedTeams().map((team) => `/teams/${team.slug}`),
   ];
 
-  return paths.map((path) => ({
-    url: `${siteConfig.siteOrigin}${siteConfig.basePath}${path}/`.replace(/\/{2,}$/, "/"),
-    changeFrequency:
-      path === "/stats" ? "daily" : path === "" ? "weekly" : "monthly",
-    priority: path === "" ? 0.9 : path.split("/").length <= 2 ? 0.8 : 0.6,
-  }));
+  return paths
+    .map((path) => `${siteConfig.basePath}${path}`)
+    .filter(shouldIncludeInSitemap)
+    .map((fullPath) => ({
+      url: `${siteConfig.siteOrigin}${fullPath}/`.replace(/\/{2,}$/, "/"),
+      changeFrequency:
+        fullPath === "/mleague/stats" ? "daily" : fullPath === "/mleague" ? "weekly" : "monthly",
+      priority: fullPath === "/mleague" ? 0.9 : fullPath.split("/").length <= 3 ? 0.8 : 0.6,
+    }));
 }

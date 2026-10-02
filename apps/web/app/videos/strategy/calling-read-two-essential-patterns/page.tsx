@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/calling-read-two-essential-patterns"),
   title: "麻雀の鳴き読み｜まず覚えたい2つの重要パターン",
   description: "麻雀中級者向けに、実戦で使いやすい鳴き読み2パターンを短い要点で解説。チー出し牌、直前の安全牌、ポンの見送りから両面待ちの可能性を比較します。"
 };

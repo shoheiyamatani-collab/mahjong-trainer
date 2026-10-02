@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/isolated-terminal-tile-order"),
   title: "麻雀の孤立牌1・9はどちらから切る？優先順位を動画で解説",
   description: "孤立した1・9牌の切り順を4段階で解説。1・4・7の受け入れの重複、1・5からのリャンカン変化、牌効率の知識が守備にも役立つ理由を短い要点で紹介します。"
 };

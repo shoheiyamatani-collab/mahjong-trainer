@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/how-to-read-fuuro-rate"),
   title: "麻雀の副露率は何％が正解？初心者向け鳴きの考え方",
   description: "麻雀の副露率に唯一の正解がない理由と、ポン・チーによる速度、打点、守備の変化を牌図で比較し、牌譜から鳴きを改善する方法を解説します。"
 };

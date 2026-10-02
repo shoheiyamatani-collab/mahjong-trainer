@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ExternalLink } from "@/components/ExternalLink";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
@@ -19,6 +20,7 @@ import { teams } from "@/data/mleague/teams";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/calendar"),
   title: "Mリーグ対局カレンダー｜2026-27シーズン",
   description:
     "Mリーグ2026-27レギュラーシーズンの対局日と対戦チームを月別カレンダーで確認できます。",

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/common-bad-habits-self-check"),
   title: "麻雀初心者に多い悪い癖3選 | 気づかない打ち方をセルフチェック",
   description: "リーチへの中途半端な対応、役なしダマテン、生牌の字牌を残しすぎる癖を動画と短い要点で解説。次の対局で直す行動をセルフチェックできます。"
 };

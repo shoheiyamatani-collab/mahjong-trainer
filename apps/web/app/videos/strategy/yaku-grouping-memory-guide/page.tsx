@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/yaku-grouping-memory-guide"),
   title: "麻雀の役を簡単に覚える方法 | 初心者向け4グループ分類",
   description: "麻雀の役を丸暗記せず、使う牌の種類、面子の形、見た目の規則性、アガり方という4グループに分けて覚える方法を短い要点で解説します。"
 };

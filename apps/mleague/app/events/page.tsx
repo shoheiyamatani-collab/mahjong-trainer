@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { EventPreview } from "@/components/mleague/EventPreview";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { playerEvents } from "@/data/mleague/events";
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "麻雀店ゲスト、公開対局、トークイベント、大会など、公式発表を確認できるイベントだけを扱う情報ページです。",
   alternates: { canonical: "/mleague/events/" },
-  robots: { index: false, follow: true },
+  robots: getRobotsPolicy("/mleague/events"),
 };
 
 export default function EventsPage() {

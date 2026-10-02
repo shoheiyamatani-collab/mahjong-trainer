@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/three-shanten-mistakes-beginners-avoid"),
   title: "麻雀初心者がやってはいけない何切る3選｜シャンテン数の基本",
   description: "麻雀初心者向けに、唯一の対子、完成面子、孤立牌があるときのターツを切るとシャンテン数が戻る理由を牌姿で解説します。"
 };

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/calling-read-chi-discard-matagi"),
   title: "麻雀の鳴き読み｜チー出しまたぎが通りやすい3条件",
   description: "麻雀中級者向けに、チー直後の手出し牌をまたぐ両面待ちが比較的通りやすくなる3条件を短い要点で解説。読みの限界と愚形への注意も紹介します。"
 };

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { VideoChannelPage } from "../../VideoChannelPage";
 import { advancedStrategyChannel } from "../../videoData";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/advanced"),
   title: "麻雀中級者以上向け動画 | 実戦判断を深く学ぶ",
   description: "麻雀中級者以上へ向けた牌効率、押し引き、読み、手順比較の動画記事を掲載するページです。",
   alternates: { canonical: "/videos/strategy/advanced" }

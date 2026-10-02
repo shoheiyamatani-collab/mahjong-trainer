@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExternalLink } from "@/components/ExternalLink";
@@ -29,7 +30,7 @@ export async function generateMetadata({
   return {
     title: `${member.name}｜最高位戦 麻雀プロ名鑑`,
     description: `${member.name}プロの所属リーグ、入会期、誕生日、出身地、タイトル、公式Xを紹介します。`,
-    robots: { index: false, follow: true },
+    robots: getRobotsPolicy(`/mleague/pros/${slug}`),
   };
 }
 

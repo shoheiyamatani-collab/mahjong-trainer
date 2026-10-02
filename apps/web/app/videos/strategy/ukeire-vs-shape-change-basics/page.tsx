@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/ukeire-vs-shape-change-basics"),
   title: "麻雀の受け入れとは？手変わりとの違いを初心者向けに解説",
   description: "麻雀の受け入れを『シャンテン数が進む牌』として理解し、形が良くなる手変わりとの違い、受け入れの見つけ方と練習方法を短い要点で解説します。"
 };

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/when-terminal-is-better-than-28"),
   title: "麻雀の孤立牌1・9と2・8はどちらを残す？価値が逆転する3ケース",
   description: "麻雀中級者向けに、孤立牌の2・8より1・9を残すケースを解説。安全度、鳴き、1345・13455の複合形を牌図で比較します。"
 };

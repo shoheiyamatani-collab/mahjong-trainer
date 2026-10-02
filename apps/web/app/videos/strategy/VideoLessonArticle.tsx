@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { JsonLd } from "../../components/JsonLd";
@@ -11,7 +12,6 @@ import {
 } from "../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "./VideoArticleCompactContent";
 import type { VideoLesson, VideoLessonBook } from "./videoLessonData";
-import { isVideoArticleIndexable } from "./videoSeoPolicy";
 
 export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
   const canonical = `/videos/strategy/${lesson.slug}`;
@@ -19,7 +19,7 @@ export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
   return {
     title: lesson.guide.title,
     description: lesson.guide.description,
-    robots: isVideoArticleIndexable(canonical) ? undefined : { index: false, follow: true },
+    robots: getRobotsPolicy(canonical),
     alternates: { canonical },
     openGraph: {
       type: "article",

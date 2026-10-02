@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/intermediate-tile-efficiency-26-rules"),
   title: "麻雀中級者向け何切る | 牌効率を高める26のセオリー",
   description: "麻雀中級者向けに、打点判断、5ブロック理論、孤立牌、二度受け、対子選択、ドラのスライドなど、何切るで使う26の牌効率セオリーを動画と短い要点で整理します。"
 };

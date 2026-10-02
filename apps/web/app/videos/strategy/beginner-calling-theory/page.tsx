@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/beginner-calling-theory"),
   title: "麻雀初心者の鳴き方｜まず覚えたいポン・チーの3基準",
   description: "麻雀初心者向けに、役牌、役がある愚形、鳴けばテンパイの3場面でポン・チーする考え方を実戦的な牌姿で解説します。"
 };

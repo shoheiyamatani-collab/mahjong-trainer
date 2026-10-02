@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { siteConfig } from "@/config/site";
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   title: "訂正・削除依頼｜Mリーグ選手名鑑",
   description: "掲載情報の訂正、削除、権利、リンク切れに関する正式な連絡方法をご案内します。",
   alternates: { canonical: "/mleague/correction-request/" },
-  robots: { index: false, follow: true },
+  robots: getRobotsPolicy("/mleague/correction-request"),
 };
 
 export default function CorrectionRequestPage() {

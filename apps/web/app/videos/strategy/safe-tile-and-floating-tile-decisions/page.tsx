@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/safe-tile-and-floating-tile-decisions"),
   title: "麻雀中級者が勘違いしやすい安牌と孤立牌の判断基準",
   description: "麻雀中級者向けに、安牌を持つ基準と孤立牌を残す理由を短い要点で解説。手牌価値と4・6ブロックの違いから実戦判断を整理します。"
 };

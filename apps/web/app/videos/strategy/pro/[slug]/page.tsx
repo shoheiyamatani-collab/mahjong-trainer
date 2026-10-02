@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { notFound } from "next/navigation";
 import { ProVideoBookRecommendation } from "../../../../components/VideoBookRecommendation";
 import { VideoLessonArticle } from "../../VideoLessonArticle";
-import { isVideoArticleIndexable } from "../../videoSeoPolicy";
 import { getProVideoLesson, proVideoLessons } from "../proVideoData";
 
 type ProVideoPageProps = {
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: ProVideoPageProps): Promise<M
   return {
     title: lesson.guide.title,
     description: lesson.guide.description,
-    robots: isVideoArticleIndexable(canonical) ? undefined : { index: false, follow: true },
+    robots: getRobotsPolicy(canonical),
     alternates: { canonical },
     openGraph: {
       type: "article",

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/how-to-use-mahjong-reading"),
   title: "麻雀の読み方｜捨て牌の違和感と例外から危険度を比べる",
   description: "麻雀中級者向けに、捨て牌読みを待ちの断定ではなく危険度比較へ使う方法を解説。確定情報、手掛かり、推測の違いを短い要点で整理します。"
 };

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/how-to-handle-four-consecutive-shape"),
   title: "麻雀の4連形はどこまで残す？｜崩す場面と判断基準",
   description: "麻雀中級者向けに、3456などの4連形を残す場面と崩す場面を短い要点で解説。最終待ち、巡目、ドラ、ほかのターツから判断する方法を紹介します。"
 };

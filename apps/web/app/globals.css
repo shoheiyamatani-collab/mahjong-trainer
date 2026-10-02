@@ -260,6 +260,12 @@ body .homeHeroBrandRow .homeHeroLogo {
   --home-quick-color: #604080;
 }
 
+.homeQuickNav-learning {
+  --home-quick-accent: #24795a;
+  --home-quick-bg: #eef7f2;
+  --home-quick-color: #17563e;
+}
+
 .homeSection {
   display: grid;
   gap: 22px;

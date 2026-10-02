@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/tile-efficiency-essential-theory-quiz"),
   title: "全16問で学ぶ麻雀の何切る・牌効率セオリー | 動画解説",
   description: "発男道場の何切る問題16問を紹介。5ブロック理論、対子、二度受け、孤立牌、4連形など、脱初心者に必要な牌効率の見方と動画の活用法を解説します。"
 };

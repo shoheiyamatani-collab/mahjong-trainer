@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/important-yaku-for-higher-scores"),
   title: "麻雀初心者が基本役の次に覚えたい10役 | 打点を伸ばす役を牌姿で解説",
   description: "アガれるようになった麻雀初心者へ向けて、一盃口・三色同順・一気通貫・対々和・混一色・清一色・混全帯么九・純全帯么九・三暗刻・七対子を動画と14枚の牌姿で紹介します。"
 };

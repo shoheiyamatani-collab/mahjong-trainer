@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/ryankan-vs-aryanmen-shape"),
   title: "麻雀のリャンカンと亜両面｜両方ある牌姿の選び方",
   description: "麻雀中級者向けに、リャンカンと亜両面が同時にある牌姿を短い要点で解説。受け入れ枚数、良形率、雀頭候補から残す形を比較します。"
 };

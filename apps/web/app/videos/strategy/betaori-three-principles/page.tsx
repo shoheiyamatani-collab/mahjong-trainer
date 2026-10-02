@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/betaori-three-principles"),
   title: "麻雀のベタオリで重要な考え方3選 | オリ打ちを減らす守備",
   description: "複数の現物を切る順番、現物もスジもないときの選び方、放銃パターンの比較を短い要点で解説。ベタオリで振り込むオリ打ちを減らす動画記事です。"
 };

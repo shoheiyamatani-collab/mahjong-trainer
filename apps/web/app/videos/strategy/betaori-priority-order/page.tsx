@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/betaori-priority-order"),
   title: "麻雀のベタオリ優先順位｜スジ・ワンチャンス・無スジを比較",
   description: "麻雀中級者向けに、ベタオリで切る牌の優先順位を短い要点で解説。スジ、序盤の外側、ワンチャンス、モロひっかけ、無スジの危険度を整理します。"
 };

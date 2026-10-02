@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/seven-strong-shapes-for-winning"),
   title: "麻雀初心者が覚えたい強い形7選 | アガリ率を上げる牌効率",
   description: "麻雀初心者向けに、四連形、中ぶくれ、一枚飛び、リャンカン、離れリャンカン、カンチャン対子、両面カンチャンを動画と短い要点で解説します。"
 };

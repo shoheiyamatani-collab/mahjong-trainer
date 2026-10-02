@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { TeamPlayerLinks } from "@/components/mleague/TeamPlayerLinks";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { getTeamsWithCurrentPlayers } from "@/lib/mleague/getTeams";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/players"),
   title: "Mリーグ選手名鑑｜チーム別の選手一覧",
   description:
     "Mリーグで活動する麻雀プロを、所属チームごとに確認できる非公式選手名鑑です。",

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/how-to-handle-35677"),
   title: "麻雀の35677は3切り？7切り？複合形の判断を短い要点で解説",
   description: "麻雀中級者向けに、35677から3を切って5677を残す基本と、7を切って3567を残す条件を、頭候補・鳴き・打点・くっつきで整理します。"
 };

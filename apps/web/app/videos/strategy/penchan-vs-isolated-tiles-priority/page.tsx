@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/penchan-vs-isolated-tiles-priority"),
   title: "麻雀のペンチャンと孤立牌の優先順位｜残す形の判断基準",
   description: "麻雀中級者向けに、ペンチャンと孤立牌3〜7のどちらを残すか短い要点で解説。シャンテン数、最終待ち、タンヤオ、巡目から判断します。"
 };

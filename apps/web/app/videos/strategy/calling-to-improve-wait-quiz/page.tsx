@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/calling-to-improve-wait-quiz"),
   title: "麻雀の何鳴く問題｜待ちを良くするチー・ポン10問",
   description: "麻雀初心者向けに、テンパイ後のチー・ポンでカンチャンや単騎を両面・多面待ちへ変える考え方を短い要点で解説します。"
 };

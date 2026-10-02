@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { TeamCard } from "@/components/mleague/TeamCard";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { getTeamsWithCurrentPlayers } from "@/lib/mleague/getTeams";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/teams"),
   title: "チーム一覧｜Mリーグ選手名鑑",
   description: "Mリーグ参加チームと現在の所属選手を確認できる非公式一覧です。",
   alternates: { canonical: "/mleague/teams/" },

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/four-tile-shape-vs-floating-tile"),
   title: "麻雀は1シャンテンに取る？4枚形と孤立牌の比較を短い要点で解説",
   description: "麻雀中級者向けに、2457・3568・2356・2458・2568の4枚形と孤立牌を比較。一向聴維持と二向聴戻しの判断を短い要点で解説します。"
 };

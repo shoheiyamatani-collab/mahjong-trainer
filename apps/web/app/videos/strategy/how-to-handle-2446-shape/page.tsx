@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/how-to-handle-2446-shape"),
   title: "麻雀の2446は何を切る？｜複合形の扱いと判断基準",
   description: "麻雀中級者向けに、2446から2・4・6のどれを切るか短い要点で解説。ピンフ、両面変化、ポン、最終待ち、巡目による選択を比較します。"
 };

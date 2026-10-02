@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 
 export const metadata: Metadata = {
-  robots: getRobotsPolicy("/videos/strategy")
+  robots: getRobotsPolicy("/videos/mleague-clips")
 };
 
-export default function StrategyVideoLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function MLeagueClipLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return children;
 }

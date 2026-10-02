@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { siteConfig } from "../siteConfig";
 import { SiteNavigation, type SiteNavItem } from "./SiteNavigation";
 
@@ -34,7 +35,8 @@ const navItems: SiteNavItem[] = [
     activePrefixes: ["/videos"],
     icon: "video",
     kind: "utility",
-    tone: "video"
+    tone: "video",
+    visible: !isAdsenseReviewMode
   },
   {
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
@@ -44,7 +46,7 @@ const navItems: SiteNavItem[] = [
     icon: "mleague",
     kind: "utility",
     tone: "mleague",
-    visible: siteConfig.features.showMLeagueDirectoryLink
+    visible: siteConfig.features.showMLeagueDirectoryLink && !isAdsenseReviewMode
   },
   {
     label: "初心者ロードマップ",
@@ -61,12 +63,17 @@ const navItems: SiteNavItem[] = [
   }
 ];
 
-const footerContentItems = [
+const footerContentItems: { label: string; href: string; external?: boolean }[] = [
   { label: "麻雀解析ツール", href: "/analysis/mahjong-tool" },
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀点数計算ツール", href: "/tools" },
   { label: "麻雀を学ぶ", href: "/learn/guides" },
-  { label: "動画で学ぶ", href: "/videos/strategy" }
+  { label: "動画で学ぶ", href: "/videos/strategy" },
+  {
+    label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
+    href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
+    external: siteConfig.externalSites.mLeaguePlayerDirectory.external
+  }
 ];
 
 const footerInformationItems = [
@@ -115,7 +122,9 @@ export function Footer() {
         <div>
           <p className="siteFooterNavTitle">コンテンツ</p>
           <nav className="siteFooterLinks" aria-label="主要コンテンツ">
-            {footerContentItems.map((item) => (
+            {footerContentItems.map((item) => item.external ? (
+              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a>
+            ) : (
               <Link key={item.label} href={item.href}>{item.label}</Link>
             ))}
           </nav>

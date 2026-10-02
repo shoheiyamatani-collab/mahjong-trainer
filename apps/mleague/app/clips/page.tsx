@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/clips"),
   title: "Mリーグ切り抜きを見る",
   description: "最近のMリーグ切り抜きと、過去の名場面切り抜きを選べるページです。",
   alternates: { canonical: "/mleague/clips/" },

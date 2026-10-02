@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/tile-efficiency-four-rules"),
   title: "麻雀初心者が覚えたい牌効率の4法則 | 動画の見どころを解説",
   description: "発男道場の初心者向け牌効率動画を紹介。対子候補をいくつ残すか、6ブロックをどう5ブロックへ整理するかを、向いている人と注意点も含めて解説します。"
 };

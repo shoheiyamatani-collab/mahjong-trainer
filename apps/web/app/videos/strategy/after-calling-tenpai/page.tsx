@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/after-calling-tenpai"),
   title: "麻雀は鳴いてテンパイした後も手を良くできる",
   description: "副露してテンパイした後、さらにチー・ポンして打点を上げたり、カンチャンを両面へ変えたりする方法を短い要点で解説します。"
 };

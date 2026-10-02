@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/block-count-approach"),
   title: "麻雀はブロック数で打ち方が変わる｜4・5・6ブロックの牌効率",
   description: "麻雀中級者向けに、4・5・6ブロックで打牌方針をどう変えるかを短い要点で解説。ブロックを増やす、維持する、弱い形を減らす判断を整理します。"
 };

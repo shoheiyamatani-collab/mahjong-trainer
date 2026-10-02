@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/prioritize-ukeire-over-shape-change"),
   title: "麻雀の受け入れと変化｜何切るで優先する牌効率の基本",
   description: "麻雀初心者向けに、シャンテン数が進む受け入れと、形だけが良くなる変化の違いを牌姿で比較し、何切るの優先順位を解説します。"
 };

@@ -2,7 +2,7 @@
 const isCloudflarePages = process.env.CF_PAGES === "1";
 
 const nextConfig = {
-  transpilePackages: ["@mahjong-trainer/mahjong-core"],
+  transpilePackages: ["@mahjong-trainer/content-index-policy", "@mahjong-trainer/mahjong-core"],
   ...(isCloudflarePages ? { output: "export" } : {})
 };
 

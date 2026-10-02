@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommendation";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/beginner-win-chance-basics"),
   title: "麻雀初心者が上級者に勝つ確率を上げる4つの基本 | 実戦判断の入門",
   description: "麻雀初心者が対局で迷いにくくなる、手作り・押し引き・リーチ・鳴きの4つの判断基準を動画と短い要点で紹介します。"
 };

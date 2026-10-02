@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -19,17 +20,7 @@ export const metadata: Metadata = {
   authors: [{ name: "雀フォリオ", url: siteConfig.parentUrl }],
   creator: "雀フォリオ",
   publisher: "雀フォリオ",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
+  robots: getRobotsPolicy("/mleague"),
   openGraph: {
     type: "website",
     locale: "ja_JP",

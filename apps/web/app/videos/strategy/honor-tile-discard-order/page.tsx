@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/honor-tile-discard-order"),
   title: "麻雀の字牌の捨て順｜攻めと守りで変わる考え方",
   description: "麻雀初心者向けに、役牌・オタ風・場に見えている枚数から字牌の捨て順を考える方法を短い要点で解説します。"
 };

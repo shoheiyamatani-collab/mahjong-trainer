@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/seven-important-shapes-to-memorize"),
   title: "麻雀初心者が覚えたい重要な形7選 | 牌効率を短い要点で解説",
   description: "麻雀初心者が先に覚えたい四連形、中ぶくれ、両面カンチャン、完全イーシャンテンなど7つの重要形を、動画と短い要点で分かりやすく解説します。"
 };

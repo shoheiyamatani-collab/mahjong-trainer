@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ClipVideoGrid } from "../ClipVideoGrid";
 import { yakumanClips } from "../highlight-clips";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/clips/highlights/yakuman"),
   title: "役満集",
   description: "Mリーグで生まれた役満の名場面切り抜きを掲載するページです。",
   alternates: { canonical: "/mleague/clips/highlights/yakuman/" },

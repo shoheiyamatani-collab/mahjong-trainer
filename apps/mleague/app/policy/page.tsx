@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/policy"),
   title: "掲載方針｜Mリーグ選手名鑑",
   description: "非公式サイトとしての情報確認、出典、画像、イベント、訂正対応の方針です。",
   alternates: { canonical: "/mleague/policy/" },

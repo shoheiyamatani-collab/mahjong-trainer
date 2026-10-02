@@ -27,3 +27,4 @@ apps/mleague/out/
 
 .vercel
 .env*
+!.env.example

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/tile-efficiency-complete-beginner-guide"),
   title: "麻雀の牌効率を基礎から学ぶ｜初心者向け完全ガイド",
   description: "麻雀初心者向けに、シャンテン数、受け入れ、孤立牌、5ブロック理論、完全イーシャンテン・くっつき・ヘッドレスを短い要点で解説します。"
 };

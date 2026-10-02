@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaDefenseBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/no-safe-tile-defense-techniques"),
   title: "現物がないときのベタオリ | 麻雀初心者の放銃を減らす方法",
   description: "相手のリーチに現物がないとき、対子・暗刻を使って切る危険牌の種類を抑える方法と、序盤に切られた牌の外側を比較する守備の考え方を短い要点で解説します。"
 };

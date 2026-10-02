@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { ExternalLink } from "@/components/ExternalLink";
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
@@ -17,6 +18,7 @@ import { getPublishedTeams } from "@/lib/mleague/getTeams";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/stats"),
   title: `Mリーグ${currentSeason} チーム・個人成績`,
   description:
     `Mリーグ${currentSeason}レギュラーシーズンのチーム順位と個人成績を掲載する非公式ページです。`,

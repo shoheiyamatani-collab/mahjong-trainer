@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  BookOpen,
   Calculator,
   CirclePlay,
   Search,
   Target
 } from "lucide-react";
+import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { generateDailyNanikiru, japanDate } from "@mahjong-trainer/mahjong-core";
 import { DailyNanikiruQuestion } from "./components/DailyNanikiruQuestion";
 import { siteConfig } from "./siteConfig";
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
   }
 };
 
-const portalItems = [
+const standardPortalItems = [
   {
     title: "麻雀解析ツール",
     href: "/analysis/mahjong-tool",
@@ -53,8 +55,21 @@ const portalItems = [
   }
 ] as const;
 
+const reviewPortalItems = [
+  standardPortalItems[0],
+  standardPortalItems[1],
+  standardPortalItems[2],
+  {
+    title: "麻雀を学ぶ",
+    href: "/learn/guides",
+    tone: "learning",
+    icon: BookOpen
+  }
+] as const;
+
 export default function HomePage() {
   const initialDailyProblem = generateDailyNanikiru(japanDate());
+  const portalItems = isAdsenseReviewMode ? reviewPortalItems : standardPortalItems;
 
   return (
     <main className="siteMain homePage">
@@ -124,24 +139,39 @@ export default function HomePage() {
                 <Link href="/trainer">練習ツールで実戦力をつける</Link>
                 <p>何切るや点数計算を練習し、牌理チェッカーで受け入れ枚数や良形率まで詳しく確認できます。</p>
               </li>
-              <li>
-                <Link href="/videos/strategy">動画解説で判断の考え方を学ぶ</Link>
-                <p>初心者向けの基礎からプロの実戦解説まで、テーマに合う動画と独自の要約を一緒に読めます。</p>
-              </li>
-              <li>
-                {siteConfig.externalSites.mLeaguePlayerDirectory.external ? (
-                  <a
-                    href={siteConfig.externalSites.mLeaguePlayerDirectory.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Mリーグとプロ雀士を知る
-                  </a>
-                ) : (
-                  <Link href={siteConfig.externalSites.mLeaguePlayerDirectory.href}>Mリーグとプロ雀士を知る</Link>
-                )}
-                <p>最新対局結果、順位、チーム、選手名鑑をまとめて確認し、プロの成績や歩みを追えます。</p>
-              </li>
+              {isAdsenseReviewMode ? (
+                <>
+                  <li>
+                    <Link href="/learn/guides">牌効率・何切る・守備を記事で学ぶ</Link>
+                    <p>牌姿つきの独自解説で、受け入れや待ち、安全牌の考え方を順番に確認できます。</p>
+                  </li>
+                  <li>
+                    <Link href="/tools">点数計算を確認する</Link>
+                    <p>点数計算ツール、点数早見表、練習問題を行き来しながら実戦で使える形にします。</p>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link href="/videos/strategy">動画解説で判断の考え方を学ぶ</Link>
+                    <p>初心者向けの基礎からプロの実戦解説まで、テーマに合う動画と独自の要約を一緒に読めます。</p>
+                  </li>
+                  <li>
+                    {siteConfig.externalSites.mLeaguePlayerDirectory.external ? (
+                      <a
+                        href={siteConfig.externalSites.mLeaguePlayerDirectory.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Mリーグとプロ雀士を知る
+                      </a>
+                    ) : (
+                      <Link href={siteConfig.externalSites.mLeaguePlayerDirectory.href}>Mリーグとプロ雀士を知る</Link>
+                    )}
+                    <p>最新対局結果、順位、チーム、選手名鑑をまとめて確認し、プロの成績や歩みを追えます。</p>
+                  </li>
+                </>
+              )}
             </ul>
           </section>
         </div>

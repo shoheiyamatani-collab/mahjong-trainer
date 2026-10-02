@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ClipVideoGrid } from "../ClipVideoGrid";
 import { memorableClips } from "../highlight-clips";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/mleague/clips/highlights/moments"),
   title: "名場面集",
   description: "Mリーグの劇的な逆転や印象的な対局の切り抜きを掲載するページです。",
   alternates: { canonical: "/mleague/clips/highlights/moments/" },

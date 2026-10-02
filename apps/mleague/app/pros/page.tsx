@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "最高位戦日本プロ麻雀協会の会員プロフィールを、入会期ごとに確認できる非公式名鑑です。",
   alternates: { canonical: "/mleague/pros/" },
-  robots: { index: false, follow: true },
+  robots: getRobotsPolicy("/mleague/pros"),
 };
 
 export default function MahjongProsPage() {

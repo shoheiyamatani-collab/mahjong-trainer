@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  robots: getRobotsPolicy("/videos/strategy/calling-read-fixed-ryanmen-chi"),
   title: "麻雀の鳴き読み｜固定した両面チーから待ちを読む",
   description: "麻雀中級者向けに、固定した両面をチーした後の手出しから通りやすい両面を探す方法を短い要点で解説。フォロー牌と愚形待ちの注意も紹介します。"
 };
