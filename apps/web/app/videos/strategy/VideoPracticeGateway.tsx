@@ -65,7 +65,7 @@ function getRecommendations(guide: VideoGuide, pathname: string): [Recommendatio
 
   if (title.includes("点数") || title.includes("符") || category.includes("点数計算")) {
     return [
-      practice("/trainer#score-beginner", "点数計算問題を解く", "動画で見た点数感覚を、牌姿を使った固定問題で確認できます。"),
+      practice("/trainer/score", "点数計算問題を解く", "動画で見た点数感覚を、牌姿を使った固定問題で確認できます。"),
       analysis("/tools", "点数計算ツールで確認する", "手牌とアガリ方を入力し、役・翻・符と支払いまで確かめられます。")
     ];
   }
@@ -107,14 +107,14 @@ function getRecommendations(guide: VideoGuide, pathname: string): [Recommendatio
 
   if (/配牌|悪配牌|弱い手/.test(topic)) {
     return [
-      practice("/trainer#iishanten-nanikiru", "イーシャンテン何切るを解く", "手を進める一打を選び、受け入れの差を問題形式で確認できます。"),
+      practice("/trainer/iishanten", "イーシャンテン何切るを解く", "手を進める一打を選び、受け入れの差を問題形式で確認できます。"),
       analysis("/analysis/starting-hand", "配牌から狙いを比較する", "配牌を入力し、速度と狙いやすい役の両面から方針を比べられます。")
     ];
   }
 
   if (/鳴き|副露/.test(topic)) {
     const practiceHref = pathname.endsWith("calling-to-improve-wait-quiz")
-      ? "/trainer#seven-shape"
+      ? "/trainer/seven-tile"
       : "/videos/strategy/calling-to-improve-wait-quiz";
     const practiceTitle = pathname.endsWith("calling-to-improve-wait-quiz")
       ? "7枚形で待ちを練習する"
@@ -128,7 +128,7 @@ function getRecommendations(guide: VideoGuide, pathname: string): [Recommendatio
 
   if (/待ち|多面|清一色|7枚形/.test(topic)) {
     return [
-      practice("/trainer#seven-shape", "7枚形トレーニングを始める", "よく出る形を問題で反復し、待ちを見つける速度を上げます。"),
+      practice("/trainer/seven-tile", "7枚形トレーニングを始める", "よく出る形を問題で反復し、待ちを見つける速度を上げます。"),
       analysis("/analysis/mahjong-tool", "牌理チェッカーで待ちを確認する", "手牌を入力して待ち牌と残り枚数を確認し、見落とした形を振り返れます。")
     ];
   }
@@ -138,7 +138,7 @@ function getRecommendations(guide: VideoGuide, pathname: string): [Recommendatio
 
     return [
       practice(
-        isAdvanced ? "/trainer#ukeire-max" : "/trainer#iishanten-nanikiru",
+        isAdvanced ? "/trainer/ukeire-max" : "/trainer/iishanten",
         isAdvanced ? "受け入れMAX何切るに挑戦する" : "イーシャンテン何切るを解く",
         isAdvanced
           ? "複数の有力打牌を選び、受け入れ最大の候補を漏れなく探す練習ができます。"
@@ -149,7 +149,7 @@ function getRecommendations(guide: VideoGuide, pathname: string): [Recommendatio
   }
 
   return [
-    practice("/trainer#iishanten-nanikiru", "実戦形式の何切るを解く", "動画で得た判断基準を使い、まず一問、自分で切る牌を選んでみましょう。"),
+    practice("/trainer/iishanten", "実戦形式の何切るを解く", "動画で得た判断基準を使い、まず一問、自分で切る牌を選んでみましょう。"),
     analysis("/analysis/mahjong-tool", "牌理チェッカーで判断を確かめる", "シャンテン数、受け入れ、良形率を比べ、選んだ一打の根拠を深められます。")
   ];
 }

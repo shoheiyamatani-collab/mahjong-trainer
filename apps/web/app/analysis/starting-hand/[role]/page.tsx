@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { StartingHandAnalysisClient, type AnalysisRoleId } from "../StartingHandAnalysisClient";
 import { StartingHandQueryClient } from "../StartingHandQueryClient";
 
@@ -29,9 +30,12 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const role = normalizeRole((await params).role);
+  const path = `/analysis/starting-hand/${role}`;
   return {
     title: `${ROLE_NAMES[role]}AI単独分析 | 配牌分析`,
     description: `入力した13枚の配牌から${ROLE_NAMES[role]}AIを単独でシミュレーションします。`,
+    alternates: { canonical: "/analysis/starting-hand" },
+    robots: getRobotsPolicy(path),
   };
 }
 

@@ -13329,6 +13329,40 @@ body .roadmapBoardPage {
   line-height: 1.9;
 }
 
+.learningGuideComparisonTable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-block: 24px 12px;
+  color: #244736;
+  font-size: .9rem;
+  line-height: 1.65;
+}
+
+.learningGuideComparisonTable caption {
+  margin-bottom: 12px;
+  text-align: left;
+  color: #53635c;
+  font-size: .85rem;
+}
+
+.learningGuideComparisonTable th,
+.learningGuideComparisonTable td {
+  padding: 12px 10px;
+  border: 1px solid #cfdad4;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.learningGuideComparisonTable th { background: #edf6f0; color: #123d2d; }
+.learningGuideSources { color: #53635c; font-size: .85rem; line-height: 1.8; overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  .learningGuideComparisonTable th,
+  .learningGuideComparisonTable td { padding: 8px 5px; }
+}
+
 .learningGuideScreenshot {
   margin: 36px 0;
   padding: 18px;
@@ -13670,5 +13704,511 @@ body .roadmapBoardPage {
 
   .learningGuidePracticeGrid article {
     padding: 16px;
+  }
+}
+
+/* Trainer portal and learning guides */
+.trainerPageLead {
+  max-width: 68ch;
+  margin: 10px 0 0;
+  color: #506159;
+  line-height: 1.75;
+}
+
+.trainerPageMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.trainerPageMeta span {
+  padding: 5px 9px;
+  border: 1px solid #b9ccc2;
+  color: #315347;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.trainerPortal {
+  margin-top: 18px;
+}
+
+.trainerPortalIntro {
+  max-width: 780px;
+  padding: 34px 0 22px;
+}
+
+.trainerPortalIntro h2,
+.trainerPortalCategory h2,
+.trainerLearningBand h2,
+.toolGuideSection h2 {
+  color: #123d2d;
+}
+
+.trainerPortalIntro h2 {
+  margin: 6px 0 10px;
+  font-size: clamp(1.55rem, 3vw, 2.2rem);
+}
+
+.trainerPortalIntro > p:last-child,
+.trainerPortalCategory > header p {
+  margin: 0;
+  color: #53635c;
+  line-height: 1.75;
+}
+
+.trainerPortalCategory {
+  margin-top: 34px;
+}
+
+.trainerPortalCategory > header {
+  display: grid;
+  grid-template-columns: minmax(140px, .35fr) minmax(260px, 1fr);
+  gap: 24px;
+  align-items: end;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #176a4b;
+}
+
+.trainerPortalCategory h2 {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.trainerPortalGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-left: 1px solid #d3ded8;
+}
+
+.trainerPortalCard {
+  display: flex;
+  min-width: 0;
+  min-height: 250px;
+  padding: 24px;
+  flex-direction: column;
+  border-right: 1px solid #d3ded8;
+  border-bottom: 1px solid #d3ded8;
+  background: #fff;
+}
+
+.toolPreviewFigure {
+  margin: 0 0 20px;
+  min-width: 0;
+  border: 1px solid #d3ded8;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f4f7f5;
+}
+
+.toolPreviewFigure > a {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolPreviewFigure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.toolPreviewFigure > a:focus-visible {
+  outline: 3px solid #08724d;
+  outline-offset: -3px;
+}
+
+.analysisToolChoices > h2 {
+  margin: 0 0 14px;
+  font-size: 1.2rem;
+  color: #123d2d;
+}
+
+.analysisToolPreviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid #d3ded8;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.analysisToolPreview {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  background: #fff;
+}
+
+.analysisToolPreview + .analysisToolPreview {
+  border-left: 1px solid #d3ded8;
+}
+
+.analysisToolPreview h3 {
+  margin: 0 0 8px;
+  color: #123d2d;
+  font-size: 1.22rem;
+}
+
+.analysisToolPreview .toolPreviewFigure > a {
+  aspect-ratio: 16 / 7;
+}
+
+.analysisToolPreview > p {
+  margin: 0 0 18px;
+  color: #53635c;
+  line-height: 1.7;
+}
+
+.analysisToolPreview > .analysisToolPreviewSummary {
+  margin: 0 0 6px;
+  color: #176a4b;
+  font-size: .85rem;
+  font-weight: 800;
+}
+
+.toolPreviewAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: #08724d;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.toolPreviewAction svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+#checker-workspace {
+  scroll-margin-top: 90px;
+}
+
+@media (max-width: 720px) {
+  .analysisToolPreviewGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analysisToolPreview {
+    padding: 20px 16px;
+  }
+
+  .analysisToolPreview + .analysisToolPreview {
+    border-left: 0;
+    border-top: 1px solid #d3ded8;
+  }
+}
+
+.trainerPortalMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.trainerPortalMeta span {
+  padding: 4px 8px;
+  background: #eef6f2;
+  color: #176a4b;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.trainerPortalCard h3 {
+  margin: 0 0 10px;
+  color: #123d2d;
+  font-size: 1.22rem;
+}
+
+.trainerPortalCard > p {
+  margin: 0 0 20px;
+  color: #53635c;
+  line-height: 1.7;
+}
+
+.trainerPortalCard > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  color: #08724d;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.trainerPortalCard > a svg,
+.trainerRelatedGrid a svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+.trainerLearningContent,
+.toolLearningGuide,
+.startingHandLearningGuide {
+  margin-top: 58px;
+  padding-top: 8px;
+  border-top: 1px solid #cfdad4;
+}
+
+.trainerLearningBand,
+.toolGuideSection {
+  margin-top: 44px;
+}
+
+.trainerLearningBand > h2,
+.toolGuideSection > h2 {
+  margin: 6px 0 16px;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+}
+
+.trainerSkillList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 20px 0 0;
+  padding: 1px;
+  list-style: none;
+  background: #d3ded8;
+}
+
+.trainerSkillList li {
+  position: relative;
+  min-width: 0;
+  padding: 20px 18px 20px 46px;
+  background: #fff;
+  color: #263a31;
+  font-weight: 750;
+  line-height: 1.6;
+}
+
+.trainerSkillList li::before {
+  position: absolute;
+  top: 21px;
+  left: 18px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #16815b;
+  content: "";
+}
+
+.trainerStrategyGrid,
+.toolGuideColumns,
+.startingExampleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 34px;
+}
+
+.trainerStrategyGrid > section {
+  position: relative;
+  min-width: 0;
+  padding: 22px 0 6px 54px;
+  border-top: 1px solid #cfdad4;
+}
+
+.trainerStrategyGrid > section > span {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  color: #b45e00;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.trainerStrategyGrid h3,
+.toolGuideColumns h3,
+.startingExampleGrid h3 {
+  margin: 0 0 10px;
+  color: #123d2d;
+  font-size: 1.08rem;
+}
+
+.trainerStrategyGrid p,
+.toolGuideSection p,
+.toolGuideColumns p,
+.startingExampleGrid p {
+  color: #42554c;
+  line-height: 1.8;
+}
+
+.trainerStrategyGrid ul,
+.trainerReviewBand ul,
+.toolGuideSteps {
+  padding-left: 1.3rem;
+  color: #42554c;
+  line-height: 1.8;
+}
+
+.trainerReviewBand {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  background: #f5f8f6;
+}
+
+.trainerReviewBand > div {
+  min-width: 0;
+  padding: 28px;
+}
+
+.trainerReviewBand > div + div {
+  border-left: 1px solid #cfdad4;
+}
+
+.trainerReviewBand h2 {
+  margin: 6px 0 12px;
+  font-size: 1.3rem;
+}
+
+.trainerRelatedGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid #cfdad4;
+  border-left: 1px solid #cfdad4;
+}
+
+.trainerRelatedGrid a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 14px;
+  min-width: 0;
+  padding: 20px;
+  border-right: 1px solid #cfdad4;
+  border-bottom: 1px solid #cfdad4;
+  color: #123d2d;
+}
+
+.trainerRelatedGrid a strong,
+.trainerRelatedGrid a span {
+  min-width: 0;
+}
+
+.trainerRelatedGrid a span {
+  color: #53635c;
+  font-size: .92rem;
+  line-height: 1.6;
+}
+
+.trainerRelatedGrid a svg {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: center;
+  color: #16815b;
+}
+
+.trainerNextNav {
+  padding: 28px 0 12px;
+  border-top: 1px solid #cfdad4;
+}
+
+.trainerNextNav > div,
+.toolGuideLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.trainerNextNav a,
+.toolGuideLinks a {
+  color: #08724d;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.toolGuideColumns > section,
+.startingExampleGrid > article {
+  min-width: 0;
+  padding: 20px 0;
+  border-top: 1px solid #cfdad4;
+}
+
+.toolGuideFaq details {
+  border-top: 1px solid #cfdad4;
+}
+
+.toolGuideFaq details:last-child {
+  border-bottom: 1px solid #cfdad4;
+}
+
+.toolGuideFaq summary {
+  padding: 18px 0;
+  color: #123d2d;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.toolGuideFaq details p {
+  margin: 0 0 20px;
+}
+
+.toolGuideLinks {
+  margin-top: 42px;
+  padding: 24px 0;
+  border-top: 1px solid #cfdad4;
+  border-bottom: 1px solid #cfdad4;
+}
+
+.startingExampleCandidates {
+  color: #9a4f00 !important;
+  font-weight: 850;
+}
+
+.toolGuideSteps li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 720px) {
+  .trainerPortalCategory > header {
+    display: block;
+  }
+
+  .trainerPortalCategory > header p {
+    margin-top: 8px;
+  }
+
+  .trainerPortalGrid,
+  .trainerSkillList,
+  .trainerStrategyGrid,
+  .trainerReviewBand,
+  .trainerRelatedGrid,
+  .toolGuideColumns,
+  .startingExampleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .trainerPortalCard {
+    min-height: 0;
+    padding: 20px 16px;
+  }
+
+  .trainerLearningContent,
+  .toolLearningGuide,
+  .startingHandLearningGuide {
+    margin-top: 42px;
+  }
+
+  .trainerReviewBand > div {
+    padding: 22px 18px;
+  }
+
+  .trainerReviewBand > div + div {
+    border-top: 1px solid #cfdad4;
+    border-left: 0;
+  }
+
+  .trainerStrategyGrid > section {
+    padding-left: 42px;
   }
 }

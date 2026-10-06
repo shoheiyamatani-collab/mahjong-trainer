@@ -1,0 +1,5 @@
+[
+  { "logId": "2018031609gm-00a9-0000-fe2e9a07", "referenceUrl": "https://ameblo.jp/banana777-big/entry-12360810589.html", "round": "南1局", "honba": 0, "player": 0, "eventSequences": [597, 605, 613], "pattern": ["7p:tedashi", "9s:tsumogiri", "8p:tedashi"], "status": "candidate", "permissionConfirmed": false },
+  { "logId": "2025011112gm-00a9-0000-09d1a6ab", "referenceUrl": "https://note.com/kotora_ishii/n/n476d457e80d6", "round": "南3局", "honba": 0, "player": 2, "eventSequences": [724, 732, 740], "pattern": ["8s:tedashi", "8s:tedashi", "9s:tedashi"], "status": "candidate", "permissionConfirmed": false },
+  { "logId": "2020060510gm-00a9-0000-689e461d", "referenceUrl": "https://ameblo.jp/amenpotehu/entry-12602803251.html", "round": "東3局", "honba": 3, "player": 1, "eventSequences": [565, 573, 581, 586, 587], "pattern": ["8s:tedashi", "8m:tsumogiri", "1s:tsumogiri", "1p:pon", "3p:tedashi"], "status": "candidate", "permissionConfirmed": false }
+]

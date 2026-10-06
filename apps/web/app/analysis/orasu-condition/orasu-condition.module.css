@@ -1,0 +1,129 @@
+.calculator {
+  margin: 32px 0 56px;
+  padding: 28px;
+  border: 1px solid #c8d8d0;
+  border-top: 5px solid #087653;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(16, 54, 42, 0.08);
+  color: #173f33;
+}
+.toolHeading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding-bottom: 22px; border-bottom: 1px solid #d8e2dd; }
+.toolHeading h2 { margin: 4px 0 8px; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: 0; }
+.toolHeading p { margin: 0; line-height: 1.8; }
+.kicker { color: #b45a00; font-size: 0.78rem; font-weight: 800; }
+.resetButton, .calculateButton, .nudgeButtons button, .segmented button, .tabs button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; border: 1px solid #9ab7aa; border-radius: 6px; background: #fff; color: #124535; font: inherit; font-weight: 700; cursor: pointer; }
+.resetButton { flex: 0 0 auto; padding: 0 14px; }
+.scoreGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.scoreField { padding: 15px; border: 1px solid #ccd9d3; border-radius: 6px; background: #f8fbf9; }
+.scoreField.isSelf { border-color: #087653; background: #edf7f2; box-shadow: inset 0 3px 0 #087653; }
+.scoreField label { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 9px; font-weight: 800; }
+.scoreField label strong { color: #087653; font-size: 0.78rem; }
+.scoreInputRow { display: flex; align-items: center; gap: 7px; }
+.scoreInputRow input { min-width: 0; width: 100%; height: 44px; padding: 0 9px; border: 1px solid #9eb5aa; border-radius: 5px; background: #fff; color: #173f33; font: inherit; font-size: 1.08rem; font-weight: 800; }
+.scoreInputRow span { white-space: nowrap; font-size: 0.86rem; }
+.nudgeButtons { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 9px; }
+.nudgeButtons button { min-height: 32px; padding: 0 5px; font-size: 0.74rem; }
+.settingsGrid { display: grid; grid-template-columns: 1.35fr 1.35fr 0.65fr 0.65fr; gap: 18px; margin-top: 24px; }
+.settingsGrid fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.settingsGrid legend, .numberSetting span { display: block; margin-bottom: 8px; color: #49655b; font-size: 0.85rem; font-weight: 800; }
+.segmented { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 5px; }
+.segmented button { min-width: 0; padding: 0 8px; font-size: 0.82rem; }
+.segmented button.isSelected { border-color: #087653; background: #087653; color: #fff; }
+.numberSetting input { width: 100%; height: 43px; padding: 0 10px; border: 1px solid #9eb5aa; border-radius: 5px; font: inherit; font-weight: 800; }
+.tieFieldset { grid-column: 1 / -1; max-width: 460px; }
+.currentRanking { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; margin-top: 24px; padding: 16px; border: 1px solid #d6e1dc; border-radius: 6px; background: #f6f8f7; }
+.currentRanking > strong { padding-top: 5px; }
+.currentRanking ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.currentRanking li { display: flex; flex-direction: column; gap: 2px; padding: 6px 10px; border-left: 3px solid #c6d3cd; }
+.currentRanking li.selfRank { border-color: #087653; color: #075f44; }
+.currentRanking span { font-size: 0.78rem; }
+.currentRanking b { font-size: 0.98rem; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; margin-top: 28px; border-bottom: 2px solid #087653; }
+.tabs button { border: 0; border-radius: 0; background: #edf3f0; }
+.tabs button.isActiveTab { background: #087653; color: #fff; }
+.calculateButton { width: 100%; min-height: 52px; margin-top: 18px; border-color: #087653; background: #087653; color: #fff; font-size: 1rem; }
+.calculateButton:hover { background: #065e43; }
+.errorBox { margin-top: 16px; padding: 12px 15px; border-left: 4px solid #b83d31; background: #fff1ef; color: #7c2119; }
+.errorBox p { margin: 0; }
+.errorBox p + p { margin-top: 4px; }
+.resultArea { margin-top: 22px; }
+.resultSummary { display: grid; grid-template-columns: 1fr auto; gap: 2px 18px; align-items: center; padding: 18px 20px; border: 1px solid #e0bd70; border-radius: 6px; background: #fff9e9; }
+.resultSummary p, .resultSummary span { margin: 0; }
+.resultSummary strong { grid-row: span 2; font-size: 1.7rem; color: #8c4c00; }
+.resultSummary span { color: #6a6252; font-size: 0.8rem; }
+.successSummary { padding: 18px 20px; border: 1px solid #8fb9a7; border-radius: 6px; background: #edf7f2; }
+.successSummary strong { color: #076144; font-size: 1.15rem; }
+.successSummary p { margin: 6px 0 0; }
+.easiestRoute { display: flex; justify-content: space-between; gap: 18px; margin-top: 10px; padding: 14px 18px; border-left: 4px solid #087653; background: #eff7f3; }
+.easiestRoute span { color: #536b62; font-size: 0.82rem; font-weight: 700; }
+.easiestRoute strong { text-align: right; }
+.noRoute { margin-top: 10px; padding: 14px 18px; border-left: 4px solid #b83d31; background: #fff1ef; color: #7c2119; }
+.resultGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+.resultCard { min-width: 0; padding: 18px; border: 1px solid #ccd9d3; border-radius: 6px; background: #fff; }
+.resultCard h3 { margin: 0 0 5px; font-size: 1.08rem; }
+.resultCard > p { margin: 0 0 14px; color: #51685f; font-size: 0.85rem; line-height: 1.7; }
+.conditionList { display: grid; gap: 9px; }
+.conditionRow { display: flex; justify-content: space-between; gap: 12px; padding: 12px; border: 1px solid #dce4e0; border-radius: 5px; }
+.unreachable { color: #8a3b32; font-size: 0.84rem; }
+.conditionDetail { border: 1px solid #d8e2dd; border-radius: 5px; background: #f8faf9; }
+.conditionDetail + .conditionDetail { margin-top: 9px; }
+.conditionDetail summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 9px 12px; cursor: pointer; }
+.conditionDetail summary span { color: #087653; font-size: 0.76rem; font-weight: 800; white-space: nowrap; }
+.detailBody { padding: 0 12px 12px; }
+.detailBody > p { margin: 0 0 8px; color: #50665d; font-size: 0.82rem; }
+.tableScroll { overflow-x: auto; }
+.scoreTable { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.scoreTable th, .scoreTable td { padding: 7px 6px; border-top: 1px solid #dbe3df; text-align: right; white-space: nowrap; }
+.scoreTable th:first-child { text-align: left; }
+.selfTableRow { background: #eaf5f0; color: #075f44; }
+.ruleNote { margin: 14px 0 0; color: #5c6e67; font-size: 0.78rem; line-height: 1.7; }
+.drawPanel fieldset { margin: 18px 0 0; padding: 16px; border: 1px solid #d4dfda; border-radius: 6px; }
+.drawPanel legend { padding: 0 6px; font-weight: 800; }
+.checkboxGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.checkboxGrid label { display: flex; align-items: center; gap: 8px; padding: 10px; border: 1px solid #d8e2dd; border-radius: 5px; cursor: pointer; }
+.checkboxGrid input { width: 18px; height: 18px; accent-color: #087653; }
+.learningText { max-width: 860px; color: #334f46; line-height: 1.9; }
+.explanationGrid, .exampleGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.explanationGrid article, .exampleGrid article { padding: 20px; border: 1px solid #cedbd5; border-top: 4px solid #087653; border-radius: 6px; background: #fff; }
+.explanationGrid h3, .exampleGrid h3 { margin: 0 0 8px; font-size: 1rem; }
+.explanationGrid p, .exampleGrid p { margin: 0; color: #4d655c; line-height: 1.75; }
+.exampleGrid strong { display: block; margin: 12px 0 8px; color: #9b4f00; font-size: 1.15rem; }
+.limitList { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; padding-left: 22px; line-height: 1.8; }
+.faqList { display: grid; gap: 9px; }
+.faqList details { border: 1px solid #cedbd5; border-radius: 6px; background: #fff; }
+.faqList summary { padding: 15px 18px; font-weight: 800; cursor: pointer; }
+.faqList p { margin: 0; padding: 0 18px 16px; color: #4d655c; line-height: 1.8; }
+
+@media (max-width: 860px) {
+  .scoreGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .settingsGrid { grid-template-columns: 1fr 1fr; }
+  .tieFieldset { grid-column: 1 / -1; }
+  .currentRanking { grid-template-columns: 1fr; }
+  .currentRanking ol { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .explanationGrid, .exampleGrid, .limitList { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .calculator { margin-top: 22px; padding: 18px 14px; }
+  .toolHeading { flex-direction: column; gap: 14px; }
+  .resetButton { align-self: flex-end; }
+  .scoreField { padding: 11px; }
+  .scoreField label { font-size: 0.82rem; }
+  .scoreInputRow input { font-size: 0.96rem; }
+  .settingsGrid { grid-template-columns: 1fr 1fr; gap: 15px 10px; }
+  .settingsGrid fieldset:first-child, .settingsGrid fieldset:nth-child(2), .tieFieldset { grid-column: 1 / -1; }
+  .segmented button { min-height: 44px; padding: 4px 6px; font-size: 0.75rem; }
+  .currentRanking ol { grid-template-columns: 1fr 1fr; }
+  .resultGrid { grid-template-columns: 1fr; }
+  .resultSummary { grid-template-columns: 1fr; }
+  .resultSummary strong { grid-row: auto; }
+  .easiestRoute { flex-direction: column; gap: 4px; }
+  .easiestRoute strong { text-align: left; }
+  .checkboxGrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 380px) {
+  .scoreGrid { grid-template-columns: 1fr; }
+  .currentRanking ol, .checkboxGrid { grid-template-columns: 1fr; }
+}

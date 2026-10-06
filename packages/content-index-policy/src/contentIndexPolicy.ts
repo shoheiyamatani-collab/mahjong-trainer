@@ -16,6 +16,17 @@ export const isAdsenseReviewMode = process.env.ADSENSE_REVIEW_MODE === "true";
  */
 export const contentIndexPolicy: readonly ContentIndexPolicyRule[] = [
   { path: "/", match: "exact", status: "always-index", reason: "JONGFOLIOの入口" },
+  { path: "/analysis/starting-hand/chanta", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/flush", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/chiitoitsu", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/ikkitsuukan", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/toitoi", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/pinfu", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/tanyao", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/sanshoku", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/analysis/starting-hand/riichi", match: "exact", status: "needs-improvement", reason: "配牌分析の役別プリセット。代表ページへcanonicalを統一" },
+  { path: "/training", match: "exact", status: "needs-improvement", reason: "現行の麻雀トレーニングへ転送する旧URL" },
+  { path: "/training/tedashi-reading", match: "exact", status: "needs-improvement", reason: "天鳳の公開利用確認と実牌譜問題の検品が完了するまでnoindex。承認後にreadyへ変更" },
   { path: "/learn", match: "prefix", status: "always-index", reason: "独自制作の麻雀学習教材" },
   { path: "/analysis", match: "prefix", status: "always-index", reason: "独自制作の解析ツール" },
   { path: "/tools", match: "prefix", status: "always-index", reason: "独自制作の点数計算ツール" },
@@ -72,6 +83,14 @@ export function shouldIndexPath(path: string): boolean {
 
 export function shouldIncludeInSitemap(path: string): boolean {
   return shouldIndexPath(path);
+}
+
+export function hasIndexablePolicyEntryWithin(path: string): boolean {
+  const normalizedPath = normalizePath(path);
+  return contentIndexPolicy.some((rule) =>
+    (rule.path === normalizedPath || rule.path.startsWith(`${normalizedPath}/`))
+    && rule.status !== "needs-improvement"
+  );
 }
 
 export function getRobotsPolicy(path: string) {

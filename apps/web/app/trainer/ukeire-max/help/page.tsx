@@ -19,7 +19,7 @@ export default function UkeireMaxHelpPage() {
         { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
           { "@type": "ListItem", position: 1, name: "雀フォリオ", item: siteUrl },
           { "@type": "ListItem", position: 2, name: "麻雀トレーニング", item: `${siteUrl}/trainer` },
-          { "@type": "ListItem", position: 3, name: "受け入れMAX星人何切る", item: `${siteUrl}/trainer#ukeire-max` },
+          { "@type": "ListItem", position: 3, name: "受け入れMAX星人何切る", item: `${siteUrl}/trainer/ukeire-max` },
           { "@type": "ListItem", position: 4, name: "遊び方", item: url }
         ] }
       ]} />
@@ -29,7 +29,7 @@ export default function UkeireMaxHelpPage() {
           <h1>受け入れMAX星人何切るとは？</h1>
           <p className="toolHelpLead">複数の打牌候補が見えるイーシャンテンから、受け入れが最大になる牌を選ぶ高難易度の何切る練習です。</p>
         </div>
-        <Link href="/trainer#ukeire-max">トレーニングを始める</Link>
+        <Link href="/trainer/ukeire-max">トレーニングを始める</Link>
       </div>
 
       <nav className="analysisHelpNav" aria-label="ページ内メニュー">
@@ -98,7 +98,7 @@ export default function UkeireMaxHelpPage() {
       <section className="analysisNotice toolHelpFinish">
         <h2>10問で受け入れを数える</h2>
         <p>迷った理由まで確認しながら、最大受け入れを見抜く練習を始めましょう。</p>
-        <Link className="analysisBackButton" href="/trainer#ukeire-max">受け入れMAX星人何切るを開く</Link>
+        <Link className="analysisBackButton" href="/trainer/ukeire-max">受け入れMAX星人何切るを開く</Link>
       </section>
     </main>
   );

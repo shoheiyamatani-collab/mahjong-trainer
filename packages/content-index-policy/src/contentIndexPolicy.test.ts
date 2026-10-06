@@ -3,6 +3,7 @@ import {
   canShowAdsOnPath,
   getContentIndexStatus,
   getRobotsPolicy,
+  hasIndexablePolicyEntryWithin,
   shouldIncludeInSitemap,
   shouldIndexPath
 } from "./contentIndexPolicy";
@@ -28,6 +29,10 @@ describe("content index policy", () => {
     "/videos/strategy",
     "/videos/strategy/beginner-win-chance-basics",
     "/videos/mleague-clips",
+    "/analysis/starting-hand/chanta",
+    "/analysis/starting-hand/riichi",
+    "/training",
+    "/training/tedashi-reading",
     "/mleague",
     "/mleague/players/oi-takaharu",
     "/mleague/teams/shibuya-abemas"
@@ -45,5 +50,10 @@ describe("content index policy", () => {
     expect(getRobotsPolicy(path)).toEqual({ index: true, follow: true });
     expect(shouldIncludeInSitemap(path)).toBe(true);
     expect(canShowAdsOnPath(path)).toBe(true);
+  });
+
+  it("announces section sitemaps only when the policy has an indexable entry", () => {
+    expect(hasIndexablePolicyEntryWithin("/learn")).toBe(true);
+    expect(hasIndexablePolicyEntryWithin("/mleague")).toBe(false);
   });
 });

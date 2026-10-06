@@ -1,10 +1,13 @@
 import type { TileFigure } from "../../components/TileFigures";
 import { requestedLearningGuides } from "./requestedGuideData";
+import { ruleComparisonGuide } from "./ruleComparisonGuide";
 
 export type LearningGuideSection = {
   heading: string;
   paragraphs: string[];
   bullets?: string[];
+  table?: { caption: string; headers: string[]; rows: string[][] };
+  sources?: { label: string; href: string }[];
 };
 
 export type LearningGuidePracticeItem = {
@@ -227,7 +230,8 @@ const foundationalLearningGuides: LearningGuide[] = [
 
 export const learningGuides: LearningGuide[] = [
   ...foundationalLearningGuides,
-  ...requestedLearningGuides
+  ...requestedLearningGuides,
+  ruleComparisonGuide
 ];
 
 export function getLearningGuide(slug: string) {

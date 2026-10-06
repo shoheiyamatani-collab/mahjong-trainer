@@ -19,6 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "配牌分析の計算条件",
   description: "手役何狙う？チェッカーの8戦略比較と、各AIの単独分析条件を説明します。",
+  alternates: { canonical: "/analysis/starting-hand/help" }
 };
 
 export default function StartingHandHelpPage() {

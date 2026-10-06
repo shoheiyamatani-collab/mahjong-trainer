@@ -5,7 +5,8 @@ import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteS
 export const metadata: Metadata = {
   title: "実践でよく見る麻雀役一覧 | 頻出役だけを牌図つきで確認",
   description:
-    "麻雀の実戦で頻出するリーチ、役牌、タンヤオ、平和、ツモ、一発、混一色などを初心者向けに牌図つきで整理します。"
+    "麻雀の実戦で頻出するリーチ、役牌、タンヤオ、平和、ツモ、一発、混一色などを初心者向けに牌図つきで整理します。",
+  alternates: { canonical: "/rules/frequent-yaku" }
 };
 
 type FrequentYaku = {

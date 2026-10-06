@@ -422,7 +422,7 @@ export const yakuArticles: YakuArticle[] = [
       answer: "2翻",
       explanation: "混一色は鳴いても成立しますが、門前3翻から1翻下がって2翻になります。白の刻子があれば役牌も複合します。"
     },
-    relatedPractice: { label: "清一色待ち当てを練習する", href: "/trainer" },
+    relatedPractice: { label: "清一色待ち当てを練習する", href: "/trainer/chinitsu" },
     relatedTool: { label: "役一覧に戻る", href: "/rules/yaku" }
   },
   {
@@ -465,7 +465,7 @@ export const yakuArticles: YakuArticle[] = [
       answer: "5翻",
       explanation: "清一色は鳴いても成立しますが、門前6翻から1翻下がって5翻になります。字牌が入っていないことも確認します。"
     },
-    relatedPractice: { label: "清一色待ち当てを練習する", href: "/trainer" },
+    relatedPractice: { label: "清一色待ち当てを練習する", href: "/trainer/chinitsu" },
     relatedTool: { label: "待ち判定ツールを見る", href: "/tools" }
   },
   {

@@ -52,14 +52,14 @@ export interface HandScoreMeld {
 
 type GroupKind = "sequence" | "triplet" | "quad" | "pair";
 
-interface HandGroup {
+export interface HandGroup {
   kind: GroupKind;
   tiles: Tile[];
   open?: boolean;
   concealed?: boolean;
 }
 
-interface StandardHandDecomposition {
+export interface StandardHandDecomposition {
   melds: HandGroup[];
   pair: HandGroup;
 }
@@ -177,6 +177,10 @@ function scoreDecomposition(input: HandScoreInput, decomposition: StandardHandDe
     yaku,
     decomposition
   };
+}
+
+export function standardHandDecompositions(counts: Counts34, melds: HandScoreMeld[] = []): StandardHandDecomposition[] {
+  return decomposeStandardHand(counts, scoreMeldGroups(melds));
 }
 
 function decomposeStandardHand(counts: Counts34, fixedMelds: HandGroup[] = []): StandardHandDecomposition[] {

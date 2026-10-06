@@ -33,7 +33,7 @@ const guideCollections = [
     eyebrow: "DEFENSE",
     title: "守備と鳴きを判断する",
     description: "現物・スジ・カベの違いと、鳴く前の判断基準を整理します。",
-    slugs: ["suji-defense", "kabe-defense", "genbutsu-suji-kabe", "calling-decision"]
+    slugs: ["suji-defense", "kabe-defense", "genbutsu-suji-kabe", "calling-decision", "rule-differences-and-calling"]
   },
   {
     eyebrow: "PRACTICE",

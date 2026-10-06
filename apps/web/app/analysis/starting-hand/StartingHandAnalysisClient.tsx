@@ -46,6 +46,7 @@ import {
 import type { SimulationPerformanceMetrics } from "./simulationWorkerProtocol";
 import { useStrategyRecommendation } from "./useStrategyRecommendation";
 import { StrategyRecommendations } from "./StrategyRecommendations";
+import { StartingHandLearningGuide } from "./StartingHandLearningGuide";
 
 const SAMPLE_HAND = "12m789m19p789s東東白";
 const IMAGE_SUFFIX = "-66-90-l-emb.png";
@@ -718,6 +719,7 @@ export function StartingHandAnalysisClient({
       {rankingResult ? <details className="strategySimulationDetails"><summary>詳細分析：役別シミュレーション</summary><p>各役を強く優先した参考データです。従来の東場・自家東家・ドラを考慮しない条件を維持しています。</p><HandTargetRanking result={rankingResult} counts={counts} /></details> : null}
       {result ? <AnalysisResult result={result} /> : null}
       {process.env.NODE_ENV !== "production" && Object.keys(performanceMetrics).length ? <PerformanceMetrics metrics={performanceMetrics} /> : null}
+      <StartingHandLearningGuide />
     </main>
   );
 }

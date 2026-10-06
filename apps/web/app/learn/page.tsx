@@ -63,6 +63,7 @@ export default function LearnPage() {
             <div className="learnHubLinks">
               <Link href="/analysis/mahjong-tool">麻雀解析ツールを開く</Link>
               <Link href="/tools">麻雀点数計算ツール🔰を開く</Link>
+              <Link href="/analysis/orasu-condition">オーラス条件を計算する</Link>
               <Link href="/trainer">麻雀トレーニングを見る</Link>
             </div>
           </article>

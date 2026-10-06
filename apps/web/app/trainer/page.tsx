@@ -5,6 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpenCheck, CircleHelp, Flame, TableProperties } from "lucide-react";
 import { HandInputStrip } from "../components/HandInputStrip";
+import { MahjongToolLearningGuide } from "../analysis/mahjong-tool/MahjongToolLearningGuide";
+import { AnalysisToolPreviews } from "../analysis/mahjong-tool/AnalysisToolPreviews";
+import { TrainerLearningContent, TrainerPortal } from "./TrainerLearningContent";
+import {
+  getTrainerDefinition,
+  trainerPathByMode,
+  type TrainerMode
+} from "./trainerCatalog";
 import {
   addTile,
   analyzeDiscards,
@@ -52,7 +60,7 @@ import {
   type UkeireMaxQuestion
 } from "@mahjong-trainer/mahjong-core";
 
-type Mode = "checker" | "beginnerIishanten" | "ukeireMax" | "scoreQuizBeginner" | "scoreQuizHard" | "scoring" | "chinitsu" | "sevenShape";
+type Mode = "checker" | "scoring" | TrainerMode;
 
 const TRAINER_HASH_MODES: Record<string, Mode> = {
   "iishanten-nanikiru": "beginnerIishanten",
@@ -61,15 +69,6 @@ const TRAINER_HASH_MODES: Record<string, Mode> = {
   "score-hard": "scoreQuizHard",
   "chinitsu-waits": "chinitsu",
   "seven-shape": "sevenShape"
-};
-
-const TRAINER_MODE_HASHES: Partial<Record<Mode, string>> = {
-  beginnerIishanten: "iishanten-nanikiru",
-  ukeireMax: "ukeire-max",
-  scoreQuizBeginner: "score-beginner",
-  scoreQuizHard: "score-hard",
-  chinitsu: "chinitsu-waits",
-  sevenShape: "seven-shape"
 };
 
 interface AppState {
@@ -880,16 +879,12 @@ export default function Home() {
   const pathname = usePathname();
   const isAnalysisTool = pathname.startsWith("/analysis/mahjong-tool");
   const isScoreCalculator = pathname === "/tools";
-  const initialMode: Mode = isScoreCalculator ? "scoring" : isAnalysisTool ? "checker" : "ukeireMax";
+  const trainerSlug = pathname.match(/^\/trainer\/([^/]+)\/?$/)?.[1];
+  const trainerDefinition = trainerSlug ? getTrainerDefinition(trainerSlug) : undefined;
+  const isTrainerPortal = pathname === "/trainer" || pathname === "/trainer/";
+  const initialMode: Mode = isScoreCalculator ? "scoring" : isAnalysisTool ? "checker" : trainerDefinition?.mode ?? "ukeireMax";
   const [mode, setMode] = useState<Mode>(initialMode);
   const [state, dispatch] = useReducer(reducer, syncCounts(initialCounts));
-  const selectMode = (nextMode: Mode) => {
-    setMode(nextMode);
-    if (!isAnalysisTool && !isScoreCalculator) {
-      const hash = TRAINER_MODE_HASHES[nextMode];
-      if (hash) window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${hash}`);
-    }
-  };
 
   useEffect(() => {
     if (!isAnalysisTool) return;
@@ -905,18 +900,36 @@ export default function Home() {
       return;
     }
 
-    const syncModeFromHash = () => {
-      const hash = window.location.hash.slice(1);
-      setMode(TRAINER_HASH_MODES[hash] ?? "ukeireMax");
-    };
+    if (trainerDefinition) {
+      setMode(trainerDefinition.mode);
+      return;
+    }
 
-    syncModeFromHash();
-    window.addEventListener("hashchange", syncModeFromHash);
-    return () => window.removeEventListener("hashchange", syncModeFromHash);
-  }, [isAnalysisTool, isScoreCalculator]);
+    if (isTrainerPortal) {
+      const redirectLegacyHash = () => {
+        const hash = window.location.hash.slice(1);
+        const legacyMode = TRAINER_HASH_MODES[hash];
+        if (legacyMode !== undefined && legacyMode !== "checker" && legacyMode !== "scoring") {
+          window.location.replace(trainerPathByMode[legacyMode]);
+        }
+      };
 
-  const pageEyebrow = isScoreCalculator ? "Mahjong Score Calculator" : isAnalysisTool ? "Mahjong Analysis Tool" : "Mahjong Training";
-  const pageTitle = isScoreCalculator ? "麻雀点数計算ツール🔰" : isAnalysisTool ? "麻雀解析ツール" : "麻雀トレーニング";
+      redirectLegacyHash();
+      window.addEventListener("hashchange", redirectLegacyHash);
+      return () => window.removeEventListener("hashchange", redirectLegacyHash);
+    }
+  }, [isAnalysisTool, isScoreCalculator, isTrainerPortal, trainerDefinition]);
+
+  const pageEyebrow = isScoreCalculator
+    ? "Mahjong Score Calculator"
+    : isAnalysisTool
+      ? "Mahjong Analysis Tool"
+      : trainerDefinition?.eyebrow ?? "Mahjong Training";
+  const pageTitle = isScoreCalculator
+    ? "麻雀点数計算ツール🔰"
+    : isAnalysisTool
+      ? "麻雀解析ツール"
+      : trainerDefinition?.title ?? "麻雀トレーニング";
 
   return (
     <main className={`shell appWorkspace ${isScoreCalculator ? "scoreWorkspacePage" : isAnalysisTool ? "analysisWorkspacePage" : "trainingWorkspacePage"}`}>
@@ -924,6 +937,13 @@ export default function Home() {
         <div>
           <p className="eyebrow">{pageEyebrow}</p>
           <h1>{pageTitle}</h1>
+          {trainerDefinition ? <p className="trainerPageLead">{trainerDefinition.description}</p> : null}
+          {trainerDefinition ? (
+            <div className="trainerPageMeta" aria-label="トレーニング情報">
+              <span>対象：{trainerDefinition.level}</span>
+              <span>練習内容：{trainerDefinition.focus}</span>
+            </div>
+          ) : null}
         </div>
         {isScoreCalculator ? (
           <div className="toolHeaderLinks">
@@ -948,15 +968,9 @@ export default function Home() {
         ) : null}
       </header>
 
-      {!isScoreCalculator ? <nav className="modeSelector" aria-label="モード">
+      {!isScoreCalculator && !isTrainerPortal ? <nav className="modeSelector" aria-label="モード">
         {isAnalysisTool ? (
-          <section className="modeGroup analysisModeGroup" aria-labelledby="analysis-mode-heading">
-            <div className="modeGroupTitle" id="analysis-mode-heading">麻雀解析ツール</div>
-            <div className="segments">
-              <ModeButton active={mode === "checker"} onClick={() => selectMode("checker")}>牌理チェッカー</ModeButton>
-              <Link className="segment analysisToolLink" href="/analysis/starting-hand">配牌分析</Link>
-            </div>
-          </section>
+          <AnalysisToolPreviews />
         ) : (
           <section className="modeGroup practiceModeGroup" aria-labelledby="practice-mode-heading">
             <div className="modeGroupTitle" id="practice-mode-heading">麻雀トレーニング</div>
@@ -967,9 +981,9 @@ export default function Home() {
                   <div className="practiceLevelTitle">高難易度</div>
                 </div>
                 <div className="segments practiceSegments">
-                  <ModeButton active={mode === "ukeireMax"} onClick={() => selectMode("ukeireMax")}><Flame aria-hidden="true" />受け入れMAX星人何切る</ModeButton>
-                  <ModeButton active={mode === "chinitsu"} onClick={() => selectMode("chinitsu")}><Flame aria-hidden="true" />清一色待ち当て</ModeButton>
-                  <ModeButton active={mode === "scoreQuizHard"} onClick={() => selectMode("scoreQuizHard")}><Flame aria-hidden="true" />点数計算HARD</ModeButton>
+                  <TrainerModeLink active={mode === "ukeireMax"} mode="ukeireMax"><Flame aria-hidden="true" />受け入れMAX星人何切る</TrainerModeLink>
+                  <TrainerModeLink active={mode === "chinitsu"} mode="chinitsu"><Flame aria-hidden="true" />清一色待ち当て</TrainerModeLink>
+                  <TrainerModeLink active={mode === "scoreQuizHard"} mode="scoreQuizHard"><Flame aria-hidden="true" />点数計算HARD</TrainerModeLink>
                 </div>
               </div>
               <div className="practiceLevel beginnerLevel">
@@ -978,9 +992,9 @@ export default function Home() {
                   <div className="practiceLevelTitle">初心者向け</div>
                 </div>
                 <div className="segments practiceSegments">
-                  <ModeButton active={mode === "beginnerIishanten"} onClick={() => selectMode("beginnerIishanten")}><BookOpenCheck aria-hidden="true" />イーシャンテン何切る</ModeButton>
-                  <ModeButton active={mode === "sevenShape"} onClick={() => selectMode("sevenShape")}><BookOpenCheck aria-hidden="true" />7枚形トレーニング</ModeButton>
-                  <ModeButton active={mode === "scoreQuizBeginner"} onClick={() => selectMode("scoreQuizBeginner")}><BookOpenCheck aria-hidden="true" />点数計算問題</ModeButton>
+                  <TrainerModeLink active={mode === "beginnerIishanten"} mode="beginnerIishanten"><BookOpenCheck aria-hidden="true" />イーシャンテン何切る</TrainerModeLink>
+                  <TrainerModeLink active={mode === "sevenShape"} mode="sevenShape"><BookOpenCheck aria-hidden="true" />7枚形トレーニング</TrainerModeLink>
+                  <TrainerModeLink active={mode === "scoreQuizBeginner"} mode="scoreQuizBeginner"><BookOpenCheck aria-hidden="true" />点数計算問題</TrainerModeLink>
                 </div>
               </div>
             </div>
@@ -988,95 +1002,26 @@ export default function Home() {
         )}
       </nav> : null}
 
-      {isAnalysisTool && mode === "checker" ? <CheckerMode state={state} dispatch={dispatch} /> : null}
-      {isAnalysisTool && mode === "checker" ? <AnalysisToolGuide /> : null}
-      {!isAnalysisTool && mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
-      {!isAnalysisTool && mode === "ukeireMax" ? <UkeireMaxMode /> : null}
-      {!isAnalysisTool && mode === "chinitsu" ? <ChinitsuMode /> : null}
-      {!isAnalysisTool && mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
-      {!isAnalysisTool && mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
-      {!isAnalysisTool && mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
+      {isAnalysisTool && mode === "checker" ? <div id="checker-workspace"><CheckerMode state={state} dispatch={dispatch} /></div> : null}
+      {isAnalysisTool && mode === "checker" ? <MahjongToolLearningGuide /> : null}
+      {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "beginnerIishanten" ? <BeginnerIishantenMode /> : null}
+      {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "ukeireMax" ? <UkeireMaxMode /> : null}
+      {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "chinitsu" ? <ChinitsuMode /> : null}
+      {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "sevenShape" ? <SevenShapeTrainingMode /> : null}
+      {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
+      {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
       {isScoreCalculator && mode === "scoring" ? <ScoringMode /> : null}
-      {!isAnalysisTool && !isScoreCalculator ? <TrainerOverview /> : null}
+      {isTrainerPortal ? <TrainerPortal /> : null}
+      {trainerDefinition ? <TrainerLearningContent definition={trainerDefinition} /> : null}
     </main>
   );
 }
 
-function AnalysisToolGuide() {
+function TrainerModeLink({ active, mode, children }: { active: boolean; mode: TrainerMode; children: React.ReactNode }) {
   return (
-    <section className="analysisMethodGuide" aria-labelledby="analysis-method-title">
-      <p className="eyebrow">HOW TO READ</p>
-      <h2 id="analysis-method-title">牌理チェッカーで分かること</h2>
-      <p>
-        14枚の手牌を入力すると、切る牌ごとにシャンテン数を保てる有効牌、その残り枚数、良形率を比較できます。
-        単純な受け入れ枚数だけでなく、次のツモで両面や多面待ちへ進みやすいかまで見て、候補の性質を確かめるためのツールです。
-      </p>
-      <div className="analysisMethodGrid">
-        <section>
-          <h3>受け入れ枚数</h3>
-          <p>シャンテン数を進める牌が山に最大何枚残っているかを示します。まず候補を絞る基準になります。</p>
-        </section>
-        <section>
-          <h3>良形率・超良形率</h3>
-          <p>枚数が同じ候補でも、その先に両面や複合形が残るかを比較できます。速度だけでは見えない形の質を確認できます。</p>
-        </section>
-        <section>
-          <h3>有効牌の内訳</h3>
-          <p>どの牌を引けば前進するのかを牌画像で確認できます。見落としていたくっつきや複合受け入れの復習に使えます。</p>
-        </section>
-      </div>
-      <p className="analysisMethodNote">
-        牌理は判断の土台です。実戦ではドラ、打点、巡目、安全度、点棒状況も合わせて最終的な一打を選んでください。
-      </p>
-      <nav className="analysisMethodLinks" aria-label="牌理チェッカーに関連する学習">
-        <Link href="/trainer#iishanten-nanikiru">イーシャンテン何切るで練習する</Link>
-        <Link href="/learn/glossary">麻雀用語を確認する</Link>
-        <Link href="/videos/strategy/beginner">牌効率の動画解説を見る</Link>
-      </nav>
-    </section>
-  );
-}
-
-function TrainerOverview() {
-  return (
-    <section className="analysisMethodGuide trainerOverview" aria-labelledby="trainer-overview-title">
-      <p className="eyebrow">TRAINING GUIDE</p>
-      <h2 id="trainer-overview-title">麻雀トレーニングの使い方</h2>
-      <p>
-        このページでは、牌効率、受け入れ、待ち、点数計算を、牌を見て自分で答える形式で反復できます。
-        初心者向けは一向聴の何切る、7枚形、基本の点数計算から始められ、高難易度では複雑な受け入れ比較、清一色の待ち、点数計算HARDに挑戦できます。
-      </p>
-      <div className="analysisMethodGrid">
-        <section>
-          <h3>結果の見方</h3>
-          <p>正解だけでなく、有効牌の種類と残り枚数、待ちの形、点数の内訳を確認します。間違えた理由まで振り返ると、似た牌姿でも判断しやすくなります。</p>
-        </section>
-        <section>
-          <h3>実戦へのつなげ方</h3>
-          <p>受け入れが広い打牌は速度の基準になりますが、実戦ではドラ、役、巡目、点棒状況、他家への安全度を含む守備判断も必要です。練習結果を絶対の正解ではなく判断の土台として使います。</p>
-        </section>
-        <section>
-          <h3>繰り返し練習</h3>
-          <p>苦手なモードを続けて解き、迷った形は牌理チェッカーで候補を比較します。基礎用語や考え方が曖昧なときは、初心者ロードマップと学習記事へ戻って復習できます。</p>
-        </section>
-      </div>
-      <p className="analysisMethodNote">
-        本トレーニングは一般的なルールと計算をもとにした学習補助です。採用ルールや場況によって実戦の最善打が変わる点に注意してください。
-      </p>
-      <nav className="analysisMethodLinks" aria-label="麻雀トレーニングに関連する学習">
-        <Link href="/analysis/mahjong-tool">牌理チェッカーで候補を比較する</Link>
-        <Link href="/learn/roadmap">初心者ロードマップで順番に学ぶ</Link>
-        <Link href="/learn/guides">麻雀の学習記事を読む</Link>
-      </nav>
-    </section>
-  );
-}
-
-function ModeButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button className={active ? "segment active" : "segment"} aria-pressed={active} onClick={onClick} type="button">
+    <Link className={active ? "segment active" : "segment"} aria-current={active ? "page" : undefined} href={trainerPathByMode[mode]}>
       {children}
-    </button>
+    </Link>
   );
 }
 

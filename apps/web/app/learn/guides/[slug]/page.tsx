@@ -61,6 +61,12 @@ export default async function GuidePage({ params }: GuidePageProps) {
             <h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             {section.bullets ? <ul className="deepDiveList">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
+            {section.table ? <table className="learningGuideComparisonTable">
+              <caption>{section.table.caption}</caption>
+              <thead><tr>{section.table.headers.map((header) => <th scope="col" key={header}>{header}</th>)}</tr></thead>
+              <tbody>{section.table.rows.map((row, index) => <tr key={index}>{row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody>
+            </table> : null}
+            {section.sources ? <p className="learningGuideSources">出典：{section.sources.map((source, index) => <span key={source.href}>{index ? " ／ " : ""}<a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a></span>)}</p> : null}
           </section>
         ))}
 

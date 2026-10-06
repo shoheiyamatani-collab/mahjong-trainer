@@ -1,0 +1,44 @@
+[
+  {
+    "logId": "2022092022gm-00a9-0000-ed6553e3", "priority": "S", "referenceUrl": "https://note.com/huui/n/n9ed6019d43a3",
+    "targets": [
+      { "topic": "hand-progress", "from": 30, "to": 30, "expectedFirst": "3m:tedashi", "expectedLast": "3m:tedashi" },
+      { "topic": "discard-order", "from": 30, "to": 38, "expectedFirst": "3m:tedashi", "expectedLast": "2p:tedashi" },
+      { "topic": "taatsu-drop", "from": 26, "to": 42, "expectedFirst": "1p:tedashi", "expectedLast": "2p:tedashi" },
+      { "topic": "discard-order", "from": 32, "to": 48, "expectedFirst": "9p:tedashi", "expectedLast": "6p:tedashi" },
+      { "topic": "tile-neighborhood", "from": 50, "to": 50, "expectedFirst": "6s:tedashi", "expectedLast": "6s:tedashi" }
+    ]
+  },
+  {
+    "logId": "2025072619gm-00a9-0000-249bdf30", "priority": "S", "referenceUrl": "https://note.com/huui/n/n2e26a517bbd2",
+    "targets": [
+      { "topic": "call-progress", "from": 19, "to": 42, "expectedFirst": "東:pon", "expectedLast": "1p:tedashi" },
+      { "topic": "wait-confirmation", "from": 47, "to": 47, "expectedFirst": "南:tedashi", "expectedLast": "南:tedashi" },
+      { "topic": "tile-neighborhood", "from": 50, "to": 50, "expectedFirst": "9p:tedashi", "expectedLast": "9p:tedashi" },
+      { "topic": "hand-composition", "from": 42, "to": 76, "expectedFirst": "1p:tedashi", "expectedLast": "9s:tedashi" },
+      { "topic": "tile-neighborhood", "from": 109, "to": 109, "expectedFirst": "9s:tedashi", "expectedLast": "9s:tedashi", "focusTiles": ["6s", "7s", "8s", "9s"] }
+    ]
+  },
+  {
+    "logId": "2020061309gm-00a9-0000-f2391bf0", "priority": "S", "referenceUrl": "https://note.com/metabeat/n/n0a94d4079485",
+    "targets": [
+      { "topic": "call-progress", "from": 193, "to": 202, "expectedFirst": "白:pon", "expectedLast": "2s:tedashi" },
+      { "topic": "wait-confirmation", "from": 222, "to": 222, "expectedFirst": "北:tedashi", "expectedLast": "北:tedashi" },
+      { "topic": "call-progress", "from": 381, "to": 382, "expectedFirst": "7p:pon", "expectedLast": "6p:tedashi" },
+      { "topic": "call-progress", "from": 411, "to": 460, "expectedFirst": "發:pon", "expectedLast": "6m:tedashi" }
+    ]
+  },
+  {
+    "logId": "2020061807gm-00a9-0000-e5844cd4", "priority": "A", "referenceUrl": "https://note.com/metabeat/n/n838dd46d1c3b",
+    "targets": [
+      { "topic": "call-progress", "from": 391, "to": 404, "expectedFirst": "發:pon", "expectedLast": "6s:tedashi" },
+      { "topic": "tsumogiri-run", "from": 404, "to": 476, "expectedFirst": "6s:tedashi", "expectedLast": "3p:tsumogiri" }
+    ]
+  },
+  {
+    "logId": "2025111819gm-00a9-0000-3727d576", "priority": "A", "referenceUrl": "https://tenhou.net/0/?log=2025111819gm-00a9-0000-3727d576",
+    "targets": [
+      { "topic": "dora-discard", "from": 1280, "to": 1280, "expectedFirst": "東:tedashi", "expectedLast": "東:tedashi" }
+    ]
+  }
+]

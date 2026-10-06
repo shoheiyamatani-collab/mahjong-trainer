@@ -348,7 +348,7 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "基本",
     target: "牌効率を覚えはじめた人",
     focus: "どの牌を切ると受け入れが広いか",
-    href: trainerHref,
+    href: "/trainer/iishanten",
     status: "available"
   },
   {
@@ -356,7 +356,7 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "高難度",
     target: "基本問題に慣れた人",
     focus: "複雑な形の比較と判断速度",
-    href: trainerHref,
+    href: "/trainer/ukeire-max",
     status: "available"
   },
   {
@@ -364,7 +364,7 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "基本",
     target: "テンパイと待ちを覚えたい人",
     focus: "基本形の待ちの見つけ方",
-    href: trainerHref,
+    href: "/trainer/seven-tile",
     status: "available"
   },
   {
@@ -372,7 +372,7 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "中級",
     target: "待ちのパターンを増やしたい人",
     focus: "多面待ちの形を見抜く力",
-    href: trainerHref,
+    href: "/trainer/seven-tile",
     status: "available"
   },
   {
@@ -380,7 +380,7 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "高難度",
     target: "一色手の待ちが苦手な人",
     focus: "清一色の複雑な待ち",
-    href: trainerHref,
+    href: "/trainer/chinitsu",
     status: "available"
   },
   {
@@ -396,7 +396,7 @@ export const trainingItems: TrainingItem[] = [
     difficulty: "中級",
     target: "点数申告に慣れたい人",
     focus: "条件から点数を出す練習",
-    href: scoreCalculatorHref,
+    href: "/trainer/score",
     status: "available"
   }
 ];

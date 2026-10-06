@@ -59,7 +59,8 @@ const tileNames: Record<string, string> = {
   ji4: "北",
   ji5: "發",
   ji6: "白",
-  ji7: "中"
+  ji7: "中",
+  aka1: "赤五萬", aka2: "赤五筒", aka3: "赤五索"
 };
 
 export function getTileName(tile: string) {
@@ -107,7 +108,7 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
                   {row.meld ? (
                     <div className="tileFigureMeld">
                       {row.meld.label ? <span>{row.meld.label}</span> : null}
-                      <div className="articleMeldStrip" aria-label={row.meld.tiles.join("、")}>
+                      <div className="articleMeldStrip" aria-label={row.meld.tiles.map(getTileName).join("、")}>
                         {row.meld.tiles.map((tile, meldIndex) => (
                           <span className={row.meld?.calledIndex === meldIndex ? "articleMeldTile called" : "articleMeldTile"} key={`${row.label}-meld-${tile}-${meldIndex}`}>
                             <img src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
@@ -132,7 +133,16 @@ export function ArticleTileFigures({ figures }: { figures?: TileFigure[] }) {
   );
 }
 
-function TileStrip({ tiles, compact = false }: { tiles: string[]; compact?: boolean }) {
+export function tileAssetName(tile: string, red = false): string {
+  if (/^[1-9][mps]$/.test(tile)) {
+    const suit = tile[1] as "m" | "p" | "s";
+    if (red && tile[0] === "5") return `aka${{ m: 1, p: 2, s: 3 }[suit]}`;
+    return `${{ m: "man", p: "pin", s: "sou" }[suit]}${tile[0]}`;
+  }
+  return ({ 東: "ji1", 南: "ji2", 西: "ji3", 北: "ji4", 發: "ji5", 白: "ji6", 中: "ji7" } as Record<string, string>)[tile] ?? tile;
+}
+
+export function TileStrip({ tiles, compact = false }: { tiles: string[]; compact?: boolean }) {
   return (
     <div className={compact ? "articleTileStrip compact" : "articleTileStrip"} aria-label={tiles.map(getTileName).join("、")}>
       {tiles.map((tile, index) => (

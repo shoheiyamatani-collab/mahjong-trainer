@@ -79,7 +79,7 @@ export default function ScoreCalculatorHelpPage() {
         <nav className="toolHelpRelatedLinks" aria-label="点数計算の関連ページ">
           <Link href="/tools/score-table">点数早見表を見る</Link>
           <Link href="/rules/practical-score">実戦でよく見る点数計算を学ぶ</Link>
-          <Link href="/trainer#score-beginner">点数計算問題を解く</Link>
+          <Link href="/trainer/score">点数計算問題を解く</Link>
         </nav>
       </section>
 

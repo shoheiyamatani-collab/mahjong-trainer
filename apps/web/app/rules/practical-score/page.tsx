@@ -4,7 +4,8 @@ import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteS
 export const metadata: Metadata = {
   title: "実践でよく見る点数計算 | 平和・七対子・副露・40符50符",
   description:
-    "麻雀の実戦で頻出する平和ロン、平和ツモ、平和なし、副露、七対子、50符ロン、40符ツモの点数を牌姿つきで解説します。"
+    "麻雀の実戦で頻出する平和ロン、平和ツモ、平和なし、副露、七対子、50符ロン、40符ツモの点数を牌姿つきで解説します。",
+  alternates: { canonical: "/rules/practical-score" }
 };
 
 type ScoreCase = {
@@ -196,6 +197,7 @@ export default function PracticalScorePage() {
         <div className="linkCardGrid">
           <InternalLinkCard title="初心者向け点数早見表を見る" description="平和・七対子表と通常表を見ながら復習します。" href="/tools/score-table" actionLabel="点数早見表へ" />
           <InternalLinkCard title="点数計算ツールを使う" description="手牌と条件を入力して、実際の点数を確認します。" href="/tools" actionLabel="ツールへ" />
+          <InternalLinkCard title="オーラス条件を計算する" description="持ち点から、目標順位に必要なロン・ツモ条件を確認します。" href="/analysis/orasu-condition" actionLabel="条件計算へ" />
           <InternalLinkCard title="実践でよく使う麻雀の基本へ戻る" description="役、待ち、一向聴の入口へ戻ります。" href="/rules" actionLabel="戻る" />
         </div>
       </section>

@@ -1,0 +1,25 @@
+{
+  "name": "@mahjong-trainer/shorts-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "tsx src/cli.ts",
+    "voice": "tsx src/regenerateVoice.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --project tsconfig.json"
+  },
+  "dependencies": {
+    "@mahjong-trainer/mahjong-core": "workspace:*",
+    "ffmpeg-static": "^5.2.0",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "@types/qrcode": "^1.5.5",
+    "tsx": "^4.20.6",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.1"
+  }
+}

@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: LearnArticlePageProps): Promi
 
   return {
     title: article.seoTitle,
-    description: article.description
+    description: article.description,
+    alternates: { canonical: `/learn/${article.slug}` }
   };
 }
 

@@ -1,0 +1,112 @@
+.page { max-width: 1080px; }
+.header { align-items: start; }
+.header h1 { font-size: 28px; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; font-size: 14px; }
+.workspace { margin: 24px 0 40px; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.levels { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #a4b7ad; border-radius: 6px; overflow: hidden; }
+.levels button { min-width: 88px; min-height: 42px; padding: 8px 16px; border: 0; border-radius: 0; background: white; color: #30463b; }
+.levels button + button { border-left: 1px solid #a4b7ad; }
+.levels button.active { background: #126944; color: white; }
+.restart { display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 1px solid #a4b7ad; border-radius: 6px; background: white; color: #30463b; }
+.restart svg { width: 18px; height: 18px; }
+.small { font-size: 13px; line-height: 1.7; color: #4c6055; }
+.scoreboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 20px; padding: 12px 0; border-block: 1px solid #d5e0da; }
+.scoreboard div { display: flex; align-items: center; gap: 12px; }
+.scoreboard dt { font-size: 13px; color: #52665b; }
+.scoreboard dd { margin: 0; font-size: 20px; font-weight: 700; }
+.game { padding: 0; overflow: hidden; border-radius: 8px; }
+.gameHeader { padding: 16px 22px; background: #126944; color: white; }
+.gameHeader span { color: inherit; font-weight: 700; }
+.position { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 18px 22px 12px; }
+.playerScores { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0 22px; border-block: 1px solid #d5e0da; }
+.playerScores div { padding: 12px 8px; }
+.playerScores div + div { border-left: 1px solid #d5e0da; }
+.playerScores .self { background: #e8f4ed; color: #126944; }
+.playerScores dt { font-size: 13px; }
+.playerScores dd { margin: 4px 0 0; font-size: 20px; font-weight: 700; }
+.context { margin: 14px 22px; font-size: 14px; color: #42574b; line-height: 1.8; }
+.dora { display: flex; gap: 22px; padding: 0 22px 18px; }
+.dora > div { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.dora :global(.articleTileStrip.compact img) { width: 29px; }
+.questionBody { padding: 20px 22px; border-top: 1px solid #d5e0da; background: #f5faf7; }
+.questionBody h2 { margin: 0 0 14px; font-size: 22px; }
+.hand :global(.articleTileStrip) { display: flex; flex-wrap: wrap; gap: 3px; overflow: visible; padding: 0; min-width: 0; }
+.hand :global(.articleTileStrip img) { width: 45px; max-width: none; height: auto; flex: 0 0 45px; }
+.hand :global(.articleTileStrip.compact img) { width: 32px; flex-basis: 32px; }
+.melds { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; }
+.melds > div { display: flex; align-items: center; gap: 8px; }
+.melds span { font-size: 12px; color: #52665b; }
+.rivers { border-top: 1px solid #d5e0da; margin-top: 20px; padding-top: 16px; }
+.rivers h3 { font-size: 14px; }
+.rivers > div { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+.rivers span { font-size: 13px; min-width: 75px; }
+.rivers :global(.articleTileStrip.compact img) { width: 28px; }
+.offered { display: flex; align-items: center; gap: 18px; margin: 24px 0 18px; }
+.offered :global(.articleTileStrip img) { width: 44px; max-width: none; flex: 0 0 44px; }
+.offered p { margin: 0; line-height: 1.8; }
+.answerActions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.answerActions button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px; border: 1px solid #a4b7ad; border-radius: 5px; color: #154d35; background: white; font-weight: 700; }
+.answerActions button:hover:not(:disabled), .answerActions button[aria-pressed="true"] { background: #126944; color: white; }
+.answerActions button:disabled:not([aria-pressed="true"]) { opacity: .45; }
+.answerActions button[aria-pressed="true"] { opacity: 1; }
+.answerActions svg { width: 18px; height: 18px; }
+.answer { padding: 24px 22px; border-top: 1px solid #d5e0da; }
+.answer > p { line-height: 1.9; }
+.answerStatus { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; color: #126944; }
+.answerStatus strong { font-size: 20px; }
+.answerStatus span { font-weight: 700; }
+.answerStatus.needsReview { color: #8a5410; }
+.comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap: 24px; margin-top: 24px; border-top: 1px solid #d5e0da; }
+.branch { min-width: 0; padding-top: 20px; }
+.branch h3 { margin: 0 0 12px; font-size: 18px; }
+.branch .hand :global(.articleTileStrip img) { width: 32px; flex-basis: 32px; }
+.metrics { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 10px; font-size: 14px; }
+.metrics strong { color: #126944; }
+.effective :global(.articleTileStrip) { flex-wrap: wrap; overflow: visible; gap: 3px; }
+.effective :global(.articleTileStrip.compact img) { width: 27px; }
+.effective > span { display: block; font-size: 12px; line-height: 1.8; margin-top: 6px; }
+.values, .tradeoffs { margin: 18px 0 0; }
+.values > div, .tradeoffs > div { border-top: 1px solid #d5e0da; padding: 10px 0; }
+.values dt, .tradeoffs dt { font-size: 13px; color: #52665b; font-weight: 700; }
+.values dd, .tradeoffs dd { margin: 5px 0 0; line-height: 1.8; font-size: 14px; }
+.values dd span { display: block; }
+.warning { background: #fff4e2; color: #7a4310; border-left: 3px solid #cb8122; padding: 10px 12px; font-size: 13px; line-height: 1.8; }
+.checkpoint { border-left: 3px solid #126944; padding-left: 14px; margin-top: 24px; }
+.checkpoint strong { display: block; }
+.resultActions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 22px; }
+.resultActions svg { width: 18px; height: 18px; }
+.result { padding: 24px; }
+.result > strong { display: block; font-size: 28px; color: #126944; }
+.result details { margin-top: 24px; }
+.review { padding-block: 24px; border-top: 1px solid #d5e0da; }
+.review h3 { font-size: 18px; }
+.history { margin-top: 18px; font-size: 14px; }
+.history li { margin-top: 8px; }
+.guide { margin-top: 30px; }
+.example { padding-block: 22px; border-bottom: 1px solid #d5e0da; }
+.example h3 { font-size: 19px; }
+.example p { line-height: 1.9; }
+.page :is(button, a, summary):focus-visible { outline: 3px solid #cf8b22; outline-offset: 3px; }
+@media (max-width: 600px) {
+  .header { display: block; }
+  .header h1 { font-size: 23px; line-height: 1.5; }
+  .scoreboard { gap: 8px; }
+  .scoreboard div { display: block; }
+  .scoreboard dd { margin-top: 4px; font-size: 18px; }
+  .gameHeader { padding: 14px; }
+  .position { padding: 16px 14px 12px; gap: 10px; font-size: 14px; }
+  .playerScores { margin-inline: 14px; }
+  .playerScores div { padding: 10px 5px; }
+  .playerScores dt { font-size: 11px; }
+  .playerScores dd { font-size: 17px; }
+  .context { margin-inline: 14px; font-size: 13px; }
+  .dora { padding-inline: 14px; gap: 18px; }
+  .questionBody, .answer { padding: 20px 14px; }
+  .hand :global(.articleTileStrip img) { width: 37px; flex-basis: 37px; }
+  .answerActions { gap: 8px; }
+  .answerActions button { gap: 5px; font-size: 15px; }
+  .branch + .branch { border-top: 1px solid #d5e0da; }
+  .levels button { min-width: 78px; }
+  .result { padding: 20px 14px; }
+}

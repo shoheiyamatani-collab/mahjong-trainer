@@ -293,8 +293,8 @@ export const requestedLearningGuides: LearningGuide[] = [
         ]
       }
     ],
-    toolLink: { href: "/videos/strategy/advanced", label: "鳴き判断の解説動画を見る", description: "実戦の鳴きや押し引きを、解説動画と短い記事で確認できます。" },
-    relatedSlugs: ["five-block-theory", "beginner-nanikiru-mistakes", "tile-efficiency-and-ukeire"]
+    toolLink: { href: "/trainer/call-or-pass", label: "鳴く？鳴かない？を練習", description: "ポン・チー・スルーを選び、鳴いた後の形と数値、役・打点・守備を比べます。" },
+    relatedSlugs: ["five-block-theory", "beginner-nanikiru-mistakes", "tile-efficiency-and-ukeire", "rule-differences-and-calling"]
   },
   {
     slug: "score-calculation-practice",

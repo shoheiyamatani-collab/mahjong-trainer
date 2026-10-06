@@ -4,7 +4,8 @@ import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteS
 export const metadata: Metadata = {
   title: "実践でよく見る待ち一覧 | 両面・ノベタン・亜両面・三面待ち",
   description:
-    "麻雀の実戦でよく見るペンチャン、カンチャン、シャンポン、両面、ノベタン、亜両面、三面待ち、変則三面待ち、多面待ちを牌図つきで解説します。"
+    "麻雀の実戦でよく見るペンチャン、カンチャン、シャンポン、両面、ノベタン、亜両面、三面待ち、変則三面待ち、多面待ちを牌図つきで解説します。",
+  alternates: { canonical: "/rules/practical-waits" }
 };
 
 type WaitPattern = {

@@ -1,0 +1,66 @@
+{
+  "brand": {
+    "name": "雀フォリオ",
+    "englishName": "JONGFOLIO",
+    "tagline": "麻雀を知る、学ぶ、強くなる。",
+    "colors": {
+      "background": "#f2f5f1",
+      "panel": "#ffffff",
+      "text": "#16221b",
+      "muted": "#5f6c64",
+      "brand": "#0d5a36",
+      "brandStrong": "#083d27",
+      "training": "#c96818",
+      "correct": "#147a47",
+      "line": "#d7e0d9"
+    }
+  },
+  "site": {
+    "baseUrl": "https://jongfolio.com",
+    "routes": {
+      "nani-kiru": "/analysis/mahjong-tool",
+      "machi": "/trainer#chinitsu-waits"
+    }
+  },
+  "paths": {
+    "webPublic": "apps/web/public",
+    "output": "output/shorts",
+    "audioAssets": "packages/shorts-generator/assets/audio"
+  },
+  "video": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "durationSeconds": 25,
+    "showQr": true,
+    "crf": 18,
+    "preset": "medium"
+  },
+  "voicevox": {
+    "url": "http://127.0.0.1:50021",
+    "speakerId": 3,
+    "speedScale": 1.12,
+    "pitchScale": 0,
+    "intonationScale": 1,
+    "volumeScale": 1
+  },
+  "audio": {
+    "volumes": {
+      "voice": 1,
+      "question": 0.34,
+      "tick": 0.18,
+      "correct": 0.34,
+      "soundLogo": 0.5
+    },
+    "files": {
+      "question": "se/quiz-question.mp3",
+      "tick": "se/clock-second-hand-loop.mp3",
+      "correct": "se/quiz-correct.mp3",
+      "soundLogo": "jongfolio-logo.wav"
+    }
+  },
+  "youtube": {
+    "credit": "VOICEVOX:ずんだもん",
+    "hashtags": ["#麻雀", "#何切る", "#何待ち", "#雀フォリオ"]
+  }
+}

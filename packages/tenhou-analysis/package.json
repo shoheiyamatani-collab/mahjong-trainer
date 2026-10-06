@@ -1,0 +1,10 @@
+{
+  "name": "@mahjong-trainer/tenhou-analysis",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts", "./types": "./src/types.ts", "./labels": "./src/labels.ts", "./publication": "./src/publication.ts" },
+  "scripts": { "cli": "tsx src/cli.ts", "test": "vitest run", "typecheck": "tsc --project tsconfig.json" },
+  "dependencies": { "@mahjong-trainer/mahjong-core": "workspace:*", "fast-xml-parser": "^5.11.2" },
+  "devDependencies": { "@types/node": "^22.7.4", "tsx": "^4.20.6", "typescript": "^5.5.4", "vitest": "^2.1.1" }
+}
