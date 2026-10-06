@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "BtcE3X-9-mQ",
-  tag: "10/2 ハイライト",
-  title: "【2026/10/2 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "ugz_SXSIhmw",
+  tag: "10/5 ハイライト",
+  title: "【2026/10/5 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "浅見真紀、尻無濱航、伊達朱里紗、高宮まりの見どころ局を収めた10月2日のMリーグ公式ハイライトです。",
+    "渡辺太、園田賢、滝沢和典、佐々木寿人、佐野ひなこ、仲林圭の見どころ局を収めた10月5日のMリーグ公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=BtcE3X-9-mQ",
-  date: "2026年10月3日公開",
-  competition: "10月2日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=ugz_SXSIhmw",
+  date: "2026年10月6日公開",
+  competition: "10月5日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "BtcE3X-9-mQ",
+    tag: "10/2 ハイライト",
+    title: "【2026/10/2 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "浅見真紀、尻無濱航、伊達朱里紗、高宮まりの見どころ局を収めた10月2日のMリーグ公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=BtcE3X-9-mQ",
+    date: "2026年10月3日公開",
+    competition: "10月2日 Mリーグ公式ハイライト",
+  },
   {
     id: "wPTvnIiNVzs",
     tag: "10/1 ハイライト",
