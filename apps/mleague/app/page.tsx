@@ -51,8 +51,8 @@ function getHighlightHeading(tag: string) {
 const latestHighlightHeading = getHighlightHeading(latestMatchHighlight.tag);
 
 const nextMatch: UpcomingMatch = {
-  "date": "10.6",
-  "day": "火",
+  "date": "10.8",
+  "day": "木",
   "teams": [
     {
       "name": "赤坂ドリブンズ",
@@ -65,71 +65,19 @@ const nextMatch: UpcomingMatch = {
       "teamId": "team-furinkazan"
     },
     {
-      "name": "セガサミーフェニックス",
-      "slug": "sega-sammy-phoenix",
-      "teamId": "team-phoenix"
+      "name": "KADOKAWAサクラナイツ",
+      "slug": "kadokawa-sakura-knights",
+      "teamId": "team-sakuraknights"
     },
     {
-      "name": "TEAM RAIDEN / 雷電",
-      "slug": "team-raiden",
-      "teamId": "team-raiden"
+      "name": "BEAST X",
+      "slug": "beast-x",
+      "teamId": "team-beast"
     }
   ]
 };
 
 const upcomingMatches: UpcomingMatch[] = [
-  {
-    "date": "10.6",
-    "day": "火・B卓",
-    "teams": [
-      {
-        "name": "EARTH JETS",
-        "slug": "earth-jets",
-        "teamId": "team-jets"
-      },
-      {
-        "name": "KADOKAWAサクラナイツ",
-        "slug": "kadokawa-sakura-knights",
-        "teamId": "team-sakuraknights"
-      },
-      {
-        "name": "KONAMI麻雀格闘倶楽部",
-        "slug": "konami-mahjong-fight-club",
-        "teamId": "team-fightclub"
-      },
-      {
-        "name": "U-NEXT Pirates",
-        "slug": "u-next-pirates",
-        "teamId": "team-pirates"
-      }
-    ]
-  },
-  {
-    "date": "10.8",
-    "day": "木・A卓",
-    "teams": [
-      {
-        "name": "赤坂ドリブンズ",
-        "slug": "akasaka-drivens",
-        "teamId": "team-drivens"
-      },
-      {
-        "name": "EX風林火山",
-        "slug": "ex-furinkazan",
-        "teamId": "team-furinkazan"
-      },
-      {
-        "name": "KADOKAWAサクラナイツ",
-        "slug": "kadokawa-sakura-knights",
-        "teamId": "team-sakuraknights"
-      },
-      {
-        "name": "BEAST X",
-        "slug": "beast-x",
-        "teamId": "team-beast"
-      }
-    ]
-  },
   {
     "date": "10.8",
     "day": "木・B卓",
@@ -155,6 +103,58 @@ const upcomingMatches: UpcomingMatch[] = [
         "teamId": "team-pirates"
       }
     ]
+  },
+  {
+    "date": "10.9",
+    "day": "金・A卓",
+    "teams": [
+      {
+        "name": "EX風林火山",
+        "slug": "ex-furinkazan",
+        "teamId": "team-furinkazan"
+      },
+      {
+        "name": "渋谷ABEMAS",
+        "slug": "shibuya-abemas",
+        "teamId": "team-abemas"
+      },
+      {
+        "name": "BEAST X",
+        "slug": "beast-x",
+        "teamId": "team-beast"
+      },
+      {
+        "name": "U-NEXT Pirates",
+        "slug": "u-next-pirates",
+        "teamId": "team-pirates"
+      }
+    ]
+  },
+  {
+    "date": "10.9",
+    "day": "金・B卓",
+    "teams": [
+      {
+        "name": "KADOKAWAサクラナイツ",
+        "slug": "kadokawa-sakura-knights",
+        "teamId": "team-sakuraknights"
+      },
+      {
+        "name": "KONAMI麻雀格闘倶楽部",
+        "slug": "konami-mahjong-fight-club",
+        "teamId": "team-fightclub"
+      },
+      {
+        "name": "セガサミーフェニックス",
+        "slug": "sega-sammy-phoenix",
+        "teamId": "team-phoenix"
+      },
+      {
+        "name": "TEAM RAIDEN / 雷電",
+        "slug": "team-raiden",
+        "teamId": "team-raiden"
+      }
+    ]
   }
 ];
 
@@ -164,39 +164,39 @@ const latestResults: MatchResult[] = [
     "entries": [
       {
         "rank": 1,
-        "player": "日向藍子",
-        "playerSlug": "hinata-aiko",
-        "points": 63.6,
-        "name": "渋谷ABEMAS",
-        "slug": "shibuya-abemas",
-        "teamId": "team-abemas"
+        "player": "瀬戸熊直樹",
+        "playerSlug": "setokuma-naoki",
+        "points": 66.1,
+        "name": "TEAM RAIDEN / 雷電",
+        "slug": "team-raiden",
+        "teamId": "team-raiden"
       },
       {
         "rank": 2,
-        "player": "滝沢和典",
-        "playerSlug": "takizawa-kazunori",
-        "points": 4.9,
-        "name": "KONAMI麻雀格闘倶楽部",
-        "slug": "konami-mahjong-fight-club",
-        "teamId": "team-fightclub"
-      },
-      {
-        "rank": 3,
-        "player": "永井孝典",
-        "playerSlug": "nagai-kosuke",
-        "points": -17.3,
+        "player": "内川幸太郎",
+        "playerSlug": "uchikawa-kotaro",
+        "points": 12.2,
         "name": "EX風林火山",
         "slug": "ex-furinkazan",
         "teamId": "team-furinkazan"
       },
       {
+        "rank": 3,
+        "player": "浅見真紀",
+        "playerSlug": "asami-maki",
+        "points": -28.1,
+        "name": "赤坂ドリブンズ",
+        "slug": "akasaka-drivens",
+        "teamId": "team-drivens"
+      },
+      {
         "rank": 4,
-        "player": "三浦智博",
-        "playerSlug": "miura-tomohiro",
-        "points": -51.2,
-        "name": "EARTH JETS",
-        "slug": "earth-jets",
-        "teamId": "team-jets"
+        "player": "佐野ひなこ",
+        "playerSlug": "sano-hinako",
+        "points": -50.2,
+        "name": "セガサミーフェニックス",
+        "slug": "sega-sammy-phoenix",
+        "teamId": "team-phoenix"
       }
     ]
   },
@@ -205,39 +205,39 @@ const latestResults: MatchResult[] = [
     "entries": [
       {
         "rank": 1,
-        "player": "佐々木寿人",
-        "playerSlug": "sasaki-hisato",
-        "points": 63.4,
-        "name": "KONAMI麻雀格闘倶楽部",
-        "slug": "konami-mahjong-fight-club",
-        "teamId": "team-fightclub"
+        "player": "鈴木たろう",
+        "playerSlug": "suzuki-taro",
+        "points": 82.3,
+        "name": "赤坂ドリブンズ",
+        "slug": "akasaka-drivens",
+        "teamId": "team-drivens"
       },
       {
         "rank": 2,
-        "player": "白鳥翔",
-        "playerSlug": "shiratori-sho",
-        "points": 19.3,
-        "name": "渋谷ABEMAS",
-        "slug": "shibuya-abemas",
-        "teamId": "team-abemas"
+        "player": "醍醐大",
+        "playerSlug": "daigo-hiroshi",
+        "points": 13.2,
+        "name": "セガサミーフェニックス",
+        "slug": "sega-sammy-phoenix",
+        "teamId": "team-phoenix"
       },
       {
         "rank": 3,
-        "player": "逢川恵夢",
-        "playerSlug": "aikawa-megumu",
-        "points": -24.7,
-        "name": "EARTH JETS",
-        "slug": "earth-jets",
-        "teamId": "team-jets"
-      },
-      {
-        "rank": 4,
-        "player": "二階堂亜樹",
-        "playerSlug": "nikaido-aki",
-        "points": -58,
+        "player": "勝又健志",
+        "playerSlug": "katsumata-kenji",
+        "points": -36.2,
         "name": "EX風林火山",
         "slug": "ex-furinkazan",
         "teamId": "team-furinkazan"
+      },
+      {
+        "rank": 4,
+        "player": "萩原聖人",
+        "playerSlug": "hagiwara-masato",
+        "points": -59.3,
+        "name": "TEAM RAIDEN / 雷電",
+        "slug": "team-raiden",
+        "teamId": "team-raiden"
       }
     ]
   },
@@ -246,39 +246,39 @@ const latestResults: MatchResult[] = [
     "entries": [
       {
         "rank": 1,
-        "player": "渡辺太",
-        "playerSlug": "watanabe-futoshi",
-        "points": 64.6,
-        "name": "赤坂ドリブンズ",
-        "slug": "akasaka-drivens",
-        "teamId": "team-drivens"
+        "player": "岡田紗佳",
+        "playerSlug": "okada-sayaka",
+        "points": 70.4,
+        "name": "KADOKAWAサクラナイツ",
+        "slug": "kadokawa-sakura-knights",
+        "teamId": "team-sakuraknights"
       },
       {
         "rank": 2,
-        "player": "佐野ひなこ",
-        "playerSlug": "sano-hinako",
-        "points": 14.6,
-        "name": "セガサミーフェニックス",
-        "slug": "sega-sammy-phoenix",
-        "teamId": "team-phoenix"
+        "player": "石井一馬",
+        "playerSlug": "ishii-kazuma",
+        "points": 1,
+        "name": "EARTH JETS",
+        "slug": "earth-jets",
+        "teamId": "team-jets"
       },
       {
         "rank": 3,
-        "player": "瑞原明奈",
-        "playerSlug": "mizuhara-akina",
-        "points": -17.6,
-        "name": "U-NEXT Pirates",
-        "slug": "u-next-pirates",
-        "teamId": "team-pirates"
+        "player": "高宮まり",
+        "playerSlug": "takamiya-mari",
+        "points": -23.1,
+        "name": "KONAMI麻雀格闘倶楽部",
+        "slug": "konami-mahjong-fight-club",
+        "teamId": "team-fightclub"
       },
       {
         "rank": 4,
-        "player": "鈴木大介",
-        "playerSlug": "suzuki-daisuke",
-        "points": -61.6,
-        "name": "BEAST X",
-        "slug": "beast-x",
-        "teamId": "team-beast"
+        "player": "仲林圭",
+        "playerSlug": "nakabayashi-kei",
+        "points": -48.3,
+        "name": "U-NEXT Pirates",
+        "slug": "u-next-pirates",
+        "teamId": "team-pirates"
       }
     ]
   },
@@ -287,39 +287,39 @@ const latestResults: MatchResult[] = [
     "entries": [
       {
         "rank": 1,
-        "player": "仲林圭",
-        "playerSlug": "nakabayashi-kei",
-        "points": 55.4,
+        "player": "佐々木寿人",
+        "playerSlug": "sasaki-hisato",
+        "points": 65.4,
+        "name": "KONAMI麻雀格闘倶楽部",
+        "slug": "konami-mahjong-fight-club",
+        "teamId": "team-fightclub"
+      },
+      {
+        "rank": 2,
+        "player": "尻無濱航",
+        "playerSlug": "shirinashihama-wataru",
+        "points": 25.2,
+        "name": "KADOKAWAサクラナイツ",
+        "slug": "kadokawa-sakura-knights",
+        "teamId": "team-sakuraknights"
+      },
+      {
+        "rank": 3,
+        "player": "朝倉康心",
+        "playerSlug": "asakura-koshin",
+        "points": -29,
         "name": "U-NEXT Pirates",
         "slug": "u-next-pirates",
         "teamId": "team-pirates"
       },
       {
-        "rank": 2,
-        "player": "中田花奈",
-        "playerSlug": "nakada-kana",
-        "points": 4.8,
-        "name": "BEAST X",
-        "slug": "beast-x",
-        "teamId": "team-beast"
-      },
-      {
-        "rank": 3,
-        "player": "茅森早香",
-        "playerSlug": "kayamori-sayaka",
-        "points": -18.5,
-        "name": "セガサミーフェニックス",
-        "slug": "sega-sammy-phoenix",
-        "teamId": "team-phoenix"
-      },
-      {
         "rank": 4,
-        "player": "園田賢",
-        "playerSlug": "sonoda-ken",
-        "points": -41.7,
-        "name": "赤坂ドリブンズ",
-        "slug": "akasaka-drivens",
-        "teamId": "team-drivens"
+        "player": "三浦智博",
+        "playerSlug": "miura-tomohiro",
+        "points": -61.6,
+        "name": "EARTH JETS",
+        "slug": "earth-jets",
+        "teamId": "team-jets"
       }
     ]
   }
@@ -362,17 +362,17 @@ export default function MatchInformationPage() {
 
           <div
             className="next-match-date"
-            aria-label="2026年10月6日 火曜日 19時開始 A卓"
+            aria-label="2026年10月8日 木曜日 19時開始 A卓"
           >
             <span>{nextMatch.date}</span>
             <div>
-              <strong>TUE / 火</strong>
+              <strong>THU / 木</strong>
               <small>19:00 START</small>
             </div>
           </div>
 
           <div className="next-match-teams">
-            <span className="match-status">MATCH DAY 23 / A卓</span>
+            <span className="match-status">MATCH DAY 25 / A卓</span>
             <ul>
               {nextMatch.teams.map((team) => (
                 <TeamLink team={team} key={team.teamId} />
@@ -404,7 +404,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">10月5日の対局結果</h2>
+            <h2 id="latest-results-title">10月6日の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
@@ -481,7 +481,7 @@ export default function MatchInformationPage() {
           {upcomingMatches.map((match, index) => (
             <li className="upcoming-match-card" key={`${match.date}-${match.day}`}>
               <span className="upcoming-match-number">
-                {String(index + 24).padStart(2, "0")}
+                {String(index + 26).padStart(2, "0")}
               </span>
               <div className="upcoming-match-date">
                 <strong>{match.date}</strong>
@@ -497,7 +497,7 @@ export default function MatchInformationPage() {
         </ol>
 
         <p className="match-source-note">
-          Mリーグ公式の試合日程・結果を2026年10月6日に確認しました。対局予定は変更される場合があります。
+          Mリーグ公式の試合日程・結果を2026年10月8日に確認しました。対局予定は変更される場合があります。
         </p>
       </section>
     </main>

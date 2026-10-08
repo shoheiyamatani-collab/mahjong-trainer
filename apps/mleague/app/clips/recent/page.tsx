@@ -26,7 +26,7 @@ export default function RecentClipsPage() {
       </header>
       <ClipVideoGrid clips={recentClips} ariaLabel="最近の切り抜き動画一覧" numberLabel="NEW" />
       <p className="match-source-note">
-        2026年9月17日にMリーグ公式YouTubeチャンネルの公開状況を確認しました。
+        2026年10月8日にMリーグ公式YouTubeチャンネルの公開状況を確認しました。
       </p>
     </main>
   );
