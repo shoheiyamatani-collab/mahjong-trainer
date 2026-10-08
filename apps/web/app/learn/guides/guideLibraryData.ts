@@ -66,6 +66,24 @@ const libraryDefinitions: LibraryDefinition[] = [
   ] },
   { slug: "rule-differences-and-calling", category: "defense", keywords: "天鳳 雀魂 Mリーグ ラス回避 順位 ルール 鳴き", preview: [
     { row: 0, slice: [10, 12], label: "白の対子" }, { row: 1, result: true, label: "両面待ち", tone: "green", arrowBefore: true }
+  ] },
+  { slug: "furiten-basics", category: "foundation", keywords: "振聴 フリテン ロンできない 同巡 見逃し", preview: [
+    { row: 0, result: true, label: "両面待ち", tone: "blue" }, { row: 1, label: "自分の河", arrowBefore: true }
+  ] },
+  { slug: "betaori-basics", category: "defense", keywords: "ベタオリ 安全牌 現物 リーチ 放銃回避 守備", preview: [
+    { row: 0, slice: [11, 13], label: "手牌の東", tone: "green" }, { row: 1, result: true, label: "相手の現物", arrowBefore: true }
+  ] },
+  { slug: "riichi-or-dama", category: "decision", keywords: "立直 リーチ ダマ ダマテン 打点 手変わり", preview: [
+    { row: 0, slice: [0, 2], label: "待ちを確認", tone: "blue" }, { row: 0, result: true, label: "アガリ牌", tone: "green", arrowBefore: true }
+  ] },
+  { slug: "visible-tiles-and-ukeire", category: "decision", keywords: "見えている牌 公開牌 残り枚数 河 副露 二重計上", preview: [
+    { row: 0, result: true, label: "待ち", tone: "blue" }, { row: 1, label: "公開牌を差し引く", arrowBefore: true }
+  ] },
+  { slug: "orasu-score-conditions", category: "scoring", keywords: "オーラス 逆転 条件 直撃 ツモ 点棒 順位", preview: [
+    { row: 0, slice: [0, 3], label: "暗刻", tone: "blue" }, { row: 1, label: "2600点のロン", tone: "green", arrowBefore: true }
+  ] },
+  { slug: "fu-calculation", category: "scoring", keywords: "符計算 20符 25符 30符 40符 明刻 暗刻 切り上げ", preview: [
+    { row: 2, slice: [0, 3], label: "暗刻4符", tone: "blue" }, { figure: 1, row: 0, label: "カンチャン2符" }
   ] }
 ];
 

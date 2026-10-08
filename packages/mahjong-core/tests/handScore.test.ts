@@ -2,6 +2,19 @@ import { describe, expect, it } from "vitest";
 import { calculateHandScore, parseHand, TILE_NAMES, type HandScoreMeld } from "../src";
 
 describe("automatic hand scoring", () => {
+  it("requires a real yaku before adding dora to a closed ron", () => {
+    const input = { counts: parseHand("345m23445688p789s"), winningTile: "4m" as const, isDealer: false, winMethod: "ron" as const, roundWind: "東" as const, seatWind: "南" as const, dora: 2 };
+    expect(() => calculateHandScore(input)).toThrow("役がありません。");
+    expect(calculateHandScore({ ...input, riichi: true }).score.totalPoints).toBe(5200);
+    expect(calculateHandScore({ ...input, winMethod: "tsumo" }).yaku.map((yaku) => yaku.name)).toContain("門前清自摸和");
+  });
+
+  it("does not give an open no-yaku hand a score for dora alone", () => {
+    const melds: HandScoreMeld[] = [{ kind: "chi", tiles: ["1p", "2p", "3p"] }];
+    const input = { counts: parseHand("456p789s123m東東"), melds, winningTile: "6p" as const, isDealer: false, roundWind: "東" as const, seatWind: "南" as const, dora: 3 };
+    for (const winMethod of ["ron", "tsumo"] as const) expect(() => calculateHandScore({ ...input, winMethod })).toThrow("役がありません。");
+  });
+
   it("scores closed pinfu riichi ron", () => {
     const result = calculateHandScore({
       counts: parseHand("123m456m234p456p22s"),

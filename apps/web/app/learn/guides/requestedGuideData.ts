@@ -256,7 +256,7 @@ export const requestedLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/trainer", label: "安全牌を選ぶ練習へ進む", description: "現物を最初に探し、次にスジとカベを組み合わせる順番を練習できます。" },
-    relatedSlugs: ["suji-defense", "kabe-defense"]
+    relatedSlugs: ["suji-defense", "kabe-defense", "betaori-basics", "furiten-basics"]
   },
   {
     slug: "calling-decision",
@@ -356,7 +356,7 @@ export const requestedLearningGuides: LearningGuide[] = [
       ]
     },
     toolLink: { href: "/tools", label: "点数計算ツールで答え合わせする", description: "役、符、親子、ロン・ツモを入力して支払い点数を確認できます。" },
-    relatedSlugs: ["wait-types", "calling-decision"]
+    relatedSlugs: ["wait-types", "calling-decision", "fu-calculation", "orasu-score-conditions"]
   },
   {
     slug: "what-is-tile-efficiency",

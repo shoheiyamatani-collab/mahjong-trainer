@@ -13302,6 +13302,140 @@ body .roadmapBoardPage {
   margin: 0 auto;
 }
 
+.articleTakeaways {
+  display: grid;
+  grid-template-columns: minmax(180px, .65fr) minmax(0, 1.6fr);
+  gap: 18px 28px;
+  margin: 28px 0;
+  padding: 24px;
+  border-block: 2px solid #176447;
+  background: #f1f7f4;
+}
+
+.articleTakeaways h2 {
+  margin: 0;
+  color: #123d2d;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.articleTakeaways ol {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.articleTakeaways li {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  color: #263b31;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.articleTakeawayNumber {
+  color: #b32625;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.articleTakeaways strong,
+.articleEmphasis {
+  font-weight: 800;
+}
+
+.articleEmphasis--key {
+  background: #fff0b3;
+  color: #253b2f;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.articleEmphasis--caution {
+  color: #b32625;
+}
+
+.learningGuideArticle > .articleSection {
+  display: block;
+  padding: 28px 0;
+  border: 0;
+  border-bottom: 1px solid #d3ded8;
+  border-radius: 0;
+  background: transparent;
+}
+
+.learningGuideArticle > .articleSection > h2,
+.articleReadingBody > .trainerLearningBand > .sectionTitle > h2 {
+  margin: 0 0 18px;
+  padding-left: 12px;
+  border-left: 4px solid #176447;
+  color: #123d2d;
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.6;
+  letter-spacing: 0;
+}
+
+.learningGuideArticle > .articleSection > p,
+.articleReadingBody > .trainerLearningBand > p {
+  margin: 12px 0;
+  color: #38413d;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.95;
+}
+
+.articleDecisionPoint {
+  margin-block: 16px;
+  padding: 12px 16px;
+  border-left: 3px solid #b32625;
+  background: #fff3f2;
+  color: #86211f;
+}
+
+.articleDecisionPoint > span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.articleDecisionPoint > strong {
+  font-weight: 800;
+}
+
+.articleReadingBody {
+  max-width: 920px;
+  margin-inline: auto;
+  scroll-margin-top: 100px;
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  .articleReadingBody { scroll-margin-top: 150px; }
+}
+
+@media (max-width: 760px) {
+  .articleReadingBody { scroll-margin-top: 16px; }
+}
+
+@media (max-width: 640px) {
+  .articleTakeaways {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 20px 16px;
+  }
+
+  .learningGuideArticle > .articleSection > h2,
+  .articleReadingBody > .trainerLearningBand > .sectionTitle > h2 {
+    font-size: 1.2rem;
+  }
+}
+
 .learningGuideHeader {
   padding: 42px 0 30px;
   border-bottom: 3px solid #155d41;
@@ -13627,14 +13761,17 @@ body .roadmapBoardPage {
 }
 
 .learningGuidePracticeTiles {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 2px;
+  align-items: start;
   min-height: 52px;
 }
 
 .learningGuidePracticeTiles img {
-  width: clamp(25px, 3vw, 34px);
+  width: 100%;
+  min-width: 0;
+  max-width: 34px;
+  aspect-ratio: 66 / 90;
   height: auto;
 }
 

@@ -160,6 +160,7 @@ function scoreChiitoitsu(input: HandScoreInput): HandScoreResult | null {
 
 function scoreDecomposition(input: HandScoreInput, decomposition: StandardHandDecomposition): HandScoreResult {
   const yaku = [...detectStandardYaku(decomposition, input), ...situationalYaku(input)];
+  if (!yaku.some((result) => result.han > 0)) throw new Error("役がありません。");
   if (input.dora) yaku.push({ name: "ドラ", han: input.dora });
   const han = yaku.reduce((sum, result) => sum + result.han, 0);
   if (han <= 0) throw new Error("役がありません。");

@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleTileFigures, getTileName } from "../../../components/TileFigures";
 import { JsonLd } from "../../../components/JsonLd";
+import { ArticleTakeaways, ArticleText } from "../../../components/ArticleHighlights";
 import { getSiteUrl } from "../../../seoConfig";
 import { getLearningGuide, learningGuides } from "../guideData";
+import { guideArticleEmphasis } from "../guideHighlights";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
 
@@ -51,15 +53,12 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <p>{guide.lead}</p>
         </header>
 
-        <section className="articleSection">
-          <h2>この記事で分かること</h2>
-          <ul className="articleChecklist">{guide.takeaways.map((item) => <li key={item}>{item}</li>)}</ul>
-        </section>
+        <ArticleTakeaways items={guide.takeaways} />
 
         {guide.sections.map((section) => (
           <section className="articleSection" key={section.heading}>
             <h2>{section.heading}</h2>
-            {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {section.paragraphs.map((paragraph) => <p key={paragraph}><ArticleText text={paragraph} emphasis={guideArticleEmphasis[guide.slug]} /></p>)}
             {section.bullets ? <ul className="deepDiveList">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
             {section.table ? <table className="learningGuideComparisonTable">
               <caption>{section.table.caption}</caption>
@@ -81,7 +80,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
               {guide.practice.items.map((item) => (
                 <article key={item.prompt}>
                   <h3>{item.prompt}</h3>
-                  <div className="learningGuidePracticeTiles" aria-label={item.tiles.map(getTileName).join("、")}>
+                  <div className="learningGuidePracticeTiles" style={{ gridTemplateColumns: `repeat(${item.tiles.length}, minmax(0, 34px))` }} aria-label={item.tiles.map(getTileName).join("、")}>
                     {item.tiles.map((tile, index) => (
                       <img key={`${item.prompt}-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={getTileName(tile)} />
                     ))}

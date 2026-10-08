@@ -45,6 +45,11 @@ export const standaloneTrainerDefinitions = [{
   level: "初級〜上級", focus: "役・速度・打点・守備から鳴き判断を選ぶ力",
   description: "30の実戦的な牌姿でポン・チー・スルーを選び、鳴いた後の手牌と受け入れ、役、打点を比べます。",
   screenshot: { src: "/tool-screenshots/trainer-call-or-pass.jpg", alt: "鳴くかスルーするかを選ぶ手牌、点棒とポン・チー・スルーの回答ボタン", width: 1280, height: 1100 }
+}, {
+  slug: "riichi-or-dama", category: "実戦判断" as const, title: "リーチ？ダマ？トレーニング",
+  level: "初級〜上級", focus: "役・待ち・打点・点棒からリーチ判断を比べる力",
+  description: "30の門前テンパイでリーチかダマを選び、ロン・ツモ点数、手変わり、守備、オーラス条件を比べます。",
+  screenshot: { src: "/tool-screenshots/trainer-riichi-or-dama.jpg", alt: "リーチかダマかを選ぶ13枚の手牌、打牌候補と点棒状況", width: 1280, height: 1100 }
 }];
 
 export const trainerDefinitions: readonly TrainerDefinition[] = [

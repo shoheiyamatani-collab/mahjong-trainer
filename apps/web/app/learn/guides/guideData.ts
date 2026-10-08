@@ -1,6 +1,7 @@
 import type { TileFigure } from "../../components/TileFigures";
 import { requestedLearningGuides } from "./requestedGuideData";
 import { ruleComparisonGuide } from "./ruleComparisonGuide";
+import { practicalLearningGuides } from "./practicalGuideData";
 
 export type LearningGuideSection = {
   heading: string;
@@ -83,7 +84,7 @@ const foundationalLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/analysis/mahjong-tool", label: "牌理チェッカーで受け入れを比較する", description: "14枚の手牌を入力し、打牌候補ごとの有効牌と残り枚数を確認できます。" },
-    relatedSlugs: ["what-is-tile-efficiency", "good-shape-rate", "mahjong-checker-examples"]
+    relatedSlugs: ["what-is-tile-efficiency", "good-shape-rate", "mahjong-checker-examples", "visible-tiles-and-ukeire"]
   },
   {
     slug: "good-shape-rate",
@@ -129,7 +130,7 @@ const foundationalLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/analysis/mahjong-tool", label: "牌理チェッカーで良形率を見る", description: "候補ごとの受け入れ枚数と良形率を同じ画面で比較できます。" },
-    relatedSlugs: ["tile-efficiency-and-ukeire", "wait-types"]
+    relatedSlugs: ["tile-efficiency-and-ukeire", "wait-types", "riichi-or-dama"]
   },
   {
     slug: "wait-types",
@@ -177,7 +178,7 @@ const foundationalLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/rules/practical-waits", label: "実戦でよく見る複合待ちも確認する", description: "ノベタン、亜両面、三面待ちなど、実戦で迷いやすい形を牌図で確認できます。" },
-    relatedSlugs: ["good-shape-rate", "mahjong-checker-examples"]
+    relatedSlugs: ["good-shape-rate", "mahjong-checker-examples", "furiten-basics"]
   },
   {
     slug: "mahjong-checker-examples",
@@ -224,14 +225,15 @@ const foundationalLearningGuides: LearningGuide[] = [
     ],
     screenshot: { src: "/tool-screenshots/ukeire-checker-comparison.png", alt: "牌理チェッカーで打牌候補ごとの受け入れ枚数と良形率を比較している画面", caption: "打牌候補ごとに、進行、牌種類、枚数、良形率、有効牌を比較できます。" },
     toolLink: { href: "/analysis/mahjong-tool", label: "牌理チェッカーを開く", description: "サンプル牌姿から試すことも、自分の14枚を入力して比較することもできます。" },
-    relatedSlugs: ["tile-efficiency-and-ukeire", "good-shape-rate"]
+    relatedSlugs: ["tile-efficiency-and-ukeire", "good-shape-rate", "visible-tiles-and-ukeire"]
   }
 ];
 
 export const learningGuides: LearningGuide[] = [
   ...foundationalLearningGuides,
   ...requestedLearningGuides,
-  ruleComparisonGuide
+  ruleComparisonGuide,
+  ...practicalLearningGuides
 ];
 
 export function getLearningGuide(slug: string) {

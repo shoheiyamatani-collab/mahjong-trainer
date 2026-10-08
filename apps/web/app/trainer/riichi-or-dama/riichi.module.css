@@ -1,0 +1,37 @@
+.workspace > section { scroll-margin-top: 100px; }
+.answers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.candidate { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 18px 0; }
+.candidate :global(.articleTileStrip img) { width: 36px; max-width: 36px; }
+.candidate p { margin: 0; font-size: 14px; }
+.decisionTitle { margin: 12px 0 20px; font-size: 15px; line-height: 1.8; }
+.waitSummary { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 18px; margin-top: 22px; }
+.waitSummary :global(.articleTileStrip.compact img) { width: 27px; }
+.blocked { color: #944915; font-size: 14px; }
+.waitValue { border-top: 1px solid #d5e0da; padding: 14px 0; }
+.waitValue h4 { display: flex; gap: 10px; align-items: center; margin: 0; font-size: 14px; }
+.waitValue h4 :global(.articleTileStrip.compact img) { width: 26px; }
+.waitValue h4 small { display: block; margin-top: 4px; font-size: 12px; color: #53665c; font-weight: 400; }
+.scoreValues { margin: 12px 0 0; }
+.scoreValues > div { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 8px; padding: 8px 0; }
+.scoreValues dt { font-size: 13px; color: #4d6156; }
+.scoreValues dd { margin: 0; min-width: 0; }
+.scoreValues strong { font-size: 16px; }
+.scoreValues span { display: block; margin-top: 5px; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.outcomes { margin-top: 10px; }
+.outcomes summary { font-size: 14px; font-weight: 700; cursor: pointer; }
+.outcomes table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; }
+.outcomes caption { text-align: left; padding: 8px 0; }
+.outcomes th, .outcomes td { border-bottom: 1px solid #d5e0da; padding: 10px 3px; text-align: left; overflow-wrap: anywhere; }
+.outcomes th:first-child { width: 17%; }
+.outcomes th:nth-child(2) { width: 25%; }
+.outcomes th:nth-child(3) { width: 25%; }
+@media (max-width: 600px) {
+  .decisionTitle { font-size: 14px; }
+  .scoreValues strong { font-size: 15px; }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .workspace > section { scroll-margin-top: 150px; }
+}
+@media (max-width: 760px) {
+  .workspace > section { scroll-margin-top: 16px; }
+}

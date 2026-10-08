@@ -46,6 +46,6 @@ describe("learning guide library", () => {
   it("combines search and category filters without changing the original collection", () => {
     expect(filterGuideLibrary(library, "scoring", "スジ")).toEqual([]);
     expect(filterGuideLibrary(library, "all", "見つからないテーマ")).toEqual([]);
-    expect(filterGuideLibrary(library, "all", "")).toHaveLength(15);
+    expect(filterGuideLibrary(library, "all", "")).toHaveLength(learningGuides.length);
   });
 });
