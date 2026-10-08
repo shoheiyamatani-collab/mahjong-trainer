@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { HandScoreMeld, Tile } from "@mahjong-trainer/mahjong-core";
 import { TileStrip, getTileName, tileAssetName } from "../../components/TileFigures";
 import { actionLabels, type CallBranchAnalysis, type CallQuestion, type Tradeoff } from "./callModel";
@@ -8,9 +9,10 @@ export const callStage = (shanten: number) => shanten === 0 ? "テンパイ" : `
 export type PreparedCallQuestion = { question: CallQuestion; multipleChiForms?: boolean; comparison: { pass: CallBranchAnalysis; calls: Array<{ option: CallQuestion["options"][number]; analysis: CallBranchAnalysis }> } };
 
 export function CallHand({ hand, melds = [] }: { hand: Tile[]; melds?: HandScoreMeld[] }) {
-  return <div className={styles.hand}>
+  const tileCount = hand.length + melds.reduce((count, meld) => count + meld.tiles.length, 0);
+  return <div className={styles.hand} style={{ "--call-tile-count": tileCount, "--call-group-tiles": hand.length } as CSSProperties}>
     <TileStrip tiles={hand.map((tile) => tileAssetName(tile))} />
-    {melds.length ? <div className={styles.melds}>{melds.map((meld, index) => <div key={index}><span>{meld.kind === "pon" ? "ポン" : "チー"}</span><TileStrip tiles={meld.tiles.map((tile) => tileAssetName(tile))} compact /></div>)}</div> : null}
+    {melds.length ? <div className={styles.melds}>{melds.map((meld, index) => <div key={index} style={{ "--call-group-tiles": meld.tiles.length } as CSSProperties}><span>{meld.kind === "pon" ? "ポン" : "チー"}</span><TileStrip tiles={meld.tiles.map((tile) => tileAssetName(tile))} compact /></div>)}</div> : null}
   </div>;
 }
 

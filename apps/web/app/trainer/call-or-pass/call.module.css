@@ -31,11 +31,12 @@
 .dora :global(.articleTileStrip.compact img) { width: 29px; }
 .questionBody { padding: 20px 22px; border-top: 1px solid #d5e0da; background: #f5faf7; }
 .questionBody h2 { margin: 0 0 14px; font-size: 22px; }
-.hand :global(.articleTileStrip) { display: flex; flex-wrap: wrap; gap: 3px; overflow: visible; padding: 0; min-width: 0; }
-.hand :global(.articleTileStrip img) { width: 45px; max-width: none; height: auto; flex: 0 0 45px; }
-.hand :global(.articleTileStrip.compact img) { width: 32px; flex-basis: 32px; }
-.melds { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; }
-.melds > div { display: flex; align-items: center; gap: 8px; }
+.hand { --call-tile-width: 45px; display: grid; grid-template-columns: repeat(var(--call-tile-count), minmax(0, 1fr)); align-items: end; gap: 3px; width: 100%; max-width: calc(var(--call-tile-count) * var(--call-tile-width) + (var(--call-tile-count) - 1) * 3px); min-width: 0; }
+.hand > :global(.articleTileStrip), .melds > div { grid-column: span var(--call-group-tiles); }
+.hand :global(.articleTileStrip) { display: grid; grid-template-columns: repeat(var(--call-group-tiles), minmax(0, 1fr)); gap: 3px; overflow: visible; padding: 0; min-width: 0; }
+.hand :global(.articleTileStrip img) { display: block; width: 100%; min-width: 0; max-width: none; height: auto; aspect-ratio: 66 / 90; }
+.melds { display: contents; }
+.melds > div { display: grid; gap: 4px; min-width: 0; }
 .melds span { font-size: 12px; color: #52665b; }
 .rivers { border-top: 1px solid #d5e0da; margin-top: 20px; padding-top: 16px; }
 .rivers h3 { font-size: 14px; }
@@ -60,7 +61,7 @@
 .comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap: 24px; margin-top: 24px; border-top: 1px solid #d5e0da; }
 .branch { min-width: 0; padding-top: 20px; }
 .branch h3 { margin: 0 0 12px; font-size: 18px; }
-.branch .hand :global(.articleTileStrip img) { width: 32px; flex-basis: 32px; }
+.branch .hand { --call-tile-width: 32px; }
 .metrics { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 10px; font-size: 14px; }
 .metrics strong { color: #126944; }
 .effective :global(.articleTileStrip) { flex-wrap: wrap; overflow: visible; gap: 3px; }
@@ -103,7 +104,7 @@
   .context { margin-inline: 14px; font-size: 13px; }
   .dora { padding-inline: 14px; gap: 18px; }
   .questionBody, .answer { padding: 20px 14px; }
-  .hand :global(.articleTileStrip img) { width: 37px; flex-basis: 37px; }
+  .hand { --call-tile-width: 37px; }
   .answerActions { gap: 8px; }
   .answerActions button { gap: 5px; font-size: 15px; }
   .branch + .branch { border-top: 1px solid #d5e0da; }
