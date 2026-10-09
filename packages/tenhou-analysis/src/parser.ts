@@ -1,17 +1,14 @@
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { tileName } from "@mahjong-trainer/mahjong-core";
 import type { LogSource, ParsedLog, ParsedRound, PlayerSnapshot, ReplayEvent, ReplayMeld, ReplayTile } from "./types";
+import { replayTile } from "./replayTiles";
+export { replayTile } from "./replayTiles";
 
 export const MAX_LOG_BYTES = 8 * 1024 * 1024;
 type XmlNode = { [key: string]: unknown; ":@"?: Record<string, string> };
 type MutablePlayer = PlayerSnapshot & { phase: 13 | 14; lastDraw: ReplayTile | null; beforeDraw: ReplayTile[] | null; reachPending: boolean; rinshanPending: boolean };
 const sorted = (tiles: ReplayTile[]) => tiles.slice().sort((a, b) => a.id - b.id);
 const clone = <T>(value: T): T => structuredClone(value);
-
-export function replayTile(id: number, redFives = true): ReplayTile {
-  if (!Number.isInteger(id) || id < 0 || id > 135) throw new Error(`牌の個体IDが不正です: ${id}`);
-  return { id, tile: tileName(Math.floor(id / 4)), red: redFives && [16, 52, 88].includes(id) };
-}
 
 // The bit layout is cross-checked against Tenhou's linked decoder and MahjongRepository's decoder.
 export function decodeMeld(value: number, who: number, redFives = true): ReplayMeld {

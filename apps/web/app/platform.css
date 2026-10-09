@@ -122,8 +122,8 @@ body { background: var(--jf-bg); color: var(--jf-body); font-family: var(--jf-fo
 .platformFrame .homeCheckerPitch { background: var(--jf-analysis-soft); }
 .platformFrame .homeCheckerCta { background: var(--jf-analysis); }
 .platformSrOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-.toolDirectoryControls { display: grid; gap: 16px; margin-bottom: 24px; }
-.toolDirectoryControls .platformSearchForm { width: 100%; max-width: none; margin: 0; }
+.toolDirectoryControls { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; gap: 16px; margin-bottom: 24px; }
+.toolDirectoryControls .platformSearchForm { width: 100%; min-width: 0; max-width: none; margin: 0; }
 .toolDirectoryFilters { display: flex; flex-wrap: wrap; gap: 8px; }
 .toolDirectoryFilters button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--jf-line); border-radius: 6px; background: #fff; color: var(--jf-body); font-weight: 700; }
 .toolDirectoryFilters button[aria-pressed="true"] { background: var(--category); border-color: var(--category); color: #fff; }

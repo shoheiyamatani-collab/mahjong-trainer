@@ -41,6 +41,11 @@ export type TrainerDefinition = {
 };
 
 export const standaloneTrainerDefinitions = [{
+  slug: "combo-theory", category: "実戦判断" as const, title: "コンボ理論トレーニング",
+  level: "初級〜上級", focus: "待ちの組み合わせを枚数とフリテンから数える力",
+  description: "両面・愚形・縦待ちのコンボ数を、計算・比較・実戦形式・シミュレーターで練習します。",
+  screenshot: { src: "/tool-screenshots/trainer-combo-theory.jpg", alt: "コンボ理論の牌とコンボ数回答ボタン", width: 1265, height: 889 }
+}, {
   slug: "call-or-pass", category: "実戦判断" as const, title: "鳴く？鳴かない？トレーニング",
   level: "初級〜上級", focus: "役・速度・打点・守備から鳴き判断を選ぶ力",
   description: "30の実戦的な牌姿でポン・チー・スルーを選び、鳴いた後の手牌と受け入れ、役、打点を比べます。",

@@ -2,6 +2,12 @@ import type { ArticleEmphasis } from "../../components/ArticleHighlights";
 
 // Author-selected phrases; keep article text and emphasis separate.
 export const guideArticleEmphasis: Record<string, ArticleEmphasis[]> = {
+  "combo-theory": [
+    { text: "32コンボは32%を意味しません", tone: "caution" },
+    { text: "他家の河を本人のフリテンとして使ってはいけません", tone: "caution" },
+    { text: "別の対子が成立するかは不明です", tone: "caution" },
+    { text: "同じ指標で比べます", tone: "key" }
+  ],
   "tile-efficiency-and-ukeire": [
     { text: "いきなり受け入れ枚数だけを見ないこと", tone: "caution" },
     { text: "実戦では場に見えている牌も差し引きます", tone: "key" },

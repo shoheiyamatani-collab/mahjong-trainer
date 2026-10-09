@@ -25,3 +25,4 @@ export * from "./practicalTenpai";
 export * from "./recommendation";
 export * from "./orasuCondition";
 export * from "./pushFoldEvaluation";
+export * from "./comboTheory";

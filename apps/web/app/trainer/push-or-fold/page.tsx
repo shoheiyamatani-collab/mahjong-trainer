@@ -42,6 +42,7 @@ export default function PushOrFoldPage() {
     <nav className={shared.breadcrumb} aria-label="パンくず"><Link href="/trainer">麻雀トレーニング</Link><span aria-hidden="true">/</span><span>押す？オリる？</span></nav>
     <header className={`topbar ${shared.header}`}><div><p className="eyebrow">PUSH OR FOLD</p><h1>押す？オリる？トレーニング</h1></div><a className="secondaryCta" href="#push-fold-learning">学習ガイド</a></header>
     <PushFoldTrainingClient prepared={prepared} />
+    <p><Link href="/trainer/combo-theory">コンボ理論トレーニングで、スジ・カベ・フリテンから待ちの組み合わせを数える</Link></p>
     <article id="push-fold-learning" className={`trainerLearningContent articleReadingBody ${shared.guide}`}>
       <section className="trainerLearningBand"><SectionTitle title="このトレーニングで分かること" /><p>相手の攻撃に対して、手を進める価値と失点を避ける価値を自分で比べる練習です。初級は進行度と役、中級は待ちと安全情報、上級は着順や流局の条件まで扱います。安全牌を選ぶだけの問題とは違い、まず「手を続けるか」を考え、その後に最初の一打を比較します。</p></section>
       <ArticleTakeaways items={["進行度・役と打点・今切る牌・残りの機会・点棒の目的を比べる", "現物は相手ごと。スジ・カベは安全の保証ではない", "計算で確認する事実と、教材上の戦術推奨を分ける"]} />

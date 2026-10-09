@@ -6,6 +6,7 @@ export type ToolTone = "analysis" | "learning" | "efficiency" | "waits" | "scori
 export type ToolCatalogItem = { id: string; title: string; href: string; description: string; category: string; tone: ToolTone; level: string; training: boolean; keywords: string[]; screenshot?: ToolPreviewScreenshot };
 export const trainingTone = { 牌効率: "efficiency", 待ち: "waits", 点数計算: "scoring", 実戦判断: "decisions" } as const;
 const keywords: Record<string, string[]> = {
+  "combo-theory": ["コンボ", "危険牌", "守備", "スジ", "カベ", "フリテン", "組み合わせ", "シミュレーター"],
   "ukeire-max": ["何切る", "牌効率", "受け入れ", "有効牌", "MAX"],
   iishanten: ["何切る", "イーシャンテン", "一向聴", "受け入れ", "牌理"],
   "seven-tile": ["何待ち", "待ち読み", "多面待ち", "7枚"],

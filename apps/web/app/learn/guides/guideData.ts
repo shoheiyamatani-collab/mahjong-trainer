@@ -2,6 +2,7 @@ import type { TileFigure } from "../../components/TileFigures";
 import { requestedLearningGuides } from "./requestedGuideData";
 import { ruleComparisonGuide } from "./ruleComparisonGuide";
 import { practicalLearningGuides } from "./practicalGuideData";
+import { comboTheoryGuide } from "./comboTheoryGuide";
 
 export type LearningGuideSection = {
   heading: string;
@@ -233,7 +234,8 @@ export const learningGuides: LearningGuide[] = [
   ...foundationalLearningGuides,
   ...requestedLearningGuides,
   ruleComparisonGuide,
-  ...practicalLearningGuides
+  ...practicalLearningGuides,
+  comboTheoryGuide
 ];
 
 export function getLearningGuide(slug: string) {

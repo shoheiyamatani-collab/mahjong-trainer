@@ -1,5 +1,5 @@
 import { analyzeHandProgress, calculateHandScore, calculateOrasuDraw, emptyCounts, evaluateRiichiLegality, DEFAULT_RIICHI_RULE_CONFIG, handProgressShanten, hasReachedOrasuTarget, ORASU_SEATS, rankOrasuScores, tileIndex, tileName, validateCounts, type Counts34, type HandScoreMeld, type OrasuScores } from "@mahjong-trainer/mahjong-core";
-import { replayTile } from "@mahjong-trainer/tenhou-analysis";
+import { replayTile } from "@mahjong-trainer/tenhou-analysis/tiles";
 import type { ReplayMeld, ReplayTile } from "@mahjong-trainer/tenhou-analysis/types";
 import { doraFromIndicator } from "../call-or-pass/callModel";
 import { getTileName, tileAssetName } from "../../components/TileFigures";

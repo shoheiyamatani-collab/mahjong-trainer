@@ -1,5 +1,5 @@
 import { analyzeHandProgress, countsToTiles, createSeededRandom, DEFAULT_RIICHI_RULE_CONFIG, evaluateRiichiLegality, parseHand, tileIndex, tileName, validateCounts, type Tile } from "@mahjong-trainer/mahjong-core";
-import { replayTile } from "@mahjong-trainer/tenhou-analysis";
+import { replayTile } from "@mahjong-trainer/tenhou-analysis/tiles";
 import type { ReplayMeld, ReplayTile } from "@mahjong-trainer/tenhou-analysis/types";
 import type { CallDifficulty } from "../call-or-pass/callModel";
 import { countsForTiles, knownPushFoldTiles, selfPlayer, validatePushFoldSnapshot } from "./pushFoldAnalysis";

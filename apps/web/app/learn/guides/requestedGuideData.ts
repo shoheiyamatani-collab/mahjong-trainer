@@ -184,7 +184,7 @@ export const requestedLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/trainer", label: "守備も麻雀トレーニングで確認する", description: "攻める場面と安全牌を選ぶ場面を、実際の牌を使って練習できます。" },
-    relatedSlugs: ["kabe-defense", "genbutsu-suji-kabe"]
+    relatedSlugs: ["kabe-defense", "genbutsu-suji-kabe", "combo-theory"]
   },
   {
     slug: "kabe-defense",
@@ -220,7 +220,7 @@ export const requestedLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/trainer", label: "麻雀トレーニングで守備を練習する", description: "場に見えている牌を数えながら、安全度の違いを確かめます。" },
-    relatedSlugs: ["suji-defense", "genbutsu-suji-kabe"]
+    relatedSlugs: ["suji-defense", "genbutsu-suji-kabe", "combo-theory"]
   },
   {
     slug: "genbutsu-suji-kabe",
@@ -256,7 +256,7 @@ export const requestedLearningGuides: LearningGuide[] = [
       }
     ],
     toolLink: { href: "/trainer/push-or-fold", label: "安全情報と手牌価値を比べて練習", description: "リーチや仕掛けに押すかオリるかを選び、現物・スジ・カベの根拠を相手ごとに確認できます。" },
-    relatedSlugs: ["suji-defense", "kabe-defense", "betaori-basics", "furiten-basics"]
+    relatedSlugs: ["suji-defense", "kabe-defense", "betaori-basics", "furiten-basics", "combo-theory"]
   },
   {
     slug: "calling-decision",

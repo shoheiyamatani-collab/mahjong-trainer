@@ -27,7 +27,7 @@ export function HomeLearningHub() {
     </section>
     <nav className="platformCategoryGrid" aria-label="目的から選ぶ">{categories.map(({ title, description, href, tone, Icon }) => <a className="platformCategoryCard" key={title} href={href} data-tone={tone}><Icon aria-hidden="true" /><h2>{title}</h2><p>{description}</p></a>)}</nav>
     <section data-tone="analysis" aria-labelledby="home-frequent-heading"><div className="platformSectionHeading"><h2 id="home-frequent-heading">よく使うツール</h2><Link href="/toolbox">ツールを探す<ArrowRight size={18} aria-hidden="true" /></Link></div><div className="toolCardGrid">{["checker", "calculator", "orasu"].map(id => <ToolCard item={catalog.find(item => item.id === id)!} key={id} />)}</div></section>
-    <section data-tone="training" aria-labelledby="home-training-heading"><div className="platformSectionHeading"><h2 id="home-training-heading">実戦につながる練習</h2><Link href="/trainer">すべてのトレーニングを見る<ArrowRight size={18} aria-hidden="true" /></Link></div><div className="toolCardGrid">{["iishanten", "seven-tile", "push-or-fold"].map(id => <ToolCard item={catalog.find(item => item.id === id)!} key={id} />)}</div></section>
+    <section data-tone="training" aria-labelledby="home-training-heading"><div className="platformSectionHeading"><h2 id="home-training-heading">実戦につながる練習</h2><Link href="/trainer">すべてのトレーニングを見る<ArrowRight size={18} aria-hidden="true" /></Link></div><div className="toolCardGrid">{["iishanten", "seven-tile", "push-or-fold"].map(id => <ToolCard item={catalog.find(item => item.id === id)!} key={id} />)}</div><p className="platformPopularSearches"><Link href="/trainer/combo-theory">コンボ理論で守備の数え方を練習<ArrowRight size={18} aria-hidden="true" /></Link></p></section>
   </>;
 }
 export function HomeLearningPaths() {

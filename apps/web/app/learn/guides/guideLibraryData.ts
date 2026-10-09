@@ -22,6 +22,7 @@ type LibraryDefinition = { slug: string; category: GuideLibraryCategory; keyword
 
 // Thumbnail tiles come from the article itself, so its diagrams stay the source of truth.
 const libraryDefinitions: LibraryDefinition[] = [
+  { slug: "combo-theory", category: "defense", keywords: "コンボ 組み合わせ 危険牌 フリテン 放銃率 シャンポン", preview: [{ row: 0, label: "両面", tone: "blue" }, { row: 4, label: "縦待ち", tone: "green" }] },
   { slug: "five-block-theory", category: "foundation", keywords: "五ブロック 面子 メンツ ターツ 雀頭 対子", preview: [
     { row: 4, label: "対子" }, { row: 0, label: "順子", tone: "blue" }, { row: 1, label: "刻子", tone: "green" }, { row: 2, label: "ターツ" }
   ] },

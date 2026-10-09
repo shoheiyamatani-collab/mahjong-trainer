@@ -18,7 +18,7 @@ const baseScoreInput = { isDealer: false, roundWind: "æ±" as Tile, seatWind: "å
 describe("Practical learning guides", () => {
   it("adds all six routes to the existing searchable library", () => {
     expect(practicalLearningGuides).toHaveLength(6);
-    expect(learningGuides).toHaveLength(21);
+    expect(learningGuides).toHaveLength(22);
     expect(new Set(learningGuides.map((guide) => guide.slug)).size).toBe(learningGuides.length);
     const library = buildGuideLibrary(learningGuides);
     for (const guide of practicalLearningGuides) {

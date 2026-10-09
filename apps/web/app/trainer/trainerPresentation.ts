@@ -1,5 +1,6 @@
 import type { ToolPreviewScreenshot } from "../components/ToolPreviewImage";
 export const trainerPresentation: Record<string, { summary: string; crop: NonNullable<ToolPreviewScreenshot["crop"]> }> = {
+  "combo-theory": { summary: "見えている牌とフリテンから、待ちの組み合わせを数えます。", crop: { x: 60, y: 175, width: 600, height: 375 } },
   "ukeire-max": { summary: "打牌ごとの有効牌を比べ、受け入れ最大の一打を選びます。", crop: { x: 14, y: 42, width: 160, height: 100 } },
   iishanten: { summary: "テンパイまであと一歩。受け入れと良形を比べる何切るです。", crop: { x: 15, y: 145, width: 160, height: 100 } },
   "seven-tile": { summary: "7枚の複合形から、すべての待ち牌を選びます。", crop: { x: 10, y: 130, width: 180, height: 112.5 } },
