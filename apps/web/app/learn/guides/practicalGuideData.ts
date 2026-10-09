@@ -90,7 +90,7 @@ export const practicalLearningGuides: LearningGuide[] = [
       { prompt: "下家だけがリーチ。下家の河には東がある", tiles: tiles(practicalGuideHands.defense), conditions: "他家のリーチはなし。下家の河の抜粋は1萬・8萬・9筒・4索・東。", answer: "東を、下家への現物として切れます", explanation: "東はリーチ者が捨てた牌です。手牌に2枚あるので、もう1枚を次巡の守備に残せます。ただし他の2人に対する安全は保証していません。" },
       { prompt: "対面もリーチし、両者の河に東がある", tiles: tiles(practicalGuideHands.defense), conditions: "下家と対面がリーチ。両者がそれぞれ東を1枚捨てています。自分の東2枚を含めて計4枚です。", answer: "東は2人のリーチ者に対する共通の現物です", explanation: "相手を一人ずつ確認すると、東は両者にロンされない牌です。自分の牌と2人の河で計4枚となり、牌の枚数にも矛盾はありません。" }
     ] },
-    toolLink: { href: "/trainer/call-or-pass", label: "鳴き判断で攻守を比べる", description: "他家のリーチがある問題では、鳴いて得る速度と、直後に切る牌の守備を合わせて考えられます。" },
+    toolLink: { href: "/trainer/push-or-fold", label: "押す？オリる？を60問で練習", description: "手牌価値と失点リスクを比べた後、守備の最初の一打を相手ごとの安全情報で確認できます。" },
     relatedSlugs: ["genbutsu-suji-kabe", "suji-defense", "kabe-defense", "furiten-basics"]
   },
   {

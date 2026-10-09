@@ -49,6 +49,7 @@ export function calculateScore(scoreInput: ScoreInput): ScoreResult {
     honba: scoreInput.honba ?? 0,
     riichiSticks: scoreInput.riichiSticks ?? 0
   });
+  if (!Number.isSafeInteger(total) || payments.some((payment) => !Number.isSafeInteger(payment.points))) throw new Error("Score exceeds safe integer precision.");
 
   return {
     totalPoints: total,
@@ -113,6 +114,9 @@ function ceil100(value: number): number {
 }
 
 function validateScoreInput(scoreInput: ScoreInput): void {
+  for (const value of [scoreInput.han, scoreInput.honba ?? 0, scoreInput.riichiSticks ?? 0, scoreInput.yakumanCount ?? 0]) {
+    if (!Number.isSafeInteger(value) || value < 0) throw new Error("Han and counters must be nonnegative safe integers.");
+  }
   if (!["ron", "tsumo"].includes(scoreInput.winMethod)) {
     throw new Error("winMethod must be 'ron' or 'tsumo'.");
   }
@@ -138,7 +142,7 @@ function validateScoreInput(scoreInput: ScoreInput): void {
   if (scoreInput.fu == null) {
     throw new Error("fu is required for non-yakuman hands.");
   }
-  if (scoreInput.fu < 20) {
+  if (!Number.isSafeInteger(scoreInput.fu) || scoreInput.fu < 20) {
     throw new Error("fu must be at least 20.");
   }
   if (scoreInput.fu !== 25 && scoreInput.fu % 10 !== 0) {

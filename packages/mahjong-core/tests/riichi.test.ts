@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   aggregateRiichiTrials,
+  DEFAULT_RIICHI_RULE_CONFIG,
   analyzeRiichiDiscards,
   emptyCounts,
   evaluateRiichiLegality,
@@ -73,6 +74,23 @@ describe("riichi legality and constrained progress", () => {
       canDeclareRiichi: true,
       chiitoitsuShanten: 0,
     });
+  });
+
+  it("keeps a dead own-discarded wait in furiten checks while counting only live ukeire", () => {
+    const available = tenpai.map((count) => 4 - count), ownDiscards = emptyCounts();
+    available[tileIndex("3s")] = 0; ownDiscards[tileIndex("3s")] = 1;
+    expect(riichiWinningTiles(tenpai, [], available)).toEqual(["6s"]);
+    expect(evaluateRiichiLegality({ counts: tenpai, availableCounts: available, ownDiscards, points: 25000, wallTilesRemaining: 20 })).toMatchObject({ legal: false, furiten: true, liveWaitCount: 4 });
+    expect(evaluateRiichiProgress(tenpai, [], available, ownDiscards)).toMatchObject({ isFuriten: true, canDeclareRiichi: false });
+  });
+
+  it("does not reuse a progress cache entry from a different riichi policy", () => {
+    const ownDiscards = emptyCounts(); ownDiscards[tileIndex("3s")] = 1;
+    const available = tenpai.map((count) => 4 - count);
+    expect(evaluateRiichiProgress(tenpai, [], available, ownDiscards, 20, 25000, false, DEFAULT_RIICHI_RULE_CONFIG).canDeclareRiichi).toBe(false);
+    expect(evaluateRiichiProgress(tenpai, [], available, ownDiscards, 20, 25000, false, { ...DEFAULT_RIICHI_RULE_CONFIG, allowFuritenRiichi: true }).canDeclareRiichi).toBe(true);
+    expect(evaluateRiichiProgress(tenpai, [], available, emptyCounts(), 20, 25000, false, { ...DEFAULT_RIICHI_RULE_CONFIG, minimumWallTiles: 21 }).canDeclareRiichi).toBe(false);
+    expect(evaluateRiichiProgress(tenpai, [], available, emptyCounts(), 20, 25000, false, DEFAULT_RIICHI_RULE_CONFIG).canDeclareRiichi).toBe(true);
   });
 
   it("selects a discard that reaches legal riichi over a distant shape", () => {

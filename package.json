@@ -22,6 +22,8 @@
     "generate:shorts:voice": "pnpm --filter @mahjong-trainer/shorts-generator voice",
     "test": "pnpm --filter @mahjong-trainer/mahjong-core test",
     "test:tenhou": "pnpm --filter @mahjong-trainer/tenhou-analysis test",
+    "research:push-fold": "pnpm --filter @mahjong-trainer/tenhou-analysis research:push-fold",
+    "research:scoring": "pnpm --filter @mahjong-trainer/tenhou-analysis research:scoring",
     "typecheck": "pnpm -r typecheck"
   },
   "devDependencies": {

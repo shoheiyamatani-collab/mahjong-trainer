@@ -57,4 +57,14 @@ describe("score calculation", () => {
   it("rejects invalid fu", () => {
     expect(() => calculateScore({ han: 1, fu: 22, isDealer: false, winMethod: "ron" })).toThrow();
   });
+  it.each([NaN, Infinity, 1.5, -1])("rejects nonintegral or nonfinite scoring values %s", (value) => {
+    const base = { han: 1, fu: 30, isDealer: false, winMethod: "ron" as const };
+    expect(() => calculateScore({ ...base, han: value })).toThrow();
+    expect(() => calculateScore({ ...base, honba: value })).toThrow();
+    expect(() => calculateScore({ ...base, riichiSticks: value })).toThrow();
+    expect(() => calculateScore({ ...base, yakumanCount: value })).toThrow();
+  });
+  it("rejects a payment that exceeds safe integer precision", () => {
+    expect(() => calculateScore({ han: 1, fu: 30, isDealer: false, winMethod: "ron", honba: Number.MAX_SAFE_INTEGER })).toThrow(/precision/);
+  });
 });

@@ -1,0 +1,1 @@
+mahjong==2.0.0 --hash=sha256:52f63a8dfda5a9e81542642ed315f0e1e8626c0d324c8d8eabb3418ae7d43870

@@ -529,7 +529,7 @@ const HARD_SCORE_BASE_QUESTIONS: ScoreQuizQuestion[] = [
     id: "hard-chanta-40-ron",
     title: "チャンタの40符ロン",
     lesson: "役は見えるが、符を30符で見積もると外しやすい形です。",
-    handText: "123789m123789p99s",
+    handText: "123789m123789p白白",
     winningTile: "3p",
     isDealer: false,
     winMethod: "ron",

@@ -50,6 +50,11 @@ export const standaloneTrainerDefinitions = [{
   level: "初級〜上級", focus: "役・待ち・打点・点棒からリーチ判断を比べる力",
   description: "30の門前テンパイでリーチかダマを選び、ロン・ツモ点数、手変わり、守備、オーラス条件を比べます。",
   screenshot: { src: "/tool-screenshots/trainer-riichi-or-dama.jpg", alt: "リーチかダマかを選ぶ13枚の手牌、打牌候補と点棒状況", width: 1280, height: 1100 }
+}, {
+  slug: "push-or-fold", category: "実戦判断" as const, title: "押す？オリる？トレーニング",
+  level: "初級〜上級", focus: "手牌価値と失点リスクを、相手ごとの安全情報から比べる力",
+  description: "他家のリーチや仕掛けに対して、手牌価値・安全牌・巡目・点棒状況を比べ、押し引きを判断する練習です。",
+  screenshot: { src: "/tool-screenshots/trainer-push-or-fold.jpg", alt: "押し引きを選ぶ自分の手牌と4人の河、リーチ状態と点棒状況", width: 1044, height: 1040 }
 }];
 
 export const trainerDefinitions: readonly TrainerDefinition[] = [

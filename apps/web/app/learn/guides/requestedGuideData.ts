@@ -255,7 +255,7 @@ export const requestedLearningGuides: LearningGuide[] = [
         ]
       }
     ],
-    toolLink: { href: "/trainer", label: "安全牌を選ぶ練習へ進む", description: "現物を最初に探し、次にスジとカベを組み合わせる順番を練習できます。" },
+    toolLink: { href: "/trainer/push-or-fold", label: "安全情報と手牌価値を比べて練習", description: "リーチや仕掛けに押すかオリるかを選び、現物・スジ・カベの根拠を相手ごとに確認できます。" },
     relatedSlugs: ["suji-defense", "kabe-defense", "betaori-basics", "furiten-basics"]
   },
   {

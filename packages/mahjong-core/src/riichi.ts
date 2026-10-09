@@ -11,7 +11,7 @@ import {
   validateCounts,
 } from "./tiles";
 
-export const RIICHI_AI_VERSION = "riichi-ai-1.0.0";
+export const RIICHI_AI_VERSION = "riichi-ai-1.1.0";
 
 export interface RiichiRuleConfig {
   startingPoints: number;
@@ -149,9 +149,10 @@ export function evaluateRiichiLegality(input: RiichiLegalityInput): RiichiLegali
   validateCounts(input.counts);
   validateAvailableCounts(availableCounts);
   validateCounts(ownDiscards);
-  const waits = riichiWinningTiles(input.counts, melds, availableCounts);
+  const structuralWaits = riichiWinningTiles(input.counts, melds);
+  const waits = structuralWaits.filter((tile) => availableCounts[tileIndex(tile)]! > 0);
   const liveWaitCount = waits.reduce((sum, tile) => sum + availableCounts[tileIndex(tile)]!, 0);
-  const furiten = waits.some((tile) => ownDiscards[tileIndex(tile)]! > 0);
+  const furiten = structuralWaits.some((tile) => ownDiscards[tileIndex(tile)]! > 0);
   const closed = melds.length === 0;
   const tenpai = riichiShanten(input.counts, melds) === 0 && liveWaitCount > 0;
   const reasons: string[] = [];
@@ -189,7 +190,7 @@ export function evaluateRiichiProgress(
   validateCounts(counts);
   validateAvailableCounts(availableCounts);
   validateCounts(ownDiscards);
-  const key = `${compactCountsKey(counts)}|${meldKey(melds)}|${compactCountsKey(availableCounts)}|${compactCountsKey(ownDiscards)}|${wallTilesRemaining}|${points}|${alreadyRiichi ? 1 : 0}`;
+  const key = `${compactCountsKey(counts)}|${meldKey(melds)}|${compactCountsKey(availableCounts)}|${compactCountsKey(ownDiscards)}|${wallTilesRemaining}|${points}|${alreadyRiichi ? 1 : 0}|${ruleConfig.riichiCost}|${ruleConfig.minimumWallTiles}|${ruleConfig.allowFuritenRiichi ? 1 : 0}`;
   const cached = progressCache.get(key);
   if (cached) return cached;
   incrementSimulationCounter("targetShantenCalculationCount");
@@ -203,7 +204,6 @@ export function evaluateRiichiProgress(
     ? riichiWinningTiles(counts, melds, availableCounts)
     : [];
   const waitLiveCount = winningTiles.reduce((sum, tile) => sum + availableCounts[tileIndex(tile)]!, 0);
-  const isFuriten = winningTiles.some((tile) => ownDiscards[tileIndex(tile)]! > 0);
   const legality = evaluateRiichiLegality({
     counts,
     melds,
@@ -214,6 +214,7 @@ export function evaluateRiichiProgress(
     alreadyRiichi,
     ruleConfig,
   });
+  const isFuriten = legality.furiten;
   const isTenpai = shanten === 0 && waitLiveCount > 0
     && (alreadyRiichi || legality.legal);
   const effectiveTiles = possible && shanten > 0
@@ -294,7 +295,7 @@ export function riichiEffectiveTiles(
       futureDiscards[state.discardIndex] += 1;
       const waits = riichiWinningTiles(state.after, [], nextAvailable);
       const live = waits.reduce((sum, tile) => sum + nextAvailable[tileIndex(tile)]!, 0);
-      const stateFuriten = waits.some((tile) => futureDiscards[tileIndex(tile)]! > 0);
+      const stateFuriten = riichiWinningTiles(state.after).some((tile) => futureDiscards[tileIndex(tile)]! > 0);
       const legal = evaluateRiichiLegality({
         counts: state.after,
         availableCounts: nextAvailable,

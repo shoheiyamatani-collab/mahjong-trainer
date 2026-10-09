@@ -162,8 +162,7 @@ describe("automatic hand scoring", () => {
       isDealer: false,
       winMethod: "ron",
       roundWind: TILE_NAMES[27]!,
-      seatWind: TILE_NAMES[28]!,
-      riichi: true
+      seatWind: TILE_NAMES[28]!
     });
 
     expect(result.yaku.map((yaku) => yaku.name)).toContain("一気通貫");
@@ -205,7 +204,7 @@ describe("automatic hand scoring", () => {
     expect(result.score.totalPoints).toBe(2300);
   });
 
-  it("scores closed chanta", () => {
+  it("scores closed junchan without mislabeling it as chanta", () => {
     const result = calculateHandScore({
       counts: parseHand("123789m123789p99s"),
       winningTile: "3p",
@@ -215,13 +214,14 @@ describe("automatic hand scoring", () => {
       seatWind: TILE_NAMES[28]!
     });
 
-    expect(result.yaku.some((yaku) => yaku.name === "混全帯么九")).toBe(true);
-    expect(result.score.han).toBe(2);
+    expect(result.yaku.some((yaku) => yaku.name === "純全帯么九")).toBe(true);
+    expect(result.yaku.some((yaku) => yaku.name === "混全帯么九")).toBe(false);
+    expect(result.score.han).toBe(3);
     expect(result.score.fu).toBe(40);
-    expect(result.score.totalPoints).toBe(2600);
+    expect(result.score.totalPoints).toBe(5200);
   });
 
-  it("scores open chanta with reduced han", () => {
+  it("scores open junchan with reduced han", () => {
     const melds: HandScoreMeld[] = [{ kind: "chi", tiles: ["1m", "2m", "3m"] }];
     const result = calculateHandScore({
       counts: parseHand("789m123789p99s"),
@@ -233,9 +233,34 @@ describe("automatic hand scoring", () => {
       seatWind: TILE_NAMES[28]!
     });
 
-    expect(result.yaku.some((yaku) => yaku.name === "混全帯么九")).toBe(true);
-    expect(result.score.han).toBe(1);
+    expect(result.yaku.some((yaku) => yaku.name === "純全帯么九")).toBe(true);
+    expect(result.score.han).toBe(2);
     expect(result.score.fu).toBe(30);
-    expect(result.score.totalPoints).toBe(1000);
+    expect(result.score.totalPoints).toBe(2000);
+  });
+
+  it("keeps chanta when an honor block exists", () => {
+    const result = calculateHandScore({ counts: parseHand("123789m123789p白白"), winningTile: "3p", isDealer: false, winMethod: "ron", roundWind: "東", seatWind: "南" });
+    expect(result.yaku.map((item) => item.name)).toContain("混全帯么九");
+    expect(result.yaku.map((item) => item.name)).not.toContain("純全帯么九");
+    expect(result.score.totalPoints).toBe(2600);
+  });
+
+  it("does not bless an incomplete hand through a manual yakuman override", () => {
+    expect(() => calculateHandScore({ counts: parseHand("123456m789p124s東東"), winningTile: "4s", isDealer: false, winMethod: "ron", roundWind: "東", seatWind: "南", yakumanCount: 1 })).toThrow("和了形または役が見つかりません。");
+  });
+
+  it("rejects inconsistent situational flags", () => {
+    const input = { counts: parseHand("123456m234456p22s"), winningTile: "4p" as const, isDealer: false, winMethod: "ron" as const, roundWind: "東" as const, seatWind: "南" as const, riichi: true };
+    expect(() => calculateHandScore({ ...input, haitei: true })).toThrow(/状況役/);
+    expect(() => calculateHandScore({ ...input, rinshan: true })).toThrow(/状況役/);
+    expect(() => calculateHandScore({ ...input, chankan: true, houtei: true })).toThrow(/両立/);
+    expect(() => calculateHandScore({ ...input, winMethod: "tsumo", chankan: true })).toThrow(/状況役/);
+    expect(() => calculateHandScore({ ...input, winMethod: "tsumo", haitei: true, rinshan: true })).toThrow(/両立/);
+    expect(() => calculateHandScore({ ...input, riichi: false, ippatsu: true })).toThrow(/一発/);
+  });
+
+  it("rejects riichi on an open hand rather than silently ignoring it", () => {
+    expect(() => calculateHandScore({ counts: parseHand("123456789m22p"), melds: [{ kind: "pon", tiles: ["白", "白", "白"] }], winningTile: "2p", isDealer: false, winMethod: "ron", roundWind: "東", seatWind: "南", riichi: true })).toThrow(/副露/);
   });
 });

@@ -2,10 +2,13 @@ import { calculateScore, type ScoreResult, type WinMethod } from "./scoring";
 import { type Counts34, type Tile, countsToTiles, tileIndex, tileName, validateCounts } from "./tiles";
 import { incrementSimulationCounter } from "./performance";
 
+export const HAND_SCORE_VERSION = "hand-score-2.0.0";
+
 export interface YakuResult {
   name: string;
   han: number;
   isYakuman?: boolean;
+  yakumanCount?: number;
 }
 
 export interface FuItem {
@@ -30,6 +33,11 @@ export interface HandScoreInput {
   riichi?: boolean;
   doubleRiichi?: boolean;
   ippatsu?: boolean;
+  haitei?: boolean;
+  houtei?: boolean;
+  rinshan?: boolean;
+  chankan?: boolean;
+  doubleYakuman?: boolean;
   dora?: number;
   honba?: number;
   riichiSticks?: number;
@@ -62,6 +70,7 @@ export interface HandGroup {
 export interface StandardHandDecomposition {
   melds: HandGroup[];
   pair: HandGroup;
+  winningGroup?: number | "pair";
 }
 
 const EAST = "東" as Tile;
@@ -79,6 +88,7 @@ export function calculateHandScore(input: HandScoreInput): HandScoreResult {
 
   const yakumanCount = input.yakumanCount ?? 0;
   if (yakumanCount > 0) {
+    if (!isKokushi(input.counts) && !isChiitoitsu(input.counts) && !decomposeStandardHand(input.counts, meldGroups).length) throw new Error("和了形または役が見つかりません。");
     return {
       score: calculateScore({
         han: 0,
@@ -104,10 +114,13 @@ export function calculateHandScore(input: HandScoreInput): HandScoreResult {
 
   const standardDecompositions = decomposeStandardHand(scoringInput.counts, meldGroups);
   for (const decomposition of standardDecompositions) {
-    try {
-      candidates.push(scoreDecomposition(scoringInput, decomposition));
-    } catch {
-      // Other decompositions may still have valid yaku.
+    for (const assigned of winningAssignments(decomposition, input.winningTile)) {
+      try {
+        candidates.push(scoreDecomposition(scoringInput, assigned));
+      } catch (error) {
+        if (!(error instanceof Error) || error.message !== "役がありません。") throw error;
+        // Another winning-group assignment may establish yaku.
+      }
     }
   }
 
@@ -127,18 +140,20 @@ function scoreKokushi(input: HandScoreInput): HandScoreResult | null {
       fu: null,
       isDealer: input.isDealer,
       winMethod: input.winMethod,
-      yakumanCount: 1,
+      yakumanCount: input.doubleYakuman && input.counts[tileIndex(input.winningTile)] === 2 ? 2 : 1,
       honba: input.honba,
       riichiSticks: input.riichiSticks
     }),
     fu: null,
-    yaku: [{ name: "国士無双", han: 0, isYakuman: true }],
+    yaku: [{ name: "国士無双", han: 0, isYakuman: true, yakumanCount: input.doubleYakuman && input.counts[tileIndex(input.winningTile)] === 2 ? 2 : 1 }],
     decomposition: null
   };
 }
 
 function scoreChiitoitsu(input: HandScoreInput): HandScoreResult | null {
   if (!isChiitoitsu(input.counts)) return null;
+  const yakuman = tileYakuman(countsToTiles(input.counts));
+  if (yakuman.length) return scoreYakuman(input, yakuman, null);
   const yaku: YakuResult[] = [{ name: "七対子", han: 2 }, ...chiitoitsuCompatibleYaku(input.counts), ...situationalYaku(input)];
   if (input.dora) yaku.push({ name: "ドラ", han: input.dora });
   const han = yaku.reduce((sum, result) => sum + result.han, 0);
@@ -159,6 +174,8 @@ function scoreChiitoitsu(input: HandScoreInput): HandScoreResult | null {
 }
 
 function scoreDecomposition(input: HandScoreInput, decomposition: StandardHandDecomposition): HandScoreResult {
+  const yakuman = detectYakuman(decomposition, input);
+  if (yakuman.length) return scoreYakuman(input, yakuman, decomposition);
   const yaku = [...detectStandardYaku(decomposition, input), ...situationalYaku(input)];
   if (!yaku.some((result) => result.han > 0)) throw new Error("役がありません。");
   if (input.dora) yaku.push({ name: "ドラ", han: input.dora });
@@ -178,6 +195,55 @@ function scoreDecomposition(input: HandScoreInput, decomposition: StandardHandDe
     yaku,
     decomposition
   };
+}
+
+function winningAssignments(decomposition: StandardHandDecomposition, tile: Tile): StandardHandDecomposition[] {
+  const assignments: StandardHandDecomposition[] = [];
+  if (decomposition.pair.tiles[0] === tile) assignments.push({ ...decomposition, winningGroup: "pair" });
+  decomposition.melds.forEach((group, index) => {
+    if (!group.open && group.kind !== "quad" && group.tiles.includes(tile)) assignments.push({ ...decomposition, winningGroup: index });
+  });
+  return assignments;
+}
+
+function scoreYakuman(input: HandScoreInput, yaku: YakuResult[], decomposition: StandardHandDecomposition | null): HandScoreResult {
+  const yakumanCount = yaku.reduce((sum, item) => sum + (item.yakumanCount ?? 1), 0);
+  return { score: calculateScore({ han: 0, fu: null, yakumanCount, isDealer: input.isDealer, winMethod: input.winMethod, honba: input.honba, riichiSticks: input.riichiSticks }), fu: null, yaku, decomposition };
+}
+
+const yakumanResult = (name: string, yakumanCount = 1): YakuResult => ({ name, han: 0, isYakuman: true, yakumanCount });
+
+function tileYakuman(tiles: Tile[]): YakuResult[] {
+  const yaku: YakuResult[] = [];
+  if (tiles.every((tile) => tileIndex(tile) >= 27)) yaku.push(yakumanResult("字一色"));
+  if (tiles.every((tile) => tileIndex(tile) < 27 && isTerminalOrHonor(tile))) yaku.push(yakumanResult("清老頭"));
+  const green = new Set<Tile>(["2s", "3s", "4s", "6s", "8s", "發"]);
+  if (tiles.every((tile) => green.has(tile))) yaku.push(yakumanResult("緑一色"));
+  return yaku;
+}
+
+function detectYakuman(decomposition: StandardHandDecomposition, input: HandScoreInput): YakuResult[] {
+  const yaku = tileYakuman(decompositionTiles(decomposition));
+  const sets = decomposition.melds.filter((group) => group.kind === "triplet" || group.kind === "quad");
+  const dragons = sets.filter((group) => DRAGONS.has(group.tiles[0]!)).length;
+  const winds = sets.filter((group) => WINDS.has(group.tiles[0]!)).length;
+  if (dragons === 3) yaku.push(yakumanResult("大三元"));
+  if (winds === 4) yaku.push(yakumanResult("大四喜", input.doubleYakuman ? 2 : 1));
+  else if (winds === 3 && WINDS.has(decomposition.pair.tiles[0]!)) yaku.push(yakumanResult("小四喜"));
+  if (concealedTripletCount(decomposition, input) === 4) yaku.push(yakumanResult("四暗刻", input.doubleYakuman && decomposition.winningGroup === "pair" ? 2 : 1));
+  if (sets.filter((group) => group.kind === "quad").length === 4) yaku.push(yakumanResult("四槓子"));
+  if (!input.melds?.length && isChuuren(input.counts)) {
+    const before = input.counts.slice(); before[tileIndex(input.winningTile)]--;
+    const pure = before.filter((count) => count > 0).join(",") === "3,1,1,1,1,1,1,1,3";
+    yaku.push(yakumanResult("九蓮宝燈", input.doubleYakuman && pure ? 2 : 1));
+  }
+  return yaku;
+}
+
+function isChuuren(counts: Counts34): boolean {
+  const tiles = countsToTiles(counts), suit = singleNumberSuit(tiles);
+  if (suit === null || tiles.some((tile) => tileIndex(tile) >= 27)) return false;
+  return Array.from({ length: 9 }, (_, i) => counts[suit * 9 + i]! >= (i === 0 || i === 8 ? 3 : 1)).every(Boolean);
 }
 
 export function standardHandDecompositions(counts: Counts34, melds: HandScoreMeld[] = []): StandardHandDecomposition[] {
@@ -258,12 +324,17 @@ function detectStandardYaku(decomposition: StandardHandDecomposition, input: Han
   if (isPinfu(decomposition, input)) yaku.push({ name: "平和", han: 1 });
 
   const sequencePairs = identicalSequencePairCount(decomposition.melds);
-  if (sequencePairs >= 2) yaku.push({ name: "二盃口", han: 3 });
-  else if (sequencePairs === 1) yaku.push({ name: "一盃口", han: 1 });
+  if (closed && sequencePairs >= 2) yaku.push({ name: "二盃口", han: 3 });
+  else if (closed && sequencePairs === 1) yaku.push({ name: "一盃口", han: 1 });
 
   if (hasSanshokuDoujun(decomposition.melds)) yaku.push({ name: "三色同順", han: closed ? 2 : 1 });
   if (hasIttsu(decomposition.melds)) yaku.push({ name: "一気通貫", han: closed ? 2 : 1 });
-  if (isChanta(decomposition)) yaku.push({ name: "混全帯么九", han: closed ? 2 : 1 });
+  if (isChanta(decomposition)) yaku.push({ name: allTiles.some((tile) => tileIndex(tile) >= 27) ? "混全帯么九" : "純全帯么九", han: allTiles.some((tile) => tileIndex(tile) >= 27) ? closed ? 2 : 1 : closed ? 3 : 2 });
+  if (allTiles.every(isTerminalOrHonor)) yaku.push({ name: "混老頭", han: 2 });
+  const sets = decomposition.melds.filter((group) => group.kind === "triplet" || group.kind === "quad");
+  if (sets.filter((group) => DRAGONS.has(group.tiles[0]!)).length === 2 && DRAGONS.has(decomposition.pair.tiles[0]!)) yaku.push({ name: "小三元", han: 2 });
+  if (hasSanshokuDoukou(sets)) yaku.push({ name: "三色同刻", han: 2 });
+  if (sets.filter((group) => group.kind === "quad").length >= 3) yaku.push({ name: "三槓子", han: 2 });
   if (concealedTripletCount(decomposition, input) >= 3) yaku.push({ name: "三暗刻", han: 2 });
   if (decomposition.melds.every((group) => group.kind === "triplet" || group.kind === "quad")) yaku.push({ name: "対々和", han: 2 });
 
@@ -285,9 +356,9 @@ function calculateStandardFu(decomposition: StandardHandDecomposition, input: Ha
   const waitFuValue = waitFu(decomposition, input.winningTile);
   if (waitFuValue) items.push({ label: "待ち符", fu: waitFuValue });
 
-  for (const group of decomposition.melds) {
+  for (const [index, group] of decomposition.melds.entries()) {
     if (group.kind !== "triplet" && group.kind !== "quad") continue;
-    const isOpenByRon = !group.open && !group.concealed && input.winMethod === "ron" && group.tiles.includes(input.winningTile) && waitFuValue === 0;
+    const isOpenByRon = !group.open && !group.concealed && input.winMethod === "ron" && decomposition.winningGroup === index;
     const isOpen = group.open || isOpenByRon;
     items.push({ label: group.kind === "quad" ? (isOpen ? "明槓" : "暗槓") : (isOpen ? "明刻" : "暗刻"), fu: setFu(group.tiles[0]!, isOpen, group.kind === "quad") });
   }
@@ -304,17 +375,23 @@ function calculateStandardFu(decomposition: StandardHandDecomposition, input: Ha
 
 function situationalYaku(input: HandScoreInput): YakuResult[] {
   const yaku: YakuResult[] = [];
-  if (!isClosedHand(input)) return yaku;
-  if (input.doubleRiichi) yaku.push({ name: "ダブルリーチ", han: 2 });
-  else if (input.riichi) yaku.push({ name: "リーチ", han: 1 });
-  if (input.ippatsu) yaku.push({ name: "一発", han: 1 });
-  if (input.winMethod === "tsumo") yaku.push({ name: "門前清自摸和", han: 1 });
+  if (isClosedHand(input)) {
+    if (input.doubleRiichi) yaku.push({ name: "ダブルリーチ", han: 2 });
+    else if (input.riichi) yaku.push({ name: "リーチ", han: 1 });
+    if (input.ippatsu) yaku.push({ name: "一発", han: 1 });
+    if (input.winMethod === "tsumo") yaku.push({ name: "門前清自摸和", han: 1 });
+  }
+  if (input.haitei) yaku.push({ name: "海底摸月", han: 1 });
+  if (input.houtei) yaku.push({ name: "河底撈魚", han: 1 });
+  if (input.rinshan) yaku.push({ name: "嶺上開花", han: 1 });
+  if (input.chankan) yaku.push({ name: "槍槓", han: 1 });
   return yaku;
 }
 
 function chiitoitsuCompatibleYaku(counts: Counts34): YakuResult[] {
   const usedIndexes = counts.flatMap((count, index) => (count > 0 ? [index] : []));
   const yaku: YakuResult[] = [];
+  if (usedIndexes.every((index) => index >= 27 || index % 9 === 0 || index % 9 === 8)) yaku.push({ name: "混老頭", han: 2 });
   if (usedIndexes.every((index) => index < 27 && index % 9 !== 0 && index % 9 !== 8)) yaku.push({ name: "断么九", han: 1 });
 
   const suits = new Set(usedIndexes.filter((index) => index < 27).map((index) => Math.floor(index / 9)));
@@ -344,10 +421,10 @@ function valuePairFu(pair: HandGroup, input: HandScoreInput): number {
 }
 
 function waitFu(decomposition: StandardHandDecomposition, winningTile: Tile): number {
-  if (decomposition.pair.tiles[0] === winningTile) return 2;
+  if (decomposition.winningGroup === "pair") return 2;
   const winningIndex = tileIndex(winningTile);
-  for (const group of decomposition.melds) {
-    if (group.kind !== "sequence" || !group.tiles.includes(winningTile)) continue;
+  const group = typeof decomposition.winningGroup === "number" ? decomposition.melds[decomposition.winningGroup] : undefined;
+  if (group?.kind === "sequence") {
     const indexes = group.tiles.map(tileIndex);
     if (indexes[1] === winningIndex) return 2;
     if (indexes[0]! % 9 === 0 && indexes[2] === winningIndex) return 2;
@@ -357,11 +434,11 @@ function waitFu(decomposition: StandardHandDecomposition, winningTile: Tile): nu
 }
 
 function concealedTripletCount(decomposition: StandardHandDecomposition, input: HandScoreInput): number {
-  return decomposition.melds.filter((group) => {
+  return decomposition.melds.filter((group, index) => {
     if (group.kind !== "triplet" && group.kind !== "quad") return false;
     if (group.open) return false;
     if (group.concealed) return true;
-    if (input.winMethod === "ron" && group.tiles.includes(input.winningTile)) return false;
+    if (input.winMethod === "ron" && decomposition.winningGroup === index) return false;
     return true;
   }).length;
 }
@@ -386,6 +463,18 @@ function hasSanshokuDoujun(groups: HandGroup[]): boolean {
     starts.get(start)!.add(suit);
   }
   return [...starts.values()].some((suits) => suits.size === 3);
+}
+
+function hasSanshokuDoukou(groups: HandGroup[]): boolean {
+  const ranks = new Map<number, Set<number>>();
+  for (const group of groups) {
+    const index = tileIndex(group.tiles[0]!);
+    if (index >= 27) continue;
+    const rank = index % 9;
+    if (!ranks.has(rank)) ranks.set(rank, new Set());
+    ranks.get(rank)!.add(Math.floor(index / 9));
+  }
+  return [...ranks.values()].some((suits) => suits.size === 3);
 }
 
 function hasIttsu(groups: HandGroup[]): boolean {
@@ -485,6 +574,11 @@ function validateHandScoreInput(input: HandScoreInput): void {
     throw new Error("場風と自風は風牌を選んでください。");
   }
   if ((input.dora ?? 0) < 0) throw new Error("ドラは0以上で入力してください。");
+  for (const value of [input.dora, input.honba, input.riichiSticks, input.yakumanCount]) if (value !== undefined && (!Number.isSafeInteger(value) || value < 0)) throw new Error("翻・本場・供託は0以上の整数で入力してください。");
+  if (!isClosedHand(input) && (input.riichi || input.doubleRiichi)) throw new Error("副露した手でリーチはできません。");
+  if (input.ippatsu && !input.riichi && !input.doubleRiichi) throw new Error("一発にはリーチが必要です。");
+  if ((input.haitei || input.rinshan) && input.winMethod !== "tsumo" || (input.houtei || input.chankan) && input.winMethod !== "ron") throw new Error("状況役と和了方法が一致しません。");
+  if (input.haitei && input.rinshan || input.houtei && input.chankan) throw new Error("両立しない状況役です。");
 }
 
 function isClosedHand(input: Pick<HandScoreInput, "melds">): boolean {
@@ -494,6 +588,7 @@ function isClosedHand(input: Pick<HandScoreInput, "melds">): boolean {
 function validateMelds(melds: HandScoreMeld[]): void {
   if (melds.length > 4) throw new Error("副露は4つまでです。");
   for (const meld of melds) {
+    if (!["chi", "pon", "kan", "ankan"].includes(meld.kind)) throw new Error("副露の種類が不正です。");
     for (const tile of meld.tiles) tileIndex(tile);
     if (meld.kind === "chi") {
       if (meld.tiles.length !== 3) throw new Error("チーは3枚で入力してください。");
