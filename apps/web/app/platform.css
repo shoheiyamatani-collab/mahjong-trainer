@@ -1,0 +1,159 @@
+:root {
+  --bg: var(--jf-bg); --panel: var(--jf-surface); --text: var(--jf-ink); --muted: var(--jf-body); --line: var(--jf-line);
+  --brand: var(--jf-analysis); --brand-strong: #105e45; --green: var(--jf-analysis);
+  --analysis: var(--jf-analysis); --training: var(--jf-training); --learning: var(--jf-learning);
+  --media-ink: var(--jf-ink); --media-body: var(--jf-body); --media-line: var(--jf-line);
+  --media-green: var(--jf-analysis); --media-green-dark: #105e45; --soft-blue: var(--jf-learning-soft);
+}
+body { background: var(--jf-bg); color: var(--jf-body); font-family: var(--jf-font); font-size: 16px; }
+.platformFrame button { min-height: 44px; }
+.platformFrame :is(h1,h2,h3,h4) { font-family: var(--jf-font); letter-spacing: 0; }
+.platformFrame main { min-width: 0; }
+.platformFrame :is(.siteMain,.shell) { max-width: 1240px; margin-inline: auto; padding: 32px 24px 64px; }
+.platformFrame main h1 { color: var(--jf-ink); font-size: 36px; font-weight: 900; line-height: 1.45; overflow-wrap: anywhere; }
+.platformFrame :is(.pageHero,.topbar,.learningGuideHeader,.roadmapBoardHeader) { background: transparent; border-radius: 0; box-shadow: none; }
+.platformFrame :is(.pageHero,.topbar) { padding: 0 0 24px; border-bottom: 1px solid var(--jf-line); margin-bottom: 28px; }
+.platformFrame :is(.siteEyebrow,.eyebrow) { color: var(--category); }
+.platformFrame :is(.pageHero p,.trainerPageLead,.learningGuideHeader > p) { color: var(--jf-body); font-size: 16px; line-height: 1.85; }
+.platformFrame :is(.sectionTitle h2,.articleSection > h2,.trainerLearningBand > h2,.trainerPortalIntro h2,.homeSectionHeading h2,.learningGuideRelated h2,.toolLearningGuide h2,.startingHandLearningGuide h2) { padding-left: 14px; border-left: 5px solid var(--category); color: var(--category); font-size: 26px; font-weight: 850; line-height: 1.5; }
+.platformFrame :is(.articleSection,.trainerLearningBand) { scroll-margin-top: 100px; }
+.platformFrame :is(.articleSection p,.articleSection li,.trainerLearningBand p,.trainerLearningBand li) { font-size: 16px; line-height: 1.9; }
+.platformFrame :is(.articleSection,.trainerLearningBand) h3 { color: var(--jf-ink); font-weight: 800; font-size: 21px; }
+.platformFrame :is(.primaryCta,.cardButton,.primaryButton,.homeCheckerCta) { background: var(--category); color: #fff; border-color: var(--category); border-radius: 6px; min-height: 44px; }
+.platformFrame :is(.secondaryCta,.secondaryButton,.scoreTableLink,.analysisHelpButton) { color: var(--category); background: #fff; border: 1px solid var(--jf-line); border-radius: 6px; min-height: 44px; }
+.platformFrame :is(.panel,.scoreCard,.categoryCard,.trainingCard,.internalLinkCard) { background: #fff; border-color: var(--jf-line); border-radius: 8px; box-shadow: none; }
+.platformFrame .panelHeader { background: var(--category); color: #fff; border-color: var(--category); }
+.platformFrame .panelHeader :is(h2,h3,.smallLabel) { color: #fff; }
+.platformFrame :is(.scoreTotal,.scoreAnswerText) { color: var(--jf-ink); font-weight: 900; font-variant-numeric: tabular-nums; }
+.platformFrame :is(.answerCorrect,.answerWrong,.answerPartial) { border-radius: 6px; }
+.platformFrame .analysisToolPreview { --analysis-tool-accent: var(--category); --analysis-tool-tint: var(--category-soft); }
+.platformFrame .analysisToolbar button, .platformFrame .analysisToolbar a { min-height: 44px; }
+.platformFrame .analysisRunButton { background: var(--jf-analysis); }
+.platformFrame .learningGuideHeader { padding: 0 0 28px; }
+.platformFrame .learningGuideHeader > h1 { color: var(--jf-ink); }
+.articleContents { padding-block: 20px; margin-block: 28px; border-block: 1px solid var(--jf-line); }
+.articleContents strong { color: var(--category); }
+.articleContents ol { display: grid; gap: 8px; margin-bottom: 0; padding-left: 24px; }
+.articleContents a { color: var(--jf-body); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.platformFrame #lesson-quiz { scroll-margin-top: 100px; }
+.platformFrame .roadmapBoardSidebar { background: #f3f7ff; border-color: var(--jf-line); }
+.platformFrame .roadmapBoardIdentity h1 { font-size: 26px; line-height: 1.5; }
+.platformFrame :is(.roadmapBoardIdentity > svg,.roadmapBoardBreadcrumb strong,.roadmapBoardStepNumber,.roadmapBoardAction > svg,.roadmapBoardReferences > a > svg:first-child,.learningCourseTitle,.learningLessonEyebrow) { color: var(--jf-learning); }
+.platformFrame :is(.roadmapBoardIdentity p,.roadmapBoardLessonHeader p,.roadmapBoardLessonBody li,.roadmapBoardAction p,.roadmapBoardReferences small) { color: var(--jf-body); font-size: 16px; }
+.platformFrame :is(.roadmapBoardLessonHeader h2,.roadmapBoardLessonBody h3,.roadmapBoardAction strong,.roadmapBoardReferences strong) { color: var(--jf-ink); }
+.platformFrame .roadmapBoardStepNumber { border-color: var(--jf-learning); }
+.platformFrame .roadmapBoardStepNumber strong { font-family: var(--jf-font); font-weight: 900; }
+.platformFrame :is(.roadmapBoardProgressTrack > span,.roadmapBoardChapter button.isActive,.roadmapBoardAction a,.roadmapBoardLessonBody li svg,.learningLessonProgress > div > span,.learningLessonPager .isNext) { background: var(--jf-learning); }
+.platformFrame .roadmapBoardChapter h2 { background: var(--jf-learning-soft); color: var(--jf-ink); }
+.platformFrame .roadmapBoardChapter h2 span { background: var(--jf-learning); }
+.platformFrame .roadmapBoardChapter button:hover:not(.isActive) { background: var(--jf-learning-soft); }
+.platformFrame .roadmapBoardChapter button > strong { font-size: 14px; }
+.platformFrame :is(.roadmapBoardAction,.roadmapBoardTileStage,.learningCourseNote,.learningLessonHeader) { background: var(--jf-learning-soft); border-color: var(--jf-learning); }
+.platformFrame .roadmapBoardTileStage { border-color: var(--jf-line); }
+.platformFrame .roadmapBoardEyebrow { color: var(--jf-training); }
+.platformFrame .learningCourseNav li.isCurrent a { background: var(--jf-learning-soft); color: var(--jf-learning); }
+.platformFrame :is(.roadmapBoardNext,.roadmapBoardReferences > a) { border-color: var(--jf-line); }
+.platformFrame :is(.roadmapBoardNext,.roadmapBoardReferences > a):hover { background: var(--jf-learning-soft); }
+.platformFrame .siteFooter { background: #fff; border-top: 1px solid var(--jf-line); color: var(--jf-body); }
+.platformFrame .siteFooterLinks a { color: var(--jf-body); padding-block: 8px; }
+
+/* Repeated tools share the same content and color tokens on every entry page. */
+.toolCardGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+.platformToolCard { min-width: 0; border: 1px solid var(--category); border-radius: 8px; overflow: hidden; background: #fff; box-shadow: var(--jf-shadow); }
+.platformToolCardLink { display: flex; flex-direction: column; height: 100%; color: inherit; text-decoration: none; }
+.platformToolCardHeader { display: flex; align-items: flex-start; gap: 12px; min-height: 104px; padding: 18px; background: var(--category); }
+.platformToolCardHeader > svg { width: 24px; height: 24px; margin-top: 5px; flex-shrink: 0; color: #fff; }
+.platformFrame .platformToolCardHeader h3 { margin: 0; font-size: 22px; color: #fff; font-weight: 900; line-height: 1.55; overflow-wrap: anywhere; }
+.platformToolCardBody { display: grid; grid-template-columns: 96px minmax(0,1fr); gap: 12px; padding: 16px 18px; align-items: start; flex: 1; }
+.platformToolCardBody.noScreenshot { grid-template-columns: minmax(0,1fr); }
+.platformToolCardBody .toolPreviewFigure { margin: 0; border: 0; border-radius: 2px; background: var(--category-soft); }
+.platformToolCardBody p { margin: 0; font-size: 16px; line-height: 1.7; color: var(--jf-body); }
+.platformToolCardFooter { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 18px 16px; }
+.platformDifficulty { display: inline-flex; gap: 5px; align-items: center; color: var(--jf-body); font-size: 13px; white-space: nowrap; }
+.platformDifficulty svg { width: 16px; height: 16px; }
+.platformToolCardAction { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; background: var(--category-soft); color: var(--category); padding: 8px 12px; font-size: 14px; font-weight: 800; border-radius: 6px; }
+.platformToolCardAction svg { width: 16px; height: 16px; }
+.platformToolCardLink:hover .platformToolCardAction { background: var(--category); color: #fff; }
+.platformToolCardLink:active { background: var(--category-soft); }
+.platformToolCard:focus-within { outline: 3px solid var(--jf-ink); outline-offset: 3px; }
+.platformToolCardLink:focus-visible { outline: 0; }
+.platformFrame .trainerPortal { margin-top: 0; }
+.platformFrame .trainerPortalIntro { padding: 0 0 8px; }
+.platformFrame .trainerPortalIntro > p:last-child { margin-bottom: 0; }
+.platformFrame .trainerPortalCategory { margin-top: 36px; padding: 0; background: transparent; }
+.platformFrame .trainerPortalCategory > header { border-bottom: 1px solid var(--jf-line); display: flex; align-items: flex-start; gap: 24px; }
+.platformFrame .trainerPortalCategory h2 { border-left: 5px solid var(--category); padding-left: 14px; color: var(--category); font-size: 26px; }
+.platformFrame .trainerPortalCategory > header p { font-size: 16px; line-height: 1.8; }
+.platformFrame .trainerPortalGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+.trainerPortalJumpNav { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.trainerPortalJumpNav a { display: inline-flex; align-items: center; min-height: 44px; gap: 6px; padding: 8px 12px; background: var(--category-soft); color: var(--category); text-decoration: none; font-weight: 800; border-radius: 6px; }
+.trainerPortalCategory { scroll-margin-top: 100px; }
+
+.platformFrame .homePage { display: flex; flex-direction: column; gap: 48px; padding-top: 0; }
+.platformHomeHero { padding: 44px 24px 32px; margin-inline: -24px; background: var(--jf-analysis-soft); text-align: center; border-bottom: 1px solid #c8e8d6; }
+.platformHomeHero h1 { margin: 0; }
+.platformHomeTagline { color: var(--jf-ink); font-size: 36px; font-weight: 900; margin: 8px 0; line-height: 1.5; }
+.platformHomeLead { color: var(--jf-body); font-size: 18px; margin: 10px 0 24px; }
+.platformSearchForm { display: flex; align-items: center; gap: 12px; padding: 6px 8px 6px 16px; background: #fff; border: 1px solid #b9d4c8; border-radius: 8px; max-width: 600px; margin-inline: auto; box-shadow: var(--jf-shadow); }
+.platformSearchForm > svg { width: 22px; height: 22px; flex-shrink: 0; color: var(--jf-analysis); }
+.platformSearchForm input { min-width: 0; flex: 1; border: 0; padding: 12px 0; background: transparent; color: var(--jf-ink); font-size: 16px; }
+.platformSearchForm button { width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; border: 0; border-radius: 6px; background: var(--jf-analysis); color: #fff; }
+.platformSearchForm button svg { width: 20px; height: 20px; }
+.platformPopularSearches { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 16px; }
+.platformPopularSearches a { padding: 5px 2px; color: #105e45; font-size: 14px; text-underline-offset: 4px; }
+.platformCategoryGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+.platformCategoryCard { padding: 20px; background: #fff; border: 1px solid var(--jf-line); border-top: 5px solid var(--category); border-radius: 8px; color: var(--jf-body); text-decoration: none; }
+.platformCategoryCard > svg { width: 30px; height: 30px; color: var(--category); }
+.platformCategoryCard h2 { color: var(--category); font-size: 24px; margin: 12px 0 6px; }
+.platformCategoryCard p { margin: 0; font-size: 16px; line-height: 1.75; }
+.platformCategoryCard:hover { background: var(--category-soft); }
+.platformSectionHeading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 20px; }
+.platformSectionHeading h2 { margin: 0; color: var(--category); font-size: 26px; font-weight: 850; padding-left: 14px; border-left: 5px solid var(--category); }
+.platformSectionHeading a { display: inline-flex; align-items: center; gap: 6px; color: var(--category); font-weight: 750; text-underline-offset: 4px; min-height: 44px; }
+.platformRoadmapBand { padding-block: 28px; border-block: 1px solid var(--jf-line); }
+.platformRoadmapSteps { display: flex; flex-wrap: wrap; gap: 14px; padding: 0; list-style: none; counter-reset: steps; }
+.platformRoadmapSteps li { counter-increment: steps; display: flex; gap: 8px; align-items: center; font-weight: 700; }
+.platformRoadmapSteps li::before { content: counter(steps); display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--jf-learning-soft); color: var(--jf-learning); }
+.platformHomeRelated { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+.platformFrame .homeIntroSection { padding: 0; background: transparent; }
+.platformFrame .homeQuestionPanel { background: #fff; border: 1px solid var(--jf-line); border-left: 5px solid var(--jf-training); border-radius: 8px; }
+.platformFrame .homeQuestionPanel h2 { color: var(--jf-ink); }
+.platformFrame .homeQuestionAnswer summary { display: list-item; min-height: 44px; color: var(--jf-training); }
+.platformFrame .homeCheckerPitch { background: var(--jf-analysis-soft); }
+.platformFrame .homeCheckerCta { background: var(--jf-analysis); }
+.platformSrOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.toolDirectoryControls { display: grid; gap: 16px; margin-bottom: 24px; }
+.toolDirectoryControls .platformSearchForm { width: 100%; max-width: none; margin: 0; }
+.toolDirectoryFilters { display: flex; flex-wrap: wrap; gap: 8px; }
+.toolDirectoryFilters button { min-height: 44px; padding: 8px 14px; border: 1px solid var(--jf-line); border-radius: 6px; background: #fff; color: var(--jf-body); font-weight: 700; }
+.toolDirectoryFilters button[aria-pressed="true"] { background: var(--category); border-color: var(--category); color: #fff; }
+.toolDirectoryCount { font-size: 16px; margin: 0; }
+.toolDirectoryEmpty { padding: 32px 0; border-block: 1px solid var(--jf-line); text-align: center; }
+.toolDirectoryEmpty button { min-height: 44px; padding: 8px 16px; border: 1px solid var(--jf-line); border-radius: 6px; background: #fff; color: var(--jf-ink); }
+@media (max-width: 1024px) { .toolCardGrid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 720px) {
+  .platformFrame :is(.siteMain,.shell) { padding: 24px 12px 48px; }
+  .platformFrame main h1 { font-size: 28px; line-height: 1.5; }
+  .platformFrame :is(.sectionTitle h2,.articleSection > h2,.trainerLearningBand > h2,.trainerPortalIntro h2,.homeSectionHeading h2,.learningGuideRelated h2,.toolLearningGuide h2,.startingHandLearningGuide h2,.trainerPortalCategory h2,.platformSectionHeading h2) { font-size: 22px; }
+  .platformFrame .topbar { align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+  .platformFrame .trainerPortalCategory { margin-top: 24px; }
+  .platformFrame .trainerPortalCategory > header { display: block; }
+  .platformFrame .trainerPortalGrid, .toolCardGrid { grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .platformToolCardHeader { min-height: 84px; padding: 16px; }
+  .platformFrame .platformToolCardHeader h3 { font-size: 20px; }
+  .platformToolCardBody { padding: 14px 16px; }
+  .platformToolCardFooter { padding-inline: 16px; }
+  .platformCategoryGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .platformCategoryCard { padding: 14px; }
+  .platformCategoryCard h2 { font-size: 21px; }
+  .platformCategoryCard p { font-size: 15px; }
+  .platformHomeHero { margin-inline: -12px; padding: 28px 16px 24px; }
+  .platformHomeTagline { font-size: 28px; }
+  .platformHomeLead { font-size: 16px; }
+  .platformFrame .homePage { gap: 32px; padding-top: 0; }
+  .platformHomeRelated { grid-template-columns: minmax(0,1fr); }
+  .platformSectionHeading { flex-wrap: wrap; gap: 6px; }
+  .platformFrame .analysisToolbar { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
+  .platformFrame .analysisToolbar > * { flex: 1 1 130px; }
+}
+@media (min-width: 1400px) { .platformFrame .trainerPortalGrid { grid-template-columns: repeat(3,minmax(0,1fr)); } }

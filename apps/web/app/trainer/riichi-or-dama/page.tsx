@@ -71,7 +71,7 @@ const sections: { heading: string; paragraphs: string[]; emphasis: ArticleEmphas
 export default function RiichiOrDamaPage() {
   const prepared = riichiQuestions.map(prepareRiichiQuestion);
   const url = `${getSiteUrl()}${path}`;
-  return <main className={`shell trainingWorkspacePage ${shared.page}`}>
+  return <main data-tone="decisions" className={`shell trainingWorkspacePage ${shared.page}`}>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "リーチ？ダマ？トレーニング", description, url, applicationCategory: "EducationalApplication", operatingSystem: "Web", inLanguage: "ja" }} />
     <JsonLd data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "麻雀トレーニング", item: `${getSiteUrl()}/trainer` }, { "@type": "ListItem", position: 2, name: "リーチ？ダマ？トレーニング", item: url }] }} />
     <nav className={shared.breadcrumb} aria-label="パンくず"><Link href="/trainer">麻雀トレーニング</Link><span aria-hidden="true">/</span><span>リーチ？ダマ？</span></nav>

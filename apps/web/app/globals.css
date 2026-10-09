@@ -14029,59 +14029,97 @@ body .roadmapBoardPage {
 .analysisToolPreviewGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border: 1px solid #d3ded8;
-  border-radius: 6px;
-  overflow: hidden;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
 .analysisToolPreview {
-  display: flex;
-  flex-direction: column;
   min-width: 0;
-  padding: 20px;
-  background: #fff;
+  border: 1px solid var(--analysis-tool-accent);
+  border-left-width: 4px;
+  border-radius: 6px;
+  background: var(--analysis-tool-tint);
 }
 
-.analysisToolPreview + .analysisToolPreview {
-  border-left: 1px solid #d3ded8;
+.analysisToolPreviewLink {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  height: 100%;
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 5px;
 }
 
-.analysisToolPreview h3 {
-  margin: 0 0 8px;
-  color: #123d2d;
-  font-size: 1.22rem;
+.analysisToolPreviewLink:focus-visible {
+  outline: 3px solid var(--analysis-tool-accent);
+  outline-offset: 3px;
 }
 
-.analysisToolPreview .toolPreviewFigure > a {
-  aspect-ratio: 16 / 7;
-}
-
-.analysisToolPreview > p {
-  margin: 0 0 18px;
-  color: #53635c;
-  line-height: 1.7;
-}
-
-.analysisToolPreview > .analysisToolPreviewSummary {
-  margin: 0 0 6px;
-  color: #176a4b;
-  font-size: .85rem;
-  font-weight: 800;
-}
-
-.toolPreviewAction {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: auto;
-  color: #08724d;
-  font-weight: 850;
+.analysisToolPreviewLink:hover h3 {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.toolPreviewAction svg {
+.analysisToolPreviewHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.analysisToolPreviewHeader > span {
+  flex-shrink: 0;
+  padding-top: 4px;
+  color: var(--analysis-tool-accent);
+  font-size: .75rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.analysisToolPreview h3 {
+  min-width: 0;
+  margin: 0;
+  color: #18372a;
+  font-size: 1.125rem;
+  font-weight: 850;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.analysisToolPreviewBody {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.analysisToolPreviewBody .toolPreviewFigure {
+  margin: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.analysisToolPreviewBody p {
+  margin: 0;
+  color: #40554c;
+  font-size: .875rem;
+  line-height: 1.65;
+}
+
+.analysisToolPreviewAction {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 6px;
+  color: var(--analysis-tool-accent);
+  font-size: .875rem;
+  font-weight: 800;
+}
+
+.analysisToolPreviewAction svg {
   width: 17px;
   height: 17px;
   flex: 0 0 auto;
@@ -14096,13 +14134,18 @@ body .roadmapBoardPage {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .analysisToolPreview {
-    padding: 20px 16px;
+  .analysisToolPreviewLink {
+    gap: 10px;
+    padding: 14px 12px;
   }
 
-  .analysisToolPreview + .analysisToolPreview {
-    border-left: 0;
-    border-top: 1px solid #d3ded8;
+  .analysisToolPreviewHeader {
+    gap: 8px;
+  }
+
+  .analysisToolPreviewBody {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
   }
 }
 

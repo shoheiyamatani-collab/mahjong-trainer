@@ -17,16 +17,16 @@
 .count { min-width: 95px; margin: 0; text-align: right; color: #42594c; font-size: 14px; white-space: nowrap; }
 .count strong { color: #153b2b; }
 .categories { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; max-width: 760px; margin-top: 16px; }
-.all, .foundation { --tone: #155e48; --tint: #edf5f1; --selected: #0c5740; }
-.decision { --tone: #1c609a; --tint: #eaf3fb; --selected: #1c609a; }
-.defense { --tone: #943b44; --tint: #fbeef0; --selected: #943b44; }
-.scoring { --tone: #945011; --tint: #fcf2e8; --selected: #945011; }
+.all, .foundation { --tone: var(--jf-learning); --tint: var(--jf-learning-soft); --selected: var(--jf-learning); }
+.decision { --tone: var(--jf-efficiency); --tint: var(--jf-efficiency-soft); --selected: var(--jf-efficiency); }
+.defense { --tone: var(--jf-decisions); --tint: var(--jf-decisions-soft); --selected: var(--jf-decisions); }
+.scoring { --tone: var(--jf-scoring); --tint: var(--jf-scoring-soft); --selected: var(--jf-scoring); }
 .category { min-width: 0; min-height: 42px; padding: 9px 12px; border: 1px solid transparent; border-radius: 4px; background: var(--tint); color: var(--tone); font-size: 14px; font-weight: 750; white-space: nowrap; }
 .category:hover { border-color: var(--tone); }
 .category.selected { background: var(--selected); color: #fff; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 24px; padding-top: 26px; }
 .card { min-width: 0; border-bottom: 1px solid #d9e3dd; }
-.cardLink { display: flex; flex-direction: column; height: 100%; padding-bottom: 17px; border-radius: 4px; color: #193b2d; text-decoration: none; }
+.cardLink { display: flex; flex-direction: column; height: 100%; padding-bottom: 17px; border-radius: 4px; color: var(--jf-ink); text-decoration: none; }
 .preview { display: grid; align-items: center; aspect-ratio: 8 / 3; width: 100%; min-width: 0; padding: 16px 12px; border-radius: 4px; background: #f0f5f6; }
 .preview.decision { background: #edf4f8; }
 .preview.defense { background: #f3f4f7; }
@@ -40,10 +40,10 @@
 .previewGroup :global(.articleTileStrip img) { display: block; width: 100%; min-width: 0; max-width: none; height: auto; aspect-ratio: 66 / 90; }
 .previewArrow { flex: 0 0 18px; width: 18px; height: 18px; margin-bottom: 16px; color: #267454; }
 .badge { align-self: flex-start; margin-top: 13px; padding: 2px 6px; border-radius: 2px; color: var(--tone); background: var(--tint); font-size: 11px; font-weight: 750; line-height: 1.5; }
-.card h2 { margin: 7px 0 0; font-size: 18px; line-height: 1.55; letter-spacing: 0; overflow-wrap: anywhere; }
-.card p { margin: 8px 0 12px; color: #52675b; font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
-.cardArrow { align-self: flex-end; width: 21px; height: 21px; margin-top: auto; color: #14704b; }
-.cardLink:hover h2 { color: #08714c; text-decoration: underline; text-underline-offset: 4px; }
+.card h2 { margin: 7px 0 0; font-size: 20px; font-weight: 850; line-height: 1.55; letter-spacing: 0; overflow-wrap: anywhere; }
+.card p { margin: 8px 0 12px; color: var(--jf-body); font-size: 16px; line-height: 1.8; overflow-wrap: anywhere; }
+.cardArrow { align-self: flex-end; width: 21px; height: 21px; margin-top: auto; color: var(--jf-learning); }
+.cardLink:hover h2 { color: var(--jf-learning); text-decoration: underline; text-underline-offset: 4px; }
 .empty { display: grid; justify-items: center; gap: 18px; padding: 60px 14px; text-align: center; }
 .empty > svg { width: 30px; height: 30px; color: #627a6c; }
 .empty h2 { margin: 0; font-size: 20px; color: #234b36; }
@@ -55,7 +55,7 @@
 .footer p { margin: 8px 0 0; color: #536b5d; font-size: 14px; line-height: 1.8; }
 .footer > a { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; min-height: 44px; color: #175b3e; font-size: 14px; font-weight: 750; text-decoration: underline; text-underline-offset: 4px; }
 .footer > a svg { width: 18px; height: 18px; }
-.page :is(a, button, input):focus-visible { outline: 3px solid #23845d; outline-offset: 4px; }
+.page :is(a, button, input):focus-visible { outline: 3px solid var(--jf-learning); outline-offset: 4px; }
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; }
@@ -66,7 +66,7 @@
   .hero { padding-bottom: 18px; }
   .breadcrumb { margin-bottom: 20px; font-size: 12px; }
   .hero h1 { font-size: 36px; }
-  .hero > p { font-size: 14px; }
+  .hero > p { font-size: 16px; }
   .searchRow { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .count { justify-self: end; font-size: 12px; }
   .categories { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
@@ -76,8 +76,8 @@
   .preview { padding: 14px 12px; }
   .previewLabel { font-size: 10px; }
   .previewGroup { gap: 7px; }
-  .card h2 { min-height: 0; font-size: 18px; }
-  .card p { font-size: 13px; }
+  .card h2 { min-height: 0; font-size: 20px; }
+  .card p { font-size: 16px; }
   .footer { align-items: flex-start; flex-direction: column; gap: 12px; margin-top: 32px; padding-top: 24px; }
   .footer h2 { font-size: 20px; }
 }

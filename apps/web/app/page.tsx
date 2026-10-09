@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  BookOpen,
-  Calculator,
-  CirclePlay,
-  Search,
-  Target
-} from "lucide-react";
 import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { generateDailyNanikiru, japanDate } from "@mahjong-trainer/mahjong-core";
 import { DailyNanikiruQuestion } from "./components/DailyNanikiruQuestion";
 import { siteConfig } from "./siteConfig";
+import { HomeLearningHub, HomeLearningPaths } from "./components/HomeLearningHub";
 
 export const metadata: Metadata = {
   title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
@@ -28,84 +22,16 @@ export const metadata: Metadata = {
   }
 };
 
-const standardPortalItems = [
-  {
-    title: "麻雀解析ツール",
-    href: "/analysis/mahjong-tool",
-    tone: "analysis",
-    icon: Search
-  },
-  {
-    title: "麻雀トレーニング",
-    href: "/trainer",
-    tone: "training",
-    icon: Target
-  },
-  {
-    title: "点数計算ツール",
-    href: "/tools",
-    tone: "score",
-    icon: Calculator
-  },
-  {
-    title: "麻雀を動画で学ぶ",
-    href: "/videos/strategy",
-    tone: "video",
-    icon: CirclePlay
-  }
-] as const;
-
-const reviewPortalItems = [
-  standardPortalItems[0],
-  standardPortalItems[1],
-  standardPortalItems[2],
-  {
-    title: "麻雀を学ぶ",
-    href: "/learn/guides",
-    tone: "learning",
-    icon: BookOpen
-  }
-] as const;
 
 export default function HomePage() {
   const initialDailyProblem = generateDailyNanikiru(japanDate());
-  const portalItems = isAdsenseReviewMode ? reviewPortalItems : standardPortalItems;
 
   return (
     <main className="siteMain homePage">
-      <section className="homeHero" aria-labelledby="home-title">
-        <div className="homeHeroCopy">
-          <div className="homeHeroBrandRow">
-            <span className="siteLogoMark siteLogoMarkImage homeHeroLogo" aria-hidden="true" />
-            <div>
-              <p className="homeHeroEnglish">JONGFOLIO</p>
-              <p className="homeHeroCategory">MAHJONG LEARNING HUB</p>
-            </div>
-          </div>
-          <h1 id="home-title">雀フォリオ</h1>
-          <p className="homeHeroTagline">麻雀を知る、学ぶ、強くなる。</p>
-        </div>
-        <Link className="homeHeroChecker" href="/analysis/mahjong-tool" aria-label="牌理チェッカーを使う">
-          <img
-            src="/tool-screenshots/ukeire-checker-hero.png"
-            alt="牌理チェッカーで手牌を入力し、打牌候補と有効牌を比較している画面"
-          />
-        </Link>
-      </section>
-
-      <nav className="homeQuickNav" aria-label="雀フォリオの主要コンテンツ">
-        {portalItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <Link className={`homeQuickNav-${item.tone}`} href={item.href} key={item.title}>
-              <Icon aria-hidden="true" />
-              <span>{item.title}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      <HomeLearningHub />
 
       <DailyNanikiruQuestion initialProblem={initialDailyProblem} />
+      <HomeLearningPaths />
 
       <section className="homeIntroSection" aria-labelledby="home-intro-title">
         <div className="homeSectionHeading">

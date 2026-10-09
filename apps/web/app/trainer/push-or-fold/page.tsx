@@ -35,7 +35,7 @@ export default function PushOrFoldPage() {
   // Static export fails on any invalid published lesson. Audit hands stay server-side.
   const prepared = buildPushFoldCorpus().map(({ question }) => preparePushFoldQuestion(question));
   const url = `${getSiteUrl()}${path}`;
-  return <main className={`shell trainingWorkspacePage ${shared.page}`}>
+  return <main data-tone="decisions" className={`shell trainingWorkspacePage ${shared.page}`}>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "押す？オリる？トレーニング", description, url, applicationCategory: "EducationalApplication", operatingSystem: "Web", inLanguage: "ja" }} />
     <JsonLd data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "麻雀トレーニング", item: `${getSiteUrl()}/trainer` }, { "@type": "ListItem", position: 2, name: "押す？オリる？", item: url }] }} />
     <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) }} />

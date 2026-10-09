@@ -73,7 +73,18 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
 
           <article className="articleLayout">
             <div className="articleContent">
-          <section className="articleSection">
+          <nav className="articleContents" aria-label="この記事の目次">
+            <strong>目次</strong>
+            <ol>
+              <li><a href="#lesson-points">この記事で覚えること</a></li>
+              <li><a href="#lesson-body">初心者向けの本文</a></li>
+              <li><a href="#lesson-example">かんたんな例</a></li>
+              {deepDiveSections.length ? <li><a href="#lesson-detail">もう少し詳しく</a></li> : null}
+              {article.misconceptions.length ? <li><a href="#lesson-misconceptions">よくある勘違い</a></li> : null}
+              <li><a href="#lesson-quiz">確認問題</a></li>
+            </ol>
+          </nav>
+          <section className="articleSection" id="lesson-points">
             <h2>この記事で覚えること</h2>
             <ul className="articleChecklist">
               {article.learnPoints.map((point) => (
@@ -82,14 +93,14 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
             </ul>
           </section>
 
-          <section className="articleSection">
+          <section className="articleSection" id="lesson-body">
             <h2>初心者向けの本文</h2>
             {article.body.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </section>
 
-          <section className="articleSection exampleSection">
+          <section className="articleSection exampleSection" id="lesson-example">
             <h2>かんたんな例</h2>
             <p>{article.example}</p>
           </section>
@@ -97,7 +108,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
           <ArticleTileFigures figures={tileFigures} />
 
           {deepDiveSections.length ? (
-            <section className="articleSection deepDiveSection">
+            <section className="articleSection deepDiveSection" id="lesson-detail">
               <h2>もう少し詳しく</h2>
               <div className="deepDiveStack">
                 {deepDiveSections.map((section) => (
@@ -151,7 +162,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
           ) : null}
 
           {article.misconceptions.length ? (
-            <section className="articleSection">
+            <section className="articleSection" id="lesson-misconceptions">
               <h2>よくある勘違い</h2>
               <ul className="misconceptionList">
                 {article.misconceptions.map((item) => (
@@ -161,7 +172,7 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
             </section>
           ) : null}
 
-          <ArticleQuiz quiz={article.quiz} />
+          <div id="lesson-quiz"><ArticleQuiz quiz={article.quiz} /></div>
             </div>
           </article>
 

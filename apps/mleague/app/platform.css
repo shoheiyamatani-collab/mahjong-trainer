@@ -1,0 +1,90 @@
+@font-face { font-family: "Mahjong Noto Sans JP"; src: url("/fonts/NotoSansJP-VF.ttf") format("truetype-variations"); font-style: normal; font-weight: 100 900; font-display: swap; }
+:root {
+  --color-ink: var(--jf-ink); --color-ink-soft: var(--jf-body); --color-paper: var(--jf-bg);
+  --color-surface: var(--jf-surface); --color-surface-strong: var(--jf-mleague-soft); --color-line: var(--jf-line);
+  --color-green: var(--jf-mleague); --color-green-deep: #57268e; --color-green-soft: var(--jf-mleague-soft);
+  --font-sans: var(--jf-font); --font-serif: var(--jf-font); --radius-sm: 4px; --radius-md: 6px; --radius-lg: 8px;
+  --shadow-card: var(--jf-shadow);
+  --broadcast-bg: var(--jf-bg); --broadcast-surface: #fff; --broadcast-panel: var(--jf-mleague-soft); --broadcast-panel-strong: #f8f4ff;
+  --broadcast-text: var(--jf-ink); --broadcast-muted: var(--jf-body); --broadcast-cyan: var(--jf-mleague); --broadcast-blue: var(--jf-learning); --broadcast-magenta: var(--jf-decisions); --broadcast-line: var(--jf-line); --broadcast-line-soft: var(--jf-line); --broadcast-shadow: var(--jf-shadow);
+}
+html { color-scheme: light; background: var(--jf-bg); }
+body { background: var(--jf-bg); color: var(--jf-body); font-family: var(--jf-font); font-size: 16px; }
+.mleagueSectionNav { display: flex; gap: 8px; max-width: 1240px; padding: 12px 24px; margin: auto; overflow-x: auto; border-bottom: 1px solid var(--jf-line); }
+.mleagueSectionNav a { display: inline-flex; align-items: center; min-height: 44px; flex-shrink: 0; padding: 8px 12px; color: var(--jf-mleague); background: #fff; border-radius: 6px; text-decoration: none; font-weight: 750; }
+.mleagueSectionNav a:hover { background: var(--jf-mleague-soft); }
+.platformFrame main h1, .platformFrame main h1.page-title { color: var(--jf-ink); font: 900 36px/1.5 var(--jf-font); letter-spacing: 0; overflow-wrap: anywhere; text-shadow: none; }
+.platformFrame main .page-title::before, .platformFrame main .page-title::after { content: none; }
+.platformFrame :is(.section-heading,.section-title,.page-heading) h2 { color: var(--jf-mleague); font: 850 26px/1.5 var(--jf-font); border-left: 5px solid var(--jf-mleague); padding-left: 14px; }
+.platformFrame :is(.player-card,.team-card,.event-card,.clip-card) { border-radius: 8px; border-color: var(--jf-line); box-shadow: var(--jf-shadow); }
+.platformFrame :is(.player-card,.team-card,.event-card,.clip-card) h3 { font-size: 21px; font-weight: 850; }
+.platformFrame .site-footer { background: #fff; color: var(--jf-body); border-color: var(--jf-line); }
+.platformFrame .footer-links a { color: var(--jf-body); }
+.platformFrame main * { letter-spacing: 0; }
+.platformFrame :is(.match-info-hero,.page-header,.profile-hero,.pro-profile-hero) { background: var(--jf-mleague-soft); border: 0; border-radius: 0; box-shadow: none; }
+.platformFrame :is(.match-info-hero,.page-header,.profile-hero,.pro-profile-hero)::before,
+.platformFrame :is(.match-info-hero,.page-header,.profile-hero,.pro-profile-hero)::after { content: none; }
+.platformFrame :is(.broadcast-rail,.next-match-teams,.next-match-teams a,.result-match-card,.result-entry,.match-info-plan-grid li,.clip-video-card,.clip-video-body,.content-card,.team-link-card,.team-player-link,.stat-card,.stats-section,.standings-panel,.calendar-grid-wrap,.calendar-day,.calendar-weekday,.calendar-match-card) { background: #fff; border-color: var(--jf-line); color: var(--jf-ink); box-shadow: none; }
+.platformFrame :is(.team-player-copy strong,.team-player-copy small,.next-match-heading p,.match-info-lead,.next-match-date > span,.next-match-date strong,.next-match-date small,.result-player-name,.result-team-name,.result-rank,.clip-video-card h2,.clip-video-card a,.clip-video-body p) { color: var(--jf-ink); text-shadow: none; }
+.platformFrame .next-match-date > span { font-size: 64px; }
+.platformFrame .next-match-heading { border-left: 0; }
+.platformFrame .next-match-board { padding: 32px; gap: 24px; }
+.platformFrame .eyebrow { background: var(--jf-mleague-soft); color: var(--jf-mleague); border-color: var(--jf-line); }
+.platformFrame .page-header .eyebrow, .platformFrame .team-profile-page .page-header .eyebrow { color: var(--jf-mleague); }
+.platformFrame .notice { background: var(--jf-decisions-soft); color: var(--jf-ink); border: 1px solid var(--jf-line); border-left: 3px solid var(--jf-decisions); box-shadow: none; }
+.platformFrame .notice-mark { color: var(--jf-decisions); background: transparent; border-color: var(--jf-decisions); }
+.platformFrame .match-status { color: var(--jf-mleague); }
+.platformFrame :is(.button,.match-player-button) { background: var(--jf-mleague); border-color: var(--jf-mleague); color: #fff; border-radius: 6px; box-shadow: none; min-height: 44px; }
+.platformFrame .button-secondary { background: #fff; color: var(--jf-mleague); border: 1px solid var(--jf-mleague); border-radius: 6px; min-height: 44px; }
+.platformFrame :is(.content-card,.team-link-card,.clip-video-card,.result-match-card) { border: 1px solid var(--jf-line); border-radius: 8px; }
+.platformFrame .section-heading::after { content: none; }
+.platformFrame :is(.directory-page-header,.current-season-heading,.team-link-heading) { background: var(--jf-mleague-soft); }
+.platformFrame .directory-page-header::before, .platformFrame .match-calendar-header::before { content: none; }
+.platformFrame :is(.team-card,.player-card,.book-card,.filter-panel,.clip-category-card,.clip-empty-state,.empty-state,.pro-class-group,.pro-directory-summary,.pro-profile-notice,.official-account-card,.book-cover,.book-cover-placeholder,.pro-member-links a,.season-team-ranking-card,.season-player-table-wrap,.season-ranking-source,.career-scoreboard,.career-detail-grid > div,.data-table td,.season-player-table tbody tr) { background: #fff; color: var(--jf-ink); border-color: var(--jf-line); box-shadow: none; }
+.platformFrame :is(.team-link-card,.book-card,.clip-category-card,.official-account-card,.season-team-ranking-card,.site-footer)::before,
+.platformFrame :is(.team-link-card,.official-account-card,.season-team-ranking-card)::after { content: none; }
+.platformFrame :is(.team-player-links .team-player-link,.team-player-links li:nth-child(even) .team-player-link) { background: #fff; color: var(--jf-ink); border-left-color: var(--jf-mleague); }
+.platformFrame :is(.team-player-links .team-player-link,.team-player-links li:nth-child(even) .team-player-link):is(:hover,:focus-visible),
+.platformFrame .season-player-table tbody tr:hover { background: var(--jf-mleague-soft); }
+.platformFrame :is(.team-player-link .team-player-copy strong,.team-player-link .team-player-arrow,.team-player-index,.team-link-code,.profile-kicker,.current-season-heading h3) { color: var(--jf-ink); text-shadow: none; }
+.platformFrame .season-ranking-position { background: var(--jf-mleague-soft); border-color: var(--jf-line); }
+.platformFrame .season-team-ranking-card:first-child .season-ranking-position { background: var(--jf-scoring-soft); border-color: var(--jf-line); }
+.platformFrame .season-ranking-position b, .platformFrame .season-team-ranking-card:first-child .season-ranking-position b { color: var(--jf-ink); }
+.platformFrame :is(.season-ranking-position small,.season-team-ranking-detail dt,.season-player-link small,.current-season-heading span,.career-points > span,.career-primary-stats dt,.career-detail-grid dt,.mleague-stats-source,.mleague-stats-notes) { color: var(--jf-body); font-size: 13px; }
+.platformFrame :is(.season-team-ranking-detail dd,.season-player-table td,.season-player-table th) { color: var(--jf-ink); font-size: 14px; }
+.platformFrame .season-player-table thead th { background: var(--jf-mleague-soft); color: var(--jf-mleague); }
+.platformFrame .season-player-table .season-player-rank { color: var(--jf-ink) !important; }
+.platformFrame :is(.season-point-value.is-positive,.mleague-stats .is-positive) { color: var(--jf-analysis); }
+.platformFrame :is(.season-point-value.is-negative,.mleague-stats .is-negative) { color: var(--jf-decisions); }
+.platformFrame :is(.season-point-value.is-neutral,.mleague-stats .is-neutral) { color: var(--jf-body); }
+.platformFrame :is(.team-link-heading h3,.current-season-heading h3) { font-size: 22px; }
+.platformFrame :is(.career-points strong,.career-primary-stats dd) { font-size: 28px; font-weight: 900; }
+.platformFrame :is(.clip-category-card:nth-child(2) > span,.profile-hero .player-name-kana,.profile-hero.profile-hero-without-avatar .player-name-kana) { color: var(--jf-mleague); }
+.platformFrame :is(input,select,textarea) { background: #fff; color: var(--jf-ink); border-color: var(--jf-line); border-radius: 6px; font-size: 16px; }
+.platformFrame :is(.text-link,.external-link):is(:hover,:focus-visible) { color: #57268e; text-decoration: underline; }
+.platformFrame :is(.page-lead,.content-card p,.book-card p,.clip-category-card p,.footer-notice p) { font-size: 16px; line-height: 1.85; }
+.platformFrame .player-profile-page { background: transparent; border-radius: 0; box-shadow: none; }
+.platformFrame .profile-hero.profile-hero-without-avatar .page-title { color: var(--jf-ink); text-shadow: none; }
+.platformFrame .profile-hero .profile-kicker { color: var(--jf-mleague); background: var(--jf-mleague-soft); }
+.platformFrame .profile-hero .tag, .platformFrame .profile-hero .profile-team-tag { color: var(--jf-ink); background: #fff; border-color: var(--jf-line); box-shadow: none; }
+.platformFrame :is(.match-calendar-months,.match-calendar-month,.calendar-grid-wrap) { min-width: 0; max-width: 100%; }
+.platformFrame .match-calendar-months { grid-template-columns: minmax(0,1fr); }
+.platformFrame :is(.calendar-month-nav,.match-calendar-summary,.calendar-source) { background: #fff; box-shadow: none; color: var(--jf-ink); }
+.platformFrame .calendar-month-nav { top: 76px; }
+.platformFrame .calendar-month-nav a:hover { background: var(--jf-mleague-soft); }
+.platformFrame :is(.calendar-day.has-match,.calendar-day.is-finished,.calendar-day.is-blank) { background: #fff; }
+.platformFrame .calendar-day.is-next { background: var(--jf-mleague-soft); box-shadow: inset 0 0 0 2px var(--jf-mleague); }
+.platformFrame .calendar-day.is-finished .calendar-match-tables { opacity: 1; }
+.platformFrame :is(.calendar-weekday-0,.calendar-day-0 .calendar-day-heading time) { color: var(--jf-decisions); }
+.platformFrame :is(.calendar-weekday-6,.calendar-day-6 .calendar-day-heading time) { color: var(--jf-learning); }
+.platformFrame :is(.calendar-weekday,.calendar-day-heading span,.calendar-match-table b,.calendar-no-match) { color: var(--jf-body); font-size: 13px; }
+.platformFrame .calendar-day.is-next .calendar-day-heading span { background: var(--jf-mleague); color: #fff; }
+.platformFrame .calendar-match-table a { min-height: 44px; background: #fff; color: var(--jf-ink); border-color: var(--jf-line); font-size: 13px; white-space: normal; overflow-wrap: anywhere; }
+.platformFrame .calendar-match-table a:hover { background: var(--jf-mleague-soft); color: var(--jf-ink); }
+@media (max-width: 720px) {
+  .platformFrame main h1, .platformFrame main h1.page-title { font-size: 28px; }
+  .platformFrame :is(.section-heading,.section-title,.page-heading) h2 { font-size: 22px; }
+  .mleagueSectionNav { padding: 10px 12px; }
+  .platformFrame .next-match-board { padding: 20px 16px; }
+  .platformFrame .calendar-month-nav { top: 64px; }
+}

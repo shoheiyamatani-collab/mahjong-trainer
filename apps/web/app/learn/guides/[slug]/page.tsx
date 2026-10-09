@@ -55,8 +55,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
 
         <ArticleTakeaways items={guide.takeaways} />
 
-        {guide.sections.map((section) => (
-          <section className="articleSection" key={section.heading}>
+        {guide.sections.length >= 3 ? <nav className="articleContents" aria-label="この記事の目次"><strong>目次</strong><ol>{guide.sections.map((section, index) => <li key={section.heading}><a href={`#guide-section-${index + 1}`}>{section.heading}</a></li>)}</ol></nav> : null}
+
+        {guide.sections.map((section, index) => (
+          <section className="articleSection" id={`guide-section-${index + 1}`} key={section.heading}>
             <h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => <p key={paragraph}><ArticleText text={paragraph} emphasis={guideArticleEmphasis[guide.slug]} /></p>)}
             {section.bullets ? <ul className="deepDiveList">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}

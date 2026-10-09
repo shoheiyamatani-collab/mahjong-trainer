@@ -4,6 +4,7 @@ import { afterAll, describe, expect, it, vi } from "vitest";
 import { ToolPreviewImage } from "../components/ToolPreviewImage";
 import { TrainerPortalCard } from "./TrainerLearningContent";
 import { standaloneTrainerDefinitions, trainerDefinitions } from "./trainerCatalog";
+import { trainingTone } from "../toolbox/toolCatalog";
 
 vi.stubGlobal("React", React);
 afterAll(() => vi.unstubAllGlobals());
@@ -29,22 +30,16 @@ describe("compact trainer cards", () => {
     });
   }
 
-  it("uses distinct, readable accent colors for every current trainer", () => {
-    const luminance = (hex: string) => {
-      const [r, g, b] = hex.slice(1).match(/../g)!.map((channel) => {
-        const value = parseInt(channel, 16) / 255;
-        return value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4;
-      });
-      return r! * .2126 + g! * .7152 + b! * .0722;
-    };
-    const colors = cards.map((card) => {
+  it("groups trainers by shared category tokens instead of per-card colors", () => {
+    const tones = cards.map((card) => {
       const html = renderToStaticMarkup(React.createElement(TrainerPortalCard, card));
-      const accent = html.match(/--trainer-card-accent:(#[\da-f]{6})/)![1]!;
-      const tint = html.match(/--trainer-card-tint:(#[\da-f]{6})/)![1]!;
-      expect((luminance(tint) + .05) / (luminance(accent) + .05), card.slug).toBeGreaterThanOrEqual(4.5);
-      return accent;
+      expect(html).toContain(`data-tone="${trainingTone[card.category]}"`);
+      expect(html).not.toContain("--trainer-card-accent");
+      expect(html).toContain("platformToolCardHeader");
+      expect(html.indexOf("<h3>")).toBeLessThan(html.indexOf("platformDifficulty"));
+      return trainingTone[card.category];
     });
-    expect(new Set(colors).size).toBe(cards.length);
+    expect(new Set(tones).size).toBe(4);
   });
 
   it("retains a usable default for a newly added trainer", () => {

@@ -1,69 +1,11 @@
 import Link from "next/link";
 import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { siteConfig } from "../siteConfig";
-import { SiteNavigation, type SiteNavItem } from "./SiteNavigation";
+import { PlatformNavigation } from "./SiteNavigation";
 
-const navItems: SiteNavItem[] = [
-  {
-    label: "麻雀解析ツール",
-    href: "/analysis/mahjong-tool",
-    activePrefixes: ["/analysis"],
-    icon: "analysis",
-    kind: "primary",
-    tone: "analysis"
-  },
-  {
-    label: "麻雀トレーニング",
-    href: "/trainer",
-    activePrefixes: ["/trainer", "/training"],
-    icon: "training",
-    kind: "primary",
-    tone: "training"
-  },
-  { label: "点数計算ツール", href: "/tools", icon: "score", kind: "utility", tone: "score" },
-  {
-    label: "麻雀を学ぶ",
-    href: "/learn/guides",
-    activePrefixes: ["/learn/guides"],
-    icon: "rules",
-    kind: "utility",
-    tone: "learning"
-  },
-  {
-    label: "動画で学ぶ",
-    href: "/videos/strategy",
-    activePrefixes: ["/videos"],
-    icon: "video",
-    kind: "utility",
-    tone: "video",
-    visible: !isAdsenseReviewMode
-  },
-  {
-    label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
-    href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
-    external: siteConfig.externalSites.mLeaguePlayerDirectory.external,
-    activePrefixes: ["/mleague"],
-    icon: "mleague",
-    kind: "utility",
-    tone: "mleague",
-    visible: siteConfig.features.showMLeagueDirectoryLink && !isAdsenseReviewMode
-  },
-  {
-    label: "初心者ロードマップ",
-    href: "/learn/roadmap",
-    activePrefixes: ["/learn/roadmap"],
-    icon: "roadmap",
-    kind: "utility",
-    tone: "roadmap"
-  },
-  {
-    label: "Mリーグ厳選切り抜きを見る",
-    href: "/videos/mleague-clips",
-    visible: siteConfig.features.showMLeagueLinks
-  }
-];
 
 const footerContentItems: { label: string; href: string; external?: boolean }[] = [
+  { label: "ツール・トレーニングを探す", href: "/toolbox" },
   { label: "麻雀解析ツール", href: "/analysis/mahjong-tool" },
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀点数計算ツール", href: "/tools" },
@@ -100,14 +42,7 @@ function BrandLockup() {
 }
 
 export function Header() {
-  return (
-    <header className="siteHeader">
-      <Link className="siteLogo" href="/">
-        <BrandLockup />
-      </Link>
-      <SiteNavigation items={navItems} />
-    </header>
-  );
+  return <PlatformNavigation reviewMode={isAdsenseReviewMode} mleagueHref={siteConfig.externalSites.mLeaguePlayerDirectory.href} />;
 }
 
 export function Footer() {

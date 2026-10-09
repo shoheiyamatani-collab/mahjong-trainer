@@ -5,6 +5,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
+import "../../../shared/ui/design-tokens.css";
+import "./platform.css";
+import { PlatformFrame } from "../../web/app/components/SiteNavigation";
 
 const description =
   "Mリーグの対局情報、チーム成績、所属選手のプロフィール、公式情報へのリンクを確認できる雀フォリオ内の非公式情報ページです。";
@@ -82,12 +85,12 @@ export default function RootLayout({
       </head>
       <body>
         <JsonLd data={structuredData} />
-        <a className="skip-link" href="#main-content">
-          本文へ移動
-        </a>
+        <PlatformFrame mleague>
         <SiteHeader />
+        <div id="platform-main" tabIndex={-1} />
         {children}
         <SiteFooter />
+        </PlatformFrame>
       </body>
     </html>
   );

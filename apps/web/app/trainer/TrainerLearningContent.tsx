@@ -1,10 +1,11 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import { ArrowRight } from "lucide-react";
 import { ArticleTileFigures } from "../components/TileFigures";
-import { ToolPreviewImage, type ToolPreviewScreenshot } from "../components/ToolPreviewImage";
+import type { ToolPreviewScreenshot } from "../components/ToolPreviewImage";
 import { standaloneTrainerDefinitions, trainerDefinitions, type TrainerCategory, type TrainerDefinition } from "./trainerCatalog";
 import approvedTedashi from "../training/tedashi-reading/data/approved.json";
+import { getToolCatalog, trainingTone, type ToolCatalogItem } from "../toolbox/toolCatalog";
+import { ToolCard } from "../components/ToolCard";
 
 const categoryOrder: TrainerCategory[] = ["牌効率", "待ち", "点数計算", "実戦判断"];
 
@@ -15,24 +16,6 @@ const categoryDescriptions: Record<TrainerCategory, string> = {
   実戦判断: "役・速度・打点・守備を比べ、局面に合う選択を練習します。"
 };
 
-const trainerCardPresentation: Record<string, {
-  accent: string;
-  tint: string;
-  summary: string;
-  crop: NonNullable<ToolPreviewScreenshot["crop"]>;
-}> = {
-  "ukeire-max": { accent: "#7049a4", tint: "#f7f3fb", summary: "打牌ごとの有効牌を比べ、受け入れ最大の一打を選びます。", crop: { x: 14, y: 42, width: 160, height: 100 } },
-  iishanten: { accent: "#177356", tint: "#f0f9f4", summary: "テンパイまであと一歩。受け入れと良形を比べる何切るです。", crop: { x: 15, y: 145, width: 160, height: 100 } },
-  "seven-tile": { accent: "#276fa5", tint: "#f0f7fc", summary: "7枚の複合形から、すべての待ち牌を選びます。", crop: { x: 10, y: 130, width: 180, height: 112.5 } },
-  chinitsu: { accent: "#0e7b88", tint: "#eef9fa", summary: "清一色の13枚を分解し、多面待ちを見つけます。", crop: { x: 10, y: 12, width: 160, height: 100 } },
-  score: { accent: "#91600a", tint: "#fff9eb", summary: "翻・符を数え、親子とロン・ツモの点数を答えます。", crop: { x: 10, y: 44, width: 200, height: 125 } },
-  "score-hard": { accent: "#b25122", tint: "#fff4ee", summary: "カン・高符・複雑な待ちを含む点数計算に挑戦します。", crop: { x: 10, y: 108, width: 200, height: 125 } },
-  "call-or-pass": { accent: "#5a7420", tint: "#f6f9ed", summary: "ポン・チー・スルーを選び、役・速度・打点を比べます。", crop: { x: 135, y: 737, width: 260, height: 162.5 } },
-  "riichi-or-dama": { accent: "#a43c74", tint: "#fcf1f7", summary: "待ち・打点・点棒状況から、リーチかダマかを判断します。", crop: { x: 125, y: 730, width: 256, height: 160 } },
-  "push-or-fold": { accent: "#b13640", tint: "#fff2f3", summary: "手牌価値と相手の河を見て、押すかオリるかを判断します。", crop: { x: 25, y: 335, width: 256, height: 160 } },
-  "tedashi-reading": { accent: "#52687a", tint: "#f3f6f8", summary: "手出し・ツモ切りから、牌譜上の手牌変化を読みます。", crop: { x: 0, y: 50, width: 288, height: 180 } }
-};
-
 export function TrainerPortalCard({ slug, href, title, level, description, screenshot }: {
   slug: string;
   href: string;
@@ -41,25 +24,8 @@ export function TrainerPortalCard({ slug, href, title, level, description, scree
   description: string;
   screenshot: ToolPreviewScreenshot;
 }) {
-  const presentation = trainerCardPresentation[slug];
-  return (
-    <article className="trainerPortalCard" data-trainer={slug} style={presentation ? {
-      "--trainer-card-accent": presentation.accent,
-      "--trainer-card-tint": presentation.tint
-    } as CSSProperties : undefined}>
-      <Link className="trainerPortalCardLink" href={href} aria-label={`${title}を始める`}>
-        <header className="trainerPortalCardHeader">
-          <h3>{title}</h3>
-          <span>{level}</span>
-        </header>
-        <div className="trainerPortalCardPreview">
-          <ToolPreviewImage screenshot={presentation ? { ...screenshot, alt: `${title}の問題画面の一部`, crop: presentation.crop } : screenshot} />
-          <p>{presentation?.summary ?? description}</p>
-        </div>
-        <span className="trainerPortalCardAction">練習する<ArrowRight aria-hidden="true" /></span>
-      </Link>
-    </article>
-  );
+  const item: ToolCatalogItem = getToolCatalog(true).find(tool => tool.id === slug) ?? { id: slug, title, href, level, description, screenshot, category: "実戦判断", tone: "decisions", training: true, keywords: [] };
+  return <ToolCard item={{ ...item, title, href, level }} />;
 }
 
 export function TrainerPortal() {
@@ -68,15 +34,21 @@ export function TrainerPortal() {
       <section className="trainerPortalIntro" aria-labelledby="trainer-portal-title">
         <p className="eyebrow">CHOOSE A PRACTICE</p>
         <h2 id="trainer-portal-title">身につけたい力から選ぶ</h2>
-        <p>問題を解いた後は、正解だけでなく判断手順と牌図を確認できます。基礎から始める場合は、各分野の初心者向けから進めてください。</p>
+        <p>何切る・待ち・点数・実戦判断。問題を解き、解説と牌図で振り返ります。</p>
       </section>
+
+      <nav className="trainerPortalJumpNav" aria-label="練習分野を選ぶ">
+        {categoryOrder.map(category => <Link data-tone={trainingTone[category]} href={`#trainer-category-${category}`} key={category}>{category}</Link>)}
+        <Link data-tone="learning" href="#trainer-category-yaku">役とルール</Link>
+        <Link href="/toolbox">検索する</Link>
+      </nav>
 
       {categoryOrder.map((category) => {
         const definitions = [...trainerDefinitions, ...standaloneTrainerDefinitions].filter((definition) => definition.category === category);
         return (
-          <section className="trainerPortalCategory" aria-labelledby={`trainer-category-${category}`} key={category}>
+          <section className="trainerPortalCategory" data-tone={trainingTone[category]} id={`trainer-category-${category}`} aria-labelledby={`trainer-heading-${category}`} key={category}>
             <header>
-              <h2 id={`trainer-category-${category}`}>{category}</h2>
+              <h2 id={`trainer-heading-${category}`}>{category}</h2>
               <p>{categoryDescriptions[category]}</p>
             </header>
             <div className="trainerPortalGrid">
@@ -87,6 +59,7 @@ export function TrainerPortal() {
           </section>
         );
       })}
+      <section className="trainerPortalCategory" data-tone="learning" id="trainer-category-yaku" aria-labelledby="trainer-heading-yaku"><header><h2 id="trainer-heading-yaku">役とルール</h2><p>牌姿と成立条件を比べ、アガれる役を覚えます。</p></header><div className="trainerPortalGrid"><ToolCard item={getToolCatalog().find(item => item.id === "yaku-quiz")!} /></div></section>
       {process.env.NODE_ENV === "development" || approvedTedashi.length > 0 ? <section className="trainerPortalCategory" aria-labelledby="trainer-reading-category"><header><h2 id="trainer-reading-category">捨て牌を読む</h2><p>手出しとツモ切りを見て、牌譜上の手牌変化と比べます。</p></header><div className="trainerPortalGrid"><TrainerPortalCard slug="tedashi-reading" href="/training/tedashi-reading" title="手出し読みトレーニング" level="中級者" description="河から候補を考え、回答後に実際の手牌を確認します。相手の意図を断定せず、事実と読みを分ける練習です。" screenshot={{ src: "/tool-screenshots/tedashi-reading.jpg", alt: "手出し読みトレーニングの河と4択問題（合成テストデータ）", width: 1144, height: 539 }} /></div></section> : null}
     </div>
   );

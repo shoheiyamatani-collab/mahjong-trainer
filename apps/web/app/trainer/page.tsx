@@ -1,4 +1,5 @@
 "use client";
+import { trainingTone } from "../toolbox/toolCatalog";
 
 import { useEffect, useMemo, useReducer, useState } from "react";
 import Link from "next/link";
@@ -932,7 +933,7 @@ export default function Home() {
       : trainerDefinition?.title ?? "麻雀トレーニング";
 
   return (
-    <main className={`shell appWorkspace ${isScoreCalculator ? "scoreWorkspacePage" : isAnalysisTool ? "analysisWorkspacePage" : "trainingWorkspacePage"}`}>
+    <main data-tone={trainerDefinition ? trainingTone[trainerDefinition.category] : isAnalysisTool || isScoreCalculator ? "analysis" : "training"} className={`shell appWorkspace ${isScoreCalculator ? "scoreWorkspacePage" : isAnalysisTool ? "analysisWorkspacePage" : "trainingWorkspacePage"}`}>
       <header className="topbar">
         <div>
           <p className="eyebrow">{pageEyebrow}</p>

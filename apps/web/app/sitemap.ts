@@ -32,6 +32,7 @@ const staticPaths = [
   "/rules/practical-waits",
   "/rules/yaku",
   "/tools",
+  "/toolbox",
   "/tools/help",
   "/tools/score-table",
   "/terms",

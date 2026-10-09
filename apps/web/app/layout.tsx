@@ -4,6 +4,9 @@ import { Footer, Header } from "./components/SiteChrome";
 import { getSiteUrl } from "./seoConfig";
 import { siteConfig } from "./siteConfig";
 import "./globals.css";
+import "../../../shared/ui/design-tokens.css";
+import "./platform.css";
+import { PlatformFrame } from "./components/SiteNavigation";
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -45,7 +48,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -83,9 +85,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <JsonLd data={structuredData} />
+        <PlatformFrame>
         <Header />
+        <div id="platform-main" tabIndex={-1} />
         {children}
         <Footer />
+        </PlatformFrame>
       </body>
     </html>
   );

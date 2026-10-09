@@ -28,7 +28,7 @@ const guideSections = [
 export default function CallOrPassPage() {
   const prepared = callQuestions.map((question) => { validateCallQuestion(question); return { question, comparison: compareCallQuestion(question), multipleChiForms: legalCallForms(parseHand(question.hand), question.offered, question.offeredBy).filter((form) => form.action === "chi").length > 1 }; });
   const url = `${getSiteUrl()}${path}`;
-  return <main className={`shell trainingWorkspacePage ${styles.page}`}>
+  return <main data-tone="decisions" className={`shell trainingWorkspacePage ${styles.page}`}>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "WebApplication", name: "鳴く？鳴かない？トレーニング", description, url, applicationCategory: "EducationalApplication", operatingSystem: "Web", inLanguage: "ja" }} />
     <JsonLd data={{ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "麻雀トレーニング", item: `${getSiteUrl()}/trainer` }, { "@type": "ListItem", position: 2, name: "鳴く？鳴かない？トレーニング", item: url }] }} />
     <nav className={styles.breadcrumb} aria-label="パンくず"><Link href="/trainer">麻雀トレーニング</Link><span aria-hidden="true">/</span><span>鳴く？鳴かない？</span></nav>
