@@ -6,6 +6,7 @@ import { doraFromIndicator } from "../call-or-pass/callModel";
 import { seats, type PreparedPushFoldQuestion, type PushFoldBranch, type PushFoldQuestion, type PushFoldValue } from "./pushFoldTypes";
 import shared from "../call-or-pass/call.module.css";
 import styles from "./pushFold.module.css";
+import { PushFoldTable } from "./PushFoldTable";
 
 export const tileLabel = (tile: ReplayTile) => getTileName(tileAssetName(tile.tile, tile.red));
 const asset = (tile: ReplayTile) => tileAssetName(tile.tile, tile.red);
@@ -32,10 +33,7 @@ export function PushFoldPosition({ prepared: item }: { prepared: PreparedPushFol
 }
 
 export function PushFoldRivers({ question: q }: { question: PushFoldQuestion }) {
-  return <div className={styles.riverGrid} aria-label="各家の河と攻撃状態">{q.players.map((p, i) => {
-      const relative = ["自分", "下家", "対面", "上家"][(i - seats.indexOf(q.seatWind) + 4) % 4];
-      return <section key={p.seat} className={styles.river}><h3>{p.seat}家・{relative}{p.seat === "東" ? "（親）" : ""}<br />{p.riichi ? <strong>リーチ・{p.riichi.turn}打目</strong> : p.attacking ? <strong>副露の攻撃・テンパイ不明</strong> : "リーチなし"}</h3><div className={styles.riverTiles}>{p.river.map((r) => <div key={r.tile.id} className={`${styles.riverTile} ${r.riichi ? styles.declaration : ""} ${r.calledBy !== null ? styles.called : ""}`} title={`${r.turn}打目・${tileLabel(r.tile)}・${r.tsumogiri ? "ツモ切り" : "手出し"}${r.riichi ? "・リーチ宣言" : ""}${r.calledBy !== null ? `・${seats[r.calledBy]}家が鳴いた牌` : ""}`}><PhysicalTiles tiles={[r.tile]} compact /><span>{r.riichi ? "宣言" : r.calledBy !== null ? "鳴" : r.tsumogiri ? "ツ" : "手"}</span></div>)}</div>{p.melds.length ? <div className={shared.effective}><p className={styles.meldLabel}>副露：{p.melds.map((m) => `${m.kind === "chi" ? "チー" : "ポン"}（${seats[m.from]}家から）`).join("、")}</p><PhysicalTiles tiles={p.melds.flatMap((m) => m.tiles)} compact /></div> : null}</section>;
-    })}</div>
+  return <PushFoldTable question={q} />;
 }
 
 function valueLabel(value: PushFoldValue | null, tsumo = false) {

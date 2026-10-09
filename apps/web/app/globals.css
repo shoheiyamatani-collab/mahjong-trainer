@@ -13916,18 +13916,76 @@ body .roadmapBoardPage {
 .trainerPortalGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-left: 1px solid #d3ded8;
+  gap: 12px;
+  padding-top: 14px;
 }
 
 .trainerPortalCard {
-  display: flex;
+  --trainer-card-accent: #177356;
+  --trainer-card-tint: #f0f9f4;
   min-width: 0;
-  min-height: 250px;
-  padding: 24px;
-  flex-direction: column;
-  border-right: 1px solid #d3ded8;
-  border-bottom: 1px solid #d3ded8;
-  background: #fff;
+  border: 1px solid var(--trainer-card-accent);
+  border-left-width: 4px;
+  border-radius: 6px;
+  background: var(--trainer-card-tint);
+}
+
+.trainerPortalCardLink {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  height: 100%;
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.trainerPortalCardLink:focus-visible {
+  outline: 3px solid var(--trainer-card-accent);
+  outline-offset: 3px;
+}
+
+.trainerPortalCardLink:hover h3 {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.trainerPortalCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trainerPortalCardHeader > span {
+  flex-shrink: 0;
+  padding-top: 4px;
+  color: var(--trainer-card-accent);
+  font-size: .75rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.trainerPortalCardPreview {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.trainerPortalCardPreview .toolPreviewFigure {
+  margin: 0;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.trainerPortalCardPreview p {
+  margin: 0;
+  color: #40554c;
+  font-size: .875rem;
+  line-height: 1.65;
 }
 
 .toolPreviewFigure {
@@ -13939,12 +13997,15 @@ body .roadmapBoardPage {
   background: #f4f7f5;
 }
 
-.toolPreviewFigure > a {
+.toolPreviewFigure > a,
+.toolPreviewViewport {
+  position: relative;
   display: flex;
   width: 100%;
   aspect-ratio: 16 / 9;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .toolPreviewFigure img {
@@ -14045,45 +14106,27 @@ body .roadmapBoardPage {
   }
 }
 
-.trainerPortalMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 15px;
+.trainerPortalCard h3 {
+  min-width: 0;
+  margin: 0;
+  color: #18372a;
+  font-size: 1.125rem;
+  font-weight: 850;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
-.trainerPortalMeta span {
-  padding: 4px 8px;
-  background: #eef6f2;
-  color: #176a4b;
-  font-size: .78rem;
+.trainerPortalCardAction {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 6px;
+  color: var(--trainer-card-accent);
+  font-size: .875rem;
   font-weight: 800;
 }
 
-.trainerPortalCard h3 {
-  margin: 0 0 10px;
-  color: #123d2d;
-  font-size: 1.22rem;
-}
-
-.trainerPortalCard > p {
-  margin: 0 0 20px;
-  color: #53635c;
-  line-height: 1.7;
-}
-
-.trainerPortalCard > a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: auto;
-  color: #08724d;
-  font-weight: 850;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.trainerPortalCard > a svg,
+.trainerPortalCardAction svg,
 .trainerRelatedGrid a svg {
   width: 17px;
   height: 17px;
@@ -14325,9 +14368,18 @@ body .roadmapBoardPage {
     grid-template-columns: 1fr;
   }
 
-  .trainerPortalCard {
-    min-height: 0;
-    padding: 20px 16px;
+  .trainerPortalCardLink {
+    gap: 10px;
+    padding: 14px 12px;
+  }
+
+  .trainerPortalCardHeader {
+    gap: 8px;
+  }
+
+  .trainerPortalCardPreview {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
   }
 
   .trainerLearningContent,
