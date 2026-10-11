@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "iwhR8cyi56U",
-  tag: "10/8 ハイライト",
-  title: "【2026/10/8 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "p7s-HpzUyJA",
+  tag: "10/9 ハイライト",
+  title: "【2026/10/9 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "渡辺太、内川幸太郎、尻無濱航、黒沢咲、HIRO柴田、石井一馬の見どころ局を収めた10月8日のMリーグ公式ハイライトです。",
+    "岡田紗佳、阿久津翔太、伊達朱里紗、松本吉弘、本田朋広、瑞原明奈、鈴木優、鈴木大介の見どころ局を収めた10月9日のMリーグ公式ハイライトです。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=iwhR8cyi56U",
-  date: "2026年10月9日公開",
-  competition: "10月8日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=p7s-HpzUyJA",
+  date: "2026年10月10日公開",
+  competition: "10月9日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "iwhR8cyi56U",
+    tag: "10/8 ハイライト",
+    title: "【2026/10/8 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "渡辺太、内川幸太郎、尻無濱航、黒沢咲、HIRO柴田、石井一馬の見どころ局を収めた10月8日のMリーグ公式ハイライトです。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=iwhR8cyi56U",
+    date: "2026年10月9日公開",
+    competition: "10月8日 Mリーグ公式ハイライト",
+  },
   {
     id: "_kp6mb70VpE",
     tag: "10/6 ハイライト",
