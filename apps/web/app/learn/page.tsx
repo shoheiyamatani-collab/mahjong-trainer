@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SectionTitle } from "../components/SiteSections";
+import { PageHero, SectionTitle } from "../components/SiteSections";
 
 export const metadata: Metadata = {
   title: "麻雀 初めて学ぶ | 初心者ロードマップ・ルール・便利ツール",
   description:
-    "麻雀をこれから始める初心者向けの学習入口です。初心者ロードマップ、実践で頻出する点数計算や待ち、点数計算や何切るを確認できる麻雀便利ツールへ進めます。",
+    "麻雀をこれから学ぶ方に向けた入口です。初心者ロードマップ、役や点数計算の解説、牌理チェッカーや何切るトレーニングへ進めます。",
   alternates: { canonical: "/learn" }
 };
 
@@ -15,7 +15,11 @@ const rulesTiles = ["man2", "man3", "man4", "man5", "man6", "man7", "man8"];
 export default function LearnPage() {
   return (
     <main className="siteMain learnLandingPage">
-      <h1 className="srOnly">初めて学ぶ</h1>
+      <PageHero
+        eyebrow="LEARNING PATH"
+        title="麻雀を学ぶ"
+        description="ルールを覚える、実戦で使う、牌姿で練習する。知りたいテーマや今のレベルに合わせて進めます。"
+      />
       <section>
         <SectionTitle
           title="最初に見るところ"
@@ -40,14 +44,14 @@ export default function LearnPage() {
             <div>
               <p className="siteEyebrow">Rules</p>
               <h2>基本的なルールを覚えたあなたへ</h2>
-              <p>実践で頻出する点数計算や待ちについて、これが分かれば9割方問題なし！</p>
+              <p>役、点数計算、待ちの基本を牌図で確認し、実戦で迷いやすい条件を整理します。</p>
             </div>
             <div className="learnHubVisual learnHubTileVisual isRulesVisual" aria-label="三面待ちの形を表す麻雀牌の例">
               {rulesTiles.map((tile) => (
                 <img key={tile} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
               ))}
             </div>
-            <Link className="cardButton" href="/rules">これが分かれば実践問題なし！</Link>
+            <Link className="cardButton" href="/rules">役・点数・待ちを確認する</Link>
           </article>
 
           <article className="learnHubCard">

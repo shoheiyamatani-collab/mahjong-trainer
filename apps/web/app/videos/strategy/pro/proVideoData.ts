@@ -380,8 +380,12 @@ export const proVideoLessons: ProVideoLesson[] = proVideoSources.map((source) =>
   recommendedFor: source.recommendedFor,
   watchPoints: source.points,
   overview: [source.summary],
-  keyPoints: source.points,
-  practicalPoints: ["動画を止めて自分の候補を一枚決める", "プロの結論より先に判断材料を比べる", "気になった一打だけを牌譜や解析ツールで振り返る"],
+  keyPoints: [],
+  practicalPoints: [
+    `${source.player}の打牌を一つ選び、結論を見る前に自分の候補を決める`,
+    `「${source.focus}」に注目し、判断を変えた情報を一つ書き留める`,
+    "視聴後、気になった牌姿を牌理チェッカーで比べ、受け入れと最終形の差を振り返る"
+  ],
   relatedLinks: [
     { href: source.relatedHref, label: source.relatedLabel },
     ...(playerProfileSlugs[source.player]

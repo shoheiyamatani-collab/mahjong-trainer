@@ -38,7 +38,7 @@ export default function PrivacyPage() {
 
       <section>
         <h2>3. Google AdSenseについて</h2>
-        <p>当サイトでは、Google AdSenseを利用しています。Googleなどの第三者配信事業者は、Cookieを利用し、利用者による当サイトや他のウェブサイトへの過去のアクセス情報に基づいて広告を配信する場合があります。</p>
+        <p>当サイトでは、Google AdSenseによる広告を掲載する場合があります。広告が配信される際、Googleなどの第三者配信事業者はCookieを利用し、利用者による当サイトや他のウェブサイトへの過去のアクセス情報に基づいて広告を配信することがあります。</p>
         <p>広告配信に伴い、第三者が利用者のブラウザへCookieを配置・読み取るほか、ウェブビーコン、IPアドレス、その他の識別子を使用して情報を収集する場合があります。</p>
         <p>利用者は、Googleの広告設定からパーソナライズ広告を無効にできます。</p>
         <div className="legalLinkList">

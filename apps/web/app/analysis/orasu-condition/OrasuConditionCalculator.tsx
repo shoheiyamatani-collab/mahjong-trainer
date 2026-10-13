@@ -1,7 +1,7 @@
 "use client";
 
 import { Calculator, Minus, Plus, RotateCcw } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ORASU_SEATS,
   calculateOrasuConditions,
@@ -21,6 +21,7 @@ import {
   type OrasuWinningCondition
 } from "@mahjong-trainer/mahjong-core";
 import styles from "./orasu-condition.module.css";
+import { orasuExamples } from "./orasuExamples";
 
 const seatLabels: Record<OrasuSeat, string> = { east: "東家", south: "南家", west: "西家", north: "北家" };
 const initialScoreInputs: Record<OrasuSeat, string> = { east: "32000", south: "28500", west: "22000", north: "17500" };
@@ -38,11 +39,36 @@ export default function OrasuConditionCalculator() {
   const [result, setResult] = useState<OrasuConditionResult | null>(null);
   const [drawResult, setDrawResult] = useState<OrasuDrawResult | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
+  const [exampleId, setExampleId] = useState("");
+
+  useEffect(() => {
+    const requestedExample = new URLSearchParams(window.location.search).get("example");
+    if (requestedExample) loadExample(requestedExample);
+  }, []);
+
+  function loadExample(id: string) {
+    const example = orasuExamples.find((item) => item.id === id);
+    if (!example) return;
+    const input = example.input;
+    setScoreInputs({ east: String(input.scores.east), south: String(input.scores.south), west: String(input.scores.west), north: String(input.scores.north) });
+    setSelfSeat(input.selfSeat);
+    setTargetRank(input.targetRank);
+    setHonba(input.honba);
+    setRiichiSticks(input.riichiSticks);
+    setTiePolicy(input.tiePolicy);
+    setActiveTab("win");
+    setTenpaiSeats([input.selfSeat]);
+    setDrawResult(null);
+    setErrors([]);
+    setResult(calculateOrasuConditions(input));
+    setExampleId(id);
+  }
 
   const parsedScores = useMemo(() => parseScores(scoreInputs), [scoreInputs]);
   const currentRanking = useMemo(() => (parsedScores ? rankOrasuScores(parsedScores) : null), [parsedScores]);
 
   function markChanged() {
+    setExampleId("");
     setResult(null);
     setDrawResult(null);
     setErrors([]);
@@ -59,6 +85,7 @@ export default function OrasuConditionCalculator() {
   }
 
   function reset() {
+    setExampleId("");
     setScoreInputs(initialScoreInputs);
     setSelfSeat("south");
     setTargetRank(1);
@@ -98,7 +125,7 @@ export default function OrasuConditionCalculator() {
   }
 
   return (
-    <section className={styles.calculator} aria-labelledby="orasu-calculator-title">
+    <section id="orasu-calculator" className={styles.calculator} aria-labelledby="orasu-calculator-title">
       <div className={styles.toolHeading}>
         <div>
           <p className={styles.kicker}>ORASU CONDITION CALCULATOR</p>
@@ -107,6 +134,16 @@ export default function OrasuConditionCalculator() {
         </div>
         <button className={styles.resetButton} type="button" onClick={reset}><RotateCcw size={17} aria-hidden="true" />リセット</button>
       </div>
+
+      <div className={styles.presetRow}>
+        <label htmlFor="orasu-example">計算例を試す</label>
+        <select id="orasu-example" value={exampleId} onChange={(event) => loadExample(event.target.value)}>
+          <option value="" disabled>計算例を選択</option>
+          {orasuExamples.map((example, index) => <option key={example.id} value={example.id}>{index + 1}. {example.label}</option>)}
+        </select>
+        <a href="#orasu-examples">点棒移動の解説を見る</a>
+      </div>
+      {exampleId ? <p className={styles.ruleNote} role="status">計算例を反映しました。入力条件を変えて再計算できます。</p> : null}
 
       <div className={styles.scoreGrid}>
         {ORASU_SEATS.map((seat) => (
@@ -193,7 +230,7 @@ function WinResult({ result }: { result: OrasuConditionResult }) {
   if (result.alreadyAchieved) return <div className={styles.resultArea} aria-live="polite"><div className={styles.successSummary}><strong>すでに目標順位を満たしています</strong><p>入力した同点ルールでは、現在の持ち点で{targetLabel(result.input.targetRank)}です。</p></div></div>;
   return (
     <div className={styles.resultArea} aria-live="polite">
-      <div className={styles.resultSummary}><p>目標ラインとの素点差</p><strong>{result.pointsToTargetLine.toLocaleString("ja-JP")}点</strong><span>{result.input.tiePolicy === "strict" ? "同点では未達として計算" : "同点で達成として計算"}</span></div>
+      <div className={styles.resultSummary}><p>相手の持ち点が変わらない場合に必要な加点</p><strong>{result.pointsToTargetLine.toLocaleString("ja-JP")}点</strong><span>{result.input.tiePolicy === "strict" ? "同点を超えるための1点を含みます。必要なアガリ点は下の結果で確認。" : "同点で達成として計算。必要なアガリ点は下の結果で確認。"}</span></div>
       {result.easiest ? <div className={styles.easiestRoute}><span>最少のアガリ点表示</span><strong>{result.easiest.method === "ron" ? `${seatLabels[result.easiest.fromSeat]}から ` : ""}{formatOrasuCandidate(result.easiest.condition.candidate)}</strong></div> : <div className={styles.noRoute}>通常の1回のアガリ（単独役満まで）では目標に届きません。</div>}
       <div className={styles.resultGrid}>
         <section className={styles.resultCard}><h3>ロン条件</h3><p>放銃者の失点まで反映するため、誰からロンするかで必要点が変わります。</p><div className={styles.conditionList}>{ORASU_SEATS.filter((seat) => seat !== selfSeat).map((seat) => <RonConditionRow key={seat} seat={seat} condition={result.ron[seat]} input={result.input} />)}</div></section>

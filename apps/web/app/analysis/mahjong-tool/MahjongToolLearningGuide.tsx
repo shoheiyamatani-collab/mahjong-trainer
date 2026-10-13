@@ -1,26 +1,6 @@
 import Link from "next/link";
-import { ArticleTileFigures } from "../../components/TileFigures";
-
-const figures = [
-  {
-    title: "受け入れは残り枚数まで数える",
-    description: "同じ2種類待ちでも、手牌で使っている枚数によって山に残る枚数は変わります。",
-    badges: ["受け入れ"],
-    rows: [
-      { label: "両面形", tiles: ["man4", "man5"], resultLabel: "有効牌", resultTiles: ["man3", "man6"], tone: "answer" as const, note: "3萬と6萬を各4枚から、自分の手牌にある枚数を差し引きます。" },
-      { label: "カンチャン", tiles: ["pin3", "pin5"], resultLabel: "有効牌", resultTiles: ["pin4"], tone: "warning" as const, note: "種類が1つなので、同じシャンテン数でも両面より受け入れが狭くなります。" }
-    ]
-  },
-  {
-    title: "枚数が同じなら形の質を見る",
-    description: "良形率は、次のツモでテンパイしたときに両面以上の待ちを得やすいかを見る補助指標です。",
-    badges: ["良形率"],
-    rows: [
-      { label: "両面を残す", tiles: ["sou3", "sou4", "sou6", "sou7"], note: "受け入れ枚数だけでなく、テンパイ後に残る待ちも確認します。" },
-      { label: "くっつき形", tiles: ["man4", "man5", "man6", "pin5"], note: "孤立牌の周辺を引いたときに、どの形へ変化するかを比較します。" }
-    ]
-  }
-];
+import { CheckerWorkedExample } from "./CheckerWorkedExample";
+import styles from "../../tools/tool-learning.module.css";
 
 export function MahjongToolLearningGuide() {
   return (
@@ -41,17 +21,21 @@ export function MahjongToolLearningGuide() {
         <div className="toolGuideColumns">
           <section><h3>進行</h3><p>打牌後のシャンテン数です。まず現在より悪化しない候補を残し、同じ進行度の中で比較します。</p></section>
           <section><h3>牌種類と枚数</h3><p>手が進む牌の種類数と残り枚数です。種類が多くても、自分で多く使っている牌は残り枚数が減ります。</p></section>
-          <section><h3>良形率・超良形率</h3><p>テンパイ時に両面やより広い待ちが残りやすいかを見る指標です。受け入れが僅差のときの比較材料になります。</p></section>
+          <section><h3>良形率・超良形率</h3><p>テンパイへ進む有効牌のうち、最も広い待ちを選ぶとアガリ牌が5枚以上・9枚以上残る割合です。枚数で重み付けした比較指標で、アガリ率ではありません。</p></section>
           <section><h3>有効牌</h3><p>実際にどの牌で手が前進するかを表示します。見落としたくっつきや複合受け入れを牌画像で確認できます。</p></section>
         </div>
       </section>
 
-      <ArticleTileFigures figures={figures} />
+      <section className={`toolGuideSection ${styles.anchor}`} id="checker-learning-example">
+        <h2>入力して確かめる、受け入れの比較例</h2>
+        <CheckerWorkedExample />
+      </section>
 
       <section className="toolGuideSection">
         <h2>実戦での使い方</h2>
         <p>対局後に迷った14枚を再現し、最初に自分の候補と理由を残します。解析後は1位だけを見るのではなく、上位2候補の有効牌を比較してください。差を作った牌や形を一つ説明できれば、次の似た局面でも判断しやすくなります。</p>
         <p>このツールは手牌の形を比べるもので、実戦の最終判断を自動決定するものではありません。ドラ、打点、巡目、河、他家の仕掛け、点棒状況、安全度は別に加味してください。また、表示枚数は見えている牌をすべて反映した山読みではなく、入力した手牌を基準にした理論上の最大値です。</p>
+        <p>対象は、副露のない14枚を4面子1雀頭へ進める通常形の比較です。七対子・国士無双のシャンテン数や、副露を含む手牌はこのチェッカーでは評価しません。赤5は通常の5と同じ形として扱い、ドラの価値は別に判断します。</p>
       </section>
 
       <section className="toolGuideSection toolGuideFaq" aria-labelledby="tool-faq-title">

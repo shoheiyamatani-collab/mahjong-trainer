@@ -27,7 +27,7 @@ const ruleVisuals: Record<string, { kind: "tiles"; tiles: string[]; label: strin
 
 export const metadata: Metadata = {
   title: "実践でよく使う麻雀の基本 | 役・点数計算・待ち・一向聴",
-  description: "実践で頻出する麻雀の役、点数計算、待ち、一向聴の形を確認できる入口です。これが分かれば9割方問題なしを目指します。",
+  description: "麻雀の役、点数計算、待ち、一向聴の基本を牌姿とともに確認できます。各テーマの解説から練習問題や計算ツールへ進めます。",
   alternates: { canonical: "/rules" }
 };
 
@@ -37,15 +37,15 @@ export default function RulesPage() {
       <PageHero
         eyebrow="Rules Library"
         title="実践でよく使う麻雀の基本"
-        description="これが分かれば実践問題なし！実践で頻出する点数計算や待ちについて、これが分かれば9割方問題なし！"
+        description="役の成立条件、点数計算、待ちの形、一向聴の考え方をテーマ別に確認できます。牌姿を見ながら読み進め、練習やツールで理解を確かめましょう。"
         primaryLink={{ label: "初心者ロードマップを見る", href: "/learn" }}
         secondaryLink={{ label: "練習問題を解く", href: "/trainer" }}
       />
 
       <section>
         <SectionTitle
-          title="実践でよく使う麻雀の基本"
-          description="これが分かれば実践問題なし！実践で頻出する点数計算や待ちについて、これが分かれば9割方問題なし！"
+          title="テーマから選ぶ"
+          description="まず知りたい内容を開き、成立条件や牌姿を確認してください。"
         />
         <div className="rulesGrid">
           {ruleItems.map((item) => (

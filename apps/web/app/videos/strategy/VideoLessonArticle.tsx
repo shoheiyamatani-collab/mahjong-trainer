@@ -107,7 +107,7 @@ export function VideoLessonArticle({
             title={lesson.youtubeTitle}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
-            loading="eager"
+            loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>

@@ -13239,6 +13239,174 @@ body .roadmapBoardPage {
   text-underline-offset: 4px;
 }
 
+.scoreLearningGuide {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid #cfdad4;
+}
+
+.scoreLearningHeader {
+  max-width: 820px;
+}
+
+.scoreLearningHeader h2 {
+  margin: 6px 0 10px;
+  color: #162b43;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  line-height: 1.35;
+}
+
+.scoreLearningHeader > p:last-child,
+.scoreLearningExampleCopy > p,
+.scoreLearningCaution p {
+  color: #475569;
+  line-height: 1.8;
+}
+
+.scoreLearningSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 24px 0 34px;
+  padding: 1px;
+  background: #d9e5de;
+  list-style: none;
+}
+
+.scoreLearningSteps li {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+  padding: 18px;
+  background: #fff;
+}
+
+.scoreLearningSteps strong {
+  color: #137a59;
+  line-height: 1.5;
+}
+
+.scoreLearningSteps span {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.scoreLearningExample {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+  gap: 28px;
+  align-items: center;
+  padding: clamp(18px, 3vw, 30px);
+  background: #f2f8f4;
+  border-left: 5px solid #137a59;
+}
+
+.scoreLearningExampleCopy {
+  min-width: 0;
+}
+
+.scoreLearningKicker {
+  margin: 0 0 6px;
+  color: #137a59 !important;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.scoreLearningExampleCopy h3 {
+  margin: 0 0 10px;
+  color: #162b43;
+  font-size: 1.3rem;
+  line-height: 1.45;
+}
+
+.scoreLearningExampleCopy > p {
+  margin: 0;
+}
+
+.scoreLearningComparison {
+  display: grid;
+  gap: 1px;
+  margin: 18px 0;
+  background: #d4e2d9;
+  border: 1px solid #d4e2d9;
+}
+
+.scoreLearningComparison > div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.scoreLearningComparison dt {
+  color: #137a59;
+  font-weight: 900;
+}
+
+.scoreLearningComparison dd {
+  margin: 0;
+  color: #162b43;
+  font-weight: 800;
+}
+
+.scoreLearningExampleCopy .scoreLearningFootnote {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.scoreLearningExample .tileFigureSection {
+  min-width: 0;
+  margin: 0;
+}
+
+.scoreLearningExample .tileFigureSection > h2,
+.scoreLearningExample .tileFigureLead {
+  display: none;
+}
+
+.scoreLearningExample .tileFigureGrid {
+  display: block;
+}
+
+.scoreLearningExample .tileFigureCard {
+  margin: 0;
+  background: #fff;
+}
+
+.scoreLearningCaution {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: #fff9e8;
+  border: 1px solid #ecd8a4;
+}
+
+.scoreLearningCaution strong {
+  color: #805313;
+}
+
+.scoreLearningCaution p {
+  margin: 0;
+}
+
+.scoreLearningLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 20px;
+}
+
+.scoreLearningLinks a {
+  color: #137a59;
+  font-weight: 800;
+  text-underline-offset: 4px;
+}
+
 @media (max-width: 720px) {
   .analysisMethodGuide {
     padding: 24px 18px;
@@ -13246,6 +13414,30 @@ body .roadmapBoardPage {
 
   .analysisMethodGrid {
     grid-template-columns: 1fr;
+  }
+
+  .scoreLearningSteps,
+  .scoreLearningExample {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scoreLearningExample {
+    gap: 18px;
+  }
+
+  .scoreLearningExample .tileFigureRow > .articleTileStrip:not(.compact) {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .scoreLearningExample .tileFigureRow > .articleTileStrip:not(.compact) img {
+    flex: 0 0 26px;
+    width: 26px;
+  }
+
+  .scoreLearningCaution {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
   }
 }
 /* Long-form learning guides */

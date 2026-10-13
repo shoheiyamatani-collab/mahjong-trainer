@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import TrainerPage from "../../trainer/page";
+import TrainerWorkspace from "../../trainer/TrainerWorkspace";
+import { MahjongToolLearningGuide } from "./MahjongToolLearningGuide";
 
 export const metadata: Metadata = {
   title: "麻雀解析ツール | 配牌分析・牌理チェッカー",
@@ -7,4 +8,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/analysis/mahjong-tool" }
 };
 
-export default TrainerPage;
+export default function MahjongToolPage() {
+  return <TrainerWorkspace learningContent={<MahjongToolLearningGuide />} />;
+}

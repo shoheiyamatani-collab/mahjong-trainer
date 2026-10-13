@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "../../components/JsonLd";
 import { getSiteUrl } from "../../seoConfig";
+import { ScoreWorkedExamples } from "../ScoreWorkedExamples";
+import styles from "../tool-learning.module.css";
 
 export const metadata: Metadata = {
   title: "麻雀点数計算ツールとは？入力方法と結果の見方",
@@ -20,7 +22,7 @@ export default function ScoreCalculatorHelpPage() {
   const siteUrl = getSiteUrl();
   const url = `${siteUrl}/tools/help`;
   return (
-    <main className="siteMain analysisHelpPage toolHelpPage">
+    <main className={`siteMain analysisHelpPage toolHelpPage ${styles.helpPage}`}>
       <JsonLd data={[
         { "@context": "https://schema.org", "@type": "TechArticle", headline: "麻雀点数計算ツールとは？入力方法と結果の見方", description: metadata.description, url, inLanguage: "ja-JP", about: ["麻雀", "点数計算", "符計算", "翻数"] },
         { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
@@ -74,8 +76,8 @@ export default function ScoreCalculatorHelpPage() {
 
       <section className="analysisHelpSection" id="example">
         <h2>使い方の具体例</h2>
-        <p>たとえば、子の門前手でリーチをかけてロンした場合は、手牌と和了牌を入力し、「子」「ロン」「リーチ」を選びます。場風と自風を合わせ、ドラがあれば枚数を入力すると、役・翻・符とロン点が表示されます。</p>
-        <p>結果を見るときは、最終点だけで終わらせず「どの役が付いたか」「符はどこで増えたか」を確認してください。同じ牌姿でロンをツモへ切り替えたり、親と子を切り替えたりすると、支払いの違いを比較できます。</p>
+        <p>役・翻・符・支払いを、同じ牌姿や一つの条件変更で見比べる4例です。「読み込む」リンクで手牌・副露・和了牌・条件を計算器へ入れ、結果を再現できます。</p>
+        <ScoreWorkedExamples />
         <nav className="toolHelpRelatedLinks" aria-label="点数計算の関連ページ">
           <Link href="/tools/score-table">点数早見表を見る</Link>
           <Link href="/rules/practical-score">実戦でよく見る点数計算を学ぶ</Link>
@@ -96,6 +98,8 @@ export default function ScoreCalculatorHelpPage() {
           <li>赤ドラは専用牌として区別せず、ドラ欄へ合計枚数を入力します。</li>
           <li>責任払い、流し満貫、ダブル役満の扱いなど、採用ルールによって結果が変わる特殊条件は対局ルールを優先してください。</li>
           <li>入力した完成形と条件を計算するツールです。見えていない裏ドラや、対局中の最適な押し引きは判定しません。</li>
+          <li>4人打ちの点数と支払いを対象としています。3人打ちのツモ払い、複数人の同時ロン、ローカル役には対応しません。</li>
+          <li>入力欄のない海底・河底・嶺上開花・槍槓などの特殊な和了条件は、この画面では指定できません。</li>
         </ul>
       </section>
 

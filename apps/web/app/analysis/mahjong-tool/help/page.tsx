@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { JsonLd } from "../../../components/JsonLd";
 import { getSiteUrl } from "../../../seoConfig";
+import { CheckerWorkedExample } from "../CheckerWorkedExample";
+import styles from "../../../tools/tool-learning.module.css";
 
 export const metadata: Metadata = {
   title: "牌理チェッカーとは？使い方と結果の見方",
@@ -41,7 +43,7 @@ export default function MahjongCheckerHelpPage() {
   ];
 
   return (
-    <main className="siteMain analysisHelpPage toolHelpPage">
+    <main className={`siteMain analysisHelpPage toolHelpPage ${styles.helpPage}`}>
       <JsonLd data={structuredData} />
       <div className="analysisHelpTopline">
         <div>
@@ -97,8 +99,8 @@ export default function MahjongCheckerHelpPage() {
 
       <section className="analysisHelpSection" id="example">
         <h2>使い方の具体例</h2>
-        <p>候補Aが28枚、候補Bが24枚なら、速度だけを見れば候補Aが優勢です。ただし候補Aの良形率が低く、候補Bからは両面テンパイへ進みやすい場合、4枚の差と待ちの質を比べる意味があります。</p>
-        <p>おすすめの使い方は、対局後に迷った14枚を再現し、まず自分が選んだ打牌と受け入れ最大の打牌を比べることです。次に有効牌の画像を見て、見落としていたくっつきや複合形を探します。数字を暗記するより、「なぜこの牌を残すと受けが増えるのか」を牌姿で確認すると復習しやすくなります。</p>
+        <p>以下の14枚を使って、同じ一向聴の比較、二向聴に戻る候補、良形率の意味を確かめます。リンクから同じ手牌を入力できるので、枚数の差だけでなく有効牌まで見比べられます。</p>
+        <CheckerWorkedExample />
         <nav className="toolHelpRelatedLinks" aria-label="牌理チェッカーの関連解説">
           <Link href="/learn/guides/tile-efficiency-and-ukeire">牌効率と受け入れを学ぶ</Link>
           <Link href="/learn/guides/good-shape-rate">良形率の考え方を学ぶ</Link>
@@ -119,6 +121,7 @@ export default function MahjongCheckerHelpPage() {
           <li>残り枚数は、自分の手牌で使っている牌を4枚から差し引いた最大値です。場に見えている牌は別途考慮してください。</li>
           <li>打点、役の確定度、安全度、押し引き、点棒状況を含む期待値計算ではありません。</li>
           <li>良形率は、5枚以上を良形、9枚以上を超良形として数える雀フォリオ独自の比較指標です。実戦の勝率そのものではありません。</li>
+          <li>副露のない通常形（4面子1雀頭）を対象としています。七対子・国士無双のシャンテン数や、副露を含む手牌はこのチェッカーでは評価しません。</li>
         </ul>
       </section>
 

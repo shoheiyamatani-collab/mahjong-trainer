@@ -17,21 +17,23 @@ export function VideoArticleCompactContent({ message, points }: VideoArticleComp
         <p>{message}</p>
       </section>
 
-      <section className="videoArticleBodySection">
-        <p className="videoArticleSectionLabel">SUMMARY</p>
-        <h2>動画の内容を簡潔にまとめると</h2>
-        <div className="videoPrincipleList">
-          {points.slice(0, 3).map((point, index) => (
-            <section className="videoPrinciple" key={point.title}>
-              <div className="videoPrincipleNumber">{index + 1}</div>
-              <div className="videoPrincipleBody">
-                <h3>{point.title}</h3>
-                {point.description ? <p>{point.description}</p> : null}
-              </div>
-            </section>
-          ))}
-        </div>
-      </section>
+      {points.length > 0 ? (
+        <section className="videoArticleBodySection">
+          <p className="videoArticleSectionLabel">SUMMARY</p>
+          <h2>動画の内容を簡潔にまとめると</h2>
+          <div className="videoPrincipleList">
+            {points.slice(0, 3).map((point, index) => (
+              <section className="videoPrinciple" key={point.title}>
+                <div className="videoPrincipleNumber">{index + 1}</div>
+                <div className="videoPrincipleBody">
+                  <h3>{point.title}</h3>
+                  {point.description ? <p>{point.description}</p> : null}
+                </div>
+              </section>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }
