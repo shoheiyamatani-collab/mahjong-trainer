@@ -4146,11 +4146,13 @@ body::after,
 
 .match-calendar-months {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 4.5rem);
   margin-top: 1.2rem;
 }
 
 .match-calendar-month {
+  min-width: 0;
   scroll-margin-top: 5rem;
 }
 
@@ -4186,6 +4188,8 @@ body::after,
 }
 
 .calendar-grid-wrap {
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
   border: 1px solid var(--broadcast-line);
   background: #040d1d;
