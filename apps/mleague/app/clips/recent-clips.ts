@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "TCOgFL_4Gq0",
-  tag: "10/13 ハイライト",
-  title: "【2026/10/13 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "gJPciO8itwU",
+  tag: "10/15 ハイライト",
+  title: "【2026/10/15 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "多井隆晴、松本吉弘、醍醐大、茅森早香、瑞原明奈、鈴木優、鈴木大介の見どころ局を収録。公式説明では三面張のダマテンやフリテンリーチ、親リーチなどの場面が紹介されています。",
+    "渡辺太の跳満、永井孝典のオーラスのリーチ選択、伊達朱里紗の跳満一発決着、佐野ひなこの18000点、鈴木優の三暗刻での反撃など、10月15日の公式見どころ対局を収録しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=TCOgFL_4Gq0",
-  date: "2026年10月14日公開",
-  competition: "10月13日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=gJPciO8itwU",
+  date: "2026年10月16日公開",
+  competition: "10月15日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "TCOgFL_4Gq0",
+    tag: "10/13 ハイライト",
+    title: "【2026/10/13 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "多井隆晴、松本吉弘、醍醐大、茅森早香、瑞原明奈、鈴木優、鈴木大介の見どころ局を収録。公式説明では三面張のダマテンやフリテンリーチ、親リーチなどの場面が紹介されています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=TCOgFL_4Gq0",
+    date: "2026年10月14日公開",
+    competition: "10月13日 Mリーグ公式ハイライト",
+  },
   {
     id: "p7s-HpzUyJA",
     tag: "10/9 ハイライト",
