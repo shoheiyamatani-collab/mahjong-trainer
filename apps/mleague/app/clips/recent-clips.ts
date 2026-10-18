@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "gJPciO8itwU",
-  tag: "10/15 ハイライト",
-  title: "【2026/10/15 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "l8jR7f8aipE",
+  tag: "10/16 ハイライト",
+  title: "【2026/10/16 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "渡辺太の跳満、永井孝典のオーラスのリーチ選択、伊達朱里紗の跳満一発決着、佐野ひなこの18000点、鈴木優の三暗刻での反撃など、10月15日の公式見どころ対局を収録しています。",
+    "渡辺太の混老頭、尻無濱航の今季役満第1号・国士無双、竹内元太の親満貫、瀬戸熊直樹の親2巡目リーチ、本田朋広の即決リーチ、鈴木優の6000オールなど、公式説明欄の見どころ局を収録しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=gJPciO8itwU",
-  date: "2026年10月16日公開",
-  competition: "10月15日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=l8jR7f8aipE",
+  date: "2026年10月17日公開",
+  competition: "10月16日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "gJPciO8itwU",
+    tag: "10/15 ハイライト",
+    title: "【2026/10/15 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "渡辺太の跳満、永井孝典のオーラスのリーチ選択、伊達朱里紗の跳満一発決着、佐野ひなこの18000点、鈴木優の三暗刻での反撃など、10月15日の公式見どころ対局を収録しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=gJPciO8itwU",
+    date: "2026年10月16日公開",
+    competition: "10月15日 Mリーグ公式ハイライト",
+  },
   {
     id: "TCOgFL_4Gq0",
     tag: "10/13 ハイライト",

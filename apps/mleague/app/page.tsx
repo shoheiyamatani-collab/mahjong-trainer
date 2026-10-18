@@ -477,7 +477,7 @@ export default function MatchInformationPage() {
         </ol>
 
         <p className="match-source-note">
-          Mリーグ公式の試合日程・結果を2026年10月17日に確認しました。対局予定は変更される場合があります。
+          Mリーグ公式の試合日程・結果を2026年10月18日に確認しました。対局予定は変更される場合があります。
         </p>
       </section>
     </main>
