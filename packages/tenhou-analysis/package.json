@@ -6,5 +6,5 @@
   "exports": { ".": "./src/index.ts", "./tiles": "./src/replayTiles.ts", "./types": "./src/types.ts", "./labels": "./src/labels.ts", "./publication": "./src/publication.ts" },
   "scripts": { "cli": "tsx src/cli.ts", "research:push-fold": "tsx src/pushFoldBenchmarkCli.ts", "research:scoring": "tsx src/scoringValidationCli.ts", "test": "vitest run", "typecheck": "tsc --project tsconfig.json" },
   "dependencies": { "@mahjong-trainer/mahjong-core": "workspace:*", "fast-xml-parser": "^5.11.2" },
-  "devDependencies": { "@types/node": "^22.7.4", "tsx": "^4.20.6", "typescript": "^5.5.4", "vitest": "^4.1.12" }
+  "devDependencies": { "@types/node": "^26.6.5", "tsx": "^4.20.6", "typescript": "^5.5.4", "vitest": "^4.1.12" }
 }

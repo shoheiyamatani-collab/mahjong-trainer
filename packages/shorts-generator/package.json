@@ -16,7 +16,7 @@
     "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "@types/node": "^22.7.4",
+    "@types/node": "^26.6.5",
     "@types/qrcode": "^1.5.5",
     "tsx": "^4.20.6",
     "typescript": "^5.5.4",
