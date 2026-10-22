@@ -1,5 +1,4 @@
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { addTile, analyzeHandProgress, calculateHandScore, parseHand, tileIndex, validateCounts, type Tile } from "@mahjong-trainer/mahjong-core";
 import { getRobotsPolicy, shouldIncludeInSitemap } from "@mahjong-trainer/content-index-policy";
@@ -34,7 +33,7 @@ describe("Riichi or dama teaching positions", () => {
       expect(result.branches.some((b) => b.action === q.recommendedAction && b.available)).toBe(true);
       expect(JSON.parse(JSON.stringify(result))).toEqual(result);
       expect(JSON.stringify(q)).toBe(before);
-      for (const tile of [...result.hand, q.discard, q.doraIndicator]) expect(existsSync(resolve("public/tiles", `${tileAssetName(tile)}-66-90-l-emb.png`))).toBe(true);
+      for (const tile of [...result.hand, q.discard, q.doraIndicator]) expect(existsSync(new URL(`../../../public/tiles/${tileAssetName(tile)}-66-90-l-emb.png`, import.meta.url))).toBe(true);
     }
   });
 

@@ -1,6 +1,14 @@
 packages:
   - "apps/*"
   - "packages/*"
+# Next 15 pins an older PostCSS and selects Sharp 0.34; keep their security fixes
+# until upstream supports these versions without overrides.
+overrides:
+  postcss: ^8.5.31
+  "next>sharp": ^0.35.5
+  source-map-js: ^1.2.2
+  # Vitest 4 supports this patched Vite line without a bundler-major migration.
+  vite: ^6.4.5
 onlyBuiltDependencies:
   - esbuild
   - ffmpeg-static

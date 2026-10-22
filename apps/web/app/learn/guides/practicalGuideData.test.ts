@@ -1,5 +1,4 @@
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { addTile, analyzeDiscards, analyzeHandProgress, calculateHandScore, calculateOrasuConditions, hasReachedOrasuTarget, parseHand, tileIndex, TILE_NAMES, validateCounts, type OrasuConditionInput, type Tile } from "@mahjong-trainer/mahjong-core";
 import { tileAssetName } from "../../components/TileFigures";
@@ -58,7 +57,7 @@ describe("Practical learning guides", () => {
       const figures = guide.figures.flatMap((figure) => figure.rows.flatMap((row) => [row.tiles, ...(row.resultTiles ? [row.resultTiles] : [])]));
       for (const assets of [...figures, ...guide.practice!.items.map((item) => item.tiles)]) {
         validateCounts(fromAssets(assets));
-        for (const asset of assets) expect(existsSync(resolve(process.cwd(), "public/tiles", `${asset}-66-90-l-emb.png`))).toBe(true);
+        for (const asset of assets) expect(existsSync(new URL(`../../../public/tiles/${asset}-66-90-l-emb.png`, import.meta.url))).toBe(true);
       }
       for (const item of guide.practice!.items) expect([13, 14]).toContain(item.tiles.length);
       for (const row of guide.figures.flatMap((figure) => figure.rows)) {

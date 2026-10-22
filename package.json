@@ -25,10 +25,12 @@
     "test:tenhou": "pnpm --filter @mahjong-trainer/tenhou-analysis test",
     "research:push-fold": "pnpm --filter @mahjong-trainer/tenhou-analysis research:push-fold",
     "research:scoring": "pnpm --filter @mahjong-trainer/tenhou-analysis research:scoring",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "test:security": "node --test scripts/security-headers.test.mjs",
+    "security:audit": "pnpm audit --audit-level=low"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
-    "vitest": "^2.1.1"
+    "vitest": "^4.1.12"
   }
 }

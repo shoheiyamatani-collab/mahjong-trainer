@@ -44,7 +44,9 @@ describe("daily nani-kiru", () => {
     expect(isDailyNanikiruCorrect(problem, "5m")).toBe(false);
   });
 
-  it("generates and verifies 365 days without excessive duplication", { timeout: 30_000 }, () => {
+  // Keep the 45-second performance assertion below; allow the runner to report
+  // that assertion instead of timing out first under Vitest 4.
+  it("generates and verifies 365 days without excessive duplication", { timeout: 60_000 }, () => {
     const handKeys = new Set<string>();
     const bestDiscardCounts = new Map<Tile, number>();
     const startedAt = performance.now();

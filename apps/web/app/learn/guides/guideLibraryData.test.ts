@@ -1,5 +1,4 @@
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { learningGuides } from "./guideData";
 import { buildGuideLibrary, filterGuideLibrary, guideLibraryCategories } from "./guideLibraryData";
@@ -22,7 +21,7 @@ describe("learning guide library", () => {
       expect(item.preview.length).toBeGreaterThan(0);
       for (const group of item.preview) {
         expect(group.tiles.length).toBeGreaterThan(0);
-        for (const tile of group.tiles) expect(existsSync(resolve(process.cwd(), "public/tiles", `${tile}-66-90-l-emb.png`))).toBe(true);
+        for (const tile of group.tiles) expect(existsSync(new URL(`../../../public/tiles/${tile}-66-90-l-emb.png`, import.meta.url))).toBe(true);
       }
     }
     expect(library.find((item) => item.slug === "score-calculation-practice")!.preview[0].tiles).toHaveLength(14);
