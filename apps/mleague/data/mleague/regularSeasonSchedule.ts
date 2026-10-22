@@ -15,7 +15,7 @@ export type RegularSeasonMatchDay = {
   tables: readonly (readonly ScheduleTeamId[])[];
 };
 
-export const regularSeasonScheduleVerifiedAt = "2026-10-21";
+export const regularSeasonScheduleVerifiedAt = "2026-10-22";
 export const regularSeasonScheduleSourceUrl = "https://m-league.jp/games/";
 
 export const regularSeasonSchedule = [

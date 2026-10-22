@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "NF70cK9XZyw",
-  tag: "10/19 ハイライト",
-  title: "【2026/10/19 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "6ssRM42_LIc",
+  tag: "10/20 ハイライト",
+  title: "【2026/10/20 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、滝沢和典のリーチ、伊達朱里紗のオーラス逆転トップ、本田朋広の裏ドラ3枚、HIRO柴田の12000点直撃が見どころとして紹介されています。",
+    "阿久津翔太がドラ3・赤牌でもリーチを選んだ局、高宮まりのドラ3配牌、茅森早香の七萬ツモ、黒沢咲の難しいテンパイ判断、瀬戸熊直樹の連続攻勢、下石戟の我慢強い戦いなど、公式説明欄で紹介された見どころを収録しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=NF70cK9XZyw",
-  date: "2026年10月20日公開",
-  competition: "10月19日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=6ssRM42_LIc",
+  date: "2026年10月21日公開",
+  competition: "10月20日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "NF70cK9XZyw",
+    tag: "10/19 ハイライト",
+    title: "【2026/10/19 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、滝沢和典のリーチ、伊達朱里紗のオーラス逆転トップ、本田朋広の裏ドラ3枚、HIRO柴田の12000点直撃が見どころとして紹介されています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=NF70cK9XZyw",
+    date: "2026年10月20日公開",
+    competition: "10月19日 Mリーグ公式ハイライト",
+  },
   {
     id: "l8jR7f8aipE",
     tag: "10/16 ハイライト",
