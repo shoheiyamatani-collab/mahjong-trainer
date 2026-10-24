@@ -45,7 +45,7 @@ const libraryDefinitions: LibraryDefinition[] = [
     { row: 0, label: "完成面子" }, { row: 1, label: "雀頭", tone: "blue" }, { row: 2, label: "両面", tone: "green" }
   ] },
   { slug: "good-shape-rate", category: "decision", keywords: "良形 良系 良形率 リャンメン 愚形 超良形", preview: [
-    { row: 0, label: "両面", tone: "green" }, { row: 1, label: "カンチャン", tone: "blue" }
+    { figure: 1, row: 0, label: "両面", tone: "green" }, { figure: 1, row: 1, label: "カンチャン", tone: "blue" }
   ] },
   { slug: "wait-types", category: "foundation", keywords: "何待ち テンパイ 単騎 シャンポン リャンメン", preview: [
     { row: 0, label: "両面", tone: "blue" }, { row: 3, label: "シャンポン" }, { row: 4, label: "単騎", tone: "green" }

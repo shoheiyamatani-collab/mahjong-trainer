@@ -146,6 +146,14 @@ export default async function YakuArticlePage({ params }: YakuArticlePageProps) 
               </details>
             </section>
           ) : null}
+
+          {article.sources?.length ? (
+            <section className="articleSection">
+              <h2>ルールの確認先と教材の検証</h2>
+              <ul>{article.sources.map((source) => <li key={source.href}><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}</ul>
+              <p>牌図と解説は雀フォリオの教材です。このページの待ち・点数例はツールと共通の計算処理で確認しています。<Link href="/about#calculation-policy">計算の前提・訂正方針</Link>と、実際の対局ルールを併せて確認してください。</p>
+            </section>
+          ) : null}
         </div>
       </article>
 

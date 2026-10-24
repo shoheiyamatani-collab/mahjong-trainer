@@ -93,6 +93,7 @@ export default function ScoreCalculatorHelpPage() {
 
       <section className="analysisHelpSection" id="limits">
         <h2>対応範囲と注意点</h2>
+        <p><Link href="/about#calculation-policy">計算例の確認方法と訂正方針</Link>を公開しています。結果の比較時は、牌姿だけでなく和了牌や親子・ロンツモも同じにしてください。</p>
         <ul>
           <li>一般的な日本のリーチ麻雀の役・符・点数計算を対象にしています。</li>
           <li>赤ドラは専用牌として区別せず、ドラ欄へ合計枚数を入力します。</li>

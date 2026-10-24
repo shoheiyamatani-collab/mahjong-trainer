@@ -23,8 +23,12 @@ describe("learning-first home presentation", () => {
     expect(html).toContain('href="/analysis/mahjong-tool"');
     expect(html).toContain('href="/trainer/iishanten"');
     const related = renderToStaticMarkup(createElement(HomeLearningPaths));
-    expect(related).toContain('href="/videos/strategy"');
-    expect(related).toContain('aria-label="動画とMリーグ"');
+    expect(related).not.toContain('href="/videos/strategy"');
+    expect(related).not.toContain('Mリーグの対局・選手情報');
+    expect(related).toContain('aria-label="麻雀を学ぶ・ツールを使う"');
+    expect(related).toContain('href="/learn/guides/tile-efficiency-and-ukeire"');
+    expect(related).toContain('href="/analysis/mahjong-tool/help"');
+    expect(related).toContain('href="/tools/help"');
   });
 
   it("restores M League and video discovery without changing their URLs", () => {

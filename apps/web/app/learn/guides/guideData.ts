@@ -1,4 +1,7 @@
-import type { TileFigure } from "../../components/TileFigures";
+import { countsToTiles, GOOD_WAIT_THRESHOLD, SUPER_GOOD_WAIT_THRESHOLD, parseHand } from "@mahjong-trainer/mahjong-core";
+import { tileAssetName, type TileFigure } from "../../components/TileFigures";
+import { CHECKER_SAMPLE_HAND } from "../../tools/toolLearningExamples";
+import { getCheckerLearningResults } from "../../tools/toolLearningResults";
 import { requestedLearningGuides } from "./requestedGuideData";
 import { ruleComparisonGuide } from "./ruleComparisonGuide";
 import { practicalLearningGuides } from "./practicalGuideData";
@@ -40,6 +43,11 @@ export type LearningGuide = {
   screenshot?: { src: string; alt: string; caption: string };
   practice?: LearningGuidePractice;
 };
+
+const goodShapeExample = getCheckerLearningResults()[0]!;
+const goodShapePercent = Math.round(goodShapeExample.goodShapeRate * 100);
+const superGoodShapePercent = Math.round(goodShapeExample.superGoodShapeRate * 100);
+const checkerExampleHref = `/analysis/mahjong-tool?hand=${encodeURIComponent(parseHand(CHECKER_SAMPLE_HAND).join(","))}#checker-workspace`;
 
 const foundationalLearningGuides: LearningGuide[] = [
   {
@@ -92,15 +100,31 @@ const foundationalLearningGuides: LearningGuide[] = [
     title: "良形率の考え方",
     seoTitle: "麻雀の良形率とは？受け入れ枚数だけでは分からない形の質",
     description: "麻雀の良形率と超良形率の意味を、両面、三面待ち、愚形の違いと受け入れ枚数との使い分けから解説します。",
-    lead: "受け入れ枚数が同じでも、その先にできるテンパイの質は同じとは限りません。良形率を見ると、次の一手で両面以上のアガりやすい待ちへ進める可能性を比較できます。",
-    takeaways: ["良形率はテンパイ後のアガりやすさを見る補助指標", "受け入れ枚数と良形率は別々に比較する", "巡目や打点によって重視する割合が変わる"],
+    lead: "受け入れ枚数が同じでも、その先にできるテンパイの質は同じとは限りません。ここでは、雀フォリオの牌理チェッカーが何を分母にし、どんな待ちを良形と数えるかを、同じ14枚を入力して再現できる例で解説します。",
+    takeaways: ["良形率はアガリ率ではなく、有効牌を引いた先の形の指標", `このチェッカーの良形は理論上${GOOD_WAIT_THRESHOLD}枚以上、超良形は${SUPER_GOOD_WAIT_THRESHOLD}枚以上の待ち`, "有効牌の種類数ではなく、引ける理論枚数で重み付けする"],
     sections: [
       {
         heading: "良形率が表しているもの",
         paragraphs: [
-          "良形率は、有効牌を引いてテンパイしたときに、両面などのアガりやすい待ちになる割合です。雀フォリオの牌理チェッカーでは、受け入れ枚数だけでは区別しにくい『テンパイの質』を比較するために表示しています。",
-          "両面は基本的に2種類・最大8枚を待てます。カンチャンやペンチャンは1種類・最大4枚です。同じテンパイでも、残り枚数と変化の多さに差があります。"
+          `このチェッカーでは、打牌後が一向聴の候補について、有効牌を1枚引いてから最も待ち枚数の広いテンパイを選びます。その待ちが理論上${GOOD_WAIT_THRESHOLD}枚以上なら良形、${SUPER_GOOD_WAIT_THRESHOLD}枚以上なら超良形として数えます。待ちの名前だけで判定するのではありません。`,
+          "分母はテンパイに進む有効牌の理論枚数です。分子は、そのうち良形のテンパイを選べるツモ牌の理論枚数。『良形になるツモの種類÷全有効牌の種類』ではありません。また、二向聴以下の候補はこの一向聴用指標の比較対象ではありません。"
         ]
+      },
+      {
+        heading: "14枚の実例で計算を再現する",
+        paragraphs: [
+          `下の14枚から1筒を切ると、一向聴で受け入れは${goodShapeExample.ukeireTypes}種・${goodShapeExample.ukeireTiles}枚です。そのうち${goodShapeExample.goodShapeTiles}枚分のツモで良形テンパイを選べるため、${goodShapeExample.goodShapeTiles}÷${goodShapeExample.ukeireTiles}を整数に丸めた${goodShapePercent}%が良形率です。`,
+          `超良形になるツモは${goodShapeExample.superGoodShapeTiles}枚分なので、${goodShapeExample.superGoodShapeTiles}÷${goodShapeExample.ukeireTiles}で${superGoodShapePercent}%。これは今から${goodShapePercent}%の確率でアガれる、あるいは次のツモで${goodShapePercent}%の確率でテンパイする、という意味ではありません。`
+        ],
+        table: {
+          caption: "1筒切りの計算内訳（河・副露・ドラ表示牌を含まない理論値）",
+          headers: ["項目", "数える対象", "結果"],
+          rows: [
+            ["受け入れ", "テンパイへ進むツモ", `${goodShapeExample.ukeireTiles}枚`],
+            ["良形率", `待ち${GOOD_WAIT_THRESHOLD}枚以上を選べるツモ`, `${goodShapeExample.goodShapeTiles} / ${goodShapeExample.ukeireTiles} → ${goodShapePercent}%`],
+            ["超良形率", `待ち${SUPER_GOOD_WAIT_THRESHOLD}枚以上を選べるツモ`, `${goodShapeExample.superGoodShapeTiles} / ${goodShapeExample.ukeireTiles} → ${superGoodShapePercent}%`]
+          ]
+        }
       },
       {
         heading: "受け入れ枚数との使い分け",
@@ -113,15 +137,22 @@ const foundationalLearningGuides: LearningGuide[] = [
         heading: "良形率だけで決めない",
         paragraphs: [
           "良形率は未来の形を数値にした目安であり、打点や安全度までは表しません。ドラを切る候補、役が消える候補、安全牌を失う候補は別に評価します。",
-          "数値を見る順番を決めておくと便利です。シャンテン数、受け入れ枚数、良形率、打点と守備の順に確認すれば、数字に引っ張られすぎずに比較できます。"
+          "この計算は通常の4面子1雀頭を対象にしています。七対子・国士無双の最善手、フリテン、役の有無、他家が持つ牌やツモ順は評価しません。河・副露・ドラ表示牌の見え枚数も反映しないため、画面の枚数を実際の残り山と読み替えないでください。",
+          "数値を見る順番を決めておくと便利です。シャンテン数、受け入れ枚数、良形率を確認し、打点と守備を別に比較します。高い良形率は、手を進める判断材料の一つです。"
         ],
         bullets: ["序盤は将来の良形変化を残しやすい", "終盤はテンパイ枚数を優先しやすい", "リーチを受けた後は安全度を最優先することがある"]
       }
     ],
     figures: [
       {
+        title: "同じ14枚をチェッカーで確かめる",
+        description: "副露なしの14枚です。1筒を切る候補の受け入れと良形率を比べてください。",
+        rows: [{ label: "入力する14枚", tiles: countsToTiles(parseHand(CHECKER_SAMPLE_HAND)).map((tile) => tileAssetName(tile)) }],
+        link: { href: checkerExampleHref, label: "この14枚を入力して結果を見る" }
+      },
+      {
         title: "テンパイした後の待ちの質",
-        description: "両面とカンチャンでは、アガリ牌の種類と最大枚数が異なります。",
+        description: "以下は手牌全体ではなく、待ちを作る部分だけの模式図です。残りの面子や使っている同種牌により、手牌全体の待ち枚数は変わります。",
         badges: ["良形", "愚形"],
         rows: [
           { label: "両面待ち", tiles: ["pin4", "pin5"], resultLabel: "待ち", resultTiles: ["pin3", "pin6"], tone: "answer", note: "2種類を待てる基本的な良形です。" },
@@ -130,7 +161,7 @@ const foundationalLearningGuides: LearningGuide[] = [
         ]
       }
     ],
-    toolLink: { href: "/analysis/mahjong-tool", label: "牌理チェッカーで良形率を見る", description: "候補ごとの受け入れ枚数と良形率を同じ画面で比較できます。" },
+    toolLink: { href: checkerExampleHref, label: "牌理チェッカーで良形率を見る", description: "この記事と同じ14枚を読み込み、1筒切りの受け入れ・良形率・超良形率を確認できます。" },
     relatedSlugs: ["tile-efficiency-and-ukeire", "wait-types", "riichi-or-dama"]
   },
   {

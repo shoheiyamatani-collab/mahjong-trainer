@@ -168,7 +168,7 @@ export const trainerDefinitions: readonly TrainerDefinition[] = [
         description: "中央の孤立牌は、両側への変化が多いことを確認します。",
         badges: ["一向聴", "くっつき"],
         rows: [
-          { label: "中央の孤立牌", tiles: ["man5"], resultLabel: "主な変化", resultTiles: ["man3", "man4", "man6", "man7"], tone: "answer", note: "両面を作る変化が複数あります。" },
+          { label: "中央の孤立牌", tiles: ["man5"], resultLabel: "主な変化", resultTiles: ["man3", "man4", "man6", "man7"], tone: "answer", note: "4萬・6萬なら両面、3萬・7萬ならカンチャンを作れます。" },
           { label: "端の孤立牌", tiles: ["pin1"], resultLabel: "主な変化", resultTiles: ["pin2", "pin3"], note: "中央牌より変化の方向が限られます。" },
           { label: "良形ターツ", tiles: ["sou5", "sou6"], resultLabel: "有効牌", resultTiles: ["sou4", "sou7"], tone: "answer", note: "最終形が両面になりやすい基本候補です。" }
         ]
@@ -202,9 +202,9 @@ export const trainerDefinitions: readonly TrainerDefinition[] = [
     strategyTitle: "7枚形を覚える理由と見つけ方",
     strategy: [
       {
-        heading: "7枚は二面子と雀頭を作る最小の複合単位",
+        heading: "7枚にアガリ牌を加えて、二面子と雀頭を作る",
         paragraphs: [
-          "7枚形では、同じ牌の並びを二つの順子と雀頭に分ける方法が複数あります。一つの分け方だけを見ると、別のアガリ牌を見落とします。",
+          "7枚形は、アガリ牌を1枚加えた8枚を二面子と雀頭に分けて確かめます。分解には順子だけでなく刻子を使う場合もあります。一つの分け方だけを見ると、別のアガリ牌を見落とします。",
           "形を丸暗記するだけでなく、左から順子を抜く、右から抜く、対子を雀頭にする、という確認手順を身につけます。"
         ]
       },

@@ -1,0 +1,29 @@
+.lesson { min-width: 0; padding-top: 24px; border-top: 1px solid var(--jf-border, #e2e8f0); scroll-margin-top: 100px; }
+.lesson h3 { margin: 24px 0 12px; color: #162b43; font-size: 21px; line-height: 1.55; }
+.lesson h4 { margin: 18px 0 10px; color: #162b43; font-size: 18px; }
+.lesson p { color: #475569; line-height: 1.9; }
+.answer { margin: 20px 0; border-block: 1px solid #d8e1eb; }
+.answer > summary { min-height: 44px; padding: 12px 4px; color: #162b43; font-weight: 800; cursor: pointer; line-height: 1.6; }
+.answer > summary:focus-visible { outline: 3px solid #2468bf; outline-offset: 3px; }
+.answer[open] { padding-bottom: 16px; }
+.proofs { display: grid; gap: 20px; }
+.proofs > section { min-width: 0; border-top: 1px solid #e2e8f0; }
+.groups { display: flex; flex-wrap: wrap; gap: 12px; }
+.groups > div { display: grid; gap: 4px; }
+.groups span { color: #475569; font-size: 14px; }
+.groups :global(.articleTileStrip) { margin: 0; gap: 2px; }
+.groups :global(.articleTileStrip img) { width: 26px; height: auto; }
+.scoreCase + .scoreCase { margin-top: 28px; padding-top: 8px; border-top: 1px solid #cbd5e1; }
+.method { margin-top: 24px; padding-top: 16px; border-top: 1px solid #e2e8f0; }
+.studyTable { width: 100%; border-collapse: collapse; margin: 24px 0; }
+.studyTable caption { padding-bottom: 12px; text-align: left; font-weight: 700; }
+.studyTable th, .studyTable td { padding: 12px 8px; text-align: left; vertical-align: top; border-bottom: 1px solid #d8e1eb; line-height: 1.7; }
+.studyTable thead { background: #f0f5fb; }
+.studyTable a { display: inline-block; min-height: 44px; padding: 8px 0; color: #185ca8; font-weight: 700; text-underline-offset: 4px; }
+.studyTable a:focus-visible { outline: 3px solid #2468bf; outline-offset: 3px; }
+@media (max-width: 620px) {
+  .studyTable, .studyTable tbody, .studyTable tr, .studyTable th, .studyTable td { display: block; }
+  .studyTable thead { display: none; }
+  .studyTable tr { padding: 16px 0; border-bottom: 1px solid #d8e1eb; }
+  .studyTable th, .studyTable td { padding: 0; border: 0; }
+}

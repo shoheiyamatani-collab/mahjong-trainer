@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@11.7.0",
   "scripts": {
-    "build": "pnpm build:web && pnpm build:mleague && node scripts/merge-mleague-output.mjs && node scripts/verify-static-output.mjs",
+    "build": "pnpm build:web && pnpm build:mleague && node scripts/merge-mleague-output.mjs && node scripts/apply-adsense-review-publication.mjs && node scripts/verify-static-output.mjs",
     "verify:static": "node scripts/verify-static-output.mjs",
     "dev": "pnpm dev:web",
     "dev:web": "pnpm --filter @mahjong-trainer/web dev",

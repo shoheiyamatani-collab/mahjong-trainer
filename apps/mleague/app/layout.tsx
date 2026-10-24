@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   authors: [{ name: "雀フォリオ", url: siteConfig.parentUrl }],
   creator: "雀フォリオ",
   publisher: "雀フォリオ",
+  other: { "google-adsense-account": "ca-pub-7962600450986425" },
   robots: getRobotsPolicy("/mleague"),
   openGraph: {
     type: "website",
@@ -72,14 +73,6 @@ export default function RootLayout({
 
   return (
     <html lang="ja">
-      <head>
-        <meta name="google-adsense-account" content="ca-pub-7962600450986425" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7962600450986425"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body>
         <JsonLd data={structuredData} />
         <a className="skip-link" href="#main-content">

@@ -5,7 +5,8 @@ import {
   getRobotsPolicy,
   hasIndexablePolicyEntryWithin,
   shouldIncludeInSitemap,
-  shouldIndexPath
+  shouldIndexPath,
+  shouldPublishPath
 } from "./contentIndexPolicy";
 
 describe("content index policy", () => {
@@ -55,5 +56,13 @@ describe("content index policy", () => {
   it("announces section sitemaps only when the policy has an indexable entry", () => {
     expect(hasIndexablePolicyEntryWithin("/learn")).toBe(true);
     expect(hasIndexablePolicyEntryWithin("/mleague")).toBe(false);
+  });
+
+  it("temporarily unpublishes third-party-heavy route families only in review mode", () => {
+    expect(shouldPublishPath("/videos/strategy/example", true)).toBe(false);
+    expect(shouldPublishPath("/mleague/players/example", true)).toBe(false);
+    expect(shouldPublishPath("/learn/guides/example", true)).toBe(true);
+    expect(shouldPublishPath("/videos/strategy/example", false)).toBe(true);
+    expect(shouldPublishPath("/mleague/players/example", false)).toBe(true);
   });
 });

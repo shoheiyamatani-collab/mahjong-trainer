@@ -123,6 +123,7 @@ export default function MahjongCheckerHelpPage() {
           <li>良形率は、5枚以上を良形、9枚以上を超良形として数える雀フォリオ独自の比較指標です。実戦の勝率そのものではありません。</li>
           <li>副露のない通常形（4面子1雀頭）を対象としています。七対子・国士無双のシャンテン数や、副露を含む手牌はこのチェッカーでは評価しません。</li>
         </ul>
+        <p><Link href="/about#calculation-policy">解説・計算結果の作り方と訂正方針</Link>も公開しています。結果に疑問がある場合は、入力した14枚と比較した打牌を添えてご連絡ください。</p>
       </section>
 
       <section className="analysisNotice toolHelpFinish">

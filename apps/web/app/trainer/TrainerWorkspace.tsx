@@ -8,6 +8,7 @@ import { BookOpenCheck, CircleHelp, Flame, TableProperties } from "lucide-react"
 import { HandInputStrip } from "../components/HandInputStrip";
 import { AnalysisToolPreviews } from "../analysis/mahjong-tool/AnalysisToolPreviews";
 import { CHECKER_SAMPLE_HAND, SCORE_SAMPLE_HAND, scoreLearningExamples } from "../tools/toolLearningExamples";
+import { trainerScoreExamples } from "./trainerScoreExamples";
 import { TrainerLearningContent, TrainerPortal } from "./TrainerLearningContent";
 import {
   getTrainerDefinition,
@@ -945,6 +946,8 @@ export default function TrainerWorkspace({ learningContent }: { learningContent?
               <span>練習内容：{trainerDefinition.focus}</span>
             </div>
           ) : null}
+          {trainerDefinition && learningContent ? <a className="textLink" href="#training-worked-example">固定例で解き方を見る</a> : null}
+          {isTrainerPortal ? <a className="textLink" href="#training-study-guide">練習の選び方と復習手順</a> : null}
         </div>
         {isScoreCalculator ? (
           <div className="toolHeaderLinks">
@@ -1012,8 +1015,8 @@ export default function TrainerWorkspace({ learningContent }: { learningContent?
       {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "scoreQuizBeginner" ? <ScoreQuizBeginnerMode /> : null}
       {!isAnalysisTool && !isScoreCalculator && !isTrainerPortal && mode === "scoreQuizHard" ? <ScoreQuizHardMode /> : null}
       {isScoreCalculator && mode === "scoring" ? <><ScoringMode />{learningContent}</> : null}
-      {isTrainerPortal ? <TrainerPortal /> : null}
-      {trainerDefinition ? <TrainerLearningContent definition={trainerDefinition} /> : null}
+      {isTrainerPortal ? <><TrainerPortal />{learningContent}</> : null}
+      {trainerDefinition ? <>{learningContent}<TrainerLearningContent definition={trainerDefinition} /></> : null}
     </main>
   );
 }
@@ -2172,7 +2175,7 @@ function ScoringMode() {
 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("example");
-    const example = scoreLearningExamples.find((item) => item.id === id);
+    const example = [...scoreLearningExamples, ...trainerScoreExamples].find((item) => item.id === id);
     if (!example) return;
     const input = example.input;
     setCounts(parseHand(example.handText));
@@ -2862,8 +2865,8 @@ function DiscardResults({ results, best }: { results: DiscardAnalysis[]; best: S
               </div>
               <Stat label="牌種類" value={`${result.ukeireTypes}種`} />
               <Stat label="枚数" value={`${result.ukeireTiles}枚`} />
-              <Stat className={result.goodShapeRate >= 1 ? "redText" : undefined} label="良系率" value={goodRate} />
-              <Stat className={result.superGoodShapeRate >= 0.01 ? "greenText" : undefined} label="超良系率" value={superRate} />
+              <Stat className={result.goodShapeRate >= 1 ? "redText" : undefined} label="良形率" value={goodRate} />
+              <Stat className={result.superGoodShapeRate >= 0.01 ? "greenText" : undefined} label="超良形率" value={superRate} />
               <div className="ukeireCell">
                 <div className="smallLabel">{result.afterDiscardShanten === 0 ? "待ち牌" : "有効牌"}</div>
                 <TileStrip tiles={result.ukeire} />

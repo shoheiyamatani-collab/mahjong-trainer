@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
-import TrainerPage from "../page";
+import TrainerWorkspace from "../TrainerWorkspace";
+import { TrainerWorkedExample } from "../TrainerWorkedExample";
 import { getTrainerDefinition, trainerDefinitions } from "../trainerCatalog";
 
 type TrainerPageProps = { params: Promise<{ slug: string }> };
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: TrainerPageProps): Promise<Me
 }
 
 export default async function IndividualTrainerPage({ params }: TrainerPageProps) {
-  if (!getTrainerDefinition((await params).slug)) notFound();
-  return <TrainerPage />;
+  const { slug } = await params;
+  if (!getTrainerDefinition(slug)) notFound();
+  return <TrainerWorkspace learningContent={<TrainerWorkedExample slug={slug} />} />;
 }

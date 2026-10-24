@@ -38,7 +38,11 @@ export function HomeLearningPaths() {
       <ol className="platformRoadmapSteps"><li>ルールを知る</li><li>役と待ちを覚える</li><li>何切るを試す</li><li>点数を確認する</li></ol>
       <div className="platformHomeRelated"><Link className="platformCategoryCard" href="/learn/guides" data-tone="learning"><BookOpen aria-hidden="true" /><h3>麻雀を学ぶ</h3><p>牌効率・守備・実戦判断を牌図で学ぶ。</p></Link><Link className="platformCategoryCard" href="/rules/yaku" data-tone="learning"><BookOpen aria-hidden="true" /><h3>麻雀役一覧</h3><p>成立条件・翻数・鳴けるかを確認。</p></Link><Link className="platformCategoryCard" href="/learn/glossary" data-tone="learning"><BookOpen aria-hidden="true" /><h3>麻雀用語辞典</h3><p>知らない言葉をすぐに調べる。</p></Link></div>
     </section>
-    {isAdsenseReviewMode ? <nav className="platformPopularSearches" aria-label="動画とMリーグ"><Link href="/videos/strategy">動画で学ぶ</Link><a href={siteConfig.externalSites.mLeaguePlayerDirectory.href}>Mリーグの対局・選手情報</a></nav> : <section data-tone="learning" aria-labelledby="home-more-heading">
+    {isAdsenseReviewMode ? <nav className="platformPopularSearches" aria-label="麻雀を学ぶ・ツールを使う">
+      <Link href="/learn/guides/tile-efficiency-and-ukeire">牌効率と受け入れを学ぶ</Link>
+      <Link href="/analysis/mahjong-tool/help">牌理チェッカーの使い方</Link>
+      <Link href="/tools/help">点数計算の使い方</Link>
+    </nav> : <section data-tone="learning" aria-labelledby="home-more-heading">
       <div className="platformSectionHeading"><h2 id="home-more-heading">学びを広げる</h2></div>
       <div className="platformHomeRelated">
         <Link className="platformCategoryCard" href="/learn/guides" data-tone="learning"><BookOpen aria-hidden="true" /><h3>戦術・学習記事</h3><p>牌図と比較例で実戦の判断を整理。</p></Link>

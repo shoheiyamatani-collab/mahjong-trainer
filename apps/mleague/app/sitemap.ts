@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { shouldIncludeInSitemap } from "@mahjong-trainer/content-index-policy";
+import { shouldIncludeInSitemap, shouldPublishPath } from "@mahjong-trainer/content-index-policy";
 import { getPublishedPlayers } from "@/lib/mleague/getPlayers";
 import { getPublishedTeams } from "@/lib/mleague/getTeams";
 import { siteConfig } from "@/config/site";
@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return paths
     .map((path) => `${siteConfig.basePath}${path}`)
-    .filter(shouldIncludeInSitemap)
+    .filter((path) => shouldPublishPath(path) && shouldIncludeInSitemap(path))
     .map((fullPath) => ({
       url: `${siteConfig.siteOrigin}${fullPath}/`.replace(/\/{2,}$/, "/"),
       changeFrequency:

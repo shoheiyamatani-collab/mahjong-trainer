@@ -30,8 +30,10 @@ export function PlatformNavigation({ reviewMode, webBase = "", mleagueHref = "/m
     { label: "オーラス条件計算", href: `${webBase}/analysis/orasu-condition`, category: "analysis", Icon: Calculator },
     { label: "役一覧", href: `${webBase}/rules/yaku`, category: "learning", Icon: BookOpen },
     { label: "麻雀用語辞典", href: `${webBase}/learn/glossary`, category: "learning", Icon: BookOpen },
-    { label: "動画で学ぶ", href: `${webBase}/videos/strategy`, category: "learning", Icon: SquarePlay },
-    { label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }
+    ...(!reviewMode ? [
+      { label: "動画で学ぶ", href: `${webBase}/videos/strategy`, category: "learning", Icon: SquarePlay },
+      { label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }
+    ] : [])
   ];
   function openMenu() { dialog.current?.showModal(); setMenuOpen(true); }
   function closeMenu() { dialog.current?.close(); setMenuOpen(false); }

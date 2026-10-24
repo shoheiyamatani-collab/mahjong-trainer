@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { JsonLd } from "./components/JsonLd";
 import { Footer, Header } from "./components/SiteChrome";
 import { getSiteUrl } from "./seoConfig";
@@ -15,10 +16,13 @@ export const metadata: Metadata = {
     default: siteConfig.brand.name,
     template: `%s | ${siteConfig.brand.name}`
   },
-  description: "麻雀初心者向けのルール解説、練習問題、牌理解析、点数計算、動画記事をつなぐ麻雀総合サイトです。",
+  description: isAdsenseReviewMode
+    ? "麻雀初心者向けのルール解説、練習問題、牌理解析、点数計算をつなぐ麻雀学習サイトです。"
+    : "麻雀初心者向けのルール解説、練習問題、牌理解析、点数計算、動画記事をつなぐ麻雀総合サイトです。",
   authors: [{ name: siteConfig.brand.name, url: "/about" }],
   creator: siteConfig.brand.name,
   publisher: siteConfig.brand.name,
+  other: { "google-adsense-account": "ca-pub-7962600450986425" },
   category: "麻雀学習",
   robots: {
     index: true,
@@ -76,13 +80,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="ja">
-      <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7962600450986425"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body>
         <JsonLd data={structuredData} />
         <PlatformFrame>

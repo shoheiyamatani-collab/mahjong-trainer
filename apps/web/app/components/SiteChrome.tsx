@@ -10,12 +10,12 @@ const footerContentItems: { label: string; href: string; external?: boolean }[] 
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀点数計算ツール", href: "/tools" },
   { label: "麻雀を学ぶ", href: "/learn/guides" },
-  { label: "動画で学ぶ", href: "/videos/strategy" },
-  {
+  ...(!isAdsenseReviewMode ? [{ label: "動画で学ぶ", href: "/videos/strategy" }] : []),
+  ...(!isAdsenseReviewMode ? [{
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
     href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
     external: siteConfig.externalSites.mLeaguePlayerDirectory.external
-  }
+  }] : [])
 ];
 
 const footerInformationItems = [

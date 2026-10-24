@@ -5,10 +5,13 @@ import { fileURLToPath } from "node:url";
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(repositoryRoot, "apps", "web", "out");
 const sitemapPath = path.join(outputRoot, "sitemap.xml");
+const publicationPolicyPath = path.join(repositoryRoot, "packages", "content-index-policy", "src", "publicationPolicy.json");
 const siteOrigin = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://jongfolio.com").origin;
+const isReviewMode = process.env.ADSENSE_REVIEW_MODE === "true";
 const errors = [];
 const checkedReferences = new Set();
 let outputFilePaths = new Set();
+let reviewModeUnpublishedRoutePrefixes = [];
 
 async function collectFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -92,11 +95,20 @@ function resolveStaticReference(rawValue) {
 }
 
 try {
-  const [sitemapXml, htmlFiles] = await Promise.all([
+  const [sitemapXml, htmlFiles, publicationPolicyJson] = await Promise.all([
     readFile(sitemapPath, "utf8"),
-    collectFiles(outputRoot)
+    collectFiles(outputRoot),
+    readFile(publicationPolicyPath, "utf8")
   ]);
+  reviewModeUnpublishedRoutePrefixes = JSON.parse(publicationPolicyJson).reviewModeUnpublishedRoutePrefixes;
   outputFilePaths = new Set(htmlFiles.map((file) => path.relative(outputRoot, file).replaceAll("\\", "/")));
+  if (isReviewMode) {
+    for (const prefix of reviewModeUnpublishedRoutePrefixes) {
+      const outputPrefix = `${prefix.replace(/^\/+|\/+$/g, "")}/`;
+      const presentRoute = [...outputFilePaths].find((file) => file === `${outputPrefix}index.html` || file.startsWith(outputPrefix));
+      if (presentRoute) errors.push(`審査モードで非公開のルートが静的出力に残っています: ${prefix} (${presentRoute})`);
+    }
+  }
   const sitemapUrls = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/gi)].map((match) => match[1]);
   if (sitemapUrls.length === 0) errors.push("sitemap.xml にURLがありません。");
 
@@ -137,13 +149,26 @@ try {
     const pages = htmlPages.slice(index, index + 48);
     const pageReferences = await Promise.all(pages.map(async (htmlFile) => {
       const html = await readFile(htmlFile, "utf8");
+      const pagePath = path.relative(outputRoot, htmlFile).replaceAll("\\", "/");
+      // Verification must not depend on an ad-serving script on every route.
+      if (getMetaContent(html, "google-adsense-account") !== "ca-pub-7962600450986425") {
+        errors.push(`AdSense所有権確認メタタグがありません: ${pagePath}`);
+      }
+      if (/<script\b[^>]*\bsrc=["'][^"']*\/adsbygoogle\.js\b/i.test(html)) {
+        errors.push(`配信停止中の広告スクリプトが出力されています: ${pagePath}`);
+      }
       const localReferences = [];
       for (const match of html.matchAll(/\b(?:href|src)=["']([^"']+)["']/gi)) {
         const value = match[1].replaceAll("&amp;", "&").trim();
         if (!value || value.startsWith("#") || value.startsWith("data:") || value.startsWith("blob:") || value.startsWith("javascript:")) continue;
         try {
           const url = new URL(value, siteOrigin);
-          if ((url.protocol === "http:" || url.protocol === "https:") && url.origin === siteOrigin) localReferences.push(url.pathname);
+          if ((url.protocol === "http:" || url.protocol === "https:") && url.origin === siteOrigin) {
+            if (isReviewMode && reviewModeUnpublishedRoutePrefixes.some((prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`))) {
+              errors.push(`審査モードの公開ページに非公開ルートへのリンクがあります: ${pagePath} -> ${url.pathname}`);
+            }
+            localReferences.push(url.pathname);
+          }
         } catch {
           continue;
         }
@@ -156,6 +181,11 @@ try {
   }
   for (const reference of references) checkedReferences.add(reference);
   await checkReferencesInBatches(references);
+
+  const adsTxt = await readFile(path.join(outputRoot, "ads.txt"), "utf8");
+  if (!/^google\.com,\s*pub-7962600450986425,\s*DIRECT,\s*f08c47fec0942fa0\s*$/m.test(adsTxt)) {
+    errors.push("ads.txt のパブリッシャー情報が一致しません。");
+  }
 
   if (errors.length) {
     console.error(`静的出力チェック失敗 (${errors.length}件)`);
