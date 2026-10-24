@@ -3,6 +3,7 @@
 import { ArrowRight, BookOpen, BookOpenCheck, Check, ChevronRight, Clock3, ListChecks, Map } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { roadmapChapters } from "./roadmapStructure";
 
 export type RoadmapBoardStep = {
   step: number;
@@ -14,13 +15,6 @@ export type RoadmapBoardStep = {
   tileGroups: { label: string; tiles: string[] }[];
   visualLabel: string;
 };
-
-const chapters = [
-  { number: 1, title: "基本を知る", steps: [1, 2, 3] },
-  { number: 2, title: "アガリを覚える", steps: [4, 5, 6] },
-  { number: 3, title: "実戦で使う", steps: [7, 8, 9] },
-  { number: 4, title: "次へ進む", steps: [10, 11] }
-];
 
 export function RoadmapLearningBoard({ steps }: { steps: RoadmapBoardStep[] }) {
   const [selectedStep, setSelectedStep] = useState(steps[0]?.step ?? 1);
@@ -76,7 +70,7 @@ export function RoadmapLearningBoard({ steps }: { steps: RoadmapBoardStep[] }) {
         </label>
 
         <nav className="roadmapBoardSyllabus" aria-label="ロードマップのステップ">
-          {chapters.map((chapter) => (
+          {roadmapChapters.map((chapter) => (
             <section className="roadmapBoardChapter" key={chapter.number}>
               <h2><span>第{chapter.number}章</span>{chapter.title}</h2>
               <div>
@@ -199,5 +193,5 @@ function padStep(step: number) {
 }
 
 function chapterForStep(step: number) {
-  return chapters.find((chapter) => chapter.steps.includes(step))?.number ?? 1;
+  return roadmapChapters.find((chapter) => chapter.steps.includes(step))?.number ?? 1;
 }

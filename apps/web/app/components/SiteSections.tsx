@@ -33,11 +33,11 @@ export function PageHero({ eyebrow, title, description, primaryLink, secondaryLi
   );
 }
 
-export function SectionTitle({ eyebrow, title, description }: { eyebrow?: string; title: string; description?: string }) {
+export function SectionTitle({ eyebrow, title, description, id }: { eyebrow?: string; title: string; description?: string; id?: string }) {
   return (
     <div className="sectionTitle">
       {eyebrow ? <p className="siteEyebrow">{eyebrow}</p> : null}
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
       {description ? <p>{description}</p> : null}
     </div>
   );

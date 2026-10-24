@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { learnArticles } from "../../siteData";
 import { RoadmapLearningBoard } from "./RoadmapLearningBoard";
+import { RoadmapSyllabus } from "./RoadmapSyllabus";
 
 type RoadmapVisual = {
   label: string;
@@ -103,6 +104,7 @@ export default function LearnRoadmapPage() {
   return (
     <main className="siteMain learningRoadmapPage roadmapBoardPage">
       <RoadmapLearningBoard steps={steps} />
+      <RoadmapSyllabus />
     </main>
   );
 }

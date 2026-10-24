@@ -54,6 +54,16 @@ function getMetaContent(html, name) {
   return "";
 }
 
+function getCanonicalHref(html) {
+  for (const match of html.matchAll(/<link\b[^>]*>/gi)) {
+    const tag = match[0];
+    const rel = tag.match(/\brel=["']([^"']+)["']/i)?.[1]?.toLowerCase().split(/\s+/) ?? [];
+    if (!rel.includes("canonical")) continue;
+    return tag.match(/\bhref=["']([^"']+)["']/i)?.[1] ?? "";
+  }
+  return "";
+}
+
 function htmlPathForUrl(pathname) {
   let decodedPath;
   try {
@@ -136,11 +146,30 @@ try {
     const h1 = stripTags(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "");
     const description = getMetaContent(html, "description").trim();
     const robots = `${getMetaContent(html, "robots")} ${getMetaContent(html, "googlebot")}`;
+    const canonicalHref = getCanonicalHref(html);
 
     if (!title) errors.push(`title がありません: ${url.pathname}`);
     if (!h1) errors.push(`H1 がありません: ${url.pathname}`);
     if (!description) errors.push(`description がありません: ${url.pathname}`);
     if (/\bnoindex\b/i.test(robots)) errors.push(`noindexページがサイトマップに含まれています: ${url.pathname}`);
+    if (!canonicalHref) {
+      errors.push(`canonical がありません: ${url.pathname}`);
+    } else {
+      const canonical = new URL(canonicalHref, siteOrigin);
+      if (canonical.origin !== siteOrigin || canonical.pathname.replace(/\/$/, "") !== normalizedPath.replace(/\/$/, "")) {
+        errors.push(`canonical がサイトマップURLと一致しません: ${url.pathname} -> ${canonical.href}`);
+      }
+    }
+  }
+
+  const roadmapHtmlPath = htmlPathForUrl("/learn/roadmap");
+  if (roadmapHtmlPath) {
+    const roadmapHtml = await readFile(roadmapHtmlPath, "utf8");
+    const roadmapEntries = [...roadmapHtml.matchAll(/data-roadmap-step=["'](\d+)["']/g)].map((match) => Number(match[1]));
+    const missingSteps = Array.from({ length: 11 }, (_, index) => index + 1).filter((step) => !roadmapEntries.includes(step));
+    if (missingSteps.length) errors.push(`初心者ロードマップの静的HTMLに学習ステップがありません: ${missingSteps.join(", ")}`);
+  } else {
+    errors.push("初心者ロードマップの静的HTMLがありません。");
   }
 
   const references = new Set();

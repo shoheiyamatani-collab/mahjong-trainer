@@ -61,6 +61,32 @@ export default function RulesPage() {
         </div>
       </section>
 
+      <section className="rulesLearningSequence" aria-labelledby="rules-learning-sequence-title">
+        <SectionTitle
+          title="迷ったときの学習順"
+          description="役・待ち・点数は別々の知識に見えますが、実戦ではこの順に確認するとつながりが分かりやすくなります。"
+          id="rules-learning-sequence-title"
+        />
+        <ol>
+          <li>
+            <span>01</span>
+            <div><h3>形と役をそろえる</h3><p>基本のアガリ形に加え、ロン・ツモできる役があるかを確認します。まずはリーチ、役牌、タンヤオなど、使う機会の多い役から覚えます。</p><a href="/rules/frequent-yaku">頻出役を牌姿で確認する</a></div>
+          </li>
+          <li>
+            <span>02</span>
+            <div><h3>テンパイと待ちを見分ける</h3><p>あと1枚でアガリになる状態がテンパイです。両面・カンチャンなど待ちの形を見分けると、アガリ牌と受け入れを具体的に数えられます。</p><a href="/rules/practical-waits">待ちの形を牌姿で比べる</a></div>
+          </li>
+          <li>
+            <span>03</span>
+            <div><h3>翻・符から点数を確認する</h3><p>役の翻数と手牌の符を確認し、親子・ロン・ツモに応じた点数を調べます。最初は代表例を早見表で見てから、計算ツールで条件を変えて比べます。</p><a href="/rules/practical-score">点数の代表例を見る</a><span aria-hidden="true">　</span><a href="/tools">点数計算ツールを使う</a></div>
+          </li>
+          <li>
+            <span>04</span>
+            <div><h3>何切るで形の変化を練習する</h3><p>一向聴では、打牌後にどの牌を引けばテンパイするかを比較します。牌理チェッカーで候補を確認し、問題練習で選択の理由を振り返ります。</p><a href="/analysis/mahjong-tool">牌理チェッカーで比較する</a><span aria-hidden="true">　</span><a href="/trainer">トレーニングを選ぶ</a></div>
+          </li>
+        </ol>
+      </section>
+
       <section>
         <SectionTitle title="ルールのあとに" description="読んだ内容を、問題とツールで確認できます。" />
         <div className="linkCardGrid">

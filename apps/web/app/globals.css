@@ -12696,6 +12696,180 @@ body .roadmapBoardPage {
   line-height: 1.35;
 }
 
+.roadmapSyllabus {
+  border-top: 4px solid #137a59;
+  margin: 36px auto 0;
+  max-width: 1140px;
+  padding: 30px 12px 12px;
+}
+
+.roadmapSyllabus > header {
+  max-width: 760px;
+}
+
+.roadmapSyllabus > header h2 {
+  color: #162b43;
+  font-size: 1.65rem;
+  line-height: 1.35;
+  margin: 4px 0 8px;
+}
+
+.roadmapSyllabus > header > p:last-child {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.roadmapSyllabusChapters {
+  display: grid;
+  gap: 24px 36px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 28px;
+}
+
+.roadmapSyllabusChapter {
+  border-top: 1px solid #cbd5e1;
+  min-width: 0;
+  padding-top: 14px;
+}
+
+.roadmapSyllabusChapter h3 {
+  align-items: baseline;
+  color: #137a59;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.12rem;
+  gap: 8px;
+  line-height: 1.45;
+  margin: 0 0 10px;
+}
+
+.roadmapSyllabusChapter h3 span {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.roadmapSyllabusChapter ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.roadmapSyllabusChapter li {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px 0;
+}
+
+.roadmapSyllabusChapter li > a {
+  align-items: baseline;
+  color: #162b43;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  line-height: 1.5;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.roadmapSyllabusChapter li > a > span {
+  color: #137a59;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.roadmapSyllabusChapter li > a > strong {
+  font-size: 1rem;
+}
+
+.roadmapSyllabusChapter li > p {
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 6px 0 0;
+}
+
+.roadmapSyllabusChapter li > .roadmapSyllabusPoints {
+  color: #526579;
+  font-size: 0.84rem;
+}
+
+.roadmapSyllabusChapter li > .roadmapSyllabusPoints strong {
+  color: #334155;
+}
+
+.roadmapSyllabus a:focus-visible,
+.rulesLearningSequence a:focus-visible {
+  border-radius: 2px;
+  outline: 3px solid #137a59;
+  outline-offset: 3px;
+}
+
+.rulesLearningSequence > ol {
+  display: grid;
+  gap: 24px 36px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rulesLearningSequence > ol > li {
+  border-top: 3px solid #137a59;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 34px minmax(0, 1fr);
+  padding: 16px 0 18px;
+}
+
+.rulesLearningSequence > ol > li > span {
+  color: #137a59;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.rulesLearningSequence h3 {
+  color: #162b43;
+  font-size: 1.12rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.rulesLearningSequence p {
+  color: #475569;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  margin: 8px 0 10px;
+}
+
+.rulesLearningSequence a {
+  color: #137a59;
+  font-weight: 800;
+  line-height: 1.7;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .roadmapSyllabus {
+    margin-top: 24px;
+    padding: 26px 16px 12px;
+  }
+
+  .roadmapSyllabus > header h2 {
+    font-size: 1.4rem;
+  }
+
+  .roadmapSyllabusChapters,
+  .rulesLearningSequence > ol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .roadmapSyllabusChapters {
+    gap: 20px;
+    margin-top: 22px;
+  }
+}
+
 /* Beginner mahjong glossary */
 .glossaryPage {
   max-width: 1180px;
