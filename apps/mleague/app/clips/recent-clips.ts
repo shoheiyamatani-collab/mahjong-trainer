@@ -1,15 +1,15 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "mcjyqUTRoxk",
-  tag: "10/22 ハイライト",
-  title: "【2026/10/22 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "YFirWnzPxI4",
+  tag: "10/23 ハイライト",
+  title: "【2026/10/23 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、堀慎吾のカン7ソー待ち同士の攻防、岡田紗佳の親番での跳満、醍醐大の連続三色からの跳満、朝倉康心の七対子、仲林圭のドラ暗刻の勝負手、鈴木大介の配牌平和・三色からのWリーチを見どころとして紹介しています。",
+    "公式説明欄では、浅見真紀と勝又健志の七対子、黒沢咲のオーラス逆転後の赤・裏ドラ絡みの大逆転、瑞原明奈の初トップをかけた高打点のめくり合い、下石戟のドラ切りから裏ドラ3枚のアガリを見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=mcjyqUTRoxk",
-  date: "2026年10月23日公開",
-  competition: "10月22日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=YFirWnzPxI4",
+  date: "2026年10月24日公開",
+  competition: "10月23日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
