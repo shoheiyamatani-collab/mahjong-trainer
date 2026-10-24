@@ -11,14 +11,14 @@
   "dependencies": {
     "@mahjong-trainer/content-index-policy": "workspace:*",
     "next": "^15.5.28",
-    "react": "^19.0.0",
+    "react": "^19.3.1",
     "react-dom": "^19.0.0",
     "react-icons": "^5.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^22.7.4",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.3.0",
     "@types/react-dom": "^19.0.0",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.5.4"
