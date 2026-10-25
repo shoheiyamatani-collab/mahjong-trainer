@@ -38,7 +38,7 @@ export default function RulesPage() {
         eyebrow="Rules Library"
         title="実践でよく使う麻雀の基本"
         description="役の成立条件、点数計算、待ちの形、一向聴の考え方をテーマ別に確認できます。牌姿を見ながら読み進め、練習やツールで理解を確かめましょう。"
-        primaryLink={{ label: "初心者ロードマップを見る", href: "/learn" }}
+        primaryLink={{ label: "初心者ロードマップを見る", href: "/learn/roadmap" }}
         secondaryLink={{ label: "練習問題を解く", href: "/trainer" }}
       />
 
@@ -90,7 +90,7 @@ export default function RulesPage() {
       <section>
         <SectionTitle title="ルールのあとに" description="読んだ内容を、問題とツールで確認できます。" />
         <div className="linkCardGrid">
-          <InternalLinkCard title="初心者ロードマップを見る" description="覚える順番に戻って、次に読む項目を確認します。" href="/learn" />
+          <InternalLinkCard title="初心者ロードマップを見る" description="覚える順番に戻って、次に読む項目を確認します。" href="/learn/roadmap" />
           <InternalLinkCard title="関連する練習問題を解く" description="待ち、何切る、清一色などの練習に進みます。" href="/trainer" />
           <InternalLinkCard title="便利ツールで確認する" description="点数や受け入れをツールで確認してから復習できます。" href="/tools" />
         </div>

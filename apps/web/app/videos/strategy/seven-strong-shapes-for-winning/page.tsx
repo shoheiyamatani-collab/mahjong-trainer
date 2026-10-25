@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendati
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/seven-strong-shapes-for-winning" },
   robots: getRobotsPolicy("/videos/strategy/seven-strong-shapes-for-winning"),
   title: "麻雀初心者が覚えたい強い形7選 | アガリ率を上げる牌効率",
   description: "麻雀初心者向けに、四連形、中ぶくれ、一枚飛び、リャンカン、離れリャンカン、カンチャン対子、両面カンチャンを動画と短い要点で解説します。"
@@ -133,7 +135,7 @@ export default function SevenStrongShapesForWinningArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・強い形</p>
           <h1>面白いほどアガリやすくなる、初心者が覚えたい強い形7選</h1>
           <p className="videoArticleLead">牌を1枚ずつ見るのではなく、伸びやすい形のまとまりとして見ると、手牌を進める速度が変わります。動画で紹介される7つの形を、実際の動画と「次に何を引くとよいか」で整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年5月30日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年5月30日</time><VideoReadingTime articleHref="/videos/strategy/seven-strong-shapes-for-winning" /></div>
         </header>
 
         <div className="videoArticleEmbed">

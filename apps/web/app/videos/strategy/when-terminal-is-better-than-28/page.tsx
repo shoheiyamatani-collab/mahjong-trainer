@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/when-terminal-is-better-than-28" },
   robots: getRobotsPolicy("/videos/strategy/when-terminal-is-better-than-28"),
   title: "麻雀の孤立牌1・9と2・8はどちらを残す？価値が逆転する3ケース",
   description: "麻雀中級者向けに、孤立牌の2・8より1・9を残すケースを解説。安全度、鳴き、1345・13455の複合形を牌図で比較します。"
@@ -87,7 +89,7 @@ export default function WhenTerminalIsBetterThan28ArticlePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・孤立牌</p>
           <h1>孤立牌の2・8より、1・9を残した方がよい3つのケース</h1>
           <p className="videoArticleLead">基本の牌効率では、1・9より2・8の方が多くの牌とつながります。しかし手牌が十分に整っているとき、鳴いて進めるとき、複合形があるときは評価が逆転します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月22日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月22日</time><VideoReadingTime articleHref="/videos/strategy/when-terminal-is-better-than-28" /></div>
         </header>
 
         <div className="videoArticleEmbed">

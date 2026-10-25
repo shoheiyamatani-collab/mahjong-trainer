@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/tile-efficiency-four-rules" },
   robots: getRobotsPolicy("/videos/strategy/tile-efficiency-four-rules"),
   title: "麻雀初心者が覚えたい牌効率の4法則 | 動画の見どころを解説",
   description: "発男道場の初心者向け牌効率動画を紹介。対子候補をいくつ残すか、6ブロックをどう5ブロックへ整理するかを、向いている人と注意点も含めて解説します。"
@@ -77,7 +79,7 @@ export default function TileEfficiencyVideoArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率</p>
           <h1>麻雀初心者が覚えたい牌効率の4法則</h1>
           <p className="videoArticleLead">何切るで迷ったときに、対子候補とブロック数を数えて手牌を整理する考え方を学べる動画です。動画の内容と、見る前に知っておきたいポイントを初心者向けにまとめます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年1月9日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年1月9日</time><VideoReadingTime articleHref="/videos/strategy/tile-efficiency-four-rules" /></div>
         </header>
 
         <div className="videoArticleEmbed">

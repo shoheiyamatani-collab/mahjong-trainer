@@ -740,3 +740,9 @@ export const proStrategyChannel: VideoChannel = {
     articleHref: `/videos/strategy/${lesson.slug}`
   }))
 };
+
+export function getVideoGuideByArticleHref(articleHref: string): VideoGuide | undefined {
+  return [videoChannels.strategy, advancedStrategyChannel, proStrategyChannel]
+    .flatMap((channel) => channel.guides)
+    .find((guide) => guide.articleHref === articleHref);
+}

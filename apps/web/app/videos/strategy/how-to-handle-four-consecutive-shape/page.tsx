@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/how-to-handle-four-consecutive-shape" },
   robots: getRobotsPolicy("/videos/strategy/how-to-handle-four-consecutive-shape"),
   title: "麻雀の4連形はどこまで残す？｜崩す場面と判断基準",
   description: "麻雀中級者向けに、3456などの4連形を残す場面と崩す場面を短い要点で解説。最終待ち、巡目、ドラ、ほかのターツから判断する方法を紹介します。"
@@ -43,7 +45,7 @@ export default function FourConsecutiveShapePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・4連形</p>
           <h1>4連形はどこまで残す？判断の基準</h1>
           <p className="videoArticleLead">3456のように4枚が連続した4連形は、面子・両面・三面張へ育つ強い形です。ただし「強いから最後まで残す」だけでは不十分です。崩した後の待ち、巡目、打点を比べて、変化を見る時間があるかを判断します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年5月9日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年5月9日</time><VideoReadingTime articleHref="/videos/strategy/how-to-handle-four-consecutive-shape" /></div>
         </header>
 
         <div className="videoArticleEmbed">

@@ -22,6 +22,7 @@ import {
 } from "@mahjong-trainer/mahjong-core";
 import styles from "./orasu-condition.module.css";
 import { orasuExamples } from "./orasuExamples";
+import { parseSharedOrasuCondition } from "./sharedCondition";
 
 const seatLabels: Record<OrasuSeat, string> = { east: "東家", south: "南家", west: "西家", north: "北家" };
 const initialScoreInputs: Record<OrasuSeat, string> = { east: "32000", south: "28500", west: "22000", north: "17500" };
@@ -42,14 +43,22 @@ export default function OrasuConditionCalculator() {
   const [exampleId, setExampleId] = useState("");
 
   useEffect(() => {
-    const requestedExample = new URLSearchParams(window.location.search).get("example");
+    const query = new URLSearchParams(window.location.search);
+    const requestedExample = query.get("example");
     if (requestedExample) loadExample(requestedExample);
+    else {
+      const shared = parseSharedOrasuCondition(query);
+      if (shared) loadInput(shared, "");
+    }
   }, []);
 
   function loadExample(id: string) {
     const example = orasuExamples.find((item) => item.id === id);
     if (!example) return;
-    const input = example.input;
+    loadInput(example.input, id);
+  }
+
+  function loadInput(input: OrasuConditionInput, id: string) {
     setScoreInputs({ east: String(input.scores.east), south: String(input.scores.south), west: String(input.scores.west), north: String(input.scores.north) });
     setSelfSeat(input.selfSeat);
     setTargetRank(input.targetRank);

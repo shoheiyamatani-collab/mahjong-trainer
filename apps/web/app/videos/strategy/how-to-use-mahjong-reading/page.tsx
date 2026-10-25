@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/how-to-use-mahjong-reading" },
   robots: getRobotsPolicy("/videos/strategy/how-to-use-mahjong-reading"),
   title: "麻雀の読み方｜捨て牌の違和感と例外から危険度を比べる",
   description: "麻雀中級者向けに、捨て牌読みを待ちの断定ではなく危険度比較へ使う方法を解説。確定情報、手掛かり、推測の違いを短い要点で整理します。"
@@ -41,7 +43,7 @@ export default function HowToUseMahjongReadingPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 読み・情報整理</p>
           <h1>麻雀の読みは「違和感」と「例外」で考える</h1>
           <p className="videoArticleLead">読みは相手の待ちを一発で当てる技術ではありません。見えている情報から普通の手順を想像し、実際の打牌との違いを見つけ、危険度を少しずつ比較するための技術です。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年4月4日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年4月4日</time><VideoReadingTime articleHref="/videos/strategy/how-to-use-mahjong-reading" /></div>
         </header>
 
         <div className="videoArticleEmbed">

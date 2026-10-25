@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendati
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/honor-tile-discard-order" },
   robots: getRobotsPolicy("/videos/strategy/honor-tile-discard-order"),
   title: "麻雀の字牌の捨て順｜攻めと守りで変わる考え方",
   description: "麻雀初心者向けに、役牌・オタ風・場に見えている枚数から字牌の捨て順を考える方法を短い要点で解説します。"
@@ -29,7 +31,7 @@ export default function HonorTileDiscardOrderPage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / 字牌</p>
           <h1>攻守で変わる字牌の捨て順</h1>
           <p className="videoArticleLead">字牌は順子にならないため、何となく端から切りたくなります。しかし、役になる字牌とオタ風では攻撃面の価値が違い、場に見えている枚数によって守備面の価値も変わります。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年7月4日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年7月4日</time><VideoReadingTime articleHref="/videos/strategy/honor-tile-discard-order" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/HVNhilfOmP0" title="初級者の99%が間違っている字牌の捨て順" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

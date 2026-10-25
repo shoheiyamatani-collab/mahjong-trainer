@@ -1,4 +1,6 @@
 import type { LearningGuide } from "./guideData";
+import { countsToTiles, parseHand } from "@mahjong-trainer/mahjong-core";
+import { tileAssetName } from "../../components/TileFigures";
 
 export const guideLibraryCategories = [
   { id: "foundation", label: "形の基本" },
@@ -101,7 +103,12 @@ export type GuideLibraryItem = {
 };
 
 export function buildGuideLibrary(guides: readonly LearningGuide[]): GuideLibraryItem[] {
-  return libraryDefinitions.map((definition) => {
+  const additionalItems: GuideLibraryItem[] = guides.filter((guide) => guide.library).map((guide) => {
+    const hand = guide.sections.flatMap((section) => section.caseStudies ?? []).flatMap((example) => example.hands ?? [])[0];
+    if (!hand) throw new Error(`Missing practical article preview: ${guide.slug}`);
+    return { slug: guide.slug, title: guide.title, description: guide.description, category: guide.library!.category, keywords: `${guide.library!.keywords} ${guide.takeaways.join(" ")}`, preview: [{ label: "記事の実例", tiles: countsToTiles(parseHand(hand.tiles)).slice(0, 9).map((tile) => tileAssetName(tile)), tone: "blue", arrowBefore: false }] };
+  });
+  return [...libraryDefinitions.map((definition) => {
     const guide = guides.find((item) => item.slug === definition.slug);
     if (!guide) throw new Error(`Missing learning guide: ${definition.slug}`);
     return {
@@ -118,7 +125,7 @@ export function buildGuideLibrary(guides: readonly LearningGuide[]): GuideLibrar
         return { label: source.label, tiles, tone: source.tone ?? "neutral", arrowBefore: source.arrowBefore ?? false };
       })
     };
-  });
+  }), ...additionalItems];
 }
 
 export function filterGuideLibrary(items: readonly GuideLibraryItem[], category: GuideLibraryFilter, query: string): GuideLibraryItem[] {

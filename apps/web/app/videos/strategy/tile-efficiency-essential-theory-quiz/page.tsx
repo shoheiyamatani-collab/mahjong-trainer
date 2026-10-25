@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/tile-efficiency-essential-theory-quiz" },
   robots: getRobotsPolicy("/videos/strategy/tile-efficiency-essential-theory-quiz"),
   title: "全16問で学ぶ麻雀の何切る・牌効率セオリー | 動画解説",
   description: "発男道場の何切る問題16問を紹介。5ブロック理論、対子、二度受け、孤立牌、4連形など、脱初心者に必要な牌効率の見方と動画の活用法を解説します。"
@@ -90,7 +92,7 @@ export default function TileEfficiencyTheoryQuizArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 何切る・牌効率</p>
           <h1>全16問で学ぶ、脱初心者の何切るセオリー</h1>
           <p className="videoArticleLead">牌効率の重要な考え方を、問題を解きながら確認できる動画です。見るだけで終わらせず、自分で一打を選び、答えの理由まで比べるための見どころをまとめます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年10月5日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年10月5日</time><VideoReadingTime articleHref="/videos/strategy/tile-efficiency-essential-theory-quiz" /></div>
         </header>
 
         <div className="videoArticleEmbed">

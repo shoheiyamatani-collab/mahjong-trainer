@@ -7,6 +7,8 @@ import { ruleComparisonGuide } from "./ruleComparisonGuide";
 import { practicalLearningGuides } from "./practicalGuideData";
 import { comboTheoryGuide } from "./comboTheoryGuide";
 import { scoreOrasuCaseStudy } from "./scoreOrasuCaseStudy";
+import { availablePracticalGuides } from "./practicalArticles";
+import type { StudyCase } from "./practicalArticles/types";
 
 export type LearningGuideSection = {
   heading: string;
@@ -14,6 +16,7 @@ export type LearningGuideSection = {
   bullets?: string[];
   table?: { caption: string; headers: string[]; rows: string[][] };
   sources?: { label: string; href: string }[];
+  caseStudies?: StudyCase[];
 };
 
 export type LearningGuidePracticeItem = {
@@ -43,6 +46,9 @@ export type LearningGuide = {
   relatedSlugs: string[];
   screenshot?: { src: string; alt: string; caption: string };
   practice?: LearningGuidePractice;
+  additionalTools?: { href: string; label: string; description: string }[];
+  editorial?: { createdAt: string; updatedAt: string; publishedAt?: string };
+  library?: { category: "decision" | "defense" | "scoring"; keywords: string };
 };
 
 const goodShapeExample = getCheckerLearningResults()[0]!;
@@ -268,7 +274,8 @@ export const learningGuides: LearningGuide[] = [
   ruleComparisonGuide,
   ...practicalLearningGuides,
   comboTheoryGuide,
-  scoreOrasuCaseStudy
+  scoreOrasuCaseStudy,
+  ...availablePracticalGuides()
 ];
 
 export function getLearningGuide(slug: string) {

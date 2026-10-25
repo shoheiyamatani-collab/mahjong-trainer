@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/ryankan-vs-aryanmen-shape" },
   robots: getRobotsPolicy("/videos/strategy/ryankan-vs-aryanmen-shape"),
   title: "麻雀のリャンカンと亜両面｜両方ある牌姿の選び方",
   description: "麻雀中級者向けに、リャンカンと亜両面が同時にある牌姿を短い要点で解説。受け入れ枚数、良形率、雀頭候補から残す形を比較します。"
@@ -42,7 +44,7 @@ export default function RyankanVsAryanmenShapePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・ターツ比較</p>
           <h1>リャンカンと亜両面がある牌姿の選び方</h1>
           <p className="videoArticleLead">亜両面は「両面」という名前から強く見えますが、自分で同じ牌を2枚使っているため、片側の受け入れが4枚から2枚へ減っています。リャンカンと並んだときは、名前ではなく手牌全体の受け入れを比べます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年1月14日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年1月14日</time><VideoReadingTime articleHref="/videos/strategy/ryankan-vs-aryanmen-shape" /></div>
         </header>
 
         <div className="videoArticleEmbed">

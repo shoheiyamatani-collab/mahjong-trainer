@@ -5,6 +5,21 @@ import { ClipVideoGrid } from "@/app/clips/highlights/ClipVideoGrid";
 import { latestMatchHighlight } from "@/app/clips/recent-clips";
 import { ExternalLink } from "@/components/ExternalLink";
 import { siteConfig } from "@/config/site";
+import {
+  currentSeasonStatsCompletedTablesOnThrough,
+  currentSeasonStatsThrough,
+  currentSeasonStatsTotalTablesOnThrough,
+} from "@/data/mleague/currentSeasonStats";
+import {
+  regularSeasonSchedule,
+  regularSeasonScheduleVerifiedAt,
+  type ScheduleTeamId,
+} from "@/data/mleague/regularSeasonSchedule";
+import { teams } from "@/data/mleague/teams";
+import {
+  getScheduleDateLabels,
+  getUpcomingScheduledMatches,
+} from "@/lib/mleague/schedulePresentation";
 import { getTeamThemeStyle } from "@/lib/mleague/teamThemes";
 
 export const metadata: Metadata = {
@@ -20,12 +35,6 @@ type MatchTeam = {
   name: string;
   slug: string;
   teamId: string;
-};
-
-type UpcomingMatch = {
-  date: string;
-  day: string;
-  teams: MatchTeam[];
 };
 
 type MatchResultEntry = MatchTeam & {
@@ -50,75 +59,25 @@ function getHighlightHeading(tag: string) {
 
 const latestHighlightHeading = getHighlightHeading(latestMatchHighlight.tag);
 
-const nextMatch: UpcomingMatch = {
-  "date": "10.26",
-  "day": "月",
-  "teams": [
-    {
-      "name": "赤坂ドリブンズ",
-      "slug": "akasaka-drivens",
-      "teamId": "team-drivens"
-    },
-    {
-      "name": "EX風林火山",
-      "slug": "ex-furinkazan",
-      "teamId": "team-furinkazan"
-    },
-    {
-      "name": "KONAMI麻雀格闘倶楽部",
-      "slug": "konami-mahjong-fight-club",
-      "teamId": "team-fightclub"
-    },
-    {
-      "name": "渋谷ABEMAS",
-      "slug": "shibuya-abemas",
-      "teamId": "team-abemas"
-    }
-  ]
-};
+const teamById = new Map(teams.map((team) => [team.id, team]));
 
-const upcomingMatches: UpcomingMatch[] = [
-  {
-    "date": "10.26",
-    "day": "月・B卓",
-    "teams": [
-      { "name": "EARTH JETS", "slug": "earth-jets", "teamId": "team-jets" },
-      { "name": "KADOKAWAサクラナイツ", "slug": "kadokawa-sakura-knights", "teamId": "team-sakuraknights" },
-      { "name": "渋谷ABEMAS", "slug": "shibuya-abemas", "teamId": "team-abemas" },
-      { "name": "BEAST X", "slug": "beast-x", "teamId": "team-beast" }
-    ]
-  },
-  {
-    "date": "10.27",
-    "day": "火・A卓",
-    "teams": [
-      { "name": "EX風林火山", "slug": "ex-furinkazan", "teamId": "team-furinkazan" },
-      { "name": "KADOKAWAサクラナイツ", "slug": "kadokawa-sakura-knights", "teamId": "team-sakuraknights" },
-      { "name": "セガサミーフェニックス", "slug": "sega-sammy-phoenix", "teamId": "team-phoenix" },
-      { "name": "TEAM RAIDEN / 雷電", "slug": "team-raiden", "teamId": "team-raiden" }
-    ]
-  },
-  {
-    "date": "10.27",
-    "day": "火・B卓",
-    "teams": [
-      { "name": "EARTH JETS", "slug": "earth-jets", "teamId": "team-jets" },
-      { "name": "赤坂ドリブンズ", "slug": "akasaka-drivens", "teamId": "team-drivens" },
-      { "name": "KONAMI麻雀格闘倶楽部", "slug": "konami-mahjong-fight-club", "teamId": "team-fightclub" },
-      { "name": "BEAST X", "slug": "beast-x", "teamId": "team-beast" }
-    ]
-  },
-  {
-    "date": "10.29",
-    "day": "木・A卓",
-    "teams": [
-      { "name": "EARTH JETS", "slug": "earth-jets", "teamId": "team-jets" },
-      { "name": "KONAMI麻雀格闘倶楽部", "slug": "konami-mahjong-fight-club", "teamId": "team-fightclub" },
-      { "name": "セガサミーフェニックス", "slug": "sega-sammy-phoenix", "teamId": "team-phoenix" },
-      { "name": "TEAM RAIDEN / 雷電", "slug": "team-raiden", "teamId": "team-raiden" }
-    ]
-  }
-];
+function getMatchTeams(teamIds: readonly ScheduleTeamId[]): MatchTeam[] {
+  return teamIds.map((teamId) => {
+    const team = teamById.get(teamId);
+    if (!team) throw new Error(`対局日程に未登録のチームIDがあります: ${teamId}`);
+    return { name: team.name, slug: team.slug, teamId: team.id };
+  });
+}
+
+const upcomingMatches = getUpcomingScheduledMatches(
+  regularSeasonSchedule,
+  currentSeasonStatsThrough,
+  currentSeasonStatsCompletedTablesOnThrough,
+  currentSeasonStatsTotalTablesOnThrough,
+  4,
+).map((match) => ({ ...match, teams: getMatchTeams(match.teams) }));
+const nextMatch = upcomingMatches[0];
+const nextMatchDateLabels = nextMatch ? getScheduleDateLabels(nextMatch.date) : null;
 
 const latestResults: MatchResult[] = [
   {
@@ -322,25 +281,31 @@ export default function MatchInformationPage() {
             <p>2026-27シーズン レギュラーシーズン</p>
           </div>
 
-          <div
-            className="next-match-date"
-            aria-label="2026年10月26日 月曜日 19時開始 A卓"
-          >
-            <span>{nextMatch.date}</span>
-            <div>
-              <strong>FRI / 金</strong>
-              <small>19:00 START</small>
-            </div>
-          </div>
+          {nextMatch && nextMatchDateLabels ? (
+            <>
+              <div
+                className="next-match-date"
+                aria-label={`${nextMatch.date} ${nextMatchDateLabels.weekdayFullJa} 19時開始 ${nextMatch.tableLabel}`}
+              >
+                <span>{nextMatchDateLabels.shortDate}</span>
+                <div>
+                  <strong>{nextMatchDateLabels.weekdayEn} / {nextMatchDateLabels.weekdayJa}</strong>
+                  <small>19:00 START</small>
+                </div>
+              </div>
 
-          <div className="next-match-teams">
-            <span className="match-status">MATCH DAY 45 / A卓</span>
-            <ul>
-              {nextMatch.teams.map((team) => (
-                <TeamLink team={team} key={team.teamId} />
-              ))}
-            </ul>
-          </div>
+              <div className="next-match-teams">
+                <span className="match-status">MATCH {nextMatch.matchNumber} / {nextMatch.tableLabel}</span>
+                <ul>
+                  {nextMatch.teams.map((team) => (
+                    <TeamLink team={team} key={team.teamId} />
+                  ))}
+                </ul>
+              </div>
+            </>
+          ) : (
+            <p className="next-match-teams">次回の対局予定は、公式日程の更新後に掲載します。</p>
+          )}
 
           <div className="next-match-actions">
             <ExternalLink
@@ -440,26 +405,27 @@ export default function MatchInformationPage() {
         </div>
 
         <ol className="upcoming-match-list">
-          {upcomingMatches.map((match, index) => (
-            <li className="upcoming-match-card" key={`${match.date}-${match.day}`}>
-              <span className="upcoming-match-number">
-                {String(index + 46).padStart(2, "0")}
-              </span>
-              <div className="upcoming-match-date">
-                <strong>{match.date}</strong>
-                <span>{match.day}</span>
-              </div>
-              <ul className="upcoming-team-list">
-                {match.teams.map((team) => (
-                  <TeamLink team={team} key={team.teamId} />
-                ))}
-              </ul>
-            </li>
-          ))}
+          {upcomingMatches.map((match) => {
+            const dateLabels = getScheduleDateLabels(match.date);
+            return (
+              <li className="upcoming-match-card" key={`${match.date}-${match.tableIndex}`}>
+                <span className="upcoming-match-number">{String(match.matchNumber).padStart(2, "0")}</span>
+                <div className="upcoming-match-date">
+                  <strong>{dateLabels.shortDate}</strong>
+                  <span>{dateLabels.weekdayJa}・{match.tableLabel}</span>
+                </div>
+                <ul className="upcoming-team-list">
+                  {match.teams.map((team) => (
+                    <TeamLink team={team} key={team.teamId} />
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
         </ol>
 
         <p className="match-source-note">
-          Mリーグ公式の試合日程・結果を2026年10月23日に確認しました。対局予定は変更される場合があります。
+          Mリーグ公式の日程・結果を{regularSeasonScheduleVerifiedAt.replaceAll("-", ".")}に確認しました。対局予定は変更される場合があります。
         </p>
       </section>
     </main>

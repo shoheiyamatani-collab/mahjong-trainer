@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/penchan-vs-isolated-tiles-priority" },
   robots: getRobotsPolicy("/videos/strategy/penchan-vs-isolated-tiles-priority"),
   title: "麻雀のペンチャンと孤立牌の優先順位｜残す形の判断基準",
   description: "麻雀中級者向けに、ペンチャンと孤立牌3〜7のどちらを残すか短い要点で解説。シャンテン数、最終待ち、タンヤオ、巡目から判断します。"
@@ -44,7 +46,7 @@ export default function PenchanVsIsolatedTilesPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・ターツ比較</p>
           <h1>ペンチャンと孤立牌3〜7の優先順位</h1>
           <p className="videoArticleLead">ペンチャンは待ちとして弱い一方、あと1枚で面子になります。孤立した3〜7は両面へ育ちやすい一方、面子完成まで通常2手かかります。どちらを残すかは「弱い形か、強い形か」だけでなく、テンパイまでの距離と完成後の価値で決めます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年4月18日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年4月18日</time><VideoReadingTime articleHref="/videos/strategy/penchan-vs-isolated-tiles-priority" /></div>
         </header>
 
         <div className="videoArticleEmbed">

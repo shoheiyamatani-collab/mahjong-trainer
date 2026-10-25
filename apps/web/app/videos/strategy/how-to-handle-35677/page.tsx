@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/how-to-handle-35677" },
   robots: getRobotsPolicy("/videos/strategy/how-to-handle-35677"),
   title: "麻雀の35677は3切り？7切り？複合形の判断を短い要点で解説",
   description: "麻雀中級者向けに、35677から3を切って5677を残す基本と、7を切って3567を残す条件を、頭候補・鳴き・打点・くっつきで整理します。"
@@ -46,7 +48,7 @@ export default function HowToHandle35677Page() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・複合形</p>
           <h1>複合形35677は3切り？7切り？判断条件を短い要点で整理</h1>
           <p className="videoArticleLead">同じ5枚形でも、頭が必要な手と、すでに頭がある手では残したい形が変わります。3切りを基本にしながら、7切りへ変わる条件と、形をそのまま残す選択まで整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年12月13日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年12月13日</time><VideoReadingTime articleHref="/videos/strategy/how-to-handle-35677" /></div>
         </header>
 
         <div className="videoArticleEmbed">

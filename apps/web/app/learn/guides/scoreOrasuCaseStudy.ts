@@ -85,7 +85,7 @@ export const scoreOrasuCaseStudy: LearningGuide = {
     {
       heading: "3. 脇からのロンとツモは別の条件になる",
       paragraphs: [
-        "同じ" + points(score.score.totalPoints) + "点でも、西家からのロンでは南家が" + points(standingsExample.input.scores.south + score.score.totalPoints) + "点に増えるだけで、東家の" + points(standingsExample.input.scores.east) + "点を超えません。オーラス計算では西家からの最低条件は" + formatOrasuCandidate(sideRon.candidate) + "と表示されます。",
+        "同じ点数でも、誰からロンするかで着順結果が変わります。同じ" + points(score.score.totalPoints) + "点でも、西家からのロンでは南家が" + points(standingsExample.input.scores.south + score.score.totalPoints) + "点に増えるだけで、東家の" + points(standingsExample.input.scores.east) + "点を超えません。オーラス計算では西家からの最低条件は" + formatOrasuCandidate(sideRon.candidate) + "と表示されます。",
         "ツモは3人からの支払いを受けるため、計算器の最小条件は" + formatOrasuCandidate(tsumo.candidate) + "です。精算後は南家" + points(tsumo.postScores.south) + "点、東家" + points(tsumo.postScores.east) + "点となります。点数計算で出した手の点数と、順位計算で必要な点数は役割が違うので、同じ数値として扱わないようにします。"
       ]
     },

@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaDefenseBook } from "../../../components/VideoBookRecommendation
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/no-safe-tile-defense-techniques" },
   robots: getRobotsPolicy("/videos/strategy/no-safe-tile-defense-techniques"),
   title: "現物がないときのベタオリ | 麻雀初心者の放銃を減らす方法",
   description: "相手のリーチに現物がないとき、対子・暗刻を使って切る危険牌の種類を抑える方法と、序盤に切られた牌の外側を比較する守備の考え方を短い要点で解説します。"
@@ -38,7 +40,7 @@ export default function NoSafeTileDefenseTechniquesPage() {
           <p className="siteEyebrow">VIDEO GUIDE / 守備・手詰まり</p>
           <h1>現物がなくても押さない。放銃を減らすベタオリの考え方</h1>
           <p className="videoArticleLead">リーチを受けたのに現物が1枚もないと、「もう押すしかない」と考えがちです。しかし、完全に安全な牌がなくても危険度を比べ、数巡しのぐ打ち方はあります。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2019年7月18日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2019年7月18日</time><VideoReadingTime articleHref="/videos/strategy/no-safe-tile-defense-techniques" /></div>
         </header>
 
         <div className="videoArticleEmbed">

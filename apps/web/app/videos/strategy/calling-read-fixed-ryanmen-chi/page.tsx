@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/calling-read-fixed-ryanmen-chi" },
   robots: getRobotsPolicy("/videos/strategy/calling-read-fixed-ryanmen-chi"),
   title: "麻雀の鳴き読み｜固定した両面チーから待ちを読む",
   description: "麻雀中級者向けに、固定した両面をチーした後の手出しから通りやすい両面を探す方法を短い要点で解説。フォロー牌と愚形待ちの注意も紹介します。"
@@ -43,7 +45,7 @@ export default function CallingReadFixedRyanmenChiPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 鳴き読み</p>
           <h1>固定した両面チーから読む待ち候補</h1>
           <p className="videoArticleLead">相手が先に両面を固定し、その両面をチーして手から数牌を切ったとき、切り順から両面待ちの候補を絞れる場合があります。ポイントは「何をチーしたか」だけでなく、両面を固定した牌とチー直後の手出しをセットで見ることです。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年10月8日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年10月8日</time><VideoReadingTime articleHref="/videos/strategy/calling-read-fixed-ryanmen-chi" /></div>
         </header>
 
         <div className="videoArticleEmbed">

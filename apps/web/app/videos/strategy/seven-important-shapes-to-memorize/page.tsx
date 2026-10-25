@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/seven-important-shapes-to-memorize" },
   robots: getRobotsPolicy("/videos/strategy/seven-important-shapes-to-memorize"),
   title: "麻雀初心者が覚えたい重要な形7選 | 牌効率を短い要点で解説",
   description: "麻雀初心者が先に覚えたい四連形、中ぶくれ、両面カンチャン、完全イーシャンテンなど7つの重要形を、動画と短い要点で分かりやすく解説します。"
@@ -113,7 +115,7 @@ export default function SevenImportantShapesToMemorizePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・重要形</p>
           <h1>初心者が先に覚えたい、勝ちにつながる重要な牌の形7選</h1>
           <p className="videoArticleLead">何を切るか迷う時間を減らしたいなら、よく出る強い形を先に覚えるのが近道です。動画で紹介される7形を、動画と「残す理由」に分けて確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年3月2日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年3月2日</time><VideoReadingTime articleHref="/videos/strategy/seven-important-shapes-to-memorize" /></div>
         </header>
 
         <div className="videoArticleEmbed">

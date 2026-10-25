@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/three-pairs-shape-efficiency" },
   robots: getRobotsPolicy("/videos/strategy/three-pairs-shape-efficiency"),
   title: "麻雀の3トイツはどうさばく？対子を2組へ整理する牌効率",
   description: "麻雀中級者向けに、3トイツ形で崩す対子の選び方を短い要点で解説。5ブロック、6ブロック、鳴ける手、複合形の例外を整理します。"
@@ -42,7 +44,7 @@ export default function ThreePairsShapeEfficiencyPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・対子</p>
           <h1>3トイツ形を効率よくさばく方法</h1>
           <p className="videoArticleLead">通常のアガリ形に必要な雀頭は1組です。対子が3組あるときは、ただ弱い対子を壊すのではなく、ブロック数と、1枚を外した後の変化を比べて整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年7月24日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年7月24日</time><VideoReadingTime articleHref="/videos/strategy/three-pairs-shape-efficiency" /></div>
         </header>
 
         <div className="videoArticleEmbed">

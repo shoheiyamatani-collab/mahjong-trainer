@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
+import { VideoReadingTime } from "../VideoReadingTime";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/intermediate-tile-efficiency-26-rules" },
   robots: getRobotsPolicy("/videos/strategy/intermediate-tile-efficiency-26-rules"),
   title: "麻雀中級者向け何切る | 牌効率を高める26のセオリー",
   description: "麻雀中級者向けに、打点判断、5ブロック理論、孤立牌、二度受け、対子選択、ドラのスライドなど、何切るで使う26の牌効率セオリーを動画と短い要点で整理します。"
@@ -155,7 +157,7 @@ const theoryGroups: TheoryGroup[] = [
 ];
 
 function TileRow({ tiles }: { tiles: string[] }) {
-  return <div>{tiles.map((tile, index) => <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />)}</div>;
+  return <div className="articleTileStrip compact">{tiles.map((tile, index) => <img key={`${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt={tileNames[tile] ?? tile} />)}</div>;
 }
 
 function secondsFromTime(time: string) {
@@ -165,6 +167,7 @@ function secondsFromTime(time: string) {
 
 export default function IntermediateTileEfficiencyArticlePage() {
   let ruleNumber = 0;
+  const totalRules = theoryGroups.reduce((total, group) => total + group.rules.length, 0);
 
   return (
     <main className="siteMain videoArticlePage">
@@ -174,7 +177,7 @@ export default function IntermediateTileEfficiencyArticlePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・何切る</p>
           <h1>中級レベルの何切るに必要な、牌効率26のセオリー</h1>
           <p className="videoArticleLead">中級者の何切るは、受け入れ枚数だけでは決まりません。打点、ブロック数、二度受け、裏目の損失、守備、ドラまで同時に比べるための26項目を、動画の順番で整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月26日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月26日</time><VideoReadingTime articleHref="/videos/strategy/intermediate-tile-efficiency-26-rules" /></div>
         </header>
 
         <div className="videoArticleEmbed">
@@ -200,10 +203,52 @@ export default function IntermediateTileEfficiencyArticlePage() {
           message={"中級者の何切るは、受け入れ枚数だけでは決まりません。"}
           points={[
             { title: "26項目を丸暗記せず、6つの比較軸で覚える", description: "何切るで迷ったら、まず5ブロックを数え、次に受け入れの重複を外し、最後に打点・守備・裏目を比べます。" },
-            { title: "動画の章順で確認する26のセオリー", description: "" },
+            { title: "受け入れが同じなら、打点と裏目も比べる", description: "手牌の速度だけで決めにくい場面は、完成後の打点、引き戻しやすさ、場況を合わせて候補を比べます。" },
             { title: "セオリーは候補を比べる基準であり、絶対の答えではありません", description: "巡目、点数状況、ドラ、他家の仕掛け、残り枚数によって最善打は変わります。" },
           ]}
         />
+
+        <section className="videoArticleBodySection videoTheoryOverview" aria-labelledby="video-theory-overview-title">
+          <p className="videoArticleSectionLabel">VIDEO CHAPTERS</p>
+          <h2 id="video-theory-overview-title">動画の章順で見る26の判断項目</h2>
+          <p>6つの章に分け、動画内の時刻、判断の要点、関連する牌姿を掲載しています。牌姿は考え方を説明するための独自の模式図で、動画内の局面を再現したものではありません。</p>
+          <p className="videoTheoryCount">掲載項目：{totalRules}項目</p>
+        </section>
+
+        {theoryGroups.map((group) => (
+          <section className="videoArticleBodySection videoTheoryChapter" key={group.number} aria-labelledby={`video-theory-chapter-${group.number}`}>
+            <p className="videoArticleSectionLabel">CHAPTER {group.number} · {group.time}</p>
+            <h2 id={`video-theory-chapter-${group.number}`}>{group.title}</h2>
+            <p>{group.lead}</p>
+            <a className="videoTheoryTimestamp" href={`${videoUrl}&t=${secondsFromTime(group.time)}s`} target="_blank" rel="noopener noreferrer">
+              YouTubeでこの章から見る
+            </a>
+            <ol className="videoTheoryRules">
+              {group.rules.map((rule) => {
+                ruleNumber += 1;
+                return (
+                  <li className="videoTheoryRule" key={`${group.number}-${ruleNumber}`}>
+                    <span aria-hidden="true">{ruleNumber}</span>
+                    <p>{rule}</p>
+                  </li>
+                );
+              })}
+            </ol>
+            {group.figure ? (
+              <figure className="videoTheoryFigure">
+                <div className="videoTheoryFigureGroups">
+                  {group.figure.groups.map((figureGroup, index) => (
+                    <div className={`videoTheoryFigureGroup${figureGroup.tone ? ` is-${figureGroup.tone}` : ""}`} key={`${figureGroup.label}-${index}`}>
+                      <strong>{figureGroup.label}</strong>
+                      <TileRow tiles={figureGroup.tiles} />
+                    </div>
+                  ))}
+                </div>
+                <figcaption>{group.figure.label}：{group.figure.note}</figcaption>
+              </figure>
+            ) : null}
+          </section>
+        ))}
 
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>

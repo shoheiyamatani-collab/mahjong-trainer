@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/betaori-priority-order" },
   robots: getRobotsPolicy("/videos/strategy/betaori-priority-order"),
   title: "麻雀のベタオリ優先順位｜スジ・ワンチャンス・無スジを比較",
   description: "麻雀中級者向けに、ベタオリで切る牌の優先順位を短い要点で解説。スジ、序盤の外側、ワンチャンス、モロひっかけ、無スジの危険度を整理します。"
@@ -42,7 +44,7 @@ export default function BetaoriPriorityOrderPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 守備・ベタオリ</p>
           <h1>ベタオリで切る牌の優先順位を整理する</h1>
           <p className="videoArticleLead">現物がなくなった後は、どの牌も同じように危険ではありません。スジ、序盤の外側、ワンチャンスなどを細かく比較し、より通りやすい牌から選ぶ手順を身につけます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年5月13日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年5月13日</time><VideoReadingTime articleHref="/videos/strategy/betaori-priority-order" /></div>
         </header>
 
         <div className="videoArticleEmbed">

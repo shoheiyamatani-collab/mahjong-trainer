@@ -6771,6 +6771,116 @@ body .homeHeroBrandRow .homeHeroLogo {
   max-width: 30px;
 }
 
+.videoTheoryOverview > p:not(.videoArticleSectionLabel) {
+  color: #3f4d47;
+  font-weight: 700;
+  line-height: 1.85;
+  margin: 14px 0 0;
+}
+
+.videoTheoryCount {
+  color: #173f23;
+  font-weight: 1000;
+}
+
+.videoTheoryRules {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+
+.videoTheoryRule {
+  align-items: start;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  padding: 14px 0;
+}
+
+.videoTheoryRule > span {
+  align-items: center;
+  background: #e8f6ee;
+  border-radius: 50%;
+  color: #137a59;
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 1000;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.videoTheoryRule > p {
+  color: #3f4d47;
+  font-weight: 700;
+  line-height: 1.8;
+  margin: 2px 0 0;
+}
+
+.videoTheoryTimestamp {
+  color: #137a59;
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 900;
+  margin-top: 12px;
+}
+
+.videoTheoryFigure {
+  background: #f8faf7;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  margin: 18px 0 0;
+  padding: 14px;
+}
+
+.videoTheoryFigureGroups {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+}
+
+.videoTheoryFigureGroup {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  min-width: 0;
+  padding: 9px;
+}
+
+.videoTheoryFigureGroup.is-strong {
+  border-top: 3px solid #137a59;
+}
+
+.videoTheoryFigureGroup.is-weak {
+  border-top: 3px solid #b85c10;
+}
+
+.videoTheoryFigureGroup > strong {
+  color: #162b43;
+  display: block;
+  font-size: 0.82rem;
+  margin-bottom: 8px;
+}
+
+.videoTheoryFigure figcaption {
+  color: #52615b;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+@media (max-width: 480px) {
+  .videoTheoryFigure {
+    padding: 10px;
+  }
+
+  .videoTheoryFigureGroups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .tileFigureArrow {
   color: #1b6b2b;
   font-weight: 1000;

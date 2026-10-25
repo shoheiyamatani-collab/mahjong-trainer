@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommend
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/easy-score-calculation-without-fu" },
   robots: getRobotsPolicy("/videos/strategy/easy-score-calculation-without-fu"),
   title: "麻雀の点数計算を簡単に覚える方法 | 20・30・40符の見分け方",
   description: "符計算をすべて暗記する前に、門前ツモ・門前ロン・鳴きを20符、30符、40符へ分類する方法を動画と短い要点で解説。親子・翻数・点数表の見方も紹介します。"
@@ -90,7 +92,7 @@ export default function EasyScoreCalculationWithoutFuArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 点数計算・符</p>
           <h1>点数計算は、よく出る形から覚えればいい</h1>
           <p className="videoArticleLead">点数計算は、すべての符を最初から暗記しなくても始められます。親か子か、ロンかツモか、何翻かを確認し、よく出る20・30・40符の形を点数表へ当てはめる方法を紹介します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2020年6月20日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2020年6月20日</time><VideoReadingTime articleHref="/videos/strategy/easy-score-calculation-without-fu" /></div>
         </header>
 
         <div className="videoArticleEmbed">

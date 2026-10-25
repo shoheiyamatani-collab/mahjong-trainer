@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/prioritize-ukeire-over-shape-change" },
   robots: getRobotsPolicy("/videos/strategy/prioritize-ukeire-over-shape-change"),
   title: "麻雀の受け入れと変化｜何切るで優先する牌効率の基本",
   description: "麻雀初心者向けに、シャンテン数が進む受け入れと、形だけが良くなる変化の違いを牌姿で比較し、何切るの優先順位を解説します。"
@@ -36,7 +38,7 @@ export default function PrioritizeUkeireOverShapeChangePage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / 牌効率</p>
           <h1>牌効率は「変化」より「受け入れ」を優先する</h1>
           <p className="videoArticleLead">良い形になりそうな牌を残したのに、なかなかテンパイしない。その原因は、すぐ手が進む「受け入れ」と、形が良くなるだけの「変化」を同じ価値で数えていることかもしれません。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年12月3日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年12月3日</time><VideoReadingTime articleHref="/videos/strategy/prioritize-ukeire-over-shape-change" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/GJ91P8Tbhh0" title="変化と受け入れを区別する牌効率講座" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

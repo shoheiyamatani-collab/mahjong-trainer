@@ -4,6 +4,7 @@ import { VideoChannelPage } from "../../../VideoChannelPage";
 import { advancedStrategyChannel } from "../../../videoData";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/advanced/calling-read" },
   robots: getRobotsPolicy("/videos/strategy/advanced/calling-read"),
   title: "麻雀の鳴き読み動画 | チー・ポン後の手順を読む",
   description: "麻雀中級者以上へ向けた鳴き読み動画の記事一覧。チーやポンの後に切られた牌と手順から、待ちの可能性を比較します。"

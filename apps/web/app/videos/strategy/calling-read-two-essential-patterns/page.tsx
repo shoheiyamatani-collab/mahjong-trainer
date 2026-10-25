@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/calling-read-two-essential-patterns" },
   robots: getRobotsPolicy("/videos/strategy/calling-read-two-essential-patterns"),
   title: "麻雀の鳴き読み｜まず覚えたい2つの重要パターン",
   description: "麻雀中級者向けに、実戦で使いやすい鳴き読み2パターンを短い要点で解説。チー出し牌、直前の安全牌、ポンの見送りから両面待ちの可能性を比較します。"
@@ -43,7 +45,7 @@ export default function CallingReadTwoEssentialPatternsPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 鳴き読み</p>
           <h1>まず覚えたい鳴き読み2つの重要パターン</h1>
           <p className="videoArticleLead">鳴き読みは、相手の手牌を完全に当てる技術ではありません。「何を鳴き、直後に何を手から切ったか」と、それ以前の捨て牌をつなぎ、待ち候補ごとの危険度を比べる技術です。この動画から、最初に覚えやすい2つの型を整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年7月18日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年7月18日</time><VideoReadingTime articleHref="/videos/strategy/calling-read-two-essential-patterns" /></div>
         </header>
 
         <div className="videoArticleEmbed">

@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommend
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/calling-to-improve-wait-quiz" },
   robots: getRobotsPolicy("/videos/strategy/calling-to-improve-wait-quiz"),
   title: "麻雀の何鳴く問題｜待ちを良くするチー・ポン10問",
   description: "麻雀初心者向けに、テンパイ後のチー・ポンでカンチャンや単騎を両面・多面待ちへ変える考え方を短い要点で解説します。"
@@ -30,7 +32,7 @@ export default function CallingToImproveWaitQuizPage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / 何鳴く</p>
           <h1>待ちを良くする何鳴く問題10問</h1>
           <p className="videoArticleLead">テンパイした後でも、別の牌をチー・ポンすることで、カンチャンや単騎を両面・多面待ちへ変えられる場合があります。動画を止めて「何を鳴き、何を切るか」を考える問題です。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年8月8日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年8月8日</time><VideoReadingTime articleHref="/videos/strategy/calling-to-improve-wait-quiz" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/7Cy92lt82N8" title="待ちが良くなる何鳴く問題10問" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

@@ -81,12 +81,22 @@ export default function LearnPage() {
         />
         <div className="learningGuideHubCta">
           <div>
-            <p className="siteEyebrow">14 PRACTICAL GUIDES</p>
+            <p className="siteEyebrow">PRACTICAL GUIDES</p>
             <h2>知りたい内容を選んで読む</h2>
             <p>5ブロック理論、待ちの形、受け入れ、スジ・カベ、鳴き判断、点数計算20問までまとめています。</p>
           </div>
           <Link href="/learn/guides">麻雀を学ぶページへ</Link>
         </div>
+      </section>
+
+      <section className="rulesLearningSequence" aria-labelledby="learn-next-step-title">
+        <SectionTitle id="learn-next-step-title" title="今のつまずきから、次の一歩を選ぶ" description="最初から全部覚える必要はありません。分からないことを一つ確認し、短い練習で確かめてから対局へ戻りましょう。" />
+        <ol>
+          <li><span>01</span><div><h3>牌の名前やアガリ形がまだ分からない</h3><p>ロードマップで面子・雀頭・テンパイを順に学びます。用語が分からなくなったら辞典で調べ、元の教材へ戻ると読み進めやすくなります。</p><Link href="/learn/roadmap">初心者ロードマップ</Link><span aria-hidden="true">　</span><Link href="/learn/glossary">麻雀用語辞典</Link></div></li>
+          <li><span>02</span><div><h3>形はできたのに、アガれる理由が分からない</h3><p>役一覧で成立条件と鳴きの可否を確認します。役判定クイズでは、完成形だけでなく門前かどうかやアガリ方も見て、一つずつ役を探します。</p><Link href="/rules/yaku">役の条件を確認</Link><span aria-hidden="true">　</span><Link href="/training/yaku-quiz">役判定クイズ</Link></div></li>
+          <li><span>03</span><div><h3>何を切るか迷う</h3><p>牌効率の記事でシャンテン数と受け入れの違いを確認し、牌理チェッカーに実際の14枚を入力します。候補の枚数を比べた後、打点や安全度も別に考えます。</p><Link href="/learn/guides/what-is-tile-efficiency">牌効率の基本</Link><span aria-hidden="true">　</span><Link href="/analysis/mahjong-tool">自分の手牌で比較</Link></div></li>
+          <li><span>04</span><div><h3>点数や逆転条件が分からない</h3><p>手牌のアガリ点は点数計算、順位を変えるために必要な点はオーラス条件計算で調べます。供託を含む受け取りと、相手が支払う点数を分けて確認します。</p><Link href="/tools">アガリ点を計算</Link><span aria-hidden="true">　</span><Link href="/analysis/orasu-condition">順位条件を比較</Link></div></li>
+        </ol>
       </section>
     </main>
   );

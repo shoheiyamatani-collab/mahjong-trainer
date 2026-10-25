@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/reach-declaration-tile-reading" },
   robots: getRobotsPolicy("/videos/strategy/reach-declaration-tile-reading"),
   title: "麻雀のリーチ宣言牌から何が分かる？待ちを読む3つの情報",
   description: "リーチ宣言牌が1・9、安全牌、先制リーチ者の現物だった場合に読み取れる情報を初心者向けに解説。待ちの危険度を牌図で比較し、読みを過信しないポイントも紹介します。"
@@ -91,7 +93,7 @@ export default function ReachDeclarationTileReadingArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 守備・捨て牌読み</p>
           <h1>リーチ宣言牌から、何が分かる？</h1>
           <p className="videoArticleLead">リーチで横向きに置かれた牌は、ただの捨て牌ではありません。テンパイする直前まで手の中にあった牌だからこそ、相手の手順や待ちを推測するヒントになります。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年6月26日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年6月26日</time><VideoReadingTime articleHref="/videos/strategy/reach-declaration-tile-reading" /></div>
         </header>
 
         <div className="videoArticleEmbed">

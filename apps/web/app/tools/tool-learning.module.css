@@ -14,6 +14,11 @@
 .comparisonTable caption { padding-bottom: 12px; text-align: left; font-weight: 700; color: #475569; }
 .comparisonTable th, .comparisonTable td { padding: 12px 8px; text-align: left; border-bottom: 1px solid #d6e1d9; }
 .comparisonTable thead { background: #edf6f1; }
+.comparisonSection h2 { scroll-margin-top: 100px; }
+.tableScroll { max-width: 100%; overflow-x: auto; }
+.tableScroll:focus-visible { outline: 3px solid #2468bf; outline-offset: 4px; }
+.tableScroll .comparisonTable { min-width: 560px; }
+.tableScroll th small { display: block; font-size: .8rem; font-weight: 500; margin-top: 4px; }
 .readingSteps { padding-left: 24px; max-width: 900px; }
 .readingSteps li + li { margin-top: 16px; }
 .readingSteps strong { color: #162b43; }

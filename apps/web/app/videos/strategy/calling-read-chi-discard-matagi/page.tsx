@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/calling-read-chi-discard-matagi" },
   robots: getRobotsPolicy("/videos/strategy/calling-read-chi-discard-matagi"),
   title: "麻雀の鳴き読み｜チー出しまたぎが通りやすい3条件",
   description: "麻雀中級者向けに、チー直後の手出し牌をまたぐ両面待ちが比較的通りやすくなる3条件を短い要点で解説。読みの限界と愚形への注意も紹介します。"
@@ -43,7 +45,7 @@ export default function CallingReadChiDiscardMatagiPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 鳴き読み</p>
           <h1>チー出しまたぎを読む3つの条件</h1>
           <p className="videoArticleLead">相手がチーした直後、手の中から切った牌をまたぐスジは、一般に両面待ちの候補になります。ただし、それまでの捨て牌や鳴いた形と矛盾する場合は、両面待ちの可能性を少し下げられます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年3月15日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年3月15日</time><VideoReadingTime articleHref="/videos/strategy/calling-read-chi-discard-matagi" /></div>
         </header>
 
         <div className="videoArticleEmbed">

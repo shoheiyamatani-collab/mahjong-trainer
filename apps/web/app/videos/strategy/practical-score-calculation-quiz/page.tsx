@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommend
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/practical-score-calculation-quiz" },
   robots: getRobotsPolicy("/videos/strategy/practical-score-calculation-quiz"),
   title: "麻雀の点数計算問題10問｜初心者向け実戦練習",
   description: "平和のロン・ツモ、副露、七対子、満貫、40符・50符など、実戦でよく出る麻雀の点数計算を問題形式で学びます。"
@@ -30,7 +32,7 @@ export default function PracticalScoreCalculationQuizPage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / 点数計算</p>
           <h1>実戦でよく出る点数計算問題10問</h1>
           <p className="videoArticleLead">点数計算は、すべての符を最初から暗記しなくても練習できます。この動画では、よく出る形を「翻数」と「アガリ方・手牌の状態」に分け、点数表を選ぶ流れを10問で確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年5月16日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年5月16日</time><VideoReadingTime articleHref="/videos/strategy/practical-score-calculation-quiz" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/pDTj3jixyY4" title="実戦でよく出る点数計算問題10問" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

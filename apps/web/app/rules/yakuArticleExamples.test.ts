@@ -110,6 +110,63 @@ describe("yaku article examples use the existing scoring and wait engines", () =
     expect(chiitoitsuShanten(parseHand("2222m5588m33p44s東東"))).not.toBe(-1);
   });
 
+  it("yakuhai keeps its han but changes fu when the illustrated red dragon is called", () => {
+    const article = getYakuArticle("yakuhai")!;
+    const closed = calculateHandScore({ ...base, counts: handFromFigure(article.figure.rows[0]!.tiles), winningTile: "5m" });
+    expect([closed.score.han, closed.fu?.roundedFu, closed.score.totalPoints]).toEqual([1, 40, 1300]);
+    const row = article.extraFigures!.at(-1)!.rows[0]!;
+    validateCounts(handFromFigure([...row.tiles, ...row.meld!.tiles]), 14);
+    const open = calculateHandScore({ ...base, counts: handFromFigure(row.tiles), winningTile: "5m", melds: [{ kind: "pon", tiles: row.meld!.tiles.map(toTile) }] });
+    expect([open.score.han, open.fu?.totalBeforeRounding, open.fu?.roundedFu, open.score.totalPoints]).toEqual([1, 26, 30, 1000]);
+    expect(article.strategy!.join("")).toContain("1翻40符で1,300点");
+    expect(row.note).toContain("1翻30符で子のロン1,000点");
+  });
+
+  it("east scores twice as a value set only when both round and seat are east", () => {
+    const input = { ...base, counts: parseHand("23455m345p678s東東東"), winningTile: "5m" as Tile };
+    const singleWind = calculateHandScore(input);
+    const doubleWind = calculateHandScore({ ...input, isDealer: true, seatWind: "東" });
+    expect(singleWind.yaku.filter((yaku) => yaku.name === "役牌").reduce((sum, yaku) => sum + yaku.han, 0)).toBe(1);
+    expect(doubleWind.yaku.filter((yaku) => yaku.name === "役牌").reduce((sum, yaku) => sum + yaku.han, 0)).toBe(2);
+  });
+
+  it("the illustrated tsumo is 2 han 40 fu, not a universal 20 fu", () => {
+    const article = getYakuArticle("tsumo")!;
+    const row = article.figure.rows[0]!;
+    const counts = addTile(handFromFigure(row.tiles), "5m");
+    validateCounts(counts, 14);
+    const result = calculateHandScore({ ...base, counts, winningTile: "5m", winMethod: "tsumo" });
+    expect(result.yaku.map((yaku) => yaku.name).sort()).toEqual(["役牌", "門前清自摸和"].sort());
+    expect([result.score.han, result.fu?.totalBeforeRounding, result.fu?.roundedFu, result.score.totalPoints]).toEqual([2, 32, 40, 2700]);
+    expect(result.score.payments.map((payment) => payment.points)).toEqual([700, 1300]);
+    expect(article.strategy!.join("")).toContain("2翻40符");
+  });
+
+  it("calling one of the identical sequences removes iipeikou and pinfu", () => {
+    const article = getYakuArticle("iipeikou")!;
+    const counts = handFromFigure(article.figure.rows[0]!.tiles);
+    const closed = calculateHandScore({ ...base, counts, winningTile: "8s" });
+    expect(closed.yaku.map((yaku) => yaku.name).sort()).toEqual(["一盃口", "平和", "断么九"].sort());
+    expect([closed.score.han, closed.fu?.roundedFu, closed.score.totalPoints]).toEqual([3, 30, 3900]);
+    const concealed = counts.slice();
+    for (const tile of ["2m", "3m", "4m"] as Tile[]) concealed[TILE_NAMES.indexOf(tile)]!--;
+    const open = calculateHandScore({ ...base, counts: concealed, winningTile: "8s", melds: [{ kind: "chi", tiles: ["2m", "3m", "4m"] }] });
+    expect(open.yaku.map((yaku) => yaku.name)).toEqual(["断么九"]);
+    expect([open.score.han, open.fu?.roundedFu, open.score.totalPoints]).toEqual([1, 30, 1000]);
+    expect(article.strategy!.join("")).toContain("3翻30符で3,900点");
+  });
+
+  it("the called toitoi example has only two concealed triplets after a ron", () => {
+    const article = getYakuArticle("toitoi")!;
+    const result = calculateHandScore({ ...base, counts: parseHand("22255m555p777s"), winningTile: "7s", melds: [{ kind: "pon", tiles: ["中", "中", "中"] }] });
+    expect(result.yaku.map((yaku) => yaku.name).sort()).toEqual(["対々和", "役牌"].sort());
+    expect([result.score.han, result.fu?.roundedFu, result.score.totalPoints]).toEqual([3, 40, 5200]);
+    const wholeHand = [...parseHand("22255m555p777s")];
+    wholeHand[TILE_NAMES.indexOf("中")] = 3;
+    expect(wholeHand).toEqual(handFromFigure(article.figure.rows[0]!.tiles));
+    expect(article.strategy!.join("")).toContain("3翻40符、5,200点");
+  });
+
   it("the good-shape article and its linked hand reproduce the weighted result", () => {
     const guide = getLearningGuide("good-shape-rate")!;
     const example = getCheckerLearningResults()[0]!;
@@ -125,7 +182,7 @@ describe("yaku article examples use the existing scoring and wait engines", () =
   });
 
   it("enhanced articles retain concrete practice, rule sources and learning links", () => {
-    for (const slug of ["reach", "tanyao", "chiitoitsu"]) {
+    for (const slug of ["reach", "tanyao", "chiitoitsu", "yakuhai", "tsumo", "iipeikou", "toitoi"]) {
       const article = getYakuArticle(slug)!;
       expect(article.practiceQuestion!.choices).toContain(article.practiceQuestion!.answer);
       expect(article.sources!.every((source) => source.href.startsWith("https://tenhou.net/"))).toBe(true);

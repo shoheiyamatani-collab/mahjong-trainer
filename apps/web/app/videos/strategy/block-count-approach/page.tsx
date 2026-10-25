@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/block-count-approach" },
   robots: getRobotsPolicy("/videos/strategy/block-count-approach"),
   title: "麻雀はブロック数で打ち方が変わる｜4・5・6ブロックの牌効率",
   description: "麻雀中級者向けに、4・5・6ブロックで打牌方針をどう変えるかを短い要点で解説。ブロックを増やす、維持する、弱い形を減らす判断を整理します。"
@@ -42,7 +44,7 @@ export default function BlockCountApproachPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・ブロック数</p>
           <h1>麻雀はブロック数で打ち方が変わる｜4・5・6ブロックの考え方</h1>
           <p className="videoArticleLead">ターツの強さだけを比べても、正しい打牌を選べないことがあります。まず手牌が何ブロックあるかを数え、「増やす・維持する・減らす」のどれが必要かを決めましょう。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年4月8日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年4月8日</time><VideoReadingTime articleHref="/videos/strategy/block-count-approach" /></div>
         </header>
 
         <div className="videoArticleEmbed">

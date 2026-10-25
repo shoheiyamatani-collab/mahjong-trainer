@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/beginner-calling-theory" },
   robots: getRobotsPolicy("/videos/strategy/beginner-calling-theory"),
   title: "麻雀初心者の鳴き方｜まず覚えたいポン・チーの3基準",
   description: "麻雀初心者向けに、役牌、役がある愚形、鳴けばテンパイの3場面でポン・チーする考え方を実戦的な牌姿で解説します。"
@@ -42,7 +44,7 @@ export default function BeginnerCallingTheoryPage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / ポン・チー</p>
           <h1>初心者がまず覚えたい、鳴きの3つのセオリー</h1>
           <p className="videoArticleLead">鳴くと手は早く進みますが、リーチができなくなり、守りに使える牌も減ります。この動画は、細かな例外を覚える前に使える「まずはこの3場面で鳴いてみる」という基準を解説しています。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2021年3月3日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2021年3月3日</time><VideoReadingTime articleHref="/videos/strategy/beginner-calling-theory" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/KkjFCbiGrY0" title="初心者でも暗記すれば70点が取れる鳴きのセオリー" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

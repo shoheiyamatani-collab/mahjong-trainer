@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendati
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/seven-meld-building-shapes" },
   robots: getRobotsPolicy("/videos/strategy/seven-meld-building-shapes"),
   title: "麻雀で面子を作りやすい形7選 | 四連形・中ぶくれ・リャンカンを短い要点で解説",
   description: "麻雀初心者が覚えたい、四連形、中ぶくれ、亜両面、リャンカンなど面子へ発展しやすい7つの形を動画と短い要点で解説します。"
@@ -127,7 +129,7 @@ export default function SevenMeldBuildingShapesArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・複合形</p>
           <h1>覚えておくと得をする、面子を作りやすい7つの形</h1>
           <p className="videoArticleLead">手牌の中にある「伸びる形」を見つけられると、面子を作る速度が上がります。四連形や中ぶくれから、少し複雑な両面カンチャンまで、何を引くと形がよくなるかを動画で確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2023年7月29日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2023年7月29日</time><VideoReadingTime articleHref="/videos/strategy/seven-meld-building-shapes" /></div>
         </header>
 
         <div className="videoArticleEmbed">

@@ -12,11 +12,11 @@ ADSENSE_REVIEW_MODE=true
 
 未設定または `false` の場合、ヘッダーとトップページは通常表示へ戻ります。`needs-improvement` は審査モードを解除してもINDEXへ自動復帰しません。
 
-審査モードでは、中央設定 `packages/content-index-policy/src/publicationPolicy.json` にある `/videos/**` と `/mleague/**` を**公開用Static Exportから一時除外**します。ユーザーが直接開いても公開サイトでは404になり、ナビゲーション・フッター・サイトマップからも外れます。記事、選手、チームのソースコードとデータは削除しません。
+審査モードでも `/videos/**` と `/mleague/**` のページHTMLはStatic Exportに残し、URLへ直接アクセスできます。中央設定 `packages/content-index-policy/src/contentIndexPolicy.ts` の `needs-improvement` 判定により `noindex, follow` を返し、サイトマップから除外します。ページやデータは削除せず、Googlebot全体もrobots.txtで遮断しません。審査モード中は、動画・Mリーグより学習とツールを優先するナビゲーション表示に切り替わります。
 
-復帰するときはCloudflare Pagesの `ADSENSE_REVIEW_MODE` を `false` または未設定にして再ビルド・デプロイします。URLは元のまま再生成されますが、`contentIndexPolicy.ts` の `needs-improvement` が残るため検索結果には自動復帰しません。品質を確認したURLだけ `ready` に変更してください。審査モードのON/OFFは公開状態を切り替える操作なので、設定変更後は必ずビルド出力を確認してからデプロイします。
+`ADSENSE_REVIEW_MODE` を `false` または未設定にして再ビルドすると、通常のナビゲーション表示に戻ります。ただし `needs-improvement` は維持されるため、検索結果とサイトマップには自動復帰しません。品質を確認したURLだけ `ready` に変更してください。審査モードのON/OFF後は、必ずビルド出力を確認してからデプロイします。
 
-この一時非公開は、AdSense承認や過去の検索URL削除を保証するものではありません。既に検索登録されたURLは、Googleが再クロールするまで結果に残る可能性があります。Googlebotをrobots.txtで遮断せず、404応答を確認できる状態にします。
+`noindex` は検索掲載の方針であり、AdSense審査対象からの除外や承認を保証するものではありません。既に検索登録されたURLは、Googleが再クロールするまで結果に残る可能性があります。ページへのクロールは許可したままにします。
 
 ## 改善済みページをINDEXへ戻す
 

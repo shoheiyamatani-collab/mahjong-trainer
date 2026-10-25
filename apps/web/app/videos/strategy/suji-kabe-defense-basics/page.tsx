@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/suji-kabe-defense-basics" },
   robots: getRobotsPolicy("/videos/strategy/suji-kabe-defense-basics"),
   title: "麻雀で安牌がないときは？スジとカベの安全牌の探し方",
   description: "現物がないときに当たりにくい牌を探すスジとカベを初心者向けに解説。1・4・7のスジ、ノーチャンスとワンチャンス、過信できない待ちを牌図で紹介します。"
@@ -105,7 +107,7 @@ export default function SujiKabeDefenseBasicsArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 守備・安全牌</p>
           <h1>安牌がないとき、何を切ればいい？</h1>
           <p className="videoArticleLead">現物が手元にない場面でも、すべての牌が同じ危険度とは限りません。相手の捨て牌から見る「スジ」と、見えている枚数から見る「カベ」を使い、比較的当たりにくい牌を探す方法を紹介します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2023年9月29日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2023年9月29日</time><VideoReadingTime articleHref="/videos/strategy/suji-kabe-defense-basics" /></div>
         </header>
 
         <div className="videoArticleEmbed">

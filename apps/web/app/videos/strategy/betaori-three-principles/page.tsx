@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/betaori-three-principles" },
   robots: getRobotsPolicy("/videos/strategy/betaori-three-principles"),
   title: "麻雀のベタオリで重要な考え方3選 | オリ打ちを減らす守備",
   description: "複数の現物を切る順番、現物もスジもないときの選び方、放銃パターンの比較を短い要点で解説。ベタオリで振り込むオリ打ちを減らす動画記事です。"
@@ -93,7 +95,7 @@ export default function BetaoriThreePrinciplesArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 守備・ベタオリ</p>
           <h1>降りると決めたら、最後までしっかり降りる</h1>
           <p className="videoArticleLead">ベタオリは、自分のアガリを諦めて放銃を避ける守備です。ただ安全そうな牌を切るだけでなく、数巡先まで安全牌を残す順番を考えることで、降りている途中の放銃を減らせます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年4月13日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年4月13日</time><VideoReadingTime articleHref="/videos/strategy/betaori-three-principles" /></div>
         </header>
 
         <div className="videoArticleEmbed">

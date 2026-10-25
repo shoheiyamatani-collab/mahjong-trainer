@@ -155,6 +155,10 @@ try {
     }
   }
 
+  if (sitemapUrls.some((sitemapUrl) => new URL(sitemapUrl).pathname.endsWith(".txt"))) {
+    errors.push("Next.jsの静的ルーター用テキストデータがサイトマップに含まれています。");
+  }
+
   if (isReviewMode) {
     for (const prefix of reviewModeNoindexRoutePrefixes) {
       const normalizedPrefix = prefix.replace(/^\/+|\/+$/g, "");
@@ -190,8 +194,63 @@ try {
     errors.push("初心者ロードマップの静的HTMLがありません。");
   }
 
+  const efficiencyArticlePath = htmlPathForUrl("/videos/strategy/intermediate-tile-efficiency-26-rules");
+  if (efficiencyArticlePath) {
+    const efficiencyArticleHtml = await readFile(efficiencyArticlePath, "utf8");
+    const renderedRuleCount = [...efficiencyArticleHtml.matchAll(/class=["']videoTheoryRule["']/g)].length;
+    if (renderedRuleCount !== 26) {
+      errors.push(`牌効率26セオリー記事の静的HTMLに表示される項目数が不正です: ${renderedRuleCount}/26`);
+    }
+    if (!efficiencyArticleHtml.includes("約13分で読める")) {
+      errors.push("牌効率26セオリー記事の個別ページと一覧で読了目安が一致していません。");
+    }
+  } else {
+    errors.push("牌効率26セオリー記事の静的HTMLがありません。");
+  }
+
+  const mleagueHomePath = htmlPathForUrl("/mleague");
+  if (mleagueHomePath) {
+    const mleagueHomeHtml = await readFile(mleagueHomePath, "utf8");
+    const normalizedMleagueHomeHtml = mleagueHomeHtml
+      .replace(/<!--.*?-->/gs, "")
+      .replace(/\s+/g, " ");
+    if (normalizedMleagueHomeHtml.includes("FRI / 金")) {
+      errors.push("Mリーグトップの誤った固定曜日表示が残っています。");
+    }
+    if (normalizedMleagueHomeHtml.includes("10.26") && !normalizedMleagueHomeHtml.includes("MON / 月")) {
+      errors.push("2026年10月26日のMリーグトップに月曜日の表示がありません。");
+    }
+  } else {
+    errors.push("Mリーグトップの静的HTMLがありません。");
+  }
+
+  for (const route of ["/videos/strategy", "/mleague", "/trainer", "/learn/guides"]) {
+    for (const pathVariant of [route, `${route}/`]) {
+      if (!htmlPathForUrl(pathVariant)) {
+        errors.push(`主要URLの静的HTMLがありません: ${pathVariant}`);
+      }
+    }
+  }
+
   const references = new Set();
   const htmlPages = htmlFiles.filter((file) => file.endsWith(".html"));
+  const videoHtmlPages = htmlPages.filter((file) =>
+    path.relative(outputRoot, file).replaceAll("\\", "/").startsWith("videos/")
+  );
+  for (const htmlFile of videoHtmlPages) {
+    const html = await readFile(htmlFile, "utf8");
+    const canonicalHref = getCanonicalHref(html);
+    const pagePath = path.relative(outputRoot, htmlFile).replaceAll("\\", "/");
+    if (!canonicalHref) {
+      errors.push(`動画ページにcanonicalがありません: ${pagePath}`);
+      continue;
+    }
+    const canonical = new URL(canonicalHref, siteOrigin);
+    if (canonical.origin !== siteOrigin || !canonical.pathname.startsWith("/videos/")) {
+      errors.push(`動画ページcanonicalが動画URLを指していません: ${pagePath} -> ${canonical.href}`);
+    }
+  }
+
   for (let index = 0; index < htmlPages.length; index += 48) {
     const pages = htmlPages.slice(index, index + 48);
     const pageReferences = await Promise.all(pages.map(async (htmlFile) => {

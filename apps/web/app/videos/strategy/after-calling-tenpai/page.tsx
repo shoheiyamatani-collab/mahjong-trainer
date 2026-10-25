@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/after-calling-tenpai" },
   robots: getRobotsPolicy("/videos/strategy/after-calling-tenpai"),
   title: "麻雀は鳴いてテンパイした後も手を良くできる",
   description: "副露してテンパイした後、さらにチー・ポンして打点を上げたり、カンチャンを両面へ変えたりする方法を短い要点で解説します。"
@@ -29,7 +31,7 @@ export default function AfterCallingTenpaiPage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / 副露後の手作り</p>
           <h1>鳴いてテンパイした後も手を良くする</h1>
           <p className="videoArticleLead">テンパイすると、あとは待ち牌をツモるかロンするだけだと思いがちです。鳴いている手では、さらにチー・ポンして打点を上げたり、待ちを広げたりできる場合があります。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年6月1日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年6月1日</time><VideoReadingTime articleHref="/videos/strategy/after-calling-tenpai" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/E6kwxNECnXI" title="鳴いて聴牌した後の重要な思考" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

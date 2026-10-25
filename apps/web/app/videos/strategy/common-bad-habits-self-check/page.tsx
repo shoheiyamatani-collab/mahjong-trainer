@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/common-bad-habits-self-check" },
   robots: getRobotsPolicy("/videos/strategy/common-bad-habits-self-check"),
   title: "麻雀初心者に多い悪い癖3選 | 気づかない打ち方をセルフチェック",
   description: "リーチへの中途半端な対応、役なしダマテン、生牌の字牌を残しすぎる癖を動画と短い要点で解説。次の対局で直す行動をセルフチェックできます。"
@@ -106,7 +108,7 @@ export default function CommonBadHabitsSelfCheckArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 振り返り・悪癖改善</p>
           <h1>その打ち方、無意識の癖になっていませんか？</h1>
           <p className="videoArticleLead">麻雀を覚えて対局数が増えると、誰にも指摘されないまま同じ判断を繰り返すことがあります。初心者に多い3つの癖を確認し、次の対局で直す行動を1つ決めましょう。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年1月26日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年1月26日</time><VideoReadingTime articleHref="/videos/strategy/common-bad-habits-self-check" /></div>
         </header>
 
         <div className="videoArticleEmbed">

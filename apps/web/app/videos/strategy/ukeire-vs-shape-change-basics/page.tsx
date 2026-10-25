@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/ukeire-vs-shape-change-basics" },
   robots: getRobotsPolicy("/videos/strategy/ukeire-vs-shape-change-basics"),
   title: "麻雀の受け入れとは？手変わりとの違いを初心者向けに解説",
   description: "麻雀の受け入れを『シャンテン数が進む牌』として理解し、形が良くなる手変わりとの違い、受け入れの見つけ方と練習方法を短い要点で解説します。"
@@ -37,7 +39,7 @@ export default function UkeireVsShapeChangeBasicsPage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・受け入れ</p>
           <h1>「引いたら嬉しい牌」ではない。受け入れを正しく覚えよう</h1>
           <p className="videoArticleLead">麻雀の受け入れとは、引いたときにシャンテン数が進む牌です。形が良くなる牌や打点が上がる牌も嬉しい牌ですが、それらは受け入れとは分けて考えます。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2026年7月29日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2026年7月29日</time><VideoReadingTime articleHref="/videos/strategy/ukeire-vs-shape-change-basics" /></div>
         </header>
 
         <div className="videoArticleEmbed">

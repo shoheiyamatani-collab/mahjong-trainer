@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/how-to-handle-2446-shape" },
   robots: getRobotsPolicy("/videos/strategy/how-to-handle-2446-shape"),
   title: "麻雀の2446は何を切る？｜複合形の扱いと判断基準",
   description: "麻雀中級者向けに、2446から2・4・6のどれを切るか短い要点で解説。ピンフ、両面変化、ポン、最終待ち、巡目による選択を比較します。"
@@ -41,7 +43,7 @@ export default function Handle2446ShapePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・複合形</p>
           <h1>複合形2446は何を切る？</h1>
           <p className="videoArticleLead">二四四六萬は、リャンカンと対子が重なった4枚形です。四萬を切ってカンチャン2つを残すか、二萬を切って四萬の対子を残すか、六萬を切って中間を取るか。手牌の役と巡目によって選択が変わります。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年9月20日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年9月20日</time><VideoReadingTime articleHref="/videos/strategy/how-to-handle-2446-shape" /></div>
         </header>
 
         <div className="videoArticleEmbed">

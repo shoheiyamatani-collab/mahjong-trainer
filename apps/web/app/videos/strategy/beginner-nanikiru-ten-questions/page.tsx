@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainNanikiruBook } from "../../../components/VideoBookRecommendati
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/beginner-nanikiru-ten-questions" },
   robots: getRobotsPolicy("/videos/strategy/beginner-nanikiru-ten-questions"),
   title: "麻雀初心者が間違えたくない何切る問題10問 | ブロックと対子の数え方",
   description: "麻雀初心者向けの何切る全10問を紹介。浮き牌、6ブロック、カンチャン比較、対子の数、複合ターツの判断を短い要点で分かりやすく整理します。"
@@ -67,7 +69,7 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・何切る</p>
           <h1>初心者が間違えたくない、何切る問題10問</h1>
           <p className="videoArticleLead">何切るで迷ったとき、いきなり受け入れ枚数を数える必要はありません。まずブロック数、次に対子の数、最後に形の強さを見る。この順番を全10問で身につける動画です。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年4月11日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2026年4月11日</time><VideoReadingTime articleHref="/videos/strategy/beginner-nanikiru-ten-questions" /></div>
         </header>
 
         <div className="videoArticleEmbed">

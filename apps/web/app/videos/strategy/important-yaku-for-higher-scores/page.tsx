@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { ClearRainBasicTheoryBook } from "../../../components/VideoBookRecommend
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/important-yaku-for-higher-scores" },
   robots: getRobotsPolicy("/videos/strategy/important-yaku-for-higher-scores"),
   title: "麻雀初心者が基本役の次に覚えたい10役 | 打点を伸ばす役を牌姿で解説",
   description: "アガれるようになった麻雀初心者へ向けて、一盃口・三色同順・一気通貫・対々和・混一色・清一色・混全帯么九・純全帯么九・三暗刻・七対子を動画と14枚の牌姿で紹介します。"
@@ -273,7 +275,7 @@ export default function ImportantYakuForHigherScoresArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 役・打点</p>
           <h1>アガれるようになった次に覚えたい、打点を伸ばす10役</h1>
           <p className="videoArticleLead">リーチ・タンヤオ・役牌でアガれるようになったら、次は手牌の中にある「役の種」を見つける段階です。9分27秒の動画と14枚の牌姿を使い、実戦で狙いを持って手を進めるための10役を確認します。</p>
-          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2022年1月22日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: クリアレインのアトリエ【麻雀解説】</span><time>動画公開日 2022年1月22日</time><VideoReadingTime articleHref="/videos/strategy/important-yaku-for-higher-scores" /></div>
         </header>
 
         <div className="videoArticleEmbed">

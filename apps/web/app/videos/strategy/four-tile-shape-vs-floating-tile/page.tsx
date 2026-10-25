@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/four-tile-shape-vs-floating-tile" },
   robots: getRobotsPolicy("/videos/strategy/four-tile-shape-vs-floating-tile"),
   title: "麻雀は1シャンテンに取る？4枚形と孤立牌の比較を短い要点で解説",
   description: "麻雀中級者向けに、2457・3568・2356・2458・2568の4枚形と孤立牌を比較。一向聴維持と二向聴戻しの判断を短い要点で解説します。"
@@ -87,7 +89,7 @@ export default function FourTileShapeVsFloatingTileArticlePage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・シャンテン戻し</p>
           <h1>素直に1シャンテンを取る？4枚形と孤立牌の比較</h1>
           <p className="videoArticleLead">一向聴はテンパイまであと1枚ですが、次に必ず悪い待ちになるなら急ぐ価値は下がります。4枚形を維持するか、孤立牌を残して二向聴へ戻すかを5つの形で比較します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年8月12日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年8月12日</time><VideoReadingTime articleHref="/videos/strategy/four-tile-shape-vs-floating-tile" /></div>
         </header>
 
         <div className="videoArticleEmbed">

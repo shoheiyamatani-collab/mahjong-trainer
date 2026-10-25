@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/tile-efficiency-complete-beginner-guide" },
   robots: getRobotsPolicy("/videos/strategy/tile-efficiency-complete-beginner-guide"),
   title: "麻雀の牌効率を基礎から学ぶ｜初心者向け完全ガイド",
   description: "麻雀初心者向けに、シャンテン数、受け入れ、孤立牌、5ブロック理論、完全イーシャンテン・くっつき・ヘッドレスを短い要点で解説します。"
@@ -35,7 +37,7 @@ export default function TileEfficiencyCompleteBeginnerGuidePage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / 牌効率総まとめ</p>
           <h1>麻雀初心者のための牌効率・完全入門</h1>
           <p className="videoArticleLead">牌効率は、手牌だけを見て、できるだけ早くテンパイへ近づくための技術です。約53分の動画を、実戦中に見る順番に沿って4段階へ整理しました。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2023年3月18日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2023年3月18日</time><VideoReadingTime articleHref="/videos/strategy/tile-efficiency-complete-beginner-guide" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/Q05otKQCgeU" title="麻雀初心者向け牌効率の基礎を徹底解説" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

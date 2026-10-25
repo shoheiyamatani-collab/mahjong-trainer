@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/safe-tile-and-floating-tile-decisions" },
   robots: getRobotsPolicy("/videos/strategy/safe-tile-and-floating-tile-decisions"),
   title: "麻雀中級者が勘違いしやすい安牌と孤立牌の判断基準",
   description: "麻雀中級者向けに、安牌を持つ基準と孤立牌を残す理由を短い要点で解説。手牌価値と4・6ブロックの違いから実戦判断を整理します。"
@@ -31,7 +33,7 @@ export default function SafeTileAndFloatingTileDecisionsPage() {
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 守備・牌効率</p>
           <h1>中級者が勘違いしやすい、安牌と孤立牌の2つの判断基準</h1>
           <p className="videoArticleLead">「先制できなそうだから安牌を持つ」「形をよくしたいから孤立牌を残す」。どちらも一見正しそうですが、判断に必要な条件が抜けています。手牌全体を見て決める方法を整理します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年8月8日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2026年8月8日</time><VideoReadingTime articleHref="/videos/strategy/safe-tile-and-floating-tile-decisions" /></div>
         </header>
 
         <div className="videoArticleEmbed">

@@ -7,6 +7,8 @@ import { ArticleTakeaways, ArticleText } from "../../../components/ArticleHighli
 import { getSiteUrl } from "../../../seoConfig";
 import { getLearningGuide, learningGuides } from "../guideData";
 import { guideArticleEmphasis } from "../guideHighlights";
+import { StudyCases } from "../practicalArticles/StudyCases";
+import practicalStyles from "../practicalArticles/studyCases.module.css";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
 
@@ -24,7 +26,7 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
     title: guide.seoTitle,
     description: guide.description,
     alternates: { canonical },
-    openGraph: { type: "article", url: canonical, title: guide.seoTitle, description: guide.description }
+    openGraph: { type: "article", url: canonical, title: guide.seoTitle, description: guide.description, ...(guide.editorial ? { modifiedTime: guide.editorial.updatedAt, ...(guide.editorial.publishedAt ? { publishedTime: guide.editorial.publishedAt } : {}) } : {}) }
   };
 }
 
@@ -32,25 +34,27 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const guide = getLearningGuide((await params).slug);
   if (!guide) notFound();
   const siteUrl = getSiteUrl();
-  const related = guide.relatedSlugs.map(getLearningGuide).filter((item) => item !== undefined);
+  const applicationGuides = learningGuides.filter((item) => item.library && item.slug !== guide.slug && item.relatedSlugs.includes(guide.slug)).slice(0, 4);
+  const related = [...new Map([...guide.relatedSlugs.map(getLearningGuide).filter((item) => item !== undefined), ...applicationGuides].map((item) => [item.slug, item])).values()];
   const articleUrl = `${siteUrl}/learn/guides/${guide.slug}`;
 
   return (
     <main className="siteMain articleMain learningGuidePage">
       <JsonLd data={[
-        { "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, inLanguage: "ja-JP", mainEntityOfPage: articleUrl, author: { "@id": `${siteUrl}/#organization` }, publisher: { "@id": `${siteUrl}/#organization` } },
+        { "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, inLanguage: "ja-JP", mainEntityOfPage: articleUrl, author: { "@id": `${siteUrl}/#organization` }, publisher: { "@id": `${siteUrl}/#organization` }, ...(guide.editorial ? { dateCreated: guide.editorial.createdAt, dateModified: guide.editorial.updatedAt, ...(guide.editorial.publishedAt ? { datePublished: guide.editorial.publishedAt } : {}) } : {}) },
         { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
           { "@type": "ListItem", position: 1, name: "トップ", item: siteUrl },
           { "@type": "ListItem", position: 2, name: "麻雀を学ぶ", item: `${siteUrl}/learn/guides` },
           { "@type": "ListItem", position: 3, name: guide.title, item: articleUrl }
         ] }
       ]} />
-      <article className="learningGuideArticle">
+      <article className={`learningGuideArticle${guide.library ? ` ${practicalStyles.article}` : ""}`}>
         <header className="learningGuideHeader">
           <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/learn/guides">麻雀を学ぶ</Link><span>›</span><span>{guide.title}</span></nav>
           <p className="siteEyebrow">MAHJONG PRACTICAL GUIDE</p>
           <h1>{guide.title}</h1>
           <p>{guide.lead}</p>
+          {guide.editorial ? <p>雀フォリオ編集部 ／ 作成 <time dateTime={guide.editorial.createdAt}>{guide.editorial.createdAt}</time> ／ 更新 <time dateTime={guide.editorial.updatedAt}>{guide.editorial.updatedAt}</time></p> : null}
         </header>
 
         <ArticleTakeaways items={guide.takeaways} />
@@ -61,6 +65,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <section className="articleSection" id={`guide-section-${index + 1}`} key={section.heading}>
             <h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => <p key={paragraph}><ArticleText text={paragraph} emphasis={guideArticleEmphasis[guide.slug]} /></p>)}
+            {section.caseStudies ? <StudyCases cases={section.caseStudies} /> : null}
             {section.bullets ? <ul className="deepDiveList">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul> : null}
             {section.table ? <table className="learningGuideComparisonTable">
               <caption>{section.table.caption}</caption>
@@ -111,6 +116,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
           <h2>{guide.toolLink.label}</h2>
           <p>{guide.toolLink.description}</p>
           <Link href={guide.toolLink.href}>{guide.toolLink.label}</Link>
+          {guide.additionalTools?.map((tool) => <div key={tool.href}><p>{tool.description}</p><Link href={tool.href}>{tool.label}</Link></div>)}
         </section>
 
         <section className="learningGuideRelated">

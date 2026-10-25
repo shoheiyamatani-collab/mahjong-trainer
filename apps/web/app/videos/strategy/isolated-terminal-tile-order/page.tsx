@@ -1,9 +1,11 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/isolated-terminal-tile-order" },
   robots: getRobotsPolicy("/videos/strategy/isolated-terminal-tile-order"),
   title: "麻雀の孤立牌1・9はどちらから切る？優先順位を動画で解説",
   description: "孤立した1・9牌の切り順を4段階で解説。1・4・7の受け入れの重複、1・5からのリャンカン変化、牌効率の知識が守備にも役立つ理由を短い要点で紹介します。"
@@ -90,7 +92,7 @@ export default function IsolatedTerminalTileOrderArticlePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 牌効率・孤立牌</p>
           <h1>1・9、なんとなく切っていませんか？</h1>
           <p className="videoArticleLead">孤立した端牌はどれも弱そうに見えますが、手牌にある4・5・6などとの関係で価値が変わります。1・9牌を切る優先順位と、その知識が守備にもつながる理由を解説します。</p>
-          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年2月7日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2024年2月7日</time><VideoReadingTime articleHref="/videos/strategy/isolated-terminal-tile-order" /></div>
         </header>
 
         <div className="videoArticleEmbed">

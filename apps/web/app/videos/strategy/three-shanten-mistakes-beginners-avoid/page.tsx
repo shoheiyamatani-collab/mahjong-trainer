@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/three-shanten-mistakes-beginners-avoid" },
   robots: getRobotsPolicy("/videos/strategy/three-shanten-mistakes-beginners-avoid"),
   title: "麻雀初心者がやってはいけない何切る3選｜シャンテン数の基本",
   description: "麻雀初心者向けに、唯一の対子、完成面子、孤立牌があるときのターツを切るとシャンテン数が戻る理由を牌姿で解説します。"
@@ -36,7 +38,7 @@ export default function ThreeShantenMistakesBeginnersAvoidPage() {
           <p className="siteEyebrow">BEGINNER VIDEO GUIDE / シャンテン数</p>
           <h1>初心者がやってはいけない3つの何切る</h1>
           <p className="videoArticleLead">高い役や安全牌を意識する前に、まずアガリから遠ざかる一打を避けることが大切です。この動画は、シャンテン数が分からなくても使える3つのチェックポイントを問題形式で解説しています。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年11月30日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2022年11月30日</time><VideoReadingTime articleHref="/videos/strategy/three-shanten-mistakes-beginners-avoid" /></div>
         </header>
 
         <div className="videoArticleEmbed"><iframe src="https://www.youtube-nocookie.com/embed/dIuGoO2CGtI" title="麻雀初心者が避けたい3つの何切る" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen loading="lazy" /></div>

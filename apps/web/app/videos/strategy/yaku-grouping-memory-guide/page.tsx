@@ -1,3 +1,4 @@
+import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
@@ -5,6 +6,7 @@ import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecomme
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/videos/strategy/yaku-grouping-memory-guide" },
   robots: getRobotsPolicy("/videos/strategy/yaku-grouping-memory-guide"),
   title: "麻雀の役を簡単に覚える方法 | 初心者向け4グループ分類",
   description: "麻雀の役を丸暗記せず、使う牌の種類、面子の形、見た目の規則性、アガり方という4グループに分けて覚える方法を短い要点で解説します。"
@@ -38,7 +40,7 @@ export default function YakuGroupingMemoryGuidePage() {
           <p className="siteEyebrow">VIDEO GUIDE / 役・覚え方</p>
           <h1>麻雀の役は丸暗記しない。4つのグループで覚えよう</h1>
           <p className="videoArticleLead">役一覧を見て「こんなに覚えられない」と感じても大丈夫です。最初はリーチ・タンヤオ・役牌だけでも遊べます。そのうえで、似た役を同じ仲間として整理すると、名前と条件が自然につながります。</p>
-          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2023年6月16日</time><span>約3分で読める</span></div>
+          <div className="videoArticleByline"><span>紹介動画: 平澤元気麻雀ch</span><time>動画公開日 2023年6月16日</time><VideoReadingTime articleHref="/videos/strategy/yaku-grouping-memory-guide" /></div>
         </header>
 
         <div className="videoArticleEmbed">
