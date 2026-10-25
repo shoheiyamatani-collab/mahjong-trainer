@@ -1,5 +1,3 @@
-import publicationPolicy from "./publicationPolicy.json";
-
 export type ContentIndexStatus = "always-index" | "ready" | "needs-improvement" | "system";
 
 export type ContentIndexPolicyRule = {
@@ -10,7 +8,6 @@ export type ContentIndexPolicyRule = {
 };
 
 export const isAdsenseReviewMode = process.env.ADSENSE_REVIEW_MODE === "true";
-export const reviewModeUnpublishedRoutePrefixes = publicationPolicy.reviewModeUnpublishedRoutePrefixes;
 
 /**
  * INDEX / NOINDEX decisions live here. Exact rules win over prefix rules, so an
@@ -85,16 +82,7 @@ export function shouldIndexPath(path: string): boolean {
 }
 
 export function shouldIncludeInSitemap(path: string): boolean {
-  return shouldPublishPath(path) && shouldIndexPath(path);
-}
-
-/** Review mode can temporarily remove third-party-heavy route families from static output. */
-export function shouldPublishPath(path: string, reviewMode = isAdsenseReviewMode): boolean {
-  if (!reviewMode) return true;
-  const normalizedPath = normalizePath(path);
-  return !reviewModeUnpublishedRoutePrefixes.some((prefix) =>
-    normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`)
-  );
+  return shouldIndexPath(path);
 }
 
 export function hasIndexablePolicyEntryWithin(path: string): boolean {

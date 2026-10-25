@@ -25,6 +25,7 @@ import {
   chinitsuHandKey,
   chinitsuTile,
   chinitsuTiles,
+  calculateVisibleUkeire,
   calculateHandScore,
   countsToTiles,
   emptyCounts,
@@ -1030,7 +1031,25 @@ function TrainerModeLink({ active, mode, children }: { active: boolean; mode: Tr
 }
 
 function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dispatch<Action> }) {
+  const [visibleCounts, setVisibleCounts] = useState<Counts34>(() => emptyCounts());
+  const [guessMode, setGuessMode] = useState(false);
+  const [guessedDiscard, setGuessedDiscard] = useState<Tile | null>(null);
+  const [guessRevealed, setGuessRevealed] = useState(false);
+  const handKey = state.counts.join(",");
+  const availableVisibleCounts = useMemo(
+    () => visibleCounts.map((count, index) => Math.min(count, 4 - state.counts[index]!)),
+    [state.counts, visibleCounts]
+  );
+  useEffect(() => {
+    setVisibleCounts((current) => current.every((count, index) => count === availableVisibleCounts[index]) ? current : availableVisibleCounts);
+  }, [availableVisibleCounts]);
+  useEffect(() => {
+    setGuessedDiscard(null);
+    setGuessRevealed(false);
+  }, [handKey]);
   const tiles = countsToTiles(state.counts);
+  const visibleTiles = countsToTiles(availableVisibleCounts);
+  const allKnownCounts = state.counts.map((count, index) => count + availableVisibleCounts[index]!);
   const handShanten = useMemo(() => {
     if (sumCounts(state.counts) !== 14) return null;
     try {
@@ -1078,6 +1097,23 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
           <h2>牌を追加</h2>
         </div>
         <TilePalette counts={state.counts} onAdd={(tile) => dispatch({ type: "add", tile })} />
+        <details className="visibleTileDetails">
+          <summary>場に見えている牌を反映 <span>{sumCounts(visibleCounts)}枚</span></summary>
+          <p>河・副露・ドラ表示牌など、自分の手牌以外で公開されている牌を入力します。鳴かれた牌は1枚として数え、赤5は通常の5と区別しません。</p>
+          <div className="visibleTileSelected">
+            <strong>入力中</strong>
+            <TileStrip tiles={visibleTiles} onTileClick={(tile) => setVisibleCounts((current) => removeTile(current, tile))} emptyText="公開牌を選択してください" />
+          </div>
+          <TilePalette
+            counts={allKnownCounts}
+            onAdd={(tile) => setVisibleCounts((current) => {
+              const index = TILE_NAMES.indexOf(tile);
+              if (state.counts[index]! + current[index]! >= 4) return current;
+              return addTile(current, tile);
+            })}
+          />
+          <button className="visibleTileClear" disabled={visibleTiles.length === 0} onClick={() => setVisibleCounts(emptyCounts())} type="button">公開牌をクリア</button>
+        </details>
       </section>
 
       <section className="resultsPanel" id="analysis-results">
@@ -1091,7 +1127,61 @@ function CheckerMode({ state, dispatch }: { state: AppState; dispatch: React.Dis
         ) : analysis.currentShanten === -1 ? (
           <div className="agariNotice">アガッテルアルヨ…</div>
         ) : (
-          <DiscardResults results={analysis.results} best={analysis.best} />
+          <>
+            <p className="visibleUkeireLegend">☆は手牌だけで比べた理論上の候補です。公開牌を入力すると、各受け入れ牌の未見枚数も表示します。</p>
+            <section className="checkerGuessPanel" aria-label="打牌を予想する">
+              <button
+                className="checkerGuessToggle"
+                type="button"
+                aria-expanded={guessMode}
+                onClick={() => {
+                  setGuessMode((current) => !current);
+                  setGuessedDiscard(null);
+                  setGuessRevealed(false);
+                }}
+              >
+                {guessMode ? "通常表示に戻す" : "先に打牌を予想する"}
+              </button>
+              {guessMode ? (
+                <div className="checkerGuessContent">
+                  <p>理論上の受け入れを比べる練習です。安全度や打点を含む実戦判断の唯一解ではありません。</p>
+                  <div className="checkerGuessChoices" role="group" aria-label="予想する打牌">
+                    {[...new Set(tiles)].map((tile) => (
+                      <button
+                        aria-label={`${tile}を予想牌に選ぶ`}
+                        aria-pressed={guessedDiscard === tile}
+                        className={guessedDiscard === tile ? "checkerGuessChoice selected" : "checkerGuessChoice"}
+                        key={tile}
+                        type="button"
+                        onClick={() => {
+                          setGuessedDiscard(tile);
+                          setGuessRevealed(false);
+                        }}
+                      >
+                        <TileImage tile={tile} />
+                      </button>
+                    ))}
+                  </div>
+                  {guessRevealed && guessedDiscard ? (
+                    <p className="checkerGuessFeedback" role="status">
+                      {analysis.best.has(guessedDiscard)
+                        ? `${guessedDiscard}は理論上の受け入れ最大候補の一つです。`
+                        : `${guessedDiscard}は理論上の受け入れ最大候補ではありません。候補間の差を下で確認できます。`}
+                    </p>
+                  ) : (
+                    <button className="checkerGuessReveal" disabled={!guessedDiscard} type="button" onClick={() => setGuessRevealed(true)}>
+                      予想を決めて結果を見る
+                    </button>
+                  )}
+                </div>
+              ) : null}
+            </section>
+            {guessMode && !guessRevealed ? (
+              <p className="checkerHiddenResults" role="status">打牌を選ぶと、牌理チェッカーの比較結果が表示されます。</p>
+            ) : (
+              <DiscardResults results={analysis.results} best={analysis.best} handCounts={state.counts} visibleCounts={availableVisibleCounts} />
+            )}
+          </>
         )}
       </section>
     </section>
@@ -2845,11 +2935,15 @@ function shantenClassName(shanten: number): string {
   return "shantenOther";
 }
 
-function DiscardResults({ results, best }: { results: DiscardAnalysis[]; best: Set<Tile> }) {
+function DiscardResults({ results, best, handCounts, visibleCounts }: { results: DiscardAnalysis[]; best: Set<Tile>; handCounts?: Counts34; visibleCounts?: Counts34 }) {
   return (
     <div className="discardList">
       {results.map((result) => {
         const isBest = best.has(result.discard);
+        const visibleUkeire = handCounts && visibleCounts
+          ? calculateVisibleUkeire(handCounts, result.discard, visibleCounts, result.ukeire)
+          : null;
+        const unseenTotal = visibleUkeire?.reduce((sum, item) => sum + item.remaining, 0);
         const goodRate = result.tenpaiDetails.length ? formatPercent(result.goodShapeRate) : "-";
         const superRate = result.tenpaiDetails.length ? formatPercent(result.superGoodShapeRate) : "-";
         return (
@@ -2864,12 +2958,20 @@ function DiscardResults({ results, best }: { results: DiscardAnalysis[]; best: S
                 <ShantenBadge shanten={result.afterDiscardShanten} />
               </div>
               <Stat label="牌種類" value={`${result.ukeireTypes}種`} />
-              <Stat label="枚数" value={`${result.ukeireTiles}枚`} />
+              <Stat label={visibleUkeire ? "理論枚数" : "枚数"} value={`${result.ukeireTiles}枚`} />
+              {visibleUkeire ? <Stat label="未見枚数" value={`${unseenTotal}枚`} /> : null}
               <Stat className={result.goodShapeRate >= 1 ? "redText" : undefined} label="良形率" value={goodRate} />
               <Stat className={result.superGoodShapeRate >= 0.01 ? "greenText" : undefined} label="超良形率" value={superRate} />
               <div className="ukeireCell">
-                <div className="smallLabel">{result.afterDiscardShanten === 0 ? "待ち牌" : "有効牌"}</div>
-                <TileStrip tiles={result.ukeire} />
+                <div className="smallLabel">{visibleUkeire ? "有効牌 / 未見枚数" : result.afterDiscardShanten === 0 ? "待ち牌" : "有効牌"}</div>
+                {visibleUkeire ? (
+                  <div className="remainingUkeireTiles">
+                    {visibleUkeire.map((item) => <span aria-label={`${item.tile} 未見${item.remaining}枚`} className="remainingUkeireTile" key={item.tile}>
+                      <TileImage tile={item.tile} />
+                      <small>{item.remaining}</small>
+                    </span>)}
+                  </div>
+                ) : <TileStrip tiles={result.ukeire} />}
               </div>
             </div>
           </article>

@@ -121,6 +121,8 @@ Vercel用の`VERCEL_OIDC_TOKEN`をCloudflareへ移す必要はありません。
 - 主要ページを直接開き、更新しても404にならない
 - 牌画像、ツール画像、YouTube埋め込みが表示される
 - `/robots.txt`、`/sitemap.xml`、`/ads.txt`がHTTP 200になる
+- AdSense Review Mode中も動画・Mリーグの既存URLがHTTP 200で表示され、ページに`noindex,follow`がある
+- noindexページがsitemap.xmlに含まれていない
 - スマートフォンとPCで表示が崩れない
 
 ローカルでCloudflare向け出力を作る場合はPowerShellで次を実行します。

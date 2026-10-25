@@ -93,12 +93,17 @@ export const guideArticleEmphasis: Record<string, ArticleEmphasis[]> = {
     { text: "『両面だから必ず8枚』ではありません", tone: "caution" },
     { text: "二重計上になります", tone: "caution" },
     { text: "『4枚見えていない』から『山に4枚ある』とは言えません", tone: "caution" },
-    { text: "今回の公開牌の減算は自分で補ってください", tone: "key" }
+    { text: "鳴かれた捨て牌は副露牌の一部として一度だけ数えます", tone: "key" }
   ],
   "orasu-score-conditions": [
     { text: "自分が2600点増え、相手が2600点減るため、点差は5200点動きます", tone: "key" },
     { text: "これは同点であり、『必ずトップになる』とは言えません", tone: "caution" },
     { text: "点数の条件を満たすことと、そのアガリで対局が終わることは分けて確認します", tone: "key" }
+  ],
+  "score-orasu-case-study": [
+    { text: "同じ点数でも、誰からロンするかで着順結果が変わる", tone: "key" },
+    { text: "点数計算で出した手の点数と、順位計算で必要な点数は役割が違う", tone: "caution" },
+    { text: "計算結果はアガリやすさや押し引きの正解を示すものではありません", tone: "caution" }
   ],
   "fu-calculation": [
     { text: "平和ツモは20符", tone: "key" },

@@ -79,6 +79,7 @@ export default function ScoreCalculatorHelpPage() {
         <p>役・翻・符・支払いを、同じ牌姿や一つの条件変更で見比べる4例です。「読み込む」リンクで手牌・副露・和了牌・条件を計算器へ入れ、結果を再現できます。</p>
         <ScoreWorkedExamples />
         <nav className="toolHelpRelatedLinks" aria-label="点数計算の関連ページ">
+          <Link href="/learn/guides/score-orasu-case-study">アガリ点と着順条件を照合する実例</Link>
           <Link href="/tools/score-table">点数早見表を見る</Link>
           <Link href="/rules/practical-score">実戦でよく見る点数計算を学ぶ</Link>
           <Link href="/trainer/score">点数計算問題を解く</Link>

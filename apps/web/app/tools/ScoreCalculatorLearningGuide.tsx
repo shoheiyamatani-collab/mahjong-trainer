@@ -31,6 +31,7 @@ export function ScoreCalculatorLearningGuide() {
 
       <nav className="scoreLearningLinks" aria-label="点数計算の学習リンク">
         <Link href="/tools/help">入力方法と符の内訳を詳しく見る</Link>
+        <Link href="/learn/guides/score-orasu-case-study">アガリ点とオーラス条件を照合する実例</Link>
         <Link href="/tools/score-table">点数早見表で代表点を確認</Link>
         <Link href="/trainer/score">牌姿問題で点数計算を練習</Link>
         <Link href="/analysis/orasu-condition">オーラスの必要点と比べる</Link>

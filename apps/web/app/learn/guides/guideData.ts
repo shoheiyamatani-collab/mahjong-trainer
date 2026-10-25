@@ -6,6 +6,7 @@ import { requestedLearningGuides } from "./requestedGuideData";
 import { ruleComparisonGuide } from "./ruleComparisonGuide";
 import { practicalLearningGuides } from "./practicalGuideData";
 import { comboTheoryGuide } from "./comboTheoryGuide";
+import { scoreOrasuCaseStudy } from "./scoreOrasuCaseStudy";
 
 export type LearningGuideSection = {
   heading: string;
@@ -266,7 +267,8 @@ export const learningGuides: LearningGuide[] = [
   ...requestedLearningGuides,
   ruleComparisonGuide,
   ...practicalLearningGuides,
-  comboTheoryGuide
+  comboTheoryGuide,
+  scoreOrasuCaseStudy
 ];
 
 export function getLearningGuide(slug: string) {

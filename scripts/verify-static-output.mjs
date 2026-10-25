@@ -11,7 +11,7 @@ const isReviewMode = process.env.ADSENSE_REVIEW_MODE === "true";
 const errors = [];
 const checkedReferences = new Set();
 let outputFilePaths = new Set();
-let reviewModeUnpublishedRoutePrefixes = [];
+let reviewModeNoindexRoutePrefixes = [];
 
 async function collectFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -110,15 +110,8 @@ try {
     collectFiles(outputRoot),
     readFile(publicationPolicyPath, "utf8")
   ]);
-  reviewModeUnpublishedRoutePrefixes = JSON.parse(publicationPolicyJson).reviewModeUnpublishedRoutePrefixes;
+  reviewModeNoindexRoutePrefixes = JSON.parse(publicationPolicyJson).reviewModeNoindexRoutePrefixes;
   outputFilePaths = new Set(htmlFiles.map((file) => path.relative(outputRoot, file).replaceAll("\\", "/")));
-  if (isReviewMode) {
-    for (const prefix of reviewModeUnpublishedRoutePrefixes) {
-      const outputPrefix = `${prefix.replace(/^\/+|\/+$/g, "")}/`;
-      const presentRoute = [...outputFilePaths].find((file) => file === `${outputPrefix}index.html` || file.startsWith(outputPrefix));
-      if (presentRoute) errors.push(`審査モードで非公開のルートが静的出力に残っています: ${prefix} (${presentRoute})`);
-    }
-  }
   const sitemapUrls = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/gi)].map((match) => match[1]);
   if (sitemapUrls.length === 0) errors.push("sitemap.xml にURLがありません。");
 
@@ -162,6 +155,31 @@ try {
     }
   }
 
+  if (isReviewMode) {
+    for (const prefix of reviewModeNoindexRoutePrefixes) {
+      const normalizedPrefix = prefix.replace(/^\/+|\/+$/g, "");
+      const routeHtmlFiles = htmlFiles.filter((file) => {
+        const relative = path.relative(outputRoot, file).replaceAll("\\", "/");
+        return relative.endsWith(".html") && relative.startsWith(`${normalizedPrefix}/`);
+      });
+      if (routeHtmlFiles.length === 0) {
+        errors.push(`審査モード対象のページが静的出力にありません: ${prefix}`);
+        continue;
+      }
+      for (const htmlFile of routeHtmlFiles) {
+        const html = await readFile(htmlFile, "utf8");
+        const robots = `${getMetaContent(html, "robots")} ${getMetaContent(html, "googlebot")}`;
+        if (!/\bnoindex\b/i.test(robots)) {
+          errors.push(`審査モード対象ページにnoindexがありません: ${path.relative(outputRoot, htmlFile)}`);
+        }
+      }
+      const sitemapEntries = [...sitemapPaths].filter((pathname) =>
+        pathname === prefix || pathname.startsWith(`${prefix.replace(/\/$/, "")}/`)
+      );
+      if (sitemapEntries.length) errors.push(`審査モード対象ページがサイトマップに含まれています: ${sitemapEntries.join(", ")}`);
+    }
+  }
+
   const roadmapHtmlPath = htmlPathForUrl("/learn/roadmap");
   if (roadmapHtmlPath) {
     const roadmapHtml = await readFile(roadmapHtmlPath, "utf8");
@@ -193,9 +211,6 @@ try {
         try {
           const url = new URL(value, siteOrigin);
           if ((url.protocol === "http:" || url.protocol === "https:") && url.origin === siteOrigin) {
-            if (isReviewMode && reviewModeUnpublishedRoutePrefixes.some((prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`))) {
-              errors.push(`審査モードの公開ページに非公開ルートへのリンクがあります: ${pagePath} -> ${url.pathname}`);
-            }
             localReferences.push(url.pathname);
           }
         } catch {

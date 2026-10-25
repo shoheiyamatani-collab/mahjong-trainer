@@ -2590,6 +2590,88 @@ body .homeHeroBrandRow .homeHeroLogo {
   padding: 16px 18px 20px;
 }
 
+.analysisWorkspacePage .visibleTileDetails {
+  border-top: 1px solid #e2e7e3;
+  padding: 12px 16px 16px;
+}
+
+.analysisWorkspacePage .visibleTileDetails summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  font-weight: 750;
+  justify-content: space-between;
+  min-height: 44px;
+}
+
+.analysisWorkspacePage .visibleTileDetails summary:focus-visible,
+.analysisWorkspacePage .visibleTileClear:focus-visible {
+  outline: 3px solid #147a54;
+  outline-offset: 2px;
+}
+
+.analysisWorkspacePage .visibleTileDetails summary span {
+  color: #59675f;
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.analysisWorkspacePage .visibleTileDetails > p {
+  color: #4a5a50;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 4px 0 10px;
+}
+
+.analysisWorkspacePage .visibleTileSelected {
+  align-items: flex-start;
+  display: grid;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.analysisWorkspacePage .visibleTileSelected > strong {
+  font-size: 0.82rem;
+}
+
+.analysisWorkspacePage .visibleTileSelected .tileStrip {
+  align-items: flex-start;
+  min-height: 44px;
+}
+
+.analysisWorkspacePage .visibleTileSelected .tileStrip > img,
+.analysisWorkspacePage .visibleTileSelected .tileStrip > .stripTileButton {
+  max-width: 38px;
+}
+
+.analysisWorkspacePage .visibleTileDetails .paletteRows {
+  padding: 8px 0 4px;
+}
+
+.analysisWorkspacePage .visibleTileDetails .paletteRow {
+  gap: 4px;
+  grid-template-columns: repeat(9, minmax(36px, 46px));
+}
+
+.analysisWorkspacePage .visibleTileDetails .tileButton {
+  height: 54px;
+  min-width: 0;
+}
+
+.analysisWorkspacePage .visibleTileClear {
+  background: #ffffff;
+  border: 1px solid #cfd8d2;
+  border-radius: 4px;
+  color: #26342c;
+  min-height: 40px;
+  padding: 0 12px;
+}
+
+.analysisWorkspacePage .visibleTileClear:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .analysisWorkspacePage .paletteRow {
   border-bottom: 1px solid #edf0ee;
   gap: 6px;
@@ -2634,7 +2716,131 @@ body .homeHeroBrandRow .homeHeroLogo {
 
 .analysisWorkspacePage .discardGrid {
   align-items: center;
-  grid-template-columns: 64px 94px 86px 86px 90px 98px minmax(300px, 1fr);
+  grid-template-columns: 64px 94px 80px 82px 82px 84px 92px minmax(300px, 1fr);
+}
+
+.analysisWorkspacePage .visibleUkeireLegend {
+  color: #45564b;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 12px 18px 0;
+}
+
+.analysisWorkspacePage .checkerGuessPanel {
+  border-bottom: 1px solid #e0e5e1;
+  padding: 12px 18px;
+}
+
+.analysisWorkspacePage .checkerGuessToggle,
+.analysisWorkspacePage .checkerGuessReveal {
+  background: #ffffff;
+  border: 1px solid #137a59;
+  border-radius: 4px;
+  color: #075c37;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 750;
+  min-height: 44px;
+  padding: 8px 14px;
+}
+
+.analysisWorkspacePage .checkerGuessToggle:focus-visible,
+.analysisWorkspacePage .checkerGuessReveal:focus-visible,
+.analysisWorkspacePage .checkerGuessChoice:focus-visible {
+  outline: 3px solid #147a54;
+  outline-offset: 2px;
+}
+
+.analysisWorkspacePage .checkerGuessContent {
+  padding-top: 8px;
+}
+
+.analysisWorkspacePage .checkerGuessContent > p {
+  color: #45564b;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+
+.analysisWorkspacePage .checkerGuessChoices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.analysisWorkspacePage .checkerGuessChoice {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #cfd8d2;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  min-height: 54px;
+  min-width: 48px;
+  padding: 4px;
+}
+
+.analysisWorkspacePage .checkerGuessChoice img {
+  display: block;
+  height: 42px;
+  object-fit: contain;
+  width: 31px;
+}
+
+.analysisWorkspacePage .checkerGuessChoice.selected {
+  background: #e8f6ee;
+  border: 2px solid #137a59;
+  padding: 3px;
+}
+
+.analysisWorkspacePage .checkerGuessReveal:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.analysisWorkspacePage .checkerGuessFeedback {
+  background: #e8f6ee;
+  border-left: 4px solid #137a59;
+  color: #173d2c !important;
+  font-weight: 700;
+  margin: 4px 0 0 !important;
+  padding: 10px 12px;
+}
+
+.analysisWorkspacePage .checkerHiddenResults {
+  color: #45564b;
+  margin: 0;
+  padding: 18px;
+}
+
+.analysisWorkspacePage .remainingUkeireTiles {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.analysisWorkspacePage .remainingUkeireTile {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-size: 0.68rem;
+  line-height: 1.1;
+}
+
+.analysisWorkspacePage .remainingUkeireTile img {
+  display: block;
+  height: auto;
+  width: 34px;
+}
+
+.analysisWorkspacePage .remainingUkeireTile small {
+  color: #3e4d44;
+  font-size: 0.68rem;
+  font-weight: 750;
 }
 
 .analysisWorkspacePage .smallLabel {
@@ -3109,6 +3315,10 @@ body .homeHeroBrandRow .homeHeroLogo {
   .analysisWorkspacePage .paletteRows {
     overflow-x: auto;
     padding-inline: 10px;
+  }
+
+  .analysisWorkspacePage .visibleTileDetails .paletteRows {
+    padding-inline: 0;
   }
 
   .analysisWorkspacePage .paletteRow {
@@ -4235,6 +4445,18 @@ body .homeHeroBrandRow .homeHeroLogo {
     min-width: 0;
   }
 
+  .analysisWorkspacePage .discardGrid > div:nth-child(5) {
+    grid-column: 2 / 3;
+  }
+
+  .analysisWorkspacePage .discardGrid > div:nth-child(6) {
+    grid-column: 3 / 4;
+  }
+
+  .analysisWorkspacePage .discardGrid > div:nth-child(7) {
+    grid-column: 4 / 5;
+  }
+
   .discardGrid > div:first-child img {
     width: 38px;
   }
@@ -4293,6 +4515,10 @@ body .homeHeroBrandRow .homeHeroLogo {
     max-width: 32px;
     min-width: 0;
     width: 100%;
+  }
+
+  .analysisWorkspacePage .remainingUkeireTile img {
+    width: 30px;
   }
 }
 

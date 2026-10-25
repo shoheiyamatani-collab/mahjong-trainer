@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { shouldIncludeInSitemap, shouldPublishPath } from "@mahjong-trainer/content-index-policy";
+import { shouldIncludeInSitemap } from "@mahjong-trainer/content-index-policy";
 import { learnArticles } from "./siteData";
 import { getSiteUrl } from "./seoConfig";
 import { siteConfig } from "./siteConfig";
@@ -69,7 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...videoArticlePaths
   ]);
 
-  return Array.from(paths).filter((path) => shouldPublishPath(path) && shouldIncludeInSitemap(path)).map((path) => ({
+  return Array.from(paths).filter(shouldIncludeInSitemap).map((path) => ({
     url: `${siteUrl}${path}`,
     changeFrequency: path.startsWith("/videos/") ? "weekly" : "monthly",
     priority: path === "/" || path === "/analysis/mahjong-tool" ? 1 : path.split("/").length <= 3 ? 0.8 : 0.6

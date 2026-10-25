@@ -85,6 +85,9 @@ const libraryDefinitions: LibraryDefinition[] = [
   ] },
   { slug: "fu-calculation", category: "scoring", keywords: "符計算 20符 25符 30符 40符 明刻 暗刻 切り上げ", preview: [
     { row: 2, slice: [0, 3], label: "暗刻4符", tone: "blue" }, { figure: 1, row: 0, label: "カンチャン2符" }
+  ] },
+  { slug: "score-orasu-case-study", category: "scoring", keywords: "オーラス 直撃 トップ 点数計算 役 翻 符 ロン ツモ", preview: [
+    { row: 0, label: "和了前13枚", tone: "blue" }, { row: 0, result: true, label: "ロン牌", tone: "green", arrowBefore: true }
   ] }
 ];
 

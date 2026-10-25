@@ -1,4 +1,4 @@
-import { countsToTiles, parseHand, tileIndex } from "@mahjong-trainer/mahjong-core";
+import { calculateVisibleUkeire, countsToTiles, emptyCounts, parseHand, tileIndex } from "@mahjong-trainer/mahjong-core";
 import { TileStrip, getTileName, tileAssetName } from "../../components/TileFigures";
 import { CHECKER_SAMPLE_HAND } from "../../tools/toolLearningExamples";
 import { getCheckerLearningResults } from "../../tools/toolLearningResults";
@@ -12,6 +12,12 @@ export function CheckerWorkedExample() {
   after[tileIndex(best.discard)] = after[tileIndex(best.discard)]! - 1;
   const comparison = results.find((item) => item.discard === "3m")!;
   const wider = results.find((item) => item.discard === "4m")!;
+  const visibleCounts = emptyCounts();
+  const visibleExampleTiles = best.ukeire.filter((tile) => counts[tileIndex(tile)]! < 4).slice(0, 3);
+  visibleExampleTiles.forEach((tile) => { visibleCounts[tileIndex(tile)] = 1; });
+  const visibleUkeire = calculateVisibleUkeire(counts, best.discard, visibleCounts, best.ukeire);
+  const visibleByTile = new Map(visibleUkeire.map((item) => [item.tile, item.remaining]));
+  const visibleTotal = visibleUkeire.reduce((sum, item) => sum + item.remaining, 0);
   const handHref = `/analysis/mahjong-tool?hand=${encodeURIComponent(counts.join(","))}#checker-workspace`;
   return <div className={styles.workedExample}>
     <h3>14枚の実例：枚数の前に、シャンテン数をそろえる</h3>
@@ -32,12 +38,14 @@ export function CheckerWorkedExample() {
       <li><strong>1筒切りと4筒切りは、この指標では同率。</strong> 1234筒から234筒、または123筒を残し、萬子・索子の3456の変化を使えます。3萬切りの{comparison.ukeireTiles}枚と比べると、受け入れは{best.ukeireTiles - comparison.ukeireTiles}枚増えます。</li>
       <li><strong>良形率はアガリ率ではない。</strong> 1筒切りでは、テンパイに進む{best.ukeireTiles}枚のうち{best.goodShapeTiles}枚分が、最も広い待ちを選ぶとアガリ牌5枚以上のテンパイになります。{best.goodShapeTiles}÷{best.ukeireTiles}を丸めて{Math.round(best.goodShapeRate * 100)}%。超良形率は9枚以上を基準にした{Math.round(best.superGoodShapeRate * 100)}%です。</li>
     </ol>
-    <h4>1筒を切った後の有効牌と枚数</h4>
-    <ul className={styles.effectiveTiles} aria-label="1筒切りの有効牌と理論枚数">{best.ukeire.map((tile) => {
+    <h4>公開牌を考慮したときの枚数</h4>
+    <p>場に見えている牌の例として、次の牌を各1枚入力します。</p>
+    <div className={styles.hand}><TileStrip tiles={visibleExampleTiles.map((tile) => tileAssetName(tile))} /></div>
+    <ul className={styles.effectiveTiles} aria-label="1筒切りの有効牌ごとの理論枚数と未見枚数">{best.ukeire.map((tile) => {
       const asset = tileAssetName(tile);
-      return <li key={tile}><img src={`/tiles/${asset}-66-90-l-emb.png`} alt={getTileName(asset)} width={66} height={90} /><span>{4 - after[tileIndex(tile)]!}枚</span></li>;
+      return <li key={tile}><img src={`/tiles/${asset}-66-90-l-emb.png`} alt={getTileName(asset)} width={66} height={90} /><span>理論{4 - after[tileIndex(tile)]!} / 未見{visibleByTile.get(tile)}枚</span></li>;
     })}</ul>
-    <p>各牌は4枚から手牌で使っている枚数を引いた理論値です。河・副露・ドラ表示牌や他家の所持牌は反映していません。実際の山に54枚あるという意味ではありません。</p>
+    <p>1筒切りの理論受け入れは{best.ukeireTiles}枚、入力した公開牌と自分の打牌も差し引いた未見受け入れは{visibleTotal}枚です。未見牌は他家の手牌と山に分かれている可能性があり、山の残り枚数やツモ率を示すものではありません。</p>
     <a className={styles.tryLink} href={handHref}>この14枚を牌理チェッカーへ入力する</a>
   </div>;
 }

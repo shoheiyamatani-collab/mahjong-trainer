@@ -33,6 +33,46 @@ export interface AnalyzeDiscardsOptions {
   includeTenpaiDetails?: boolean;
 }
 
+export interface VisibleUkeireTile {
+  tile: Tile;
+  visible: number;
+  heldAfterDiscard: number;
+  remaining: number;
+}
+
+export function calculateVisibleUkeire(
+  counts: Counts34,
+  discard: Tile,
+  visibleCounts: Counts34,
+  effectiveTiles: Tile[]
+): VisibleUkeireTile[] {
+  validateCounts(counts, 14);
+  validateCounts(visibleCounts);
+
+  for (let index = 0; index < 34; index += 1) {
+    if (counts[index]! + visibleCounts[index]! > 4) {
+      throw new Error(`手牌と公開牌の合計が4枚を超えています: ${tileName(index)}`);
+    }
+  }
+
+  const discardIndex = tileIndex(discard);
+  if (counts[discardIndex]! < 1) throw new Error(`打牌が手牌にありません: ${discard}`);
+  const afterDiscard = counts.slice();
+  afterDiscard[discardIndex] -= 1;
+
+  return effectiveTiles.map((tile) => {
+    const index = tileIndex(tile);
+    const heldAfterDiscard = afterDiscard[index]!;
+    const visible = visibleCounts[index]! + (tile === discard ? 1 : 0);
+    return {
+      tile,
+      visible,
+      heldAfterDiscard,
+      remaining: 4 - visible - heldAfterDiscard
+    };
+  });
+}
+
 export function analyzeDiscards(counts: Counts34, options: AnalyzeDiscardsOptions = {}): DiscardAnalysis[] {
   validateCounts(counts, 14);
   const results: DiscardAnalysis[] = [];
