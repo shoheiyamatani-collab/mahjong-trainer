@@ -6,6 +6,7 @@ export type StudyHand = {
   tiles: string;
   melds?: HandScoreMeld[];
   discards?: Tile[];
+  ownRiver?: Tile[];
   compareChiitoitsu?: boolean;
   expectedShanten?: number;
   expectedWaits?: Tile[];
@@ -35,7 +36,7 @@ export type PracticalArticleSpec = {
   title: string;
   description: string;
   lead: string;
-  category: "decision" | "defense" | "scoring";
+  category: "decision" | "defense" | "judgment" | "scoring";
   keywords: string;
   distinction: string;
   points: string[];

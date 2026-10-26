@@ -3093,6 +3093,15 @@ body .homeHeroBrandRow .homeHeroLogo {
   padding-top: 34px;
 }
 
+.videoArticlePage h2[id] {
+  scroll-margin-top: 100px;
+}
+
+.videoArticlePage .videoArticleBook {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
 .videoArticlePage > article {
   column-gap: 56px;
   display: grid;
@@ -8078,6 +8087,10 @@ body .homeHeroBrandRow .homeHeroLogo {
   display: grid;
   gap: 16px;
   grid-template-columns: minmax(0, 1fr) 290px;
+}
+
+.startingHandAnalysis #starting-hand-input {
+  scroll-margin-top: 100px;
 }
 
 .analysisInputPanel,

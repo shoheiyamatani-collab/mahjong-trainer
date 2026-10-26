@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -304,7 +305,7 @@ export default function ImportantYakuForHigherScoresArticlePage() {
           message={"リーチ・タンヤオ・役牌でアガれるようになったら、次は手牌の中にある「役の種」を見つける段階です。"}
           points={[
             { title: "役は完成してから探すのではなく、途中の手牌で気づく", description: "10役を一度に暗記する必要はありません。" },
-            { title: "14枚の牌姿で覚える、次の10役", description: "緑の枠が役の成立に注目する部分です。" },
+            { title: "成立条件と鳴いたときの違いを確認する", description: "役名だけでなく、門前が必要か、鳴くと翻数が変わるかを分けて覚えます。14枚の牌姿は、下の役一覧へのリンクから確認できます。" },
             { title: "次の対局では、1局に1つだけ役の種を探す", description: "最初は「三色があるか」「同じ色に寄っているか」のどちらか1つを見るだけで十分です。" },
           ]}
         />
@@ -319,10 +320,13 @@ export default function ImportantYakuForHigherScoresArticlePage() {
                   </div>
                 </section>
 
+        <VideoPracticeGateway articleHref="/videos/strategy/important-yaku-for-higher-scores" />
+
         <ClearRainBasicTheoryBook
                   heading="役を覚えたら、打点と速度を比べて選ぶ"
                   description="役を作るだけでなく、手を遅くしすぎずに打点を伸ばす考え方が実戦では大切です。手作り、鳴き、押し引きをつないで、役を生かす判断を学べます。"
                 />
+
 
 
 </article>

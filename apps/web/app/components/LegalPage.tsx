@@ -7,9 +7,10 @@ type LegalPageProps = {
   description: string;
   children: ReactNode;
   showDates?: boolean;
+  updatedDate?: string;
 };
 
-export function LegalPage({ eyebrow, title, description, children, showDates = false }: LegalPageProps) {
+export function LegalPage({ eyebrow, title, description, children, showDates = false, updatedDate }: LegalPageProps) {
   return (
     <main className="siteMain legalPage">
       <header className="legalPageHeader">
@@ -27,7 +28,7 @@ export function LegalPage({ eyebrow, title, description, children, showDates = f
             </div>
             <div>
               <dt>最終更新日</dt>
-              <dd>{legalConfig.lastUpdatedDate}</dd>
+              <dd>{updatedDate ?? legalConfig.lastUpdatedDate}</dd>
             </div>
           </dl>
         ) : null}

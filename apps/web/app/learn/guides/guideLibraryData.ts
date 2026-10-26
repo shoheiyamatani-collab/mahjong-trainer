@@ -4,9 +4,10 @@ import { tileAssetName } from "../../components/TileFigures";
 
 export const guideLibraryCategories = [
   { id: "foundation", label: "形の基本" },
-  { id: "decision", label: "何切る" },
-  { id: "defense", label: "守備・鳴き" },
-  { id: "scoring", label: "点数計算" }
+  { id: "decision", label: "牌効率・何切る" },
+  { id: "defense", label: "守備・捨て牌読み" },
+  { id: "judgment", label: "リーチ・鳴き・押し引き" },
+  { id: "scoring", label: "点数計算・点棒状況" }
 ] as const;
 
 export type GuideLibraryCategory = typeof guideLibraryCategories[number]["id"];
@@ -52,7 +53,7 @@ const libraryDefinitions: LibraryDefinition[] = [
   { slug: "wait-types", category: "foundation", keywords: "何待ち テンパイ 単騎 シャンポン リャンメン", preview: [
     { row: 0, label: "両面", tone: "blue" }, { row: 3, label: "シャンポン" }, { row: 4, label: "単騎", tone: "green" }
   ] },
-  { slug: "calling-decision", category: "defense", keywords: "鳴く 鳴かない ポン チー 副露 タンヤオ 役牌", preview: [
+  { slug: "calling-decision", category: "judgment", keywords: "鳴く 鳴かない ポン チー 副露 タンヤオ 役牌", preview: [
     { row: 0, label: "役牌の対子", tone: "green" }, { row: 0, result: true, label: "出た牌", arrowBefore: true }, { row: 2, label: "役なし注意" }
   ] },
   { slug: "genbutsu-suji-kabe", category: "defense", keywords: "現物 ゲンブツ スジ 筋 カベ 壁 ベタオリ 安全度", preview: [
@@ -67,7 +68,7 @@ const libraryDefinitions: LibraryDefinition[] = [
   { slug: "mahjong-checker-examples", category: "decision", keywords: "牌理チェッカー 解析 ツール 受け入れ 良形率", preview: [
     { row: 1, label: "入力する形", tone: "blue" }, { row: 1, result: true, label: "有効牌を比較", tone: "green", arrowBefore: true }
   ] },
-  { slug: "rule-differences-and-calling", category: "defense", keywords: "天鳳 雀魂 Mリーグ ラス回避 順位 ルール 鳴き", preview: [
+  { slug: "rule-differences-and-calling", category: "judgment", keywords: "天鳳 雀魂 Mリーグ ラス回避 順位 ルール 鳴き", preview: [
     { row: 0, slice: [10, 12], label: "白の対子" }, { row: 1, result: true, label: "両面待ち", tone: "green", arrowBefore: true }
   ] },
   { slug: "furiten-basics", category: "foundation", keywords: "振聴 フリテン ロンできない 同巡 見逃し", preview: [
@@ -76,7 +77,7 @@ const libraryDefinitions: LibraryDefinition[] = [
   { slug: "betaori-basics", category: "defense", keywords: "ベタオリ 安全牌 現物 リーチ 放銃回避 守備", preview: [
     { row: 0, slice: [11, 13], label: "手牌の東", tone: "green" }, { row: 1, result: true, label: "相手の現物", arrowBefore: true }
   ] },
-  { slug: "riichi-or-dama", category: "decision", keywords: "立直 リーチ ダマ ダマテン 打点 手変わり", preview: [
+  { slug: "riichi-or-dama", category: "judgment", keywords: "立直 リーチ ダマ ダマテン 打点 手変わり", preview: [
     { row: 0, slice: [0, 2], label: "待ちを確認", tone: "blue" }, { row: 0, result: true, label: "アガリ牌", tone: "green", arrowBefore: true }
   ] },
   { slug: "visible-tiles-and-ukeire", category: "decision", keywords: "見えている牌 公開牌 残り枚数 河 副露 二重計上", preview: [
@@ -99,14 +100,25 @@ export type GuideLibraryItem = {
   description: string;
   category: GuideLibraryCategory;
   keywords: string;
+  level: "初級" | "中級" | "上級";
+  themes: string[];
   preview: { label: string; tiles: string[]; tone: PreviewTone; arrowBefore: boolean }[];
 };
+
+export function getGuideLearningMetadata(guide: LearningGuide) {
+  const definition = libraryDefinitions.find((item) => item.slug === guide.slug);
+  const category = guide.library?.category ?? definition?.category;
+  if (!category) throw new Error(`Missing learning category: ${guide.slug}`);
+  const level = guide.library?.level ?? (guide.slug === "combo-theory" ? "上級" : ["foundation", "scoring"].includes(category) ? "初級" : "中級");
+  const themes = guide.library?.themes ?? (definition?.keywords ?? "").split(" ").slice(0, 3);
+  return { category, level, themes };
+}
 
 export function buildGuideLibrary(guides: readonly LearningGuide[]): GuideLibraryItem[] {
   const additionalItems: GuideLibraryItem[] = guides.filter((guide) => guide.library).map((guide) => {
     const hand = guide.sections.flatMap((section) => section.caseStudies ?? []).flatMap((example) => example.hands ?? [])[0];
     if (!hand) throw new Error(`Missing practical article preview: ${guide.slug}`);
-    return { slug: guide.slug, title: guide.title, description: guide.description, category: guide.library!.category, keywords: `${guide.library!.keywords} ${guide.takeaways.join(" ")}`, preview: [{ label: "記事の実例", tiles: countsToTiles(parseHand(hand.tiles)).slice(0, 9).map((tile) => tileAssetName(tile)), tone: "blue", arrowBefore: false }] };
+    return { slug: guide.slug, title: guide.title, description: guide.description, ...getGuideLearningMetadata(guide), keywords: `${guide.library!.keywords} ${guide.takeaways.join(" ")}`, preview: [{ label: "記事の実例", tiles: countsToTiles(parseHand(hand.tiles)).slice(0, 9).map((tile) => tileAssetName(tile)), tone: "blue", arrowBefore: false }] };
   });
   return [...libraryDefinitions.map((definition) => {
     const guide = guides.find((item) => item.slug === definition.slug);
@@ -115,7 +127,7 @@ export function buildGuideLibrary(guides: readonly LearningGuide[]): GuideLibrar
       slug: guide.slug,
       title: guide.title,
       description: guide.description,
-      category: definition.category,
+      ...getGuideLearningMetadata(guide),
       keywords: `${definition.keywords} ${guide.takeaways.join(" ")}`,
       preview: definition.preview.map((source) => {
         const row = source.kind !== "practice" ? guide.figures[source.figure ?? 0]?.rows[source.row] : undefined;
@@ -134,7 +146,7 @@ export function filterGuideLibrary(items: readonly GuideLibraryItem[], category:
   return items.filter((item) => {
     if (category !== "all" && item.category !== category) return false;
     const label = guideLibraryCategories.find((candidate) => candidate.id === item.category)!.label;
-    const searchable = normalize(`${item.title} ${item.description} ${label} ${item.keywords}`);
+    const searchable = normalize(`${item.title} ${item.description} ${label} ${item.level} ${item.themes.join(" ")} ${item.keywords}`);
     return terms.every((term) => searchable.includes(term));
   });
 }

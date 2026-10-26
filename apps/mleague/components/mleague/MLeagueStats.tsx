@@ -140,6 +140,8 @@ export function MLeagueStats({ playerId, stats, results }: MLeagueStatsProps) {
         </ExternalLink>
       </p>
 
+      <p className="mleague-stats-notes">TOP率は1着回数、連対率は1・2着回数、ラス回避率は4着以外の回数を、それぞれ半荘数で割った値です。pt / 半荘はポイントの実績平均で、次の対局の期待値ではありません。半荘数と集計期間をそろえて比較してください。</p>
+
       {stats ? (
         <div className="career-history">
           <div className="season-stats-heading career-history-heading">

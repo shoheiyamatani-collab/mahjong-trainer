@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -122,7 +123,7 @@ export default function ReachDeclarationTileReadingArticlePage() {
           message={"リーチで横向きに置かれた牌は、ただの捨て牌ではありません。"}
           points={[
             { title: "宣言牌は「直前まで必要だった牌」かもしれない", description: "リーチ宣言牌は、テンパイした巡目に捨てられた牌です。" },
-            { title: "動画で紹介される3つの読み", description: "赤い枠が読みの起点、緑の枠が注目する牌です。" },
+            { title: "手出しかツモ切りかも区別する", description: "宣言牌が手牌から選ばれた牌なのか、今引いた牌なのかで、切り順を考える前提が変わります。宣言牌だけから待ちを確定することはできません。" },
             { title: "「読み」は答えではなく、確率を比べる材料", description: "麻雀の捨て牌読みは、相手の手牌を完全に当てる技術ではありません。" },
           ]}
         />
@@ -136,6 +137,8 @@ export default function ReachDeclarationTileReadingArticlePage() {
                     <Link href="/videos/strategy/isolated-terminal-tile-order">孤立した1・9の価値と守備へのつながりを見る</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/reach-declaration-tile-reading" />
 
 </article>
     </main>

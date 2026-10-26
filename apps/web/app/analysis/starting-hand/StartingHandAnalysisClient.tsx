@@ -599,7 +599,7 @@ export function StartingHandAnalysisClient({
         </section>
       )}
 
-      <section className="analysisWorkspace">
+      <section className="analysisWorkspace" id="starting-hand-input">
         <article className="analysisInputPanel">
           <div className="analysisPanelHeading">
             <h2>配牌</h2>

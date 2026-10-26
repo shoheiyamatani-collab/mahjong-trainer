@@ -5,6 +5,7 @@ import { generateDailyNanikiru, japanDate } from "@mahjong-trainer/mahjong-core"
 import { DailyNanikiruQuestion } from "./components/DailyNanikiruQuestion";
 import { siteConfig } from "./siteConfig";
 import { HomeLearningHub, HomeLearningPaths } from "./components/HomeLearningHub";
+import { HomeStudyThemes } from "./learn/guides/LearningPaths";
 
 export const metadata: Metadata = {
   title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
@@ -36,6 +37,7 @@ export default function HomePage() {
 
       <DailyNanikiruQuestion initialProblem={initialDailyProblem} />
       <HomeLearningPaths />
+      <HomeStudyThemes />
 
       <section className="homeIntroSection" aria-labelledby="home-intro-title">
         <div className="homeSectionHeading">

@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -53,7 +54,7 @@ export default function PrioritizeUkeireOverShapeChangePage() {
           message={"良い形になりそうな牌を残したのに、なかなかテンパイしない。"}
           points={[
             { title: "引いて嬉しい牌には2種類ある", description: "引いた後にシャンテン数が進む牌です。" },
-            { title: "899萬・北北と35索を比べる", description: "この手では、完成している2面子を除くと「899萬・北北」と「35索」の比較になります。" },
+            { title: "部分形だけで枚数を決めない", description: "同じ形でも、別の面子や雀頭があるかで受け入れが変わります。比較するときは14枚の手牌全体をそろえ、打牌後のシャンテン数から確認します。" },
             { title: "両面は「作ること」ではなく「面子を完成させやすい」から強い", description: "両面が良いのは、2種類の牌で面子が完成するからです。" },
           ]}
         />
@@ -61,6 +62,8 @@ export default function PrioritizeUkeireOverShapeChangePage() {
                   <p className="videoArticleSectionLabel">NEXT STEP</p><h2>受け入れを実際の手牌で比べる</h2>
                   <div><Link href="/videos/strategy/ukeire-vs-shape-change-basics">受け入れと手変わりの基礎を復習する</Link><Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link><Link href="/videos/strategy/tile-efficiency-four-rules">初心者向け牌効率の4法則へ進む</Link></div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/prioritize-ukeire-over-shape-change" />
 
         <HirasawaTileEfficiencyBook />
 

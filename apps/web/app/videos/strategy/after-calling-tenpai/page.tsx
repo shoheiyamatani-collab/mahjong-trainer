@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -48,7 +49,9 @@ export default function AfterCallingTenpaiPage() {
           ]}
         />
 
-        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>鳴きと待ちを練習する</h2><div><Link href="/videos/strategy/calling-to-improve-wait-quiz">待ちを良くする何鳴く問題を解く</Link><Link href="/rules/practical-waits">待ち一覧を確認する</Link><Link href="/analysis/mahjong-tool">牌理チェッカーで待ちを比べる</Link></div></section>
+        <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>鳴きと待ちを練習する</h2><div><Link href="/videos/strategy/calling-to-improve-wait-quiz">待ちを良くする何鳴く問題を解く</Link><Link href="/rules/practical-waits">待ち一覧を確認する</Link><Link href="/trainer/seven-tile">7枚形で待ちの分解を練習する</Link></div></section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/after-calling-tenpai" />
 
 </article>
     </main>

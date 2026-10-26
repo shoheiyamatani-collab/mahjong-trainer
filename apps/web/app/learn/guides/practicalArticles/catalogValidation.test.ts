@@ -7,6 +7,7 @@ import { tileAssetName } from "../../../components/TileFigures";
 import { availablePracticalGuides, practicalArticleManifest, practicalArticleSpecs, practicalLearningGuides } from "./index";
 import { parseSharedOrasuCondition } from "../../../analysis/orasu-condition/sharedCondition";
 import { practicalArticleApprovals } from "./reviewState";
+import { trainerDefinitions } from "../../../trainer/trainerCatalog";
 
 const guides = [...new Map([...learningGuides, ...practicalLearningGuides].map((guide) => [guide.slug, guide])).values()];
 
@@ -23,9 +24,18 @@ describe("30 practical article catalog and release gating", () => {
   });
 
   it("keeps articles awaiting editorial approval out of normal builds", () => {
-    expect(availablePracticalGuides(false).map((guide) => guide.slug)).toEqual(Object.keys(practicalArticleApprovals));
+    expect(availablePracticalGuides(false).map((guide) => guide.slug).sort()).toEqual(Object.keys(practicalArticleApprovals).sort());
     expect(availablePracticalGuides(true)).toHaveLength(30);
     for (const guide of practicalLearningGuides) expect(guide.editorial?.publishedAt).toBe(practicalArticleApprovals[guide.slug]?.publishedAt);
+  });
+
+  it("records only known articles with valid review and publication dates", () => {
+    for (const [slug, approval] of Object.entries(practicalArticleApprovals)) {
+      expect(practicalArticleSpecs.some((article) => article.slug === slug), slug).toBe(true);
+      expect(approval.reviewedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(approval.publishedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(approval.reviewedAt <= approval.publishedAt, slug).toBe(true);
+    }
   });
 
   it("connects every complete article to the existing library and valid destinations", () => {
@@ -39,7 +49,7 @@ describe("30 practical article catalog and release gating", () => {
         const pathname = new URL(tool.href, "https://jongfolio.com").pathname;
         const concrete = new URL(`../../../${pathname.replace(/^\//, "")}/page.tsx`, import.meta.url);
         if (!existsSync(concrete)) {
-          expect(pathname).toMatch(/^\/trainer\/(iishanten|ukeire-max)$/);
+          expect(trainerDefinitions.some((trainer) => pathname === `/trainer/${trainer.slug}`), pathname).toBe(true);
           expect(existsSync(new URL("../../../trainer/[slug]/page.tsx", import.meta.url))).toBe(true);
         }
       }

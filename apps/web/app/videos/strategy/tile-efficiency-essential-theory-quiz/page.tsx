@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -136,6 +137,8 @@ export default function TileEfficiencyTheoryQuizArticlePage() {
                     <Link href="/analysis/mahjong-tool">受け入れ枚数チェッカーで一打を比較する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/tile-efficiency-essential-theory-quiz" />
 
 </article>
     </main>

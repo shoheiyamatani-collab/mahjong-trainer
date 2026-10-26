@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -178,6 +179,8 @@ export default function SevenStrongShapesForWinningArticlePage() {
                     <Link href="/trainer">麻雀トレーニングで試す</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/seven-strong-shapes-for-winning" />
 
         <ClearRainNanikiruBook />
 

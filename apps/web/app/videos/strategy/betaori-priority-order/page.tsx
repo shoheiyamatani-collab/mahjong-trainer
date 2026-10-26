@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -70,8 +71,8 @@ export default function BetaoriPriorityOrderPage() {
           message={"現物がなくなった後は、どの牌も同じように危険ではありません。"}
           points={[
             { title: "最初は現物、その次に危険度を比較する", description: "" },
-            { title: "動画で扱う危険度の目安", description: "下へ進むほど、リーチ者の両面待ちや愚形待ちへ当たる可能性を慎重に見る候補です。" },
-            { title: "迷ったときの大まかな比較順", description: "動画の比較を実戦で使いやすい順に並べると、次のように整理できます。" },
+            { title: "現物と、読みで安全そうな牌を分ける", description: "現物はその相手のロンに対する安全情報です。スジやカベは残る待ちの種類を考える手掛かりで、同じ強さの情報ではありません。" },
+            { title: "相手が複数いるときは一人ずつ確認する", description: "一人に通った牌でも、別の相手に安全とは限りません。全員に対する現物の有無を確認してから候補を比べます。" },
           ]}
         />
 
@@ -85,6 +86,8 @@ export default function BetaoriPriorityOrderPage() {
                     <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/betaori-priority-order" />
 
 </article>
     </main>

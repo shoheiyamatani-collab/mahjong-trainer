@@ -9,6 +9,9 @@ import { getLearningGuide, learningGuides } from "../guideData";
 import { guideArticleEmphasis } from "../guideHighlights";
 import { StudyCases } from "../practicalArticles/StudyCases";
 import practicalStyles from "../practicalArticles/studyCases.module.css";
+import { getGuideLearningMetadata, guideLibraryCategories } from "../guideLibraryData";
+import { GuideLearningRoute } from "../LearningPaths";
+import libraryStyles from "../guideLibrary.module.css";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
 
@@ -37,6 +40,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const applicationGuides = learningGuides.filter((item) => item.library && item.slug !== guide.slug && item.relatedSlugs.includes(guide.slug)).slice(0, 4);
   const related = [...new Map([...guide.relatedSlugs.map(getLearningGuide).filter((item) => item !== undefined), ...applicationGuides].map((item) => [item.slug, item])).values()];
   const articleUrl = `${siteUrl}/learn/guides/${guide.slug}`;
+  const learning = getGuideLearningMetadata(guide);
 
   return (
     <main className="siteMain articleMain learningGuidePage">
@@ -52,9 +56,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
         <header className="learningGuideHeader">
           <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/learn/guides">麻雀を学ぶ</Link><span>›</span><span>{guide.title}</span></nav>
           <p className="siteEyebrow">MAHJONG PRACTICAL GUIDE</p>
+          <div className={libraryStyles.cardMeta}><span className={`${libraryStyles.badge} ${libraryStyles[learning.category]}`}>{guideLibraryCategories.find((category) => category.id === learning.category)!.label}</span><span className={libraryStyles.level}>{learning.level}</span></div>
           <h1>{guide.title}</h1>
           <p>{guide.lead}</p>
-          {guide.editorial ? <p>雀フォリオ編集部 ／ 作成 <time dateTime={guide.editorial.createdAt}>{guide.editorial.createdAt}</time> ／ 更新 <time dateTime={guide.editorial.updatedAt}>{guide.editorial.updatedAt}</time></p> : null}
+          {guide.editorial ? <p>雀フォリオ運営 ／ 作成 <time dateTime={guide.editorial.createdAt}>{guide.editorial.createdAt}</time> ／ 更新 <time dateTime={guide.editorial.updatedAt}>{guide.editorial.updatedAt}</time></p> : null}
         </header>
 
         <ArticleTakeaways items={guide.takeaways} />
@@ -113,11 +118,13 @@ export default async function GuidePage({ params }: GuidePageProps) {
 
         <section className="learningGuideToolCta">
           <p className="siteEyebrow">TRY IT</p>
-          <h2>{guide.toolLink.label}</h2>
+          <h2>{guide.library ? "この内容を実際に練習する" : guide.toolLink.label}</h2>
           <p>{guide.toolLink.description}</p>
           <Link href={guide.toolLink.href}>{guide.toolLink.label}</Link>
           {guide.additionalTools?.map((tool) => <div key={tool.href}><p>{tool.description}</p><Link href={tool.href}>{tool.label}</Link></div>)}
         </section>
+
+        <GuideLearningRoute guides={learningGuides} slug={guide.slug} />
 
         <section className="learningGuideRelated">
           <p className="siteEyebrow">RELATED GUIDES</p>

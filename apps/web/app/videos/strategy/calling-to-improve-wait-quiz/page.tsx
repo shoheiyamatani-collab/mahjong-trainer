@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -50,10 +51,13 @@ export default function CallingToImproveWaitQuizPage() {
         />
         <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>鳴いた後の判断へ進む</h2><div><Link href="/videos/strategy/after-calling-tenpai">鳴いてテンパイした後の思考を見る</Link><Link href="/rules/practical-waits">実戦でよく見る待ち一覧を確認する</Link><Link href="/trainer">7枚形トレーニングへ進む</Link></div></section>
 
+        <VideoPracticeGateway articleHref="/videos/strategy/calling-to-improve-wait-quiz" />
+
         <ClearRainBasicTheoryBook
                   heading="鳴き判断を、実戦の基準へ広げる"
                   description="待ちを良くする鳴きだけでなく、速度・打点・守備を合わせて鳴くか決める考え方を整理できます。動画の問題で得た気づきを、実戦の判断へつなげたい人に向く一冊です。"
                 />
+
 
 
 </article>

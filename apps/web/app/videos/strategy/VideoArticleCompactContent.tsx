@@ -6,23 +6,29 @@ export type VideoArticleCompactPoint = {
 type VideoArticleCompactContentProps = {
   message: string;
   points: VideoArticleCompactPoint[];
+  editorialPerspective?: boolean;
 };
 
-export function VideoArticleCompactContent({ message, points }: VideoArticleCompactContentProps) {
+export function getCompactPoints(points: VideoArticleCompactPoint[]) {
+  return points.filter((point) => point.description?.trim()).slice(0, 3);
+}
+
+export function VideoArticleCompactContent({ message, points, editorialPerspective = false }: VideoArticleCompactContentProps) {
+  const visiblePoints = getCompactPoints(points);
   return (
     <>
       <section className="videoArticleBodySection">
         <p className="videoArticleSectionLabel">MESSAGE</p>
-        <h2>この動画が伝えようとしていること</h2>
+        <h2>{editorialPerspective ? "この実戦解説で考えたい学習テーマ" : "この動画が伝えようとしていること"}</h2>
         <p>{message}</p>
       </section>
 
-      {points.length > 0 ? (
+      {visiblePoints.length > 0 ? (
         <section className="videoArticleBodySection">
           <p className="videoArticleSectionLabel">SUMMARY</p>
           <h2>動画の内容を簡潔にまとめると</h2>
           <div className="videoPrincipleList">
-            {points.slice(0, 3).map((point, index) => (
+            {visiblePoints.map((point, index) => (
               <section className="videoPrinciple" key={point.title}>
                 <div className="videoPrincipleNumber">{index + 1}</div>
                 <div className="videoPrincipleBody">

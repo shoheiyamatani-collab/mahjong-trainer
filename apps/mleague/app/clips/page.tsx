@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import { ClipLearningGuide } from "./ClipLearningGuide";
 
 export const metadata: Metadata = {
   robots: getRobotsPolicy("/mleague/clips"),
@@ -43,6 +44,7 @@ export default function ClipsPage() {
           </Link>
         ))}
       </nav>
+      <ClipLearningGuide topic="directory" />
     </main>
   );
 }

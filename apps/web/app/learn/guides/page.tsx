@@ -5,6 +5,7 @@ import { JsonLd } from "../../components/JsonLd";
 import { getSiteUrl } from "../../seoConfig";
 import { learningGuides } from "./guideData";
 import { GuideLibrary } from "./GuideLibrary";
+import { LearningPaths } from "./LearningPaths";
 import { buildGuideLibrary } from "./guideLibraryData";
 import styles from "./guideLibrary.module.css";
 
@@ -59,6 +60,7 @@ export default function LearningGuidesPage() {
         <p>牌姿で理解して、実戦で使える知識へ。</p>
       </header>
 
+      <LearningPaths guides={learningGuides} />
       <GuideLibrary items={library} />
 
       <section className={styles.footer}>

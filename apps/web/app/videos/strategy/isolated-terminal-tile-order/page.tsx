@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -121,7 +122,7 @@ export default function IsolatedTerminalTileOrderArticlePage() {
           message={"孤立した端牌はどれも弱そうに見えますが、手牌にある4・5・6などとの関係で価値が変わります。"}
           points={[
             { title: "同じ1・9でも、周囲の牌で価値が変わる", description: "孤立牌とは、手牌の中で周囲につながる牌がなく、ひとまず単独に見える牌です。" },
-            { title: "孤立した1・9を切る優先順位", description: "上から順に「先に切りやすい形」です。" },
+            { title: "周囲の牌との重複を確認する", description: "同じ端牌でも、近くの完成面子やターツとの関係で役割が変わります。具体的な比較の条件と切り順は元動画で確認してください。" },
             { title: "この法則は、後で守備を学ぶときにも役立つ", description: "どの端牌が手作りに必要か分かると、守備牌を残すために何を整理できるか判断しやすくなります。" },
           ]}
         />
@@ -136,6 +137,8 @@ export default function IsolatedTerminalTileOrderArticlePage() {
                     <Link href="/analysis/mahjong-tool">受け入れ枚数チェッカーで一打を比較する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/isolated-terminal-tile-order" />
 
 </article>
     </main>

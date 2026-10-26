@@ -5,6 +5,7 @@ import { tileAssetName } from "../../components/TileFigures";
 import { getLearningGuide, learningGuides } from "./guideData";
 import { buildGuideLibrary, filterGuideLibrary } from "./guideLibraryData";
 import { fuGuideExamples, practicalGuideHands, practicalLearningGuides } from "./practicalGuideData";
+import { availablePracticalGuides } from "./practicalArticles";
 
 const assetTiles = new Map(TILE_NAMES.map((tile) => [tileAssetName(tile), tile as Tile]));
 const fromAssets = (assets: string[]) => parseHand(assets.map((asset) => {
@@ -17,7 +18,7 @@ const baseScoreInput = { isDealer: false, roundWind: "æ±" as Tile, seatWind: "å
 describe("Practical learning guides", () => {
   it("adds all six routes to the existing searchable library", () => {
     expect(practicalLearningGuides).toHaveLength(6);
-    expect(learningGuides).toHaveLength(23);
+    expect(learningGuides).toHaveLength(23 + availablePracticalGuides().length);
     expect(new Set(learningGuides.map((guide) => guide.slug)).size).toBe(learningGuides.length);
     const library = buildGuideLibrary(learningGuides);
     for (const guide of practicalLearningGuides) {

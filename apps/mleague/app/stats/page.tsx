@@ -271,6 +271,13 @@ export default function CurrentSeasonStatsPage() {
         </div>
       </section>
 
+      <section className="section" aria-labelledby="stats-reading-title">
+        <div className="section-heading"><h2 id="stats-reading-title">成績を比較するときの読み方</h2></div>
+        <p>このページはレギュラーシーズンの掲載データを集計しています。チームの半荘数・ポイント・着順回数は所属選手の値を合算し、平均着順は「1着回数＋2着回数×2＋3着回数×3＋4着回数×4」を半荘数で割っています。平均着順の単純平均ではありません。</p>
+        <p>ポイント順位と平均着順は別の指標です。同じ着順でも素点でポイントが変わり、半荘数の少ない選手は数試合の影響を強く受けます。ここから選手の実力、放銃率、将来の勝率を断定することはできません。セミファイナル・ファイナルや別ルールの成績を混ぜず、同じ対象期間で比べてください。</p>
+        <p>順位が必要点数にどうつながるかは<a className="text-link" href="/learn/guides/orasu-score-conditions">オーラスの逆転条件</a>で学び、<a className="text-link" href="/analysis/orasu-condition">条件計算ツール</a>で点差を入力して比較できます。ツールはMリーグの公式成績を再現する集計器ではありません。</p>
+      </section>
+
       <aside className="season-ranking-source" aria-label="成績データの出典">
         <div>
           <strong>更新基準</strong>

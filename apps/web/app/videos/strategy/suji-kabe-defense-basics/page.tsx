@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -151,6 +152,8 @@ export default function SujiKabeDefenseBasicsArticlePage() {
                     <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る16問で手牌判断を練習する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/suji-kabe-defense-basics" />
 
 </article>
     </main>

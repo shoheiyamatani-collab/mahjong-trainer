@@ -481,7 +481,7 @@ export const addedVideoLessons = {
       { title: "アガリの質", description: "最終待ちの良さや打点がどれだけ改善するかを比べます。" },
       { title: "局面への適合", description: "巡目、点数状況、守備力に合う選択かを確認します。" }
     ],
-    practicalPoints: ["受け入れ最大の候補を必ず一度確認する", "別の牌を選ぶなら、速度と交換して得る価値を一つ言う", "牌理チェッカーでは枚数だけでなく良形率や打点変化も見る"],
+    practicalPoints: ["受け入れ最大の候補を必ず一度確認する", "別の牌を選ぶなら、速度と交換して得る価値を一つ言う", "牌理チェッカーでは受け入れと良形率を比較する。打点や安全性は別の条件として確認する"],
     relatedLinks: [
       { href: "/videos/strategy/tile-efficiency-complete-beginner-guide", label: "麻雀初心者の牌効率・完全入門" },
       { href: "/videos/strategy/intermediate-tile-efficiency-26-rules", label: "中級牌効率26のセオリー" }

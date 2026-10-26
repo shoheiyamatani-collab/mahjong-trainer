@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -155,6 +156,8 @@ export default function SevenImportantShapesToMemorizePage() {
                     <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">何切る問題で理解を確認する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/seven-important-shapes-to-memorize" />
 
         <HirasawaTileEfficiencyBook />
 

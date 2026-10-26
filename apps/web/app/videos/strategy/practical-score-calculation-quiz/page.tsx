@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -50,10 +51,13 @@ export default function PracticalScoreCalculationQuizPage() {
         />
         <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>点数表を使って復習する</h2><div><Link href="/videos/strategy/easy-score-calculation-without-fu">簡単な点数計算方法を復習する</Link><Link href="/tools/score-table">初心者向け点数早見表を見る</Link><Link href="/rules/practical-score">実戦でよく見る点数計算を見る</Link></div></section>
 
+        <VideoPracticeGateway articleHref="/videos/strategy/practical-score-calculation-quiz" />
+
         <ClearRainBasicTheoryBook
                   heading="点数を分かった上で、実戦の選択を磨く"
                   description="点数計算を使えるようになると、打点を追うか、速度を優先するか、守備に回るかをより具体的に比べられます。初級者の実戦判断をまとめて復習できる一冊です。"
                 />
+
 
 
 </article>

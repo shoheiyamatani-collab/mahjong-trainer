@@ -1,2 +1,33 @@
-// Add an entry only after the actual editorial check and release date are known.
-export const practicalArticleApprovals: Record<string, { reviewedAt: string; publishedAt: string }> = {};
+// Stage 3 validation and the user's publication approval were completed on 2026-10-26.
+export const practicalArticleApprovals: Record<string, { reviewedAt: string; publishedAt: string }> = {
+  "ukeire-versus-practical-decisions": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "isolated-tile-priorities": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "equal-ukeire-tiebreakers": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "dora-versus-speed": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "six-to-five-block-examples": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "chiitoitsu-or-standard": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "weak-starting-hand-branches": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "take-tenpai-or-improve": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "riichi-borderline-decisions": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "when-to-depart-from-efficiency": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "tedashi-tsumogiri-information": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "riichi-tile-wait-candidates": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "suji-traps": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "early-and-late-riichi": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "two-riichi-short-on-safe-tiles": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "pair-and-taatsu-discard": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "midgame-dora-discard": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "discard-order-hand-changes": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "borderline-push-fold": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "deceptively-safe-tiles": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "top-place-five-mistakes": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "last-place-attack": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "orasu-practice-ten": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "dealer-push-fold": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "honba-and-sticks-decisions": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "placement-points-and-riichi": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "dama-value-situations": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "endgame-tenpai-value": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "opponent-calls-defense": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" },
+  "minimize-loss-decisions": { reviewedAt: "2026-10-26", publishedAt: "2026-10-27" }
+};

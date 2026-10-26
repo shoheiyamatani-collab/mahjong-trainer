@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import TrainerWorkspace from "../trainer/TrainerWorkspace";
 import { ScoreCalculatorLearningGuide } from "./ScoreCalculatorLearningGuide";
+import { RelatedPracticeArticles } from "../components/RelatedPracticeArticles";
 
 export const metadata: Metadata = {
   title: "麻雀点数計算ツール🔰 | 手牌から役・翻・符を自動計算",
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function ScoreCalculatorPage() {
-  return <TrainerWorkspace learningContent={<ScoreCalculatorLearningGuide />} />;
+  return <TrainerWorkspace learningContent={<><ScoreCalculatorLearningGuide /><RelatedPracticeArticles toolHref="/tools" /></>} />;
 }

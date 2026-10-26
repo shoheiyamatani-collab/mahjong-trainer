@@ -24,7 +24,8 @@ export function studyDiscardRows(example: StudyCase, hand: StudyHand) {
     const after = counts.slice();
     after[tileIndex(discard)]! -= 1;
     const ukeire = calculateVisibleUkeire(counts, discard, publicCounts(example), row.ukeire);
-    return { ...row, ukeire: ukeire.filter((item) => item.remaining > 0).map((item) => item.tile), ukeireTiles: ukeire.reduce((sum, item) => sum + item.remaining, 0), chiitoitsu: chiitoitsuShanten(after) };
+    const furiten = hand.ownRiver && row.afterDiscardShanten === 0 ? row.ukeire.some((tile) => hand.ownRiver!.includes(tile)) : undefined;
+    return { ...row, ukeire: ukeire.filter((item) => item.remaining > 0).map((item) => item.tile), ukeireTiles: ukeire.reduce((sum, item) => sum + item.remaining, 0), chiitoitsu: chiitoitsuShanten(after), furiten };
   });
   const minShanten = Math.min(...all.map((row) => row.afterDiscardShanten));
   const maxUkeire = Math.max(...all.filter((row) => row.afterDiscardShanten === minShanten).map((row) => row.ukeireTiles));
@@ -42,14 +43,14 @@ export function studyProgress(example: StudyCase, hand: StudyHand) {
   return analyzeHandProgress(parseHand(hand.tiles), hand.melds?.length ?? 0, knownCounts(example, hand));
 }
 
-export function studyScores(hand: StudyHand) {
+export function studyScores(hand: StudyHand, winMethod: "ron" | "tsumo" = "ron") {
   if (!hand.score) return [];
   const input = hand.score;
   const counts = parseHand(hand.tiles);
   counts[tileIndex(input.winningTile)]! += 1;
   return [false, true].map((riichi) => {
     try {
-      const result = calculateHandScore({ counts, winningTile: input.winningTile, isDealer: input.dealer ?? false, seatWind: input.dealer ? "東" : "南", roundWind: "東", winMethod: "ron", riichi, dora: input.dora ?? 0 });
+      const result = calculateHandScore({ counts, winningTile: input.winningTile, isDealer: input.dealer ?? false, seatWind: input.dealer ? "東" : "南", roundWind: "東", winMethod, riichi, dora: input.dora ?? 0 });
       return { riichi, result };
     } catch (error) {
       if (error instanceof Error && error.message === "役がありません。") return { riichi, result: null };

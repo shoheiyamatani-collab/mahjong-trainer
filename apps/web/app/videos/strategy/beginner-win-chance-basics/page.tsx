@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -112,6 +113,8 @@ export default function BeginnerWinChanceBasicsArticlePage() {
             4つを一度に完璧にする必要はありません。次の対局では、迷った場面でこのうち一つを思い出すことから始めましょう。
           </p>
         </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/beginner-win-chance-basics" />
 
         <ClearRainBasicTheoryBook />
       </article>

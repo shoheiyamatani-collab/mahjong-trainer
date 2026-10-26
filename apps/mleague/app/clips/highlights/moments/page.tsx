@@ -4,6 +4,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ClipVideoGrid } from "../ClipVideoGrid";
 import { memorableClips } from "../highlight-clips";
+import { ClipLearningGuide } from "../../ClipLearningGuide";
 
 export const metadata: Metadata = {
   robots: getRobotsPolicy("/mleague/clips/highlights/moments"),
@@ -30,6 +31,7 @@ export default function MemorableClipsPage() {
         ariaLabel="役満以外の名場面動画一覧"
         numberLabel="MOMENT"
       />
+      <ClipLearningGuide topic="moments" />
     </main>
   );
 }

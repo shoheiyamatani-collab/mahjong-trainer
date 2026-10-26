@@ -4,6 +4,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ClipVideoGrid } from "../ClipVideoGrid";
 import { yakumanClips } from "../highlight-clips";
+import { ClipLearningGuide } from "../../ClipLearningGuide";
 
 export const metadata: Metadata = {
   robots: getRobotsPolicy("/mleague/clips/highlights/yakuman"),
@@ -26,6 +27,7 @@ export default function YakumanClipsPage() {
       </header>
 
       <ClipVideoGrid clips={yakumanClips} ariaLabel="役満動画一覧" numberLabel="YAKUMAN" />
+      <ClipLearningGuide topic="yakuman" />
     </main>
   );
 }

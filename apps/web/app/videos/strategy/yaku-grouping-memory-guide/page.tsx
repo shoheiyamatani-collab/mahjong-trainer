@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -81,10 +82,13 @@ export default function YakuGroupingMemoryGuidePage() {
                   </div>
                 </section>
 
+        <VideoPracticeGateway articleHref="/videos/strategy/yaku-grouping-memory-guide" />
+
         <HirasawaTileEfficiencyBook
                   heading="役を覚えたら、アガリやすい手作りへ"
                   description="役を暗記した次は、役の種を残しながらテンパイへ近づく手作りが大切です。受け入れやブロックの考え方を、何切る問題と一緒に基礎から確認できます。"
                 />
+
 
 
 </article>

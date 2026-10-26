@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -124,7 +125,7 @@ export default function BetaoriThreePrinciplesArticlePage() {
           message={"ベタオリは、自分のアガリを諦めて放銃を避ける守備です。"}
           points={[
             { title: "ベタオリは「手を崩す打ち方」ではなく、失点を防ぐ選択", description: "アガリを目指していた手牌を崩すのは、もったいなく感じます。" },
-            { title: "オリ打ちを減らす3つの考え方", description: "緑の枠は比較したときに残したい・選びたい候補、赤い枠は追加の危険を確認したい候補です。" },
+            { title: "一枚通した後も、安全情報を更新する", description: "今切れる現物と、次巡に残る現物を分けて確認します。別の相手が攻撃してきたら、その相手に対する安全性を改めて見直します。" },
             { title: "ベタオリでも放銃をゼロにはできません", description: "現物が尽きれば、どこかで比較的当たりにくい牌を選ぶ必要があります。" },
           ]}
         />
@@ -139,6 +140,8 @@ export default function BetaoriThreePrinciplesArticlePage() {
                     <Link href="/rules/practical-waits">待ちの形と放銃パターンを復習する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/betaori-three-principles" />
 
 </article>
     </main>

@@ -53,9 +53,10 @@ export function GuideLibrary({ items }: { items: GuideLibraryItem[] }) {
         {matches.map((item) => <article className={styles.card} key={item.slug}>
           <Link className={styles.cardLink} href={`/learn/guides/${item.slug}`} aria-labelledby={`guide-title-${item.slug}`}>
             <GuidePreview item={item} />
-            <span className={`${styles.badge} ${styles[item.category]}`}>{guideLibraryCategories.find((filter) => filter.id === item.category)!.label}</span>
+            <div className={styles.cardMeta}><span className={`${styles.badge} ${styles[item.category]}`}>{guideLibraryCategories.find((filter) => filter.id === item.category)!.label}</span><span className={styles.level}>{item.level}</span></div>
             <h2 id={`guide-title-${item.slug}`}>{item.title}</h2>
             <p>{item.description}</p>
+            <ul className={styles.themes} aria-label="関連する学習テーマ">{item.themes.map((theme) => <li key={theme}>{theme}</li>)}</ul>
             <ArrowRight className={styles.cardArrow} aria-hidden="true" />
           </Link>
         </article>)}

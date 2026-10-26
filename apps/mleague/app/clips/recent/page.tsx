@@ -4,6 +4,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { ClipVideoGrid } from "../highlights/ClipVideoGrid";
 import { recentClips } from "../recent-clips";
+import { ClipLearningGuide } from "../ClipLearningGuide";
 
 export const metadata: Metadata = {
   robots: getRobotsPolicy("/mleague/clips/recent"),
@@ -26,8 +27,9 @@ export default function RecentClipsPage() {
       </header>
       <ClipVideoGrid clips={recentClips} ariaLabel="最近の切り抜き動画一覧" numberLabel="NEW" />
       <p className="match-source-note">
-        2026年10月18日にMリーグ公式YouTubeチャンネルの公開状況を確認しました。
+        掲載中の最新動画の公開日：{recentClips[0]?.date ?? "元動画でご確認ください"}。対局日と動画の公開日は異なる場合があります。これは動画の常時再生を保証する確認日ではありません。
       </p>
+      <ClipLearningGuide topic="recent" />
     </main>
   );
 }

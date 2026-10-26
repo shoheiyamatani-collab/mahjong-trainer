@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RelatedPracticeArticles } from "../../components/RelatedPracticeArticles";
 import Link from "next/link";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { JsonLd } from "../../components/JsonLd";
@@ -45,5 +46,6 @@ export default function CallOrPassPage() {
       <section className="trainerLearningBand"><SectionTitle title="関連学習とツール" /><div className="linkCardGrid"><InternalLinkCard title="鳴いていい手・鳴かない方がいい手" description="役・速度・打点・守備の判断順を復習します。" href="/learn/guides/calling-decision" /><InternalLinkCard title="牌理チェッカー" description="門前の何切る候補と受け入れ・良形率を比較します。" href="/analysis/mahjong-tool" /><InternalLinkCard title="手役の狙いを配牌から比較" description="配牌分析で、どの役へ向かうかを比べます。" href="/analysis/starting-hand" /><InternalLinkCard title="オーラス条件計算" description="直撃・ツモに必要な点数を点棒から確認します。" href="/analysis/orasu-condition" /><InternalLinkCard title="現物・スジ・カベの安全度" description="リーチを受けたときの守備の根拠を整理します。" href="/learn/guides/genbutsu-suji-kabe" /><InternalLinkCard title="初心者ロードマップ" description="ルールや役から順番に学び直せます。" href="/learn/roadmap" /></div></section>
       <section className="trainerLearningBand"><SectionTitle title="ルールの参考" /><p>役の門前条件、食い下がり、フリテン、喰い替えなしの扱いは<a href="https://tenhou.net/man/index.html" target="_blank" rel="noopener noreferrer">天鳳の公式マニュアル</a>を参考にしています。問題の推奨判断は雀フォリオ独自の解説で、天鳳の公式教材ではありません。成績はこのブラウザだけに保存し、外部へ送信しません。</p></section>
     </article>
+    <RelatedPracticeArticles toolHref="/trainer/call-or-pass" />
   </main>;
 }

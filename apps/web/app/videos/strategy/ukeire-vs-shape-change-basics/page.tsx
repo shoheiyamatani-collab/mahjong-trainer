@@ -1,9 +1,14 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { HirasawaTileEfficiencyBook } from "../../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
+import { countsToTiles } from "@mahjong-trainer/mahjong-core";
+import { TileStrip, tileAssetName } from "../../../components/TileFigures";
+import { getUkeireProgressExample } from "./ukeireExample";
+import exampleStyles from "../../../tools/tool-learning.module.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/videos/strategy/ukeire-vs-shape-change-basics" },
@@ -31,6 +36,7 @@ function TileRow({ tiles }: { tiles: string[] }) {
 }
 
 export default function UkeireVsShapeChangeBasicsPage() {
+  const example = getUkeireProgressExample();
   return (
     <main className="siteMain videoArticlePage">
       <article>
@@ -69,6 +75,29 @@ export default function UkeireVsShapeChangeBasicsPage() {
             { title: "1種類の受け入れと、2種類の変化を同列に数えない", description: "12萬は3萬を引けば面子が完成します。" },
           ]}
         />
+        <section className="videoArticleBodySection" aria-labelledby="ukeire-checker-example-title">
+          <p className="videoArticleSectionLabel">JONGFOLIO / 計算で確かめる</p>
+          <h2 id="ukeire-checker-example-title">同じ13枚でも、ツモで「進む」と「変わる」は違う</h2>
+          <p>ここからは元動画の要約ではなく、当サイトの計算検証です。既存のチェッカー教材の14枚を使っています。動画や実対局の手牌を再現したものではありません。副露なし・通常形を対象に、場に見えている牌は入力しない条件で比較します。</p>
+          <div className={exampleStyles.hand}><TileStrip tiles={countsToTiles(example.hand).map((tile) => tileAssetName(tile))} /></div>
+          <p>まず1筒を切ると13枚の一向聴になり、テンパイへ進む受け入れは{example.base.ukeireTypes}種・{example.base.ukeireTiles}枚です。この同じ13枚から、次の二通りを比べます。</p>
+          <table className={exampleStyles.comparisonTable}>
+            <caption>1筒を切った後のツモと打牌の比較</caption>
+            <thead><tr><th scope="col">ツモ → 打牌</th><th scope="col">打牌後</th><th scope="col">違い</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">2萬 → 6索</th><td>{example.progress.result.afterDiscardShanten === 0 ? "テンパイ" : "一向聴"}</td><td>シャンテン数が進む</td></tr>
+              <tr><th scope="row">5筒 → 6索</th><td>一向聴</td><td>形は変わるが、テンパイではない</td></tr>
+            </tbody>
+          </table>
+          <p>2萬は、この一向聴からテンパイへ進む有効牌です。一方、5筒を引いて筒子が連続して見えても、6索を切った後は一向聴のままです。「形が変わったこと」と「テンパイへ一段進んだこと」を同じ受け入れとして数えないのがポイントです。比較のため打牌を6索にそろえており、5筒ツモ時の6索切りを最善打として推奨する例ではありません。</p>
+          <p>この比較は速度だけを確認しています。良形変化の価値、打点、相手への安全性は別に比べる必要があり、{example.base.ukeireTiles}枚という理論枚数からツモ率やアガリ率を直接求めることはできません。</p>
+          <div className="toolGuideLinks">
+            <a href={example.originalHref}>元の14枚をチェッカーへ</a>
+            <a href={example.progressHref}>2萬を引いた14枚を確認</a>
+            <a href={example.shapeChangeHref}>5筒を引いた14枚を確認</a>
+          </div>
+          <p>ツールでは6索切りの行を探して進行を確認できます。見終わったら<Link href="/trainer/iishanten">イーシャンテン何切る</Link>で、引くと手が進む牌と、形だけが変わる牌を分けて練習してみましょう。</p>
+        </section>
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
                   <h2>手牌を入力して受け入れを確かめる</h2>
@@ -79,6 +108,8 @@ export default function UkeireVsShapeChangeBasicsPage() {
                     <Link href="/trainer">何切る問題で判断を試す</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/ukeire-vs-shape-change-basics" />
 
         <HirasawaTileEfficiencyBook />
 

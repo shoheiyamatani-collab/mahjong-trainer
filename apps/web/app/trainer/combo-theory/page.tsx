@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RelatedPracticeArticles } from "../../components/RelatedPracticeArticles";
 import Link from "next/link";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { JsonLd } from "../../components/JsonLd";
@@ -29,5 +30,6 @@ export default function ComboTheoryPage() {
       <section className="trainerLearningBand"><SectionTitle title="FAQ" />{comboTheoryFaq.map(row => <details key={row.question}><summary>{row.question}</summary><p>{row.answer}</p></details>)}</section>
       <section className="trainerLearningBand"><SectionTitle title="記事と実戦判断につなげる" /><div className="linkCardGrid"><InternalLinkCard title="コンボ理論の数え方と牌図" href="/learn/guides/combo-theory" description="6つの局所牌図、スジ・カベ、フリテン、計算の限界を確認します。" /><InternalLinkCard title="スジの守備" href="/learn/guides/suji-defense" description="除外できる両面と、残る別の形を区別します。" /><InternalLinkCard title="カベの守備" href="/learn/guides/kabe-defense" description="4枚見えとワンチャンスを比べます。" /><InternalLinkCard title="押す？オリる？" href="/trainer/push-or-fold" description="コンボ数だけでなく、手牌価値・安全牌・点棒状況を確認します。" /></div></section>
     </article>
+    <RelatedPracticeArticles toolHref="/trainer/combo-theory" />
   </main>;
 }

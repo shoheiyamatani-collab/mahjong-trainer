@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -80,6 +81,8 @@ export default function NoSafeTileDefenseTechniquesPage() {
                     <Link href="/trainer">実戦問題で判断を練習する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/no-safe-tile-defense-techniques" />
 
         <HirasawaDefenseBook />
 

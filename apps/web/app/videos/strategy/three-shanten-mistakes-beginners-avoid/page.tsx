@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -61,6 +62,8 @@ export default function ThreeShantenMistakesBeginnersAvoidPage() {
                   <p className="videoArticleSectionLabel">NEXT STEP</p><h2>受け入れの考え方へ進む</h2>
                   <div><Link href="/videos/strategy/ukeire-vs-shape-change-basics">受け入れと手変わりの違いを覚える</Link><Link href="/videos/strategy/prioritize-ukeire-over-shape-change">変化より受け入れを優先する理由を見る</Link><Link href="/trainer">何切る問題で確認する</Link></div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/three-shanten-mistakes-beginners-avoid" />
 
         <HirasawaTileEfficiencyBook />
 

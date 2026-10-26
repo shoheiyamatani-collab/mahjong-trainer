@@ -1,8 +1,10 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
 import { VideoReadingTime } from "../VideoReadingTime";
+import { efficiencyChapters } from "./chapterData";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/videos/strategy/intermediate-tile-efficiency-26-rules" },
@@ -65,16 +67,16 @@ const theoryGroups: TheoryGroup[] = [
       "3対子は1組が余りやすいため、どの対子をほぐすか比較する"
     ],
     figure: {
-      label: "6ブロックの例",
+      label: "ブロックを見分ける部分形（手牌全体ではありません）",
       groups: [
         { label: "両面", tiles: ["man2", "man3"], tone: "strong" },
         { label: "両面", tiles: ["man6", "man7"], tone: "strong" },
         { label: "両面", tiles: ["pin3", "pin4"], tone: "strong" },
         { label: "両面", tiles: ["sou4", "sou5"], tone: "strong" },
         { label: "対子", tiles: ["ji7", "ji7"] },
-        { label: "弱い候補", tiles: ["pin7", "pin8"], tone: "weak" }
+        { label: "比較候補", tiles: ["pin7", "pin8"] }
       ],
-      note: "ブロックが6つなら、単体の強さだけでなく二度受けや役・打点への関係まで見て1つ外します。"
+      note: "ここに並べた形だけでは優劣は決まりません。実際には手牌全体と見えている牌、役・打点をそろえて比べます。"
     }
   },
   {
@@ -92,7 +94,7 @@ const theoryGroups: TheoryGroup[] = [
       groups: [
         { label: "四連形", tiles: ["man4", "man5", "man6", "man7"], tone: "strong" },
         { label: "中ぶくれ", tiles: ["man4", "man5", "man5", "man6"], tone: "strong" },
-        { label: "亜両面", tiles: ["man4", "man4", "man5"] }
+        { label: "亜両面", tiles: ["man4", "man4", "man5", "man6"] }
       ],
       note: "見た目が似ていても、引いた後に両面が何種類できるかで評価が変わります。"
     }
@@ -176,7 +178,7 @@ export default function IntermediateTileEfficiencyArticlePage() {
           <nav aria-label="パンくずリスト"><Link href="/">トップ</Link><span>›</span><Link href="/videos/strategy">麻雀を動画で学ぶ</Link><span>›</span><Link href="/videos/strategy/advanced">中級者以上向け</Link><span>›</span><span>牌効率26のセオリー</span></nav>
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・何切る</p>
           <h1>中級レベルの何切るに必要な、牌効率26のセオリー</h1>
-          <p className="videoArticleLead">中級者の何切るは、受け入れ枚数だけでは決まりません。打点、ブロック数、二度受け、裏目の損失、守備、ドラまで同時に比べるための26項目を、動画の順番で整理します。</p>
+          <p className="videoArticleLead">受け入れ枚数だけでは迷う場面を、打点・ブロック数・形の変化・守備から考える動画です。公式の章案内と、雀フォリオが復習用に整理した確認項目を分けて紹介します。</p>
           <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年2月26日</time><VideoReadingTime articleHref="/videos/strategy/intermediate-tile-efficiency-26-rules" /></div>
         </header>
 
@@ -208,20 +210,33 @@ export default function IntermediateTileEfficiencyArticlePage() {
           ]}
         />
 
+        <section className="videoArticleBodySection" aria-labelledby="official-chapters-title">
+          <h2 id="official-chapters-title">公式の章案内から、見たいテーマへ</h2>
+          <p>2026年10月25日に投稿者の動画説明欄で確認した8つのテーマです。以下の短い説明は当サイトの視聴時の着眼点であり、字幕や動画内の26項目を転載したものではありません。各判断の条件・例外は元動画で確認してください。</p>
+          <ul>
+            {efficiencyChapters.map((chapter) => (
+              <li key={chapter.seconds}>
+                <a href={`${videoUrl}&t=${chapter.seconds}s`} target="_blank" rel="noopener noreferrer">{chapter.time} {chapter.title}</a>
+                <p>{chapter.question}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <section className="videoArticleBodySection videoTheoryOverview" aria-labelledby="video-theory-overview-title">
           <p className="videoArticleSectionLabel">VIDEO CHAPTERS</p>
-          <h2 id="video-theory-overview-title">動画の章順で見る26の判断項目</h2>
-          <p>6つの章に分け、動画内の時刻、判断の要点、関連する牌姿を掲載しています。牌姿は考え方を説明するための独自の模式図で、動画内の局面を再現したものではありません。</p>
+          <h2 id="video-theory-overview-title">当サイトの復習用チェックリスト</h2>
+          <p>以下は当サイトが6つの比較軸に整理した{totalRules}項目で、動画内の26項目と一対一に対応する解説ではありません。時刻リンクは関連テーマへの入口です。牌図は部分形の模式図であり、動画の実際の手牌や、そのまま解く何切る問題ではありません。</p>
           <p className="videoTheoryCount">掲載項目：{totalRules}項目</p>
         </section>
 
         {theoryGroups.map((group) => (
           <section className="videoArticleBodySection videoTheoryChapter" key={group.number} aria-labelledby={`video-theory-chapter-${group.number}`}>
-            <p className="videoArticleSectionLabel">CHAPTER {group.number} · {group.time}</p>
+            <p className="videoArticleSectionLabel">復習 {group.number} · 関連テーマ {group.time}</p>
             <h2 id={`video-theory-chapter-${group.number}`}>{group.title}</h2>
             <p>{group.lead}</p>
             <a className="videoTheoryTimestamp" href={`${videoUrl}&t=${secondsFromTime(group.time)}s`} target="_blank" rel="noopener noreferrer">
-              YouTubeでこの章から見る
+              YouTubeで関連テーマを見る
             </a>
             <ol className="videoTheoryRules">
               {group.rules.map((rule) => {
@@ -256,10 +271,12 @@ export default function IntermediateTileEfficiencyArticlePage() {
                   <div>
                     <Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを比較する</Link>
                     <Link href="/trainer">高難易度の何切る問題を解く</Link>
-                    <Link href="/videos/strategy/seven-strong-shapes-for-winning">強い形7選を牌図で復習する</Link>
+                    <Link href="/videos/strategy/seven-strong-shapes-for-winning">強い形7選を動画で復習する</Link>
                     <Link href="/videos/strategy/advanced">中級者以上向け動画へ戻る</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/intermediate-tile-efficiency-26-rules" />
 
 </article>
     </main>

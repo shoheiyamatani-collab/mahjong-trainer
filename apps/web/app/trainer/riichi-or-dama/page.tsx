@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RelatedPracticeArticles } from "../../components/RelatedPracticeArticles";
 import Link from "next/link";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { JsonLd } from "../../components/JsonLd";
@@ -90,5 +91,6 @@ export default function RiichiOrDamaPage() {
       <section className="trainerLearningBand"><SectionTitle title="相手の攻撃を受けた後の判断" /><InternalLinkCard title="押す？オリる？トレーニング" href="/trainer/push-or-fold" description="役・待ち・点棒に加え、相手ごとの現物・スジ・カベを比べて攻守を練習できます。" /></section>
       <section className="trainerLearningBand"><SectionTitle title="ルールの参考" /><p>リーチの宣言条件、フリテン、役と符は<a href="https://tenhou.net/man/index.html" target="_blank" rel="noopener noreferrer">天鳳の公式マニュアル</a>と<a href="https://m-league.jp/about/" target="_blank" rel="noopener noreferrer">Mリーグの公式ルール</a>を参照しています。ゲームごとの終局・同点条件は一律ではありません。ここではオーラスの子のアガリで終了し、同点は目標未達とする教材上の比較を使います。問題は両サービスの公式教材・実戦牌譜の転載ではありません。</p></section>
     </article>
+    <RelatedPracticeArticles toolHref="/trainer/riichi-or-dama" />
   </main>;
 }

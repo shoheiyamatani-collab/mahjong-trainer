@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -136,10 +137,13 @@ export default function EasyScoreCalculationWithoutFuArticlePage() {
                   </div>
                 </section>
 
+        <VideoPracticeGateway articleHref="/videos/strategy/easy-score-calculation-without-fu" />
+
         <ClearRainBasicTheoryBook
                   heading="点数計算を覚えた次に、実戦判断を広げる"
                   description="点数を確認できるようになったら、その手を速く進めるか、守るか、リーチや鳴きをどう選ぶかまで考えられるようになります。初級者がつまずきやすい判断を一冊で整理できます。"
                 />
+
 
 
 </article>

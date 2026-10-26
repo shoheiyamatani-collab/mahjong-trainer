@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArticleTileFigures } from "../../components/TileFigures";
+import { ArticleTileFigures, type TileFigure } from "../../components/TileFigures";
+import { startingLearningExampleHref } from "./learningExampleHands";
 
-const examples = [
+export const startingLearningFigures: TileFigure[] = [
   {
     title: "三色を追うか、リーチへ進むか",
     description: "三色の種が見えても、すべてを固定すると手が遅くなることがあります。",
@@ -71,10 +72,14 @@ export function StartingHandLearningGuide() {
         </div>
       </section>
 
-      <ArticleTileFigures figures={examples} />
+      <ArticleTileFigures figures={startingLearningFigures.map((figure, index) => ({
+        ...figure,
+        link: { href: startingLearningExampleHref(index), label: "この13枚を入力して構想を比べる" },
+      }))} />
 
       <section className="toolGuideSection" aria-labelledby="starting-examples-title">
         <h2 id="starting-examples-title">4つの配牌で見る構想の立て方</h2>
+        <p>上の牌姿のリンクから同じ13枚を入力できます。まず本線と対抗を自分で考え、入力後に表示されるおすすめ理由と照合してください。役別の詳しい試行は「別タブで構想を詳しく分析」を選んだときに開始します。以下は構想の比較例であり、特定の役の成立率や最善手を保証するものではありません。</p>
         <div className="startingExampleGrid">
           {analyses.map((item) => (
             <article key={item.title}>

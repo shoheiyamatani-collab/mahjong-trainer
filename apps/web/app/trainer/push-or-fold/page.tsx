@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RelatedPracticeArticles } from "../../components/RelatedPracticeArticles";
 import Link from "next/link";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import { ArticleTakeaways, ArticleText } from "../../components/ArticleHighlights";
@@ -55,5 +56,6 @@ export default function PushOrFoldPage() {
       <section className="trainerLearningBand"><SectionTitle title="関連記事とトレーニング" /><div className="linkCardGrid"><InternalLinkCard title="ベタオリの基本" href="/learn/guides/betaori-basics" description="守備へ切り替えた後、現物と次巡の安全牌を比べます。" /><InternalLinkCard title="現物・スジ・カベの違い" href="/learn/guides/genbutsu-suji-kabe" description="否定できる待ちと残る危険を牌図で整理します。" /><InternalLinkCard title="牌理チェッカー" href="/analysis/mahjong-tool" description="門前手の進行度と打牌候補を詳しく比較します。" /><InternalLinkCard title="点数計算ツール" href="/tools" description="役・翻・符・親子の点数を確認します。" /><InternalLinkCard title="リーチ？ダマ？" href="/trainer/riichi-or-dama" description="打点アップと、オリる自由を比較します。" /><InternalLinkCard title="鳴く？鳴かない？" href="/trainer/call-or-pass" description="鳴きの役・速度・打点と守備を比べます。" /><InternalLinkCard title="オーラス条件計算" href="/analysis/orasu-condition" description="直撃・ツモ・他家ロンによる必要打点を試算します。" /></div></section>
       <section className="trainerLearningBand"><SectionTitle title="ルールの参考" /><p>役、フリテン、リーチ条件、供託などのルールは<a href="https://tenhou.net/man/index.html">天鳳公式マニュアル</a>と<a href="https://m-league.jp/about/">Mリーグ公式ルール</a>を参照しています。戦術上の押し引き推奨は両サービスの公式判断ではなく、雀フォリオが独自に作成した比較教材です。実測の放銃データや専門家による戦術監修は今後の改善項目です。</p></section>
     </article>
+    <RelatedPracticeArticles toolHref="/trainer/push-or-fold" />
   </main>;
 }

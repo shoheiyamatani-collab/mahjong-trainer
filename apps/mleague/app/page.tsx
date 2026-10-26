@@ -393,6 +393,17 @@ export default function MatchInformationPage() {
         />
       </section>
 
+      <section className="section" aria-labelledby="watch-and-learn-title">
+        <div className="section-heading"><h2 id="watch-and-learn-title">観戦を、自分の判断の復習につなげる</h2></div>
+        <p>対局結果は結果の記録、成績は対象期間の集計、切り抜きは投稿者が選んだ場面です。どれも一打の正しさを単独で証明する資料ではありません。点差や巡目を確認し、自分なら何を比較するかを決めてから見ると、学習テーマを見つけやすくなります。</p>
+        <ul>
+          <li>得点が分からないときは<a className="text-link" href="/tools/score-table">点数早見表</a>で親子・ロン・ツモの違いを確認する。</li>
+          <li>逆転に必要な条件は<a className="text-link" href="/analysis/orasu-condition">オーラス条件計算</a>で比較する。連荘やチームの最終順位点は別途ルールを確認する。</li>
+          <li>危険牌が気になったら<a className="text-link" href="/learn/guides/genbutsu-suji-kabe">現物・スジ・カベ</a>を復習し、相手の手牌を見た後の印象と分ける。</li>
+        </ul>
+        <p className="match-source-note">雀フォリオ運営による非公式情報です。公式データと当サイトの補足を区別し、情報の扱いは<Link className="text-link" href={siteConfig.routes.policy}>掲載・訂正方針</Link>にまとめています。</p>
+      </section>
+
       <section className="upcoming-schedule" aria-labelledby="upcoming-title">
         <div className="section-heading">
           <div>

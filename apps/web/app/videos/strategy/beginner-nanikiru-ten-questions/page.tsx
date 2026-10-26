@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -99,7 +100,7 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
           points={[
             { title: "動画を止めて、理由まで声に出してから答えを見る", description: "" },
             { title: "何切るで最初に見る3つ", description: "5ブロックが足りているなら、どの面子候補にも関係していない牌から整理します。" },
-            { title: "全10問の答えと覚えるポイント", description: "各問の答えは、見出しを押したときだけ表示されます。" },
+            { title: "答え合わせは元動画で確認する", description: "この記事には10問の問題・解答を転載していません。元動画を止めて自分の候補を決めてから、解説へ進みましょう。" },
           ]}
         />
         <section className="videoArticleNext">
@@ -112,6 +113,8 @@ export default function BeginnerNanikiruTenQuestionsArticlePage() {
                     <Link href="/videos/strategy/tile-efficiency-essential-theory-quiz">全16問の何切るセオリーへ進む</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/beginner-nanikiru-ten-questions" />
 
         <ClearRainNanikiruBook />
 

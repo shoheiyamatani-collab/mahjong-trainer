@@ -11,6 +11,8 @@ import {
   HirasawaTileEfficiencyBook
 } from "../../components/VideoBookRecommendation";
 import { VideoArticleCompactContent } from "./VideoArticleCompactContent";
+import VideoPracticeGateway from "./VideoPracticeGateway";
+import { VideoReadingTime } from "./VideoReadingTime";
 import type { VideoLesson, VideoLessonBook } from "./videoLessonData";
 
 export function createVideoLessonMetadata(lesson: VideoLesson): Metadata {
@@ -41,6 +43,7 @@ export function VideoLessonArticle({
   bookRecommendation?: ReactNode;
 }) {
   const videoUrl = `https://www.youtube.com/watch?v=${lesson.guide.youtubeId}`;
+  const isProCommentary = lesson.slug.startsWith("pro/");
   const articlePath = `/videos/strategy/${lesson.slug}`;
   const siteUrl = getSiteUrl();
   const publishedAt = toIsoDate(lesson.guide.dateLabel);
@@ -56,7 +59,7 @@ export function VideoLessonArticle({
     inLanguage: "ja-JP",
     isFamilyFriendly: true,
     mainEntityOfPage: `${siteUrl}${articlePath}`,
-    publisher: { "@id": `${siteUrl}/#organization` }
+    publisher: { "@type": "Organization", name: lesson.guide.publisher }
   };
   const breadcrumbStructuredData = {
     "@context": "https://schema.org",
@@ -98,6 +101,7 @@ export function VideoLessonArticle({
             <span>紹介動画: {lesson.guide.publisher}</span>
             <time>動画公開日 {lesson.guide.dateLabel}</time>
             <span>動画 {lesson.videoDuration}</span>
+            <VideoReadingTime articleHref={articlePath} />
           </div>
         </header>
 
@@ -125,11 +129,12 @@ export function VideoLessonArticle({
           </ul>
         </section>
 
-        <VideoArticleCompactContent message={lesson.overview[0]} points={lesson.keyPoints} />
+        <VideoArticleCompactContent message={lesson.overview[0]} points={lesson.keyPoints} editorialPerspective={isProCommentary} />
 
         <section className="videoArticleBodySection">
           <p className="videoArticleSectionLabel">WATCH POINTS</p>
           <h2>動画を見るときの着眼点</h2>
+          {isProCommentary ? <p>以下は雀フォリオが提案する視聴・復習の観点です。特定局の打牌理由を検証した局面解説ではなく、選手本人の意図を断定するものではありません。実際の発言と局面条件は元動画で確認してください。</p> : null}
           <div className="videoPrincipleList">
             {lesson.watchPoints.map((point, index) => (
               <section className="videoPrinciple" key={point.title}>
@@ -160,6 +165,7 @@ export function VideoLessonArticle({
           </div>
         </section>
 
+        <VideoPracticeGateway articleHref={articlePath} />
         {bookRecommendation}
         {lesson.book ? <BookRecommendation book={lesson.book} /> : null}
       </article>

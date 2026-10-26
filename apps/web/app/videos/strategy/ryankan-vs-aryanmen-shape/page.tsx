@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -85,6 +86,8 @@ export default function RyankanVsAryanmenShapePage() {
                     <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/ryankan-vs-aryanmen-shape" />
 
 </article>
     </main>

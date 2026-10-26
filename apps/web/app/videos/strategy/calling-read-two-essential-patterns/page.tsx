@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -86,6 +87,8 @@ export default function CallingReadTwoEssentialPatternsPage() {
                     <Link href="/rules/practical-waits">実戦でよく見る待ち一覧を確認する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/calling-read-two-essential-patterns" />
 
 </article>
     </main>

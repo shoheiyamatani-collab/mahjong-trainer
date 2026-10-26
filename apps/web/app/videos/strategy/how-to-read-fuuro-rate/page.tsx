@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -81,10 +82,13 @@ export default function HowToReadFuuroRatePage() {
                   </div>
                 </section>
 
+        <VideoPracticeGateway articleHref="/videos/strategy/how-to-read-fuuro-rate" />
+
         <HirasawaTileEfficiencyBook
                   heading="鳴きの振り返りを、手作りの基準から始める"
                   description="副露率の数字だけで鳴きの良し悪しは決まりません。鳴く前後で手牌がどれだけ進むかを、受け入れとブロックの視点から確認できます。"
                 />
+
 
 
 </article>

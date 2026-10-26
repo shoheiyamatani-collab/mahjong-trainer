@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import TrainerWorkspace from "../../trainer/TrainerWorkspace";
 import { MahjongToolLearningGuide } from "./MahjongToolLearningGuide";
+import { RelatedPracticeArticles } from "../../components/RelatedPracticeArticles";
 
 export const metadata: Metadata = {
   title: "麻雀解析ツール | 配牌分析・牌理チェッカー",
@@ -9,5 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function MahjongToolPage() {
-  return <TrainerWorkspace learningContent={<MahjongToolLearningGuide />} />;
+  return <TrainerWorkspace learningContent={<><MahjongToolLearningGuide /><RelatedPracticeArticles toolHref="/analysis/mahjong-tool" /></>} />;
 }

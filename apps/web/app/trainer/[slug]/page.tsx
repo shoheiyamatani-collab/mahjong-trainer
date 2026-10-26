@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import TrainerWorkspace from "../TrainerWorkspace";
 import { TrainerWorkedExample } from "../TrainerWorkedExample";
+import { RelatedPracticeArticles } from "../../components/RelatedPracticeArticles";
 import { getTrainerDefinition, trainerDefinitions } from "../trainerCatalog";
 
 type TrainerPageProps = { params: Promise<{ slug: string }> };
@@ -35,5 +36,5 @@ export async function generateMetadata({ params }: TrainerPageProps): Promise<Me
 export default async function IndividualTrainerPage({ params }: TrainerPageProps) {
   const { slug } = await params;
   if (!getTrainerDefinition(slug)) notFound();
-  return <TrainerWorkspace learningContent={<TrainerWorkedExample slug={slug} />} />;
+  return <TrainerWorkspace learningContent={<><TrainerWorkedExample slug={slug} /><RelatedPracticeArticles toolHref={`/trainer/${slug}`} /></>} />;
 }

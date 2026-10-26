@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -153,6 +154,8 @@ export default function CommonBadHabitsSelfCheckArticlePage() {
                     <Link href="/trainer">麻雀トレーニングで判断を試す</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/common-bad-habits-self-check" />
 
 </article>
     </main>

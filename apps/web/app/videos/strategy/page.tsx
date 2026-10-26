@@ -77,7 +77,7 @@ export default function StrategyVideoPage() {
           <div className="strategyAudienceLinkCopy">
             <span>INTERMEDIATE +</span>
             <h2>中級者以上向け動画</h2>
-            <p>より深い牌効率、押し引き、読み、手順比較など、実戦判断を掘り下げる動画をこれからまとめます。</p>
+            <p>牌効率、押し引き、読み、手順比較など、実戦判断を掘り下げる動画をテーマ別に紹介します。</p>
             <strong>{advancedStrategyChannel.guides.length}本の記事を見る</strong>
           </div>
           <div className="strategyAudienceVisual strategyAudienceVisualTypography">

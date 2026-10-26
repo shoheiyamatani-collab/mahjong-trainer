@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -73,7 +74,7 @@ export default function HowToHandle35677Page() {
         <VideoArticleCompactContent
           message={"同じ5枚形でも、頭が必要な手と、すでに頭がある手では残したい形が変わります。"}
           points={[
-            { title: "出発点は35677の5枚形", description: "以下は動画の判断を理解するための形を抜き出した図です。" },
+            { title: "5枚形だけでは打牌は決まらない", description: "35677は手牌の一部分です。別に雀頭があるか、どの役を狙うかを確認してから、手牌全体で比較します。" },
             { title: "3切りと7切りで、残る役割が違う", description: "七筒の対子を頭候補として固定しながら、567の順子も見られます。" },
             { title: "別に明確な不要牌があれば、35677を崩さない", description: "手牌の中に受け入れがほとんどない不要牌が残っているなら、3筒と7筒を急いで比較する必要はありません。" },
           ]}
@@ -89,6 +90,8 @@ export default function HowToHandle35677Page() {
                     <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/how-to-handle-35677" />
 
 </article>
     </main>

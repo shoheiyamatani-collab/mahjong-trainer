@@ -48,7 +48,7 @@ export type LearningGuide = {
   practice?: LearningGuidePractice;
   additionalTools?: { href: string; label: string; description: string }[];
   editorial?: { createdAt: string; updatedAt: string; publishedAt?: string };
-  library?: { category: "decision" | "defense" | "scoring"; keywords: string };
+  library?: { category: "decision" | "defense" | "judgment" | "scoring"; keywords: string; level: "初級" | "中級" | "上級"; themes: string[] };
 };
 
 const goodShapeExample = getCheckerLearningResults()[0]!;

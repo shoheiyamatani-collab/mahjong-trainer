@@ -1,8 +1,12 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
+import { TileStrip, tileAssetName } from "../../../components/TileFigures";
+import { get2446ShapeComparison } from "./shapeExample";
+import exampleStyles from "../../../tools/tool-learning.module.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/videos/strategy/how-to-handle-2446-shape" },
@@ -42,7 +46,7 @@ export default function Handle2446ShapePage() {
           </nav>
           <p className="siteEyebrow">INTERMEDIATE VIDEO GUIDE / 牌効率・複合形</p>
           <h1>複合形2446は何を切る？</h1>
-          <p className="videoArticleLead">二四四六萬は、リャンカンと対子が重なった4枚形です。四萬を切ってカンチャン2つを残すか、二萬を切って四萬の対子を残すか、六萬を切って中間を取るか。手牌の役と巡目によって選択が変わります。</p>
+          <p className="videoArticleLead">二四四六萬は、リャンカンと対子が重なった4枚形です。四萬切りなら246萬、二萬切りなら446萬、六萬切りなら244萬が残ります。残りの手牌、役、巡目によって比較の条件が変わります。</p>
           <div className="videoArticleByline"><span>紹介動画: 発男道場【麻雀解説ch】</span><time>動画公開日 2025年9月20日</time><VideoReadingTime articleHref="/videos/strategy/how-to-handle-2446-shape" /></div>
         </header>
 
@@ -68,11 +72,27 @@ export default function Handle2446ShapePage() {
         <VideoArticleCompactContent
           message={"二四四六萬は、リャンカンと対子が重なった4枚形です。"}
           points={[
-            { title: "2446は3つの切り方がある", description: "" },
-            { title: "四萬切りはピンフを最大限に見る", description: "四萬を切ると、三萬・五萬の合計8枚で順子ができます。" },
-            { title: "二萬切りは両面変化とポンを残す", description: "二萬を切れば四萬の対子が残り、四萬をポンして手を進められます。" },
+            { title: "四萬切りは246萬を残す", description: "三萬なら234萬、五萬なら456萬を作れますが、246萬は4萬を共有する形です。独立したターツ2組としては数えません。" },
+            { title: "二萬切りは446萬を残す", description: "4萬の対子を残せます。ただし、ポンが有利か、残る6萬を使えるかは手牌全体で比べます。" },
+            { title: "六萬切りは244萬を残す", description: "こちらも4萬の対子を残します。446萬と同じとは限らず、周辺牌や打点の条件を合わせて比較します。" },
           ]}
         />
+
+        <section className="videoArticleBodySection" aria-labelledby="shape-2446-example-title">
+          <p className="videoArticleSectionLabel">JONGFOLIO / 部分形の確認</p>
+          <h2 id="shape-2446-example-title">切った後の3枚を、実際に並べて比べる</h2>
+          <p>ここは当サイト独自の形の確認です。動画内の局面や打ち手の意図を再現したものではありません。以下は手牌14枚ではなく、2446萬から一枚切った後に残る部分形だけを表示しています。</p>
+          <table className={exampleStyles.comparisonTable}>
+            <caption>2446萬から一枚切った後の部分形</caption>
+            <thead><tr><th scope="col">打牌</th><th scope="col">残る3枚</th></tr></thead>
+            <tbody>{get2446ShapeComparison().map((row) => <tr key={row.discard}>
+              <th scope="row">{row.discard === "4m" ? "4萬" : row.discard === "2m" ? "2萬" : "6萬"}</th>
+              <td><div className={exampleStyles.hand}><TileStrip tiles={row.tiles.map((tile) => tileAssetName(tile))} /></div></td>
+            </tr>)}</tbody>
+          </table>
+          <p>246萬に3萬を引くと234萬と6萬、5萬を引くと2萬と456萬に分けられます。どちらも順子を一つ作れますが、残り一枚の使い道も必要です。また、カンチャンから順子ができることと、最終的に両面待ちで平和が成立することは別です。</p>
+          <p>この4枚だけでは、手牌全体のシャンテン数・受け入れ枚数・最善打は決まりません。別に雀頭があるか、残りの面子候補がいくつあるか、鳴いた後にも役があるかを先に確認します。対局後は14枚すべてを<Link href="/analysis/mahjong-tool">牌理チェッカー</Link>に入力し、2萬・4萬・6萬切りの行を比較してください。打点や鳴く判断は<Link href="/learn/guides/calling-decision">鳴いていい手・鳴かない方がいい手</Link>で別に確認できます。</p>
+        </section>
 
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>
@@ -84,6 +104,8 @@ export default function Handle2446ShapePage() {
                     <Link href="/videos/strategy/advanced">中級者以上向け動画を見る</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/how-to-handle-2446-shape" />
 
 </article>
     </main>

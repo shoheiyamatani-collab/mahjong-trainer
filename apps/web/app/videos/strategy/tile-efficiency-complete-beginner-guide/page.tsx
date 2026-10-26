@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -60,6 +61,8 @@ export default function TileEfficiencyCompleteBeginnerGuidePage() {
                   <p className="videoArticleSectionLabel">NEXT STEP</p><h2>総合講座を問題で定着させる</h2>
                   <div><Link href="/videos/strategy/tile-efficiency-four-rules">初心者向け牌効率の4法則を見る</Link><Link href="/analysis/mahjong-tool">牌理チェッカーで受け入れを確認する</Link><Link href="/trainer">何切る問題で練習する</Link></div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/tile-efficiency-complete-beginner-guide" />
 
         <HirasawaTileEfficiencyBook />
 

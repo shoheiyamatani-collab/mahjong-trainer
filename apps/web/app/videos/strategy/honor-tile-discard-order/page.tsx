@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -51,6 +52,8 @@ export default function HonorTileDiscardOrderPage() {
           ]}
         />
         <section className="videoArticleNext"><p className="videoArticleSectionLabel">NEXT STEP</p><h2>役牌と手作りを続けて学ぶ</h2><div><Link href="/rules/yakuhai">役牌の条件を詳しく見る</Link><Link href="/videos/strategy/tile-efficiency-four-rules">牌効率の4法則を見る</Link><Link href="/videos/strategy/beginner">初心者向け動画へ戻る</Link></div></section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/honor-tile-discard-order" />
 
         <ClearRainNanikiruBook />
 

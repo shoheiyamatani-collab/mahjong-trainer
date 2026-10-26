@@ -1,3 +1,4 @@
+import VideoPracticeGateway from "../VideoPracticeGateway";
 import { VideoReadingTime } from "../VideoReadingTime";
 import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
@@ -123,6 +124,8 @@ export default function TileEfficiencyVideoArticlePage() {
                     <Link href="/rules/practical-waits">待ちの形を牌図で復習する</Link>
                   </div>
                 </section>
+
+        <VideoPracticeGateway articleHref="/videos/strategy/tile-efficiency-four-rules" />
 
 </article>
     </main>
