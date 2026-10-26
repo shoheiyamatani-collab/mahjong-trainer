@@ -43,6 +43,7 @@ export function getUpcomingScheduledMatches(
   completedTablesOnThrough: number,
   totalTablesOnThrough: number,
   limit: number,
+  resultsThrough?: string,
 ): UpcomingScheduledMatch[] {
   if (!Number.isInteger(limit) || limit < 0) {
     throw new RangeError("表示する対局数は0以上の整数で指定してください。");
@@ -54,6 +55,8 @@ export function getUpcomingScheduledMatches(
   for (const matchDay of schedule) {
     for (const [tableIndex, teams] of matchDay.tables.entries()) {
       matchNumber += 1;
+      if (resultsThrough && matchDay.date <= resultsThrough) continue;
+
       const isAfterLatestStats = matchDay.date > statsThrough;
       const isUnfinishedOnStatsDate =
         matchDay.date === statsThrough &&

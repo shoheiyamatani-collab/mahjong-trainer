@@ -35,6 +35,23 @@ describe("M.League schedule presentation", () => {
     ]);
   });
 
+  it("uses the official results page to skip a completed match date while stats are still partial", () => {
+    const schedule = [
+      {
+        date: "2026-10-26",
+        tables: [["team-drivens", "team-furinkazan", "team-raiden", "team-pirates"], ["team-jets", "team-sakuraknights", "team-abemas", "team-beast"]],
+      },
+      {
+        date: "2026-10-27",
+        tables: [["team-furinkazan", "team-sakuraknights", "team-phoenix", "team-raiden"], ["team-jets", "team-drivens", "team-fightclub", "team-beast"]],
+      },
+    ] as const;
+
+    expect(getUpcomingScheduledMatches(schedule, "2026-10-26", 1, 2, 1, "2026-10-26")).toMatchObject([
+      { date: "2026-10-27", tableIndex: 0, tableLabel: "A卓", matchNumber: 3, teams: schedule[1].tables[0] },
+    ]);
+  });
+
   it("rejects malformed calendar dates instead of displaying a wrong weekday", () => {
     expect(() => getScheduleDateLabels("2026-02-30")).toThrow(RangeError);
     expect(() => getScheduleDateLabels("2026/10/26")).toThrow(RangeError);
