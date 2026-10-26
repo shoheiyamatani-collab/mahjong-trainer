@@ -217,8 +217,8 @@ try {
     if (normalizedMleagueHomeHtml.includes("FRI / 金")) {
       errors.push("Mリーグトップの誤った固定曜日表示が残っています。");
     }
-    if (normalizedMleagueHomeHtml.includes("10.26") && !normalizedMleagueHomeHtml.includes("MON / 月")) {
-      errors.push("2026年10月26日のMリーグトップに月曜日の表示がありません。");
+    if (normalizedMleagueHomeHtml.includes("10.27") && !normalizedMleagueHomeHtml.includes("TUE / 火")) {
+      errors.push("2026年10月27日のMリーグトップに火曜日の表示がありません。");
     }
   } else {
     errors.push("Mリーグトップの静的HTMLがありません。");
