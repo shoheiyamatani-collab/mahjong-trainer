@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "YFirWnzPxI4",
-  tag: "10/23 ハイライト",
-  title: "【2026/10/23 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "j6oJq4xEiGw",
+  tag: "10/26 ハイライト",
+  title: "【2026/10/26 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、浅見真紀と勝又健志の七対子、黒沢咲のオーラス逆転後の赤・裏ドラ絡みの大逆転、瑞原明奈の初トップをかけた高打点のめくり合い、下石戟のドラ切りから裏ドラ3枚のアガリを見どころとして紹介しています。",
+    "公式説明欄で、園田賢のオーラスのダマ選択や二階堂亜樹の親番Wリーチ、HIRO柴田の北単騎など、10月26日の対局から8つの見どころ局が紹介されています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=YFirWnzPxI4",
-  date: "2026年10月24日公開",
-  competition: "10月23日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=j6oJq4xEiGw",
+  date: "2026年10月27日公開",
+  competition: "10月26日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "YFirWnzPxI4",
+    tag: "10/23 ハイライト",
+    title: "【2026/10/23 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、浅見真紀と勝又健志の七対子、黒沢咲のオーラス逆転後の赤・裏ドラ絡みの大逆転、瑞原明奈の初トップをかけた高打点のめくり合い、下石戟のドラ切りから裏ドラ3枚のアガリを見どころとして紹介しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=YFirWnzPxI4",
+    date: "2026年10月24日公開",
+    competition: "10月23日 Mリーグ公式ハイライト",
+  },
   {
     id: "NF70cK9XZyw",
     tag: "10/19 ハイライト",
