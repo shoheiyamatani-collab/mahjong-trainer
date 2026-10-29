@@ -214,8 +214,26 @@ try {
     const normalizedMleagueHomeHtml = mleagueHomeHtml
       .replace(/<!--.*?-->/gs, "")
       .replace(/\s+/g, " ");
-    if (normalizedMleagueHomeHtml.includes("FRI / 金")) {
-      errors.push("Mリーグトップの誤った固定曜日表示が残っています。");
+    const nextMatchDate = normalizedMleagueHomeHtml.match(
+      /<div class="next-match-date" aria-label="(\d{4}-\d{2}-\d{2}) ((?:日|月|火|水|木|金|土)曜日)[^"]*">[\s\S]*?<strong>(SUN|MON|TUE|WED|THU|FRI|SAT) \/ ([^<]+)<\/strong>/,
+    );
+    if (!nextMatchDate) {
+      errors.push("Mリーグトップの次回対局日表示がありません。");
+    } else {
+      const [, date, fullWeekday, englishWeekday, japaneseWeekday] = nextMatchDate;
+      const dateValue = new Date(`${date}T00:00:00Z`);
+      const weekdayIndex = dateValue.getUTCDay();
+      const weekdayEn = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+      const weekdayJa = ["日", "月", "火", "水", "木", "金", "土"];
+      const weekdayFullJa = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
+      if (
+        Number.isNaN(weekdayIndex)
+        || englishWeekday !== weekdayEn[weekdayIndex]
+        || japaneseWeekday !== weekdayJa[weekdayIndex]
+        || fullWeekday !== weekdayFullJa[weekdayIndex]
+      ) {
+        errors.push(`Mリーグトップの次回対局日に誤った曜日が表示されています: ${date} ${fullWeekday} / ${englishWeekday} / ${japaneseWeekday}`);
+      }
     }
     if (normalizedMleagueHomeHtml.includes("10.27") && !normalizedMleagueHomeHtml.includes("TUE / 火")) {
       errors.push("2026年10月27日のMリーグトップに火曜日の表示がありません。");
