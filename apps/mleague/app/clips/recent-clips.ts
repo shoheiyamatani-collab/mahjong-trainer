@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "3RF9mvK2FHg",
-  tag: "10/27 ハイライト",
-  title: "【2026/10/27 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "HOnL7XVDncE",
+  tag: "10/29 ハイライト",
+  title: "【2026/10/29 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、醍醐大のテンパイ外し、本田朋広のドラ押しとダマの判断、HIRO柴田の好調を示すアガリ、逢川恵夢の三色アガリによるJETS史上初の同日連勝を見どころとして紹介しています。",
+    "公式説明欄では、鈴木たろうの4000オール、松本吉弘の三色リーチ・ツモ、竹内元太の親倍満、HIRO柴田の国士無双による逆転、石井一馬の親番七対子などを見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=3RF9mvK2FHg",
-  date: "2026年10月28日公開",
-  competition: "10月27日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=HOnL7XVDncE",
+  date: "2026年10月30日公開",
+  competition: "10月29日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "3RF9mvK2FHg",
+    tag: "10/27 ハイライト",
+    title: "【2026/10/27 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、醍醐大のテンパイ外し、本田朋広のドラ押しとダマの判断、HIRO柴田の好調を示すアガリ、逢川恵夢の三色アガリによるJETS史上初の同日連勝を見どころとして紹介しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=3RF9mvK2FHg",
+    date: "2026年10月28日公開",
+    competition: "10月27日 Mリーグ公式ハイライト",
+  },
   {
     id: "j6oJq4xEiGw",
     tag: "10/26 ハイライト",
