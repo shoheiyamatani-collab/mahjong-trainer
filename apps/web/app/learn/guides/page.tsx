@@ -64,7 +64,7 @@ export default function LearningGuidesPage() {
       <GuideLibrary items={library} />
 
       <section className={styles.footer}>
-        <div><h2><Map aria-hidden="true" />最初から順番に学びたい方へ</h2><p>ルールや役から、点数計算まで。初心者ロードマップで基礎をひとつずつ。</p></div>
+        <div><h2><Map aria-hidden="true" />最初から順番に学びたい方へ</h2><p>ルールや役から、点数計算まで。初心者ロードマップで基礎をひとつずつ。</p><p>進め方に迷ったら、<Link href="/learn">目的に合った学習の入口</Link>から選べます。</p></div>
         <Link href="/learn/roadmap">初心者ロードマップを見る<ArrowRight aria-hidden="true" /></Link>
       </section>
     </main>

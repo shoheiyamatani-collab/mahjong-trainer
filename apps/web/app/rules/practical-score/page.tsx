@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { countsToTiles, parseHand } from "@mahjong-trainer/mahjong-core";
 import { InternalLinkCard, PageHero, SectionTitle } from "../../components/SiteSections";
+import { tileAssetName } from "../../components/TileFigures";
+import { SCORE_SAMPLE_HAND } from "../../tools/toolLearningExamples";
 
 export const metadata: Metadata = {
   title: "実践でよく見る点数計算 | 平和・七対子・副露・40符50符",
@@ -23,6 +26,8 @@ type ScorePattern = {
   tsumo: ScoreCase;
 };
 
+const scoreSampleTiles = countsToTiles(parseHand(SCORE_SAMPLE_HAND)).map((tile) => tileAssetName(tile));
+
 const scorePatterns: ScorePattern[] = [
   {
     title: "平和のロンとツモ",
@@ -30,15 +35,15 @@ const scorePatterns: ScorePattern[] = [
     ron: {
       label: "平和ロン",
       fu: "30符",
-      tiles: ["man2", "man3", "man4", "man3", "man4", "man5", "pin4", "pin5", "pin6", "sou5", "sou6", "sou7", "pin2", "pin2"],
-      point: "ロンの平和は30符です。リーチ平和なら2翻30符、リーチ・平和・ドラなら3翻30符、という見方をします。",
+      tiles: scoreSampleTiles,
+      point: "牌姿例は門前・4筒ロン・リーチありで、リーチと平和の2翻30符です。ドラを1翻加えれば3翻30符になります。",
       scores: ["子: 2翻2000 / 3翻3900 / 4翻7700(※8000)", "親: 2翻2900 / 3翻5800 / 4翻11600(※12000)"]
     },
     tsumo: {
       label: "平和ツモ",
       fu: "20符",
-      tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "pin6", "pin7", "pin8", "sou4", "sou5", "sou6", "man5", "man5"],
-      point: "平和ツモは20符です。ツモの1翻がつくので、実戦では2翻以上から見ることが多いです。",
+      tiles: scoreSampleTiles,
+      point: "同じ牌姿を門前・4筒ツモ・リーチなしでアガると、平和と門前清自摸和の2翻20符です。リーチを加えると3翻20符になります。",
       scores: ["子: 2翻400/700 / 3翻700/1300 / 4翻1300/2600", "親: 2翻700オール / 3翻1300オール / 4翻2600オール"]
     }
   },
@@ -92,8 +97,8 @@ const scorePatterns: ScorePattern[] = [
       label: "七対子ツモ",
       fu: "25符固定",
       tiles: ["man2", "man2", "man5", "man5", "pin3", "pin3", "pin6", "pin6", "sou4", "sou4", "sou8", "sou8", "ji1", "ji1"],
-      point: "七対子でツモった場合も25符固定です。子ツモは子が払う点、親が払う点を分けて見ます。",
-      scores: ["子: 2翻400/800 / 3翻800/1600 / 4翻1600/3200", "親: 2翻800オール / 3翻1600オール / 4翻3200オール"]
+      point: "七対子2翻に門前清自摸和1翻が加わるため、ツモは3翻以上です。符は25符固定で、子ツモは子と親の支払いを分けて見ます。",
+      scores: ["子: 3翻800/1600 / 4翻1600/3200", "親: 3翻1600オール / 4翻3200オール"]
     }
   },
   {
@@ -122,6 +127,7 @@ const tileNames: Record<string, string> = {
   man3: "三萬",
   man4: "四萬",
   man5: "五萬",
+  man6: "六萬",
   man7: "七萬",
   man8: "八萬",
   man9: "九萬",

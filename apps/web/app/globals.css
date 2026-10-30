@@ -13658,6 +13658,23 @@ body .roadmapBoardPage {
   max-width: 27px;
 }
 
+.yakuCompactFigure .yakuTileStripWithKans {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.yakuCompactMeld {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.yakuCompactFigure .yakuTileStripWithKans img {
+  flex: 0 0 22px;
+  min-width: 22px;
+  max-width: 22px;
+  width: 22px;
+}
+
 .yakuCompactFigure figcaption {
   color: #5c6e65;
   font-size: 0.66rem;

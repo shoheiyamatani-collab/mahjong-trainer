@@ -15,7 +15,7 @@ type FrequentYaku = {
   han: string;
   openNote: string;
   priority: "最優先" | "次に覚える";
-  frequency: string;
+  learningCue: string;
   summary: string;
   example: {
     blocks: Array<{ label?: string; tiles: string[]; highlight?: boolean; calledIndex?: number }>;
@@ -34,8 +34,8 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "鳴いたら不可",
     priority: "最優先",
-    frequency: "出現率の目安: 約40%台",
-    summary: "鳴いていない状態でテンパイしたら宣言できる、実戦で最もよく見る基本役です。",
+    learningCue: "門前のテンパイから考える",
+    summary: "門前でテンパイし、持ち点や残り山などの条件を満たしたときに宣言できる役です。",
     example: {
       blocks: [
         { tiles: ["man1", "man2", "man3"] },
@@ -57,7 +57,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "鳴いても可",
     priority: "最優先",
-    frequency: "鳴き手で特に頻出",
+    learningCue: "三元牌・場風・自風を確認する",
     summary: "白・發・中、または場風・自風を3枚そろえる役です。ポンしても役が残ります。",
     example: {
       blocks: [
@@ -80,7 +80,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "鳴いても可が多い",
     priority: "最優先",
-    frequency: "出現率の目安: 約20%台",
+    learningCue: "2〜8の数牌だけか確認する",
     summary: "1・9・字牌を使わず、2から8の数牌だけで作る役です。見た目で判断しやすい役です。",
     example: {
       blocks: [
@@ -103,8 +103,8 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "鳴いたら不可",
     priority: "最優先",
-    frequency: "出現率の目安: 約20%",
-    summary: "順子4つ、役牌ではない雀頭、両面待ちで成立する役です。リーチとよく一緒に出ます。",
+    learningCue: "門前・順子・雀頭・待ちを確認する",
+    summary: "門前で順子4つ、役牌ではない雀頭、両面待ちをそろえる役です。鳴いた手にはつきません。",
     example: {
       blocks: [
         { label: "順子", tiles: ["man1", "man2", "man3"], highlight: true },
@@ -126,7 +126,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "鳴いたら不可",
     priority: "最優先",
-    frequency: "出現率の目安: 約20%",
+    learningCue: "門前で自分のツモ牌によってアガる",
     summary: "鳴いていない状態で、自分で引いた牌でアガる役です。リーチ後のツモでよく見ます。",
     example: {
       blocks: [
@@ -149,7 +149,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "リーチ後のみ",
     priority: "次に覚える",
-    frequency: "出現率の目安: 約7〜10%",
+    learningCue: "牌の形だけでなく、リーチ後の手順を見る",
     summary: "リーチ後、誰も鳴かないまま次の自分のツモまでにアガるとつく役です。",
     example: {
       blocks: [
@@ -172,7 +172,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "3翻 / 鳴き2翻",
     openNote: "鳴くと下がる",
     priority: "次に覚える",
-    frequency: "2翻以上では比較的よく見る",
+    learningCue: "数牌1色と字牌の組み合わせを見る",
     summary: "1種類の数牌と字牌だけで作る役です。役牌と一緒になりやすい実戦向けの役です。",
     example: {
       blocks: [
@@ -195,7 +195,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "1翻",
     openNote: "鳴いたら不可",
     priority: "次に覚える",
-    frequency: "出現率の目安: 約4〜5%",
+    learningCue: "同じ順子が2組あるか確認する",
     summary: "同じ種類・同じ数字並びの順子を2組作る役です。平和系の手で自然に出ます。",
     example: {
       blocks: [
@@ -217,7 +217,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "2翻 / 鳴き1翻",
     openNote: "鳴くと下がる",
     priority: "次に覚える",
-    frequency: "2翻役では実戦で見かける",
+    learningCue: "同じ並びの順子を3色で探す",
     summary: "萬子・筒子・索子で同じ数字並びの順子を作る役です。形が見えると打点が上がります。",
     example: {
       blocks: [
@@ -239,7 +239,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "2翻",
     openNote: "鳴いても可",
     priority: "次に覚える",
-    frequency: "鳴き手で見かける",
+    learningCue: "4つの刻子と雀頭を探す",
     summary: "刻子を4つ作る役です。ポンが多い手で、役牌と一緒になることがあります。",
     example: {
       blocks: [
@@ -262,7 +262,7 @@ const frequentYaku: FrequentYaku[] = [
     han: "2翻",
     openNote: "鳴いたら不可",
     priority: "次に覚える",
-    frequency: "対子が多い手で頻出",
+    learningCue: "異なる7種類の対子を確認する",
     summary: "同じ牌2枚のペアを7組作る特殊な役です。通常の4面子1雀頭とは別枠で覚えます。",
     example: {
       blocks: [
@@ -326,12 +326,12 @@ export default function FrequentYakuPage() {
       <section className="yakuIntro">
         <SectionTitle
           title="頻出役だけに絞る理由"
-          description="役の数は多いですが、実戦でよく出る役はかなり偏っています。初心者は、出現率が高く、他の役と複合しやすい役から覚えるのが近道です。"
+          description="門前の手、鳴いた手、順子中心の手など、手作りの基本と結びつけて役を確認します。ここでの掲載順は雀フォリオの学習上の順番であり、統計上の出現率順位ではありません。"
         />
         <div className="yakuRuleGrid">
           <article>
-            <h2>まずは上位5役</h2>
-            <p>リーチ、役牌、タンヤオ、平和、ツモは出現率が高く、実戦で毎局のように判断します。</p>
+            <h2>まず覚える5役</h2>
+            <p>リーチ、役牌、タンヤオ、平和、ツモから、門前かどうか、使う牌、待ちの条件を確認します。</p>
           </article>
           <article>
             <h2>鳴く手は役牌とタンヤオ</h2>
@@ -345,7 +345,7 @@ export default function FrequentYakuPage() {
       </section>
 
       <section>
-        <SectionTitle title="最優先で覚える役" description="実戦で特に出やすく、手作りや点数判断の土台になる役です。" />
+        <SectionTitle title="最優先で覚える役" description="門前・副露・手牌の構成を理解する土台になる役です。" />
         <div className="yakuCardGrid">
           {frequentYaku.filter((item) => item.priority === "最優先").map((item) => (
             <FrequentYakuCard item={item} key={item.name} />
@@ -354,7 +354,7 @@ export default function FrequentYakuPage() {
       </section>
 
       <section>
-        <SectionTitle title="次によく見る役" description="毎回出るわけではありませんが、覚えると実戦の見え方がかなり変わる役です。" />
+        <SectionTitle title="次に覚える役" description="順子・刻子・対子の組み合わせや、リーチ後の手順に注目して覚えます。" />
         <div className="yakuCardGrid">
           {frequentYaku.filter((item) => item.priority === "次に覚える").map((item) => (
             <FrequentYakuCard item={item} key={item.name} />
@@ -430,8 +430,8 @@ function FrequentYakuCard({ item }: { item: FrequentYaku }) {
           <dd>{item.point}</dd>
         </div>
         <div className="yakuPointItem">
-          <dt>頻出度の目安</dt>
-          <dd>{item.frequency}</dd>
+          <dt>覚えるときの目印</dt>
+          <dd>{item.learningCue}</dd>
         </div>
       </dl>
       <Link className="textLink" href={item.href}>{item.name}をもう少し詳しく見る</Link>

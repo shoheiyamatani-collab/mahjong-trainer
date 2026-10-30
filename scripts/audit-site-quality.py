@@ -1,11 +1,12 @@
 """Read-only inventory of exported pages; findings require editorial review."""
 import json
 import sys
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, deque
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen, build_opener, HTTPRedirectHandler
 from urllib.error import HTTPError, URLError
+from urllib.robotparser import RobotFileParser
 from xml.etree import ElementTree
 
 from importlib.util import module_from_spec, spec_from_file_location
@@ -16,6 +17,27 @@ parser = module_from_spec(spec)
 spec.loader.exec_module(parser)
 OUTPUT = ROOT / "apps/web/out"
 ORIGIN = "https://jongfolio.com"
+ERROR_ROUTES = {"/404", "/_not-found", "/mleague/404"}
+PRIORITY_PATHS = (
+    "/analysis/starting-hand/help", "/learn/basic-nanikiru", "/learn/draw-and-discard",
+    "/learn/guides/good-shape-rate", "/learn/guides/one-shanten-ukeire",
+    "/learn/guides/rule-differences-and-calling", "/learn/guides/wait-types", "/learn/roadmap",
+)
+
+
+class RedirectTrace(HTTPRedirectHandler):
+    def __init__(self):
+        super().__init__()
+        self.redirects = []
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        self.redirects.append({"from": req.full_url, "status": code, "to": newurl})
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def canonical_url(value):
+    url = urlsplit(value)
+    return url._replace(path=url.path or "/").geturl()
 
 
 def inventory(output=OUTPUT):
@@ -57,7 +79,7 @@ def inventory(output=OUTPUT):
             "title": [n.text() for n in nodes if n.tag == "title"],
             "description": meta("description"),
             "canonical": [n.attrs.get("href", "") for n in nodes if n.tag == "link" and n.attrs.get("rel") == "canonical"],
-            "robots": meta("robots"),
+            "robots": meta("robots") + meta("googlebot"),
             "h1": [n.text() for n in body if n.tag == "h1"],
             "mainCharacters": len("".join(main.text().split())),
             "headings": [n.text() for n in body if n.tag in ("h2", "h3")],
@@ -118,17 +140,75 @@ def analyze(pages, sitemap_paths):
     }
 
 
+def analyze_discovery(pages, sitemap_urls, robots_text):
+    """Compare both directions and follow actual HTML links, not JS interactions."""
+    listed = set(sitemap_urls)
+    indexable = set()
+    graph = {route: set() for route in pages if route not in ERROR_ROUTES}
+    incoming = defaultdict(set)
+    robots = RobotFileParser()
+    robots.parse(robots_text.splitlines())
+    for route, page in pages.items():
+        if route in ERROR_ROUTES:
+            continue
+        canonical = [canonical_url(value) for value in page["canonical"]]
+        if canonical == [ORIGIN + route] and not any("noindex" in value.lower().replace(",", " ").split() for value in page["robots"]):
+            indexable.add(route)
+        for href in page["links"]:
+            url = urlsplit(urljoin(ORIGIN + route, href))
+            if url.scheme not in ("http", "https") or url.netloc != "jongfolio.com":
+                continue
+            target = unquote(url.path).rstrip("/") or "/"
+            if target in graph and target != route:
+                graph[route].add(target)
+                incoming[target].add(route)
+    depths = {"/": 0} if "/" in graph else {}
+    queue = deque(depths)
+    while queue:
+        source = queue.popleft()
+        for target in sorted(graph[source]):
+            if target not in depths:
+                depths[target] = depths[source] + 1
+                queue.append(target)
+    priority = {}
+    for route in PRIORITY_PATHS:
+        page = pages.get(route)
+        priority[route] = None if page is None else {
+            "canonical": page["canonical"], "robots": page["robots"],
+            "mainCharacters": page["mainCharacters"], "inSitemap": ORIGIN + route in listed,
+            "crawlAllowed": robots.can_fetch("Googlebot", ORIGIN + route),
+            "depthFromHome": depths.get(route), "incomingPages": sorted(incoming[route]),
+        }
+    canonical_mismatches = []
+    for url in sitemap_urls:
+        route = unquote(urlsplit(url).path).rstrip("/") or "/"
+        if route in pages and [canonical_url(value) for value in pages[route]["canonical"]] != [canonical_url(url)]:
+            canonical_mismatches.append(url)
+    return {
+        "indexableRoutes": sorted(indexable),
+        "missingFromSitemap": sorted(route for route in indexable if ORIGIN + route not in listed),
+        "nonCanonicalSitemapUrls": sorted(canonical_mismatches),
+        "orphanIndexableRoutes": sorted(route for route in indexable - {"/"} if not incoming[route]),
+        "unreachableIndexableRoutes": sorted(indexable - depths.keys()),
+        "blockedIndexableRoutes": sorted(route for route in indexable if not robots.can_fetch("Googlebot", ORIGIN + route)),
+        "maxIndexableDepth": max((depths[route] for route in indexable if route in depths), default=None),
+        "priorityPages": priority,
+    }
+
+
 def main():
     pages = inventory()
     sitemap = ElementTree.parse(OUTPUT / "sitemap.xml")
-    sitemap_paths = [(urlsplit(n.text).path.rstrip("/") or "/") for n in sitemap.iter() if n.tag.endswith("}loc") or n.tag == "loc"]
+    sitemap_urls = [n.text for n in sitemap.iter() if n.tag.endswith("}loc") or n.tag == "loc"]
+    sitemap_paths = [(urlsplit(url).path.rstrip("/") or "/") for url in sitemap_urls]
     findings = analyze(pages, sitemap_paths)
+    discovery = analyze_discovery(pages, sitemap_urls, (OUTPUT / "robots.txt").read_text(encoding="utf-8"))
     summary = {"exportedRoutes": len(pages), "sitemapRoutes": len(sitemap_paths),
                "routeGroups": dict(Counter(route.split("/")[1] or "home" for route in pages)),
                "unfinishedCandidates": sum(bool(p["unfinishedCandidates"]) for p in pages.values()),
                **{key: len(value) for key, value in findings.items()}}
-    result = {"summary": summary, "findings": findings, "pages": pages,
-              "note": "Local preview can include 30 unpublished articles. Counts are not quality verdicts. Fragment candidates may be client-rendered; verify before editing."}
+    result = {"summary": summary, "findings": findings, "discovery": discovery, "pages": pages,
+              "note": "Counts describe the actual export, not Google index coverage or content quality. Fragment candidates may be client-rendered; verify before editing."}
     target = ROOT / "output/site-quality-inventory.json"
     target.parent.mkdir(exist_ok=True)
     target.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -140,6 +220,7 @@ def main():
                   "/mleague/clips/highlights", "/analysis/starting-hand", "/learn/guides",
                   "/analysis/mahjong-tool", "/analysis/orasu-condition", "/tools", "/trainer", "/learn/roadmap",
                   "/about", "/contact", "/privacy", "/terms", "/advertising", "/mleague/policy"]
+        routes = list(dict.fromkeys(routes + list(PRIORITY_PATHS) + ["/training"]))
         checks = []
         requests = [(item, "JongfolioQualityAudit/1.0") for route in routes for item in ([route, route + "/"] if route != "/" else [route])]
         requests += [(route, "JongfolioQualityAudit/1.0") for route in ["/robots.txt", "/sitemap.xml", "/ads.txt", "/index.txt", "/learn/guides/index.txt", "/learn/guides.html", "/quality-audit-missing-page-20261026/"]]
@@ -159,17 +240,20 @@ def main():
         except (HTTPError, URLError, TimeoutError, ElementTree.ParseError) as error:
             checks.append({"route": "/sitemap.xml", "status": None, "unconfirmed": str(error)})
         for route, agent in requests:
+            trace = RedirectTrace()
             try:
-                with urlopen(Request(ORIGIN + route, headers={"User-Agent": agent}), timeout=25) as response:
+                with build_opener(trace).open(Request(ORIGIN + route, headers={"User-Agent": agent}), timeout=25) as response:
                     raw = response.read().decode("utf-8")
                     nodes = list(parser.Tree(raw).root.walk()) if "text/html" in response.headers.get("Content-Type", "") else []
                     checks.append({"route": route, "status": response.status, "finalUrl": response.url,
+                                   "redirects": trace.redirects,
                                    "userAgent": agent, "userAgentProbeOnly": agent != "JongfolioQualityAudit/1.0",
                                    "contentType": response.headers.get("Content-Type"),
                                    "xRobotsTag": response.headers.get("X-Robots-Tag"),
                                    "setsCookie": bool(response.headers.get("Set-Cookie")),
                                    "title": [n.text() for n in nodes if n.tag == "title"],
                                    "h1": [n.text() for n in nodes if n.tag == "h1"],
+                                   "mainCharacters": next((len("".join(n.text().split())) for n in nodes if n.tag == "main"), None),
                                    "canonical": [n.attrs.get("href") for n in nodes if n.tag == "link" and n.attrs.get("rel") == "canonical"],
                                    "robots": [n.attrs.get("content") for n in nodes if n.tag == "meta" and n.attrs.get("name") == "robots"],
                                    "description": [n.attrs.get("content") for n in nodes if n.tag == "meta" and n.attrs.get("name") == "description"],
@@ -177,11 +261,11 @@ def main():
                                    "externalScripts": sorted({n.attrs["src"] for n in nodes if n.tag == "script" and urlsplit(n.attrs.get("src", "")).netloc}),
                                    "guideCards": sum(n.tag == "h2" and n.attrs.get("id", "").startswith("guide-title-") for n in nodes),
                                    "empty26Heading": "動画の章順で確認する26のセオリー" in raw,
-                                   "sitemapUrls": raw.count("<loc>") if route == "/sitemap.xml" else None,
+                                   "sitemapUrls": [n.text for n in ElementTree.fromstring(raw).iter() if n.tag.endswith("}loc") or n.tag == "loc"] if route == "/sitemap.xml" else None,
                                    "robotsText": raw if route == "/robots.txt" else None,
                                    "adsText": raw if route == "/ads.txt" else None})
             except HTTPError as error:
-                checks.append({"route": route, "status": error.code, "finalUrl": error.url})
+                checks.append({"route": route, "status": error.code, "finalUrl": error.url, "redirects": trace.redirects})
             except (URLError, TimeoutError) as error:
                 checks.append({"route": route, "status": None, "unconfirmed": str(error)})
         (ROOT / "output/site-quality-live.json").write_text(json.dumps(checks, ensure_ascii=False, indent=2), encoding="utf-8")

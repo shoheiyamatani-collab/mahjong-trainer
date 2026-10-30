@@ -15,6 +15,7 @@ import { startingLearningHands, startingLearningExampleHref } from "../apps/web/
 import { startingLearningFigures } from "../apps/web/app/analysis/starting-hand/StartingHandLearningGuide";
 import { tileAssetName } from "../apps/web/app/components/TileFigures";
 import { get2446ShapeComparison } from "../apps/web/app/videos/strategy/how-to-handle-2446-shape/shapeExample";
+import { requestedLearningGuides } from "../apps/web/app/learn/guides/requestedGuideData";
 
 const guides = [videoChannels.strategy, advancedStrategyChannel, proStrategyChannel].flatMap((channel) => channel.guides);
 const clipLists = { recentClips, yakumanClips, memorableClips };
@@ -22,6 +23,24 @@ const root = resolve(__dirname, "..");
 const read = (path: string) => readFileSync(resolve(root, path), "utf8").replace(/\r\n/g, "\n");
 
 describe("existing content quality safeguards", () => {
+  it("does not present unsourced yaku occurrence rates as statistics or rankings", () => {
+    const page = read("apps/web/app/rules/frequent-yaku/page.tsx");
+    expect(page).not.toMatch(/出現率の目安|約\d+(?:[〜～]\d+)?%|まずは上位|item\.frequency/);
+    expect(page).toContain("統計上の出現率順位ではありません");
+    expect(page).toContain("覚えるときの目印");
+    expect(page).toContain("item.learningCue");
+  });
+  it("keeps the footer wordmark readable on the platform's white background", () => {
+    const css = read("apps/web/app/platform.css");
+    expect(css).toContain(".platformFrame .siteFooterLogo .siteLogoTitle { color: var(--jf-ink); }");
+    expect(css).toContain(".platformFrame .siteFooterLogo :is(.siteLogoSub,.siteLogoTagline) { color: var(--jf-body); }");
+  });
+  it("does not label a partial block completion as a guaranteed full-hand tenpai", () => {
+    const figure = requestedLearningGuides.find((guide) => guide.slug === "one-shanten-ukeire")!.figures[0]!;
+    expect(figure.description).toContain("手牌全体ではなく部分形");
+    expect(figure.description).toContain("全13枚で確認");
+    expect(figure.rows.every((row) => row.resultLabel !== "テンパイ牌")).toBe(true);
+  });
   it("shows exact partial shapes without pretending they are complete hands", () => {
     const rows = get2446ShapeComparison();
     expect(rows.map((row) => row.tiles)).toEqual([["2m", "4m", "6m"], ["4m", "4m", "6m"], ["2m", "4m", "4m"]]);

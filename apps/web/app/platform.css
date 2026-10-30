@@ -55,6 +55,8 @@ body { background: var(--jf-bg); color: var(--jf-body); font-family: var(--jf-fo
 .platformFrame :is(.roadmapBoardNext,.roadmapBoardReferences > a) { border-color: var(--jf-line); }
 .platformFrame :is(.roadmapBoardNext,.roadmapBoardReferences > a):hover { background: var(--jf-learning-soft); }
 .platformFrame .siteFooter { background: #fff; border-top: 1px solid var(--jf-line); color: var(--jf-body); }
+.platformFrame .siteFooterLogo .siteLogoTitle { color: var(--jf-ink); }
+.platformFrame .siteFooterLogo :is(.siteLogoSub,.siteLogoTagline) { color: var(--jf-body); }
 .platformFrame .siteFooterLinks a { color: var(--jf-body); padding-block: 8px; }
 
 /* Repeated tools share the same content and color tokens on every entry page. */

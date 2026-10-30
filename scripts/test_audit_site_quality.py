@@ -10,7 +10,7 @@ spec.loader.exec_module(audit)
 
 def page(route="/", **values):
     return {"title": [route], "description": ["Description"], "canonical": [audit.ORIGIN + route],
-            "robots": ["index, follow"], "ids": [], "links": [], "adsenseScripts": 1, **values}
+            "robots": ["index, follow"], "ids": [], "links": [], "adsenseScripts": 1, "mainCharacters": 100, **values}
 
 
 class SiteQualityAuditTests(unittest.TestCase):
@@ -70,6 +70,54 @@ class SiteQualityAuditTests(unittest.TestCase):
             self.assertEqual(result["structuredTypes"], ["WebSite"])
             self.assertEqual(result["structuredErrors"], [])
             self.assertEqual(result["openGraph"]["og:title"], "Home")
+
+    def discovery(self, pages, sitemap=None, robots="User-agent: *\nAllow: /"):
+        return audit.analyze_discovery(pages, sitemap or [], robots)
+
+    def test_reverse_coverage_finds_an_exported_but_unlisted_article(self):
+        result = self.discovery({"/": page(links=["/new"]), "/new": page("/new")}, [audit.ORIGIN + "/"])
+        self.assertEqual(result["missingFromSitemap"], ["/new"])
+
+    def test_detects_orphans_separately_from_sitemap_presence(self):
+        result = self.discovery({"/": page(), "/new": page("/new")}, [audit.ORIGIN + "/new"])
+        self.assertEqual(result["orphanIndexableRoutes"], ["/new"])
+        self.assertEqual(result["unreachableIndexableRoutes"], ["/new"])
+
+    def test_link_graph_ignores_external_and_self_links_but_follows_query_links(self):
+        result = self.discovery({"/": page(links=["/#top", "https://example.com/new", "/new/?sample=1"]), "/new": page("/new")})
+        self.assertEqual(result["orphanIndexableRoutes"], [])
+        self.assertEqual(result["maxIndexableDepth"], 1)
+
+    def test_noindex_and_aliases_are_not_missing_sitemap_entries(self):
+        result = self.discovery({"/404": page("/404"), "/training": page("/training", canonical=[audit.ORIGIN + "/trainer"]), "/mleague": page("/mleague", robots=["NOINDEX, follow"])})
+        self.assertEqual(result["missingFromSitemap"], [])
+
+    def test_a_second_noindex_directive_takes_precedence(self):
+        result = self.discovery({"/": page(robots=["index, follow", "noindex"])})
+        self.assertEqual(result["indexableRoutes"], [])
+
+    def test_robots_block_is_not_mistaken_for_an_indexing_delay(self):
+        result = self.discovery({"/new": page("/new")}, robots="User-agent: *\nDisallow: /new")
+        self.assertEqual(result["blockedIndexableRoutes"], ["/new"])
+
+    def test_canonical_and_sitemap_must_agree_while_empty_root_path_equals_slash(self):
+        result = self.discovery({"/": page(), "/new": page("/new")}, [audit.ORIGIN, audit.ORIGIN + "/new/"])
+        self.assertEqual(result["nonCanonicalSitemapUrls"], [audit.ORIGIN + "/new/"])
+        self.assertEqual(self.discovery({"/": page(canonical=[audit.ORIGIN])}, [audit.ORIGIN + "/"])["missingFromSitemap"], [])
+
+    def test_priority_page_contains_initial_html_and_incoming_link_evidence(self):
+        route = audit.PRIORITY_PATHS[0]
+        result = self.discovery({"/": page(links=[route]), route: page(route)}, [audit.ORIGIN + route])
+        self.assertEqual(result["priorityPages"][route]["incomingPages"], ["/"])
+        self.assertEqual(result["priorityPages"][route]["depthFromHome"], 1)
+        self.assertTrue(result["priorityPages"][route]["crawlAllowed"])
+        self.assertTrue(result["priorityPages"][route]["inSitemap"])
+
+    def test_googlebot_specific_noindex_is_collected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder)
+            (output / "index.html").write_text('<meta name="robots" content="index"><meta name="googlebot" content="noindex">', encoding="utf-8")
+            self.assertEqual(audit.inventory(output)["/"]["robots"], ["index", "noindex"])
 
 
 if __name__ == "__main__":

@@ -418,12 +418,12 @@ export const requestedLearningGuides: LearningGuide[] = [
     figures: [
       {
         title: "一向聴の受け入れを部分ごとに探す",
-        description: "面子になる牌、対子が刻子になる牌、雀頭を作る牌を重複なく数えます。",
+        description: "以下は手牌全体ではなく部分形です。面子になる牌を示しており、引けば必ずテンパイするという意味ではありません。有効牌かどうかは全13枚で確認します。",
         badges: ["一向聴", "受け入れ"],
         rows: [
-          { label: "両面部分", tiles: ["man4", "man5"], resultLabel: "テンパイ牌", resultTiles: ["man3", "man6"], tone: "answer", note: "両側の2種類を数えます。" },
-          { label: "カンチャン部分", tiles: ["pin3", "pin5"], resultLabel: "テンパイ牌", resultTiles: ["pin4"], note: "間の1種類を数えます。" },
-          { label: "対子部分", tiles: ["sou7", "sou7"], resultLabel: "テンパイ牌", resultTiles: ["sou7"], tone: "answer", note: "残りは最大2枚です。" },
+          { label: "両面部分", tiles: ["man4", "man5"], resultLabel: "面子になる牌", resultTiles: ["man3", "man6"], tone: "answer", note: "両側の2種類を数えます。" },
+          { label: "カンチャン部分", tiles: ["pin3", "pin5"], resultLabel: "面子になる牌", resultTiles: ["pin4"], note: "間の1種類を数えます。" },
+          { label: "対子部分", tiles: ["sou7", "sou7"], resultLabel: "面子になる牌", resultTiles: ["sou7"], tone: "answer", note: "残りは最大2枚です。" },
           { label: "良形変化", tiles: ["man3", "man5"], resultLabel: "変化", resultTiles: ["man2", "man4", "man6"], note: "テンパイ枚数だけでなく、その先の待ちの質も確認します。" }
         ]
       }

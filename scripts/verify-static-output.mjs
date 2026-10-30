@@ -1,6 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { sitemapCoverageErrors } from "./static-sitemap-checks.mjs";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(repositoryRoot, "apps", "web", "out");
@@ -45,13 +46,18 @@ function stripTags(value) {
 }
 
 function getMetaContent(html, name) {
+  return getMetaContents(html, name)[0] ?? "";
+}
+
+function getMetaContents(html, name) {
+  const values = [];
   for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {
     const tag = match[0];
     const metaName = tag.match(/\bname=["']([^"']+)["']/i)?.[1];
     if (metaName?.toLowerCase() !== name.toLowerCase()) continue;
-    return tag.match(/\bcontent=["']([^"']*)["']/i)?.[1] ?? "";
+    values.push(tag.match(/\bcontent=["']([^"']*)["']/i)?.[1] ?? "");
   }
-  return "";
+  return values;
 }
 
 function getCanonicalHref(html) {
@@ -126,6 +132,7 @@ try {
     }
 
     const normalizedPath = url.pathname.replace(/\/$/, "") || "/";
+    if (url.origin !== siteOrigin || url.search || url.hash) errors.push(`サイトマップURLが正規URLではありません: ${sitemapUrl}`);
     if (sitemapPaths.has(normalizedPath)) errors.push(`サイトマップに重複URLがあります: ${normalizedPath}`);
     sitemapPaths.add(normalizedPath);
     const htmlPath = htmlPathForUrl(url.pathname);
@@ -138,7 +145,7 @@ try {
     const title = stripTags(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "");
     const h1 = stripTags(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] ?? "");
     const description = getMetaContent(html, "description").trim();
-    const robots = `${getMetaContent(html, "robots")} ${getMetaContent(html, "googlebot")}`;
+    const robots = [...getMetaContents(html, "robots"), ...getMetaContents(html, "googlebot")].join(" ");
     const canonicalHref = getCanonicalHref(html);
 
     if (!title) errors.push(`title がありません: ${url.pathname}`);
@@ -149,7 +156,7 @@ try {
       errors.push(`canonical がありません: ${url.pathname}`);
     } else {
       const canonical = new URL(canonicalHref, siteOrigin);
-      if (canonical.origin !== siteOrigin || canonical.pathname.replace(/\/$/, "") !== normalizedPath.replace(/\/$/, "")) {
+      if (canonical.href !== url.href) {
         errors.push(`canonical がサイトマップURLと一致しません: ${url.pathname} -> ${canonical.href}`);
       }
     }
@@ -251,6 +258,7 @@ try {
   }
 
   const references = new Set();
+  const exportedPages = [];
   const htmlPages = htmlFiles.filter((file) => file.endsWith(".html"));
   const videoHtmlPages = htmlPages.filter((file) =>
     path.relative(outputRoot, file).replaceAll("\\", "/").startsWith("videos/")
@@ -274,6 +282,12 @@ try {
     const pageReferences = await Promise.all(pages.map(async (htmlFile) => {
       const html = await readFile(htmlFile, "utf8");
       const pagePath = path.relative(outputRoot, htmlFile).replaceAll("\\", "/");
+      const route = pagePath === "index.html" ? "/" : `/${pagePath.replace(/(?:\/index)?\.html$/, "")}`;
+      exportedPages.push({
+        route,
+        canonical: getCanonicalHref(html),
+        noindex: /\bnoindex\b/i.test([...getMetaContents(html, "robots"), ...getMetaContents(html, "googlebot")].join(" "))
+      });
       // Verification must not depend on an ad-serving script on every route.
       if (getMetaContent(html, "google-adsense-account") !== "ca-pub-7962600450986425") {
         errors.push(`AdSense所有権確認メタタグがありません: ${pagePath}`);
@@ -302,6 +316,7 @@ try {
   }
   for (const reference of references) checkedReferences.add(reference);
   await checkReferencesInBatches(references);
+  errors.push(...sitemapCoverageErrors(exportedPages, sitemapUrls, siteOrigin));
 
   const adsTxt = await readFile(path.join(outputRoot, "ads.txt"), "utf8");
   if (!/^google\.com,\s*pub-7962600450986425,\s*DIRECT,\s*f08c47fec0942fa0\s*$/m.test(adsTxt)) {

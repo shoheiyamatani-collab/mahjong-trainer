@@ -52,6 +52,13 @@ const staticPaths = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = getSiteUrl();
+  const authoredDates = new Map<string, string>(learningGuides.flatMap((guide) => {
+    if (!guide.editorial) return [];
+    // Publication can follow the editorial update; neither date is build time.
+    const lastModified = [guide.editorial.createdAt, guide.editorial.updatedAt, guide.editorial.publishedAt]
+      .filter((date): date is string => Boolean(date)).sort().pop()!;
+    return [[`/learn/guides/${guide.slug}`, lastModified] as const];
+  }));
   const videoArticlePaths = [
     ...videoChannels.strategy.guides,
     ...(siteConfig.features.showMLeagueLinks ? videoChannels["mleague-clips"].guides : []),
@@ -71,6 +78,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return Array.from(paths).filter(shouldIncludeInSitemap).map((path) => ({
     url: `${siteUrl}${path}`,
+    ...(authoredDates.has(path) ? { lastModified: authoredDates.get(path)! } : {}),
     changeFrequency: path.startsWith("/videos/") ? "weekly" : "monthly",
     priority: path === "/" || path === "/analysis/mahjong-tool" ? 1 : path.split("/").length <= 3 ? 0.8 : 0.6
   }));

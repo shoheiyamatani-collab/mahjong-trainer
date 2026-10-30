@@ -1,8 +1,13 @@
+import { readFileSync } from "node:fs";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import PracticalScorePage from "./practical-score/page";
 import { tileAssetName } from "../components/TileFigures";
 import { getYakuArticle, yakuArticles } from "./yakuArticleData";
 import { getLearningGuide } from "../learn/guides/guideData";
 import { getCheckerLearningResults } from "../tools/toolLearningResults";
+import { SCORE_SAMPLE_HAND } from "../tools/toolLearningExamples";
 import {
   TILE_NAMES, addTile, analyzeHandProgress, calculateHandScore, chiitoitsuShanten,
   parseHand, validateCounts, type HandScoreInput, type Tile
@@ -104,6 +109,34 @@ describe("yaku article examples use the existing scoring and wait engines", () =
     expect([tsumo.score.han, tsumo.fu?.roundedFu, tsumo.score.totalPoints]).toEqual([3, 25, 3200]);
     expect(tsumo.score.payments.map((payment) => payment.points)).toEqual([800, 1600]);
     expect(article.strategy!.join("")).toContain("2翻25符で1,600点");
+  });
+
+  it("does not advertise an impossible two-han seven-pairs tsumo in the practical score guide", () => {
+    const page = readFileSync(new URL("./practical-score/page.tsx", import.meta.url), "utf8");
+    expect(page).toContain("七対子2翻に門前清自摸和1翻が加わるため、ツモは3翻以上");
+    expect(page).not.toContain("2翻400/800");
+    expect(page).not.toContain("2翻800オール");
+    const result = calculateHandScore({ ...base, counts: parseHand("2255m3366p4488s東東"), winningTile: "東", winMethod: "tsumo" });
+    expect([result.score.han, result.fu?.roundedFu]).toEqual([3, 25]);
+    expect(result.score.payments.map((payment) => payment.points)).toEqual([800, 1600]);
+  });
+
+  it("uses the calculator's verified hand without an accidental tanyao in the pinfu score examples", () => {
+    const page = readFileSync(new URL("./practical-score/page.tsx", import.meta.url), "utf8");
+    expect(page.match(/tiles: scoreSampleTiles/g)).toHaveLength(2);
+    expect(page).toContain("countsToTiles(parseHand(SCORE_SAMPLE_HAND)).map((tile) => tileAssetName(tile))");
+    expect(page).not.toContain(".map(tileAssetName)");
+    const html = renderToStaticMarkup(createElement(PracticalScorePage));
+    expect(html).toContain('alt="六萬"');
+    expect(html).not.toContain('alt="man6"');
+    const input = { ...base, counts: parseHand(SCORE_SAMPLE_HAND), winningTile: "4p" as Tile };
+    const ron = calculateHandScore({ ...input, riichi: true });
+    expect(ron.yaku.map((yaku) => yaku.name).sort()).toEqual(["リーチ", "平和"].sort());
+    expect([ron.score.han, ron.fu?.roundedFu, ron.score.totalPoints]).toEqual([2, 30, 2000]);
+    const tsumo = calculateHandScore({ ...input, winMethod: "tsumo" });
+    expect(tsumo.yaku.map((yaku) => yaku.name).sort()).toEqual(["平和", "門前清自摸和"].sort());
+    expect([tsumo.score.han, tsumo.fu?.roundedFu]).toEqual([2, 20]);
+    expect(tsumo.score.payments.map((payment) => payment.points)).toEqual([400, 700]);
   });
 
   it("four identical tiles cannot be counted as two pairs", () => {
