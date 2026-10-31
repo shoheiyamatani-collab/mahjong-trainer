@@ -1,0 +1,13 @@
+.hand { max-width: 100%; min-width: 0; overflow-x: auto; margin: 16px 0; }
+.hand :global(.articleTileStrip) { flex-wrap: nowrap; gap: 2px; width: max-content; max-width: none; }
+.hand :global(.articleTileStrip img) { flex: 0 0 30px; width: 30px; height: auto; aspect-ratio: 66 / 90; }
+.table { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 20px 0; color: #162b43; font-variant-numeric: tabular-nums; }
+.table caption { padding-bottom: 10px; text-align: left; font-weight: 700; }
+.table th, .table td { padding: 12px 8px; text-align: left; border-bottom: 1px solid #d6e1d9; overflow-wrap: anywhere; }
+.table thead { background: #edf6f1; }
+@media (max-width: 600px) {
+  .hand { margin-inline: -14px; max-width: calc(100% + 28px); }
+  .hand :global(.articleTileStrip) { gap: 1px; }
+  .hand :global(.articleTileStrip img) { flex-basis: 22px; width: 22px; }
+  .table th, .table td { padding: 10px 5px; }
+}

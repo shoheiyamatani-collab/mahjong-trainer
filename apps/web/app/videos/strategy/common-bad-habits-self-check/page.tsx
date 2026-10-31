@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
+import { TileStrip } from "../../../components/TileFigures";
+import { getWaitReviewExample, NO_YAKU_REVIEW_HAND, SUJI_COUNTEREXAMPLE_HAND } from "../videoReviewExamples";
+import reviewStyles from "../video-review.module.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/videos/strategy/common-bad-habits-self-check" },
@@ -101,6 +104,8 @@ const checklist = [
 ];
 
 export default function CommonBadHabitsSelfCheckArticlePage() {
+  const noYaku = getWaitReviewExample(NO_YAKU_REVIEW_HAND);
+  const suji = getWaitReviewExample(SUJI_COUNTEREXAMPLE_HAND);
   return (
     <main className="siteMain videoArticlePage">
       <article>
@@ -137,11 +142,42 @@ export default function CommonBadHabitsSelfCheckArticlePage() {
         <VideoArticleCompactContent
           message={"麻雀を覚えて対局数が増えると、誰にも指摘されないまま同じ判断を繰り返すことがあります。"}
           points={[
-            { title: "まず、当てはまるものを確認する", description: "当てはまる項目があっても問題ありません。" },
-            { title: "初心者に多い3つの癖と直し方", description: "自分に当てはまる癖を一つ選び、次の対局で直す行動を決めます。" },
-            { title: "次の対局では、1つだけ意識する", description: "3つを一度に直そうとすると、対局中に考えることが増えすぎます。" },
+            { title: "降りるなら、現物とスジを分ける", description: "ロンされない現物と、待ちの一部を絞るスジは同じ情報ではありません。" },
+            { title: "テンパイしたら、役の有無を確認する", description: "形が完成する牌でも、役なしのままではロンできません。" },
+            { title: "生牌の字牌は、使う理由を考えて残す", description: "鳴かれたくないという理由だけで抱えず、役牌や守備に使えるか、自分の速度と合わせて考えます。" },
           ]}
         />
+
+        <section className="videoArticleBodySection" aria-labelledby="habits-review-title">
+          <h2 id="habits-review-title">3つの癖を、次の一打で直すには</h2>
+          <p>元動画の公式説明欄にある3テーマをもとに、雀フォリオが復習手順を補足しています。具体的な判断条件は局面によって変わり、動画内の全局面を検証したという意味ではありません。</p>
+          <div className="videoPrincipleList">{habits.map((habit) => (
+            <section className="videoPrinciple" key={habit.number}>
+              <div className="videoPrincipleNumber">{habit.number}</div>
+              <div className="videoPrincipleBody"><h3>{habit.title}</h3><p>{habit.commonAction}</p><p>{habit.correction}</p><p>{habit.caution}</p><a href={habit.href} target="_blank" rel="noopener noreferrer">元動画 {habit.time}の章へ</a></div>
+            </section>
+          ))}</div>
+        </section>
+
+        <section className="videoArticleBodySection" aria-labelledby="no-yaku-review-title">
+          <p className="videoArticleSectionLabel">JONGFOLIO / 独自の検証例</p>
+          <h2 id="no-yaku-review-title">テンパイでも、役がなければロンできない</h2>
+          <p>以下は動画とは別に用意した門前の13枚です。東場・南家、リーチ・ドラ・一発・海底などの状況役なしで確認します。</p>
+          <div className={reviewStyles.hand}><TileStrip tiles={noYaku.tiles} /></div>
+          <p>待ちは2索・5索です。雀頭が白なので平和はつかず、字牌があるためタンヤオもありません。この手には他の役もなく、そのままではどちらでもロンできません。</p>
+          <p>リーチできる条件を満たして宣言すればリーチが役になり、リーチなしでも自分で引けば門前清自摸和がつきます。ただし「役なしなら必ずリーチ」とは限らず、巡目・待ち・相手の攻撃・点差を見て、リーチ、手変わり、撤退を比べます。</p>
+          <div className="toolGuideLinks"><Link href="/trainer/riichi-or-dama">リーチ？ダマ？で条件を比べる</Link><Link href="/learn/guides/riichi-or-dama">リーチとダマの判断の解説へ</Link></div>
+        </section>
+
+        <section className="videoArticleBodySection" aria-labelledby="suji-review-title">
+          <p className="videoArticleSectionLabel">JONGFOLIO / 独自の反例</p>
+          <h2 id="suji-review-title">5萬が現物でも、スジの2萬は現物ではない</h2>
+          <p>相手が5萬を捨ててリーチした状況を考えます。次の13枚は、その情報と両立する相手の手牌の一例です。実際の動画の手牌を示すものではありません。</p>
+          <div className={reviewStyles.hand}><TileStrip tiles={suji.tiles} /></div>
+          <p>この形は2萬・5筒のシャンポン待ちです。5萬が相手の捨て牌でも、2萬にはロンされます。スジが主に両面待ちを考える手掛かりであり、シャンポンや単騎まで否定する情報ではないことが分かります。</p>
+          <p>その相手にロンされない現物と、待ちの一部を絞るスジは分けて扱います。現物でも別の相手には安全とは限りません。ここで示した反例から、2萬の具体的な放銃率を計算できるわけでもありません。</p>
+          <div className="toolGuideLinks"><Link href="/learn/guides/genbutsu-suji-kabe">現物・スジ・カベの違いを復習する</Link><Link href="/trainer/push-or-fold">押す？オリる？で判断を練習する</Link></div>
+        </section>
 
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>

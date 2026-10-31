@@ -1,0 +1,22 @@
+.example {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-line, #d8d0bc);
+}
+.example h3 { margin: 8px 0 12px; font-size: 20px; font-weight: 800; line-height: 1.6; }
+.label { margin: 0; font-weight: 700; }
+.table { width: 100%; table-layout: fixed; border-collapse: collapse; margin: 16px 0; font-variant-numeric: tabular-nums; }
+.table caption { padding-bottom: 10px; text-align: left; font-weight: 700; }
+.table th, .table td { padding: 12px 8px; text-align: left; vertical-align: top; overflow-wrap: anywhere; border-bottom: 1px solid var(--color-line, #d8d0bc); }
+.table th:first-child { width: 35%; }
+.hand { display: flex; gap: 2px; max-width: 100%; padding: 8px 0; overflow-x: auto; }
+.hand img { flex: 0 0 26px; width: 26px; height: auto; aspect-ratio: 66 / 90; object-fit: contain; }
+.comparison { display: grid; gap: 12px; margin: 16px 0; }
+.comparison div { padding-left: 12px; border-left: 3px solid var(--color-green, #174b3c); }
+.comparison dt { font-weight: 800; }
+.comparison dd { margin: 6px 0 0; }
+@media (max-width: 600px) {
+  .table th, .table td { padding: 10px 5px; }
+  .hand { gap: 1px; }
+  .hand img { flex-basis: 22px; width: 22px; }
+}

@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { getRobotsPolicy } from "@mahjong-trainer/content-index-policy";
 import Link from "next/link";
 import { VideoArticleCompactContent } from "../VideoArticleCompactContent";
+import { TileStrip } from "../../../components/TileFigures";
+import { getPairReviewExample } from "../videoReviewExamples";
+import reviewStyles from "../video-review.module.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/videos/strategy/tile-efficiency-four-rules" },
@@ -17,8 +20,8 @@ const videoUrl = "https://www.youtube.com/watch?v=q3LPfokscno";
 const principles = [
   {
     number: 1,
-    title: "対子候補が3組なら、2組へ整理する",
-    description: "対子が3組ある形は、すべてを抱えるより1組をほぐした方が、順子や両面へ変化する余地を作りやすくなります。どの対子を崩すかは、周囲の牌とのつながりまで見て選びます。",
+    title: "対子が3組なら、残す2組を比べる",
+    description: "通常形で順子を作るときの目安です。周囲とのつながりを見て、ほぐす候補を比べます。七対子や対々和を狙う手まで、対子を減らすと決めつけません。",
     href: `${videoUrl}&t=106s`,
     blocks: [
       { label: "対子", tiles: ["man2", "man2"] },
@@ -28,8 +31,8 @@ const principles = [
   },
   {
     number: 2,
-    title: "対子候補が2組なら、1組に減らさない",
-    description: "対子が2組あれば、一方が刻子になっても、もう一方を雀頭として使えます。雀頭候補を失って手牌が不安定になるのを避ける、初心者が覚えやすい基準です。",
+    title: "対子が2組なら、雀頭の残り方を見る",
+    description: "片方が刻子になった後も、もう片方を雀頭に使えるのが利点です。ただし、順子との重なりや残り枚数を見ずに、すべての対子を固定するという意味ではありません。",
     href: `${videoUrl}&t=496s`,
     blocks: [
       { label: "雀頭候補", tiles: ["ji5", "ji5"] },
@@ -38,8 +41,8 @@ const principles = [
   },
   {
     number: 3,
-    title: "6ブロックなら、弱い形から5ブロックへ絞る",
-    description: "基本のアガリ形は4面子1雀頭なので、手牌は5ブロックで完成します。6ブロックあるときは、ペンチャンやカンチャンなど受け入れの狭い候補を比較し、不要な1ブロックを早めに整理します。",
+    title: "6ブロックなら、余る候補を比べる",
+    description: "完成に使うのは4面子と雀頭です。候補が余ったら、どれを残すと受け入れが広いかを比較します。ブロックの名前だけでなく、打牌後のシャンテン数も確認します。",
     href: `${videoUrl}&t=772s`,
     blocks: [
       { label: "1", tiles: ["man1", "man2", "man3"] },
@@ -52,8 +55,8 @@ const principles = [
   },
   {
     number: 4,
-    title: "5ブロックあるなら、4ブロックへ減らさない",
-    description: "必要な5ブロックが見えているのに塔子を丸ごと外すと、もう一度ブロックを作り直す必要が生まれます。受け入れを比べながら、完成に必要な5つの候補を保ちます。",
+    title: "5ブロックなら、必要な候補を守る",
+    description: "必要な候補を外すと、作り直しが必要になる場合があります。これは速度を考える基準であり、守備や打点のために形を変える選択まで否定するものではありません。",
     href: `${videoUrl}&t=1135s`,
     blocks: [
       { label: "1", tiles: ["man1", "man2", "man3"] },
@@ -72,6 +75,7 @@ const tileNames: Record<string, string> = {
 };
 
 export default function TileEfficiencyVideoArticlePage() {
+  const example = getPairReviewExample();
   return (
     <main className="siteMain videoArticlePage">
       <article>
@@ -113,6 +117,33 @@ export default function TileEfficiencyVideoArticlePage() {
             { title: "牌効率は「最速」を考える基準です", description: "この4法則は、テンパイまでの速さと受け入れを考えるための基本です。" },
           ]}
         />
+
+        <section className="videoArticleBodySection" aria-labelledby="four-rules-review-title">
+          <h2 id="four-rules-review-title">4つのテーマを、使う条件と一緒に確認する</h2>
+          <p>元動画の公式説明欄で確認した4テーマです。下の説明は雀フォリオが補足した使い方で、すべての局面に通用する絶対的な正解ではありません。時刻のリンクから元の章も確認できます。</p>
+          <div className="videoPrincipleList">{principles.map((principle) => (
+            <section className="videoPrinciple" key={principle.number}>
+              <div className="videoPrincipleNumber">{principle.number}</div>
+              <div className="videoPrincipleBody"><h3>{principle.title}</h3><p>{principle.description}</p><a href={principle.href} target="_blank" rel="noopener noreferrer">元動画の該当章へ</a></div>
+            </section>
+          ))}</div>
+        </section>
+
+        <section className="videoArticleBodySection" aria-labelledby="pair-review-title">
+          <p className="videoArticleSectionLabel">JONGFOLIO / 独自の比較教材</p>
+          <h2 id="pair-review-title">対子を残すだけでは、受け入れが狭くなる例</h2>
+          <p>次の14枚は動画の牌姿ではなく、雀フォリオが検証した教材です。副露なし・通常形の進行を対象に、場に見えている牌を入れずに比較します。</p>
+          <div className={reviewStyles.hand}><TileStrip tiles={example.tiles} /></div>
+          <p>123萬・456筒・88萬・99筒・67索・東東と分けると、面子2組、対子3組、両面候補1組です。9筒を切って対子をほぐす案と、6索を切って対子3組を残す案を比べます。</p>
+          <table className={reviewStyles.table}>
+            <caption>同じ14枚から切った直後の比較</caption>
+            <thead><tr><th scope="col">打牌</th><th scope="col">進行</th><th scope="col">受け入れ</th></tr></thead>
+            <tbody>{example.choices.map((row) => <tr key={row.discard}><th scope="row">{row.discard === "9p" ? "9筒" : "6索"}</th><td>{row.afterDiscardShanten}シャンテン</td><td>{row.ukeireTypes}種・{row.ukeireTiles}枚</td></tr>)}</tbody>
+          </table>
+          <p>9筒切りでは8萬・東が各2枚、5索・8索が各4枚で計12枚。6索切りでは8萬・9筒・東が各2枚で計6枚です。同じ一向聴でも、次の一枚でテンパイする範囲が違います。</p>
+          <p>これは二候補の比較であり、9筒をどの状況でも切るという結論ではありません。東の役牌価値、他家のリーチ、公開牌、七対子・国士無双や将来の手変わりは別に確認します。受け入れ枚数を和了率や期待値として読むこともできません。</p>
+          <div className="toolGuideLinks"><a href={example.href}>この14枚を牌理チェッカーで比較する</a><Link href="/learn/guides/five-block-theory">5ブロック理論の詳しい解説</Link></div>
+        </section>
 
         <section className="videoArticleNext">
                   <p className="videoArticleSectionLabel">NEXT STEP</p>

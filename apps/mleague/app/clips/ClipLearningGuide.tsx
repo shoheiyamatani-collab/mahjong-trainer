@@ -1,4 +1,5 @@
 import { UnofficialNotice } from "@/components/mleague/UnofficialNotice";
+import { ClipVerifiedExamples } from "./ClipVerifiedExamples";
 
 type Topic = "recent" | "yakuman" | "moments" | "directory";
 const topics = {
@@ -42,6 +43,7 @@ export function ClipLearningGuide({ topic }: { topic: Topic }) {
     <section className="section" aria-labelledby="clip-learning-title">
       <div className="section-heading"><h2 id="clip-learning-title">{content.title}</h2></div>
       {content.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      {topic === "recent" || topic === "yakuman" ? <ClipVerifiedExamples topic={topic} /> : null}
       <ul>{content.links.map((link) => <li key={link.href}><a className="text-link" href={link.href}>{link.label}</a></li>)}</ul>
       <p className="match-source-note">映像は投稿者のYouTubeで再生します。公開終了・年齢や地域による制限などで再生できない場合があります。掲載内容の訂正は<a href="/contact">お問い合わせ</a>へ、ページURLと該当箇所をお知らせください。</p>
       <UnofficialNotice />

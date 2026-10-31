@@ -15,6 +15,10 @@ const practice = (href: string, title: string, description: string): PracticeLin
 
 export function getVideoPracticeLinks(guide: VideoGuide): PracticeLinks {
   const topic = `${guide.title} ${guide.category}`;
+  if (guide.articleHref === "/videos/strategy/common-bad-habits-self-check") return {
+    note: "守備の目的と、役の有無を分けて復習します。現物とスジは同じ安全情報ではなく、役なしのテンパイもそのままロンできるとは限りません。",
+    links: [practice("/trainer/push-or-fold", "押す？オリる？", "相手の攻撃と自分の手の価値を見て、押すか降りるかを比べます。"), practice("/trainer/riichi-or-dama", "リーチ？ダマ？", "役の有無、待ち、点数状況をそろえて選択を振り返ります。")]
+  };
   if (/点数|符計算/.test(topic)) return {
     note: "同じ牌姿でも、門前・副露やアガリ方で計算結果が変わります。まず条件をそろえて比べましょう。",
     links: [practice("/trainer/score", "点数計算トレーニング", "牌姿から点数を答え、翻・符の見落としを振り返ります。"), score]
