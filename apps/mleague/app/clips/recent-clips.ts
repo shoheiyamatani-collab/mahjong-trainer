@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "4hNa1fA1f9o",
-  tag: "10/30 ハイライト",
-  title: "【2026/10/30 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "7SQpZ10ClJM",
+  tag: "11/2 ハイライト",
+  title: "【2026/11/2 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、岡田紗佳のフリテン三面張リーチからの親跳満、伊達朱里紗の親番でのめくり合い、本田朋広の対子手からの跳満、仲林圭の満貫、東城りおの100戦目の攻め、下石戟の鳴き読みと親跳満を見どころとして紹介しています。",
+    "公式説明欄では、鈴木たろうの反撃リーチ、尻無濱航のカンチャン一発ツモ、多井隆晴の地獄単騎の親跳満、本田朋広のトイトイ、東城りおの親番での攻め、HIRO柴田の跳満を見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=4hNa1fA1f9o",
-  date: "2026年10月31日公開",
-  competition: "10月30日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=7SQpZ10ClJM",
+  date: "2026年11月3日公開",
+  competition: "11月2日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "4hNa1fA1f9o",
+    tag: "10/30 ハイライト",
+    title: "【2026/10/30 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、岡田紗佳のフリテン三面張リーチからの親跳満、伊達朱里紗の親番でのめくり合い、本田朋広の対子手からの跳満、仲林圭の満貫、東城りおの100戦目の攻め、下石戟の鳴き読みと親跳満を見どころとして紹介しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=4hNa1fA1f9o",
+    date: "2026年10月31日公開",
+    competition: "10月30日 Mリーグ公式ハイライト",
+  },
   {
     id: "HOnL7XVDncE",
     tag: "10/29 ハイライト",
