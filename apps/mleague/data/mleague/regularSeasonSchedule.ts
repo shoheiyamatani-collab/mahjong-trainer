@@ -16,7 +16,7 @@ export type RegularSeasonMatchDay = {
 };
 
 export const regularSeasonScheduleVerifiedAt = "2026-11-04";
-export const regularSeasonResultsThrough = "2026-11-03";
+export const regularSeasonResultsThrough = "2026-11-02";
 export const regularSeasonScheduleSourceUrl = "https://m-league.jp/games/";
 
 export const regularSeasonSchedule = [
