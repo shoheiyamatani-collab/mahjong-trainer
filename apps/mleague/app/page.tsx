@@ -117,9 +117,9 @@ const latestResults: MatchResult[] = [
         player: "内川幸太郎",
         playerSlug: "uchikawa-kotaro",
         points: -47.1,
-        name: "渋谷ABEMAS",
-        slug: "shibuya-abemas",
-        teamId: "team-abemas",
+        name: "EX風林火山",
+        slug: "ex-furinkazan",
+        teamId: "team-furinkazan",
       },
     ],
   },
@@ -333,7 +333,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">11月2日（月）の対局結果</h2>
+            <h2 id="latest-results-title">11月3日（火）の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る

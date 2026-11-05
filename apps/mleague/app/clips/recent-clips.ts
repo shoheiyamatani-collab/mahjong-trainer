@@ -1,15 +1,15 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "7SQpZ10ClJM",
-  tag: "11/2 ハイライト",
-  title: "【2026/11/2 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "BdDU0sM8CGU",
+  tag: "11/3 ハイライト",
+  title: "【2026/11/3 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、鈴木たろうの反撃リーチ、尻無濱航のカンチャン一発ツモ、多井隆晴の地獄単騎の親跳満、本田朋広のトイトイ、東城りおの親番での攻め、HIRO柴田の跳満を見どころとして紹介しています。",
+    "11月3日のレギュラーシーズン4試合を収録。岡田紗佳、堀慎吾、竹内元太、瀬戸熊直樹が各試合でトップを獲得しました。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=7SQpZ10ClJM",
-  date: "2026年11月3日公開",
-  competition: "11月2日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=BdDU0sM8CGU",
+  date: "2026年11月4日公開",
+  competition: "11月3日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
