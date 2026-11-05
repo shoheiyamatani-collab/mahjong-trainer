@@ -44,6 +44,7 @@ export function getUpcomingScheduledMatches(
   totalTablesOnThrough: number,
   limit: number,
   resultsThrough?: string,
+  completedTableIndexesOnThrough?: readonly number[],
 ): UpcomingScheduledMatch[] {
   if (!Number.isInteger(limit) || limit < 0) {
     throw new RangeError("表示する対局数は0以上の整数で指定してください。");
@@ -60,8 +61,10 @@ export function getUpcomingScheduledMatches(
       const isAfterLatestStats = matchDay.date > statsThrough;
       const isUnfinishedOnStatsDate =
         matchDay.date === statsThrough &&
-        completedTablesOnThrough < totalTablesOnThrough &&
-        tableIndex >= completedTablesOnThrough;
+        (completedTableIndexesOnThrough
+          ? !completedTableIndexesOnThrough.includes(tableIndex)
+          : completedTablesOnThrough < totalTablesOnThrough &&
+            tableIndex >= completedTablesOnThrough);
 
       if (!isAfterLatestStats && !isUnfinishedOnStatsDate) continue;
 

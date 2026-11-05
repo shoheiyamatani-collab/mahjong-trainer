@@ -35,6 +35,17 @@ describe("M.League schedule presentation", () => {
     ]);
   });
 
+  it("can skip a completed non-first table when match results finish out of order", () => {
+    const schedule = [{
+      date: "2026-11-05",
+      tables: [["team-jets", "team-sakuraknights", "team-fightclub", "team-raiden"], ["team-drivens", "team-furinkazan", "team-abemas", "team-phoenix"]],
+    }] as const;
+
+    expect(getUpcomingScheduledMatches(schedule, "2026-11-05", 1, 2, 1, undefined, [1])).toMatchObject([
+      { tableIndex: 0, tableLabel: "A卓", matchNumber: 1, teams: schedule[0].tables[0] },
+    ]);
+  });
+
   it("uses the official results page to skip a completed match date while stats are still partial", () => {
     const schedule = [
       {

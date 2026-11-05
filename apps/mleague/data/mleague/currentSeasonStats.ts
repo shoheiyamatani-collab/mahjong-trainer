@@ -7,6 +7,8 @@ export const currentSeasonStatsCompletedTablesOnThrough =
   source.completedTablesOnThrough ?? 1;
 export const currentSeasonStatsTotalTablesOnThrough =
   source.totalTablesOnThrough ?? currentSeasonStatsCompletedTablesOnThrough;
+export const currentSeasonStatsCompletedTableIndexesOnThrough =
+  source.completedTableIndexesOnThrough;
 export const currentSeasonStatsSourceUrl = source.sourceUrl;
 export const currentSeasonStatsProgressLabel =
   currentSeasonStatsCompletedTablesOnThrough < currentSeasonStatsTotalTablesOnThrough
