@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "BdDU0sM8CGU",
-  tag: "11/3 ハイライト",
-  title: "【2026/11/3 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "A33UPm5RTio",
+  tag: "11/5 ハイライト",
+  title: "【2026/11/5 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "11月3日のレギュラーシーズン4試合を収録。岡田紗佳、堀慎吾、竹内元太、瀬戸熊直樹が各試合でトップを獲得しました。",
+    "公式説明欄では、二階堂亜樹の2つの満貫、滝沢和典の追っかけリーチと純カラ単騎からの倍満、瀬戸熊直樹の逆転ツモ、HIRO柴田の満貫を見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=BdDU0sM8CGU",
-  date: "2026年11月4日公開",
-  competition: "11月3日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=A33UPm5RTio",
+  date: "2026年11月6日公開",
+  competition: "11月5日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "BdDU0sM8CGU",
+    tag: "11/3 ハイライト",
+    title: "【2026/11/3 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "11月3日のレギュラーシーズン4試合を収録。岡田紗佳、堀慎吾、竹内元太、瀬戸熊直樹が各試合でトップを獲得しました。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=BdDU0sM8CGU",
+    date: "2026年11月4日公開",
+    competition: "11月3日 Mリーグ公式ハイライト",
+  },
   {
     id: "4hNa1fA1f9o",
     tag: "10/30 ハイライト",

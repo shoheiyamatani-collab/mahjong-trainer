@@ -131,6 +131,47 @@ const latestResults: MatchResult[] = [
     ],
   },
   {
+    label: "A卓・第2試合",
+    entries: [
+      {
+        rank: 1,
+        player: "滝沢和典",
+        playerSlug: "takizawa-kazunori",
+        points: 73.3,
+        name: "KONAMI麻雀格闘倶楽部",
+        slug: "konami-mahjong-fight-club",
+        teamId: "team-fightclub",
+      },
+      {
+        rank: 2,
+        player: "本田朋広",
+        playerSlug: "honda-tomohiro",
+        points: 17.2,
+        name: "TEAM RAIDEN / 雷電",
+        slug: "team-raiden",
+        teamId: "team-raiden",
+      },
+      {
+        rank: 3,
+        player: "石井一馬",
+        playerSlug: "ishii-kazuma",
+        points: -26.7,
+        name: "EARTH JETS",
+        slug: "earth-jets",
+        teamId: "team-jets",
+      },
+      {
+        rank: 4,
+        player: "阿久津翔太",
+        playerSlug: "akutsu-shota",
+        points: -63.8,
+        name: "KADOKAWAサクラナイツ",
+        slug: "kadokawa-sakura-knights",
+        teamId: "team-sakuraknights",
+      },
+    ],
+  },
+  {
     label: "B卓・第1試合",
     entries: [
       {
@@ -301,7 +342,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">11月5日（木）の対局結果（A卓・第2試合は進行中）</h2>
+            <h2 id="latest-results-title">11月5日（木）の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
