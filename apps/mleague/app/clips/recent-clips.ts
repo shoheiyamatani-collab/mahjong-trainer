@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "A33UPm5RTio",
-  tag: "11/5 ハイライト",
-  title: "【2026/11/5 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "VBGLATrsbqM",
+  tag: "11/6 ハイライト",
+  title: "【2026/11/6 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、二階堂亜樹の2つの満貫、滝沢和典の追っかけリーチと純カラ単騎からの倍満、瀬戸熊直樹の逆転ツモ、HIRO柴田の満貫を見どころとして紹介しています。",
+    "公式説明欄では、浅見真紀の跳満、鈴木たろうの地獄単騎一発ツモ、伊達朱里紗の一発ツモを逃した後の構え、松本吉弘の三色対決、竹内元太の守備、仲林圭の親跳満、石井一馬のドラ単騎を見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=A33UPm5RTio",
-  date: "2026年11月6日公開",
-  competition: "11月5日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=VBGLATrsbqM",
+  date: "2026年11月7日公開",
+  competition: "11月6日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "A33UPm5RTio",
+    tag: "11/5 ハイライト",
+    title: "【2026/11/5 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、二階堂亜樹の2つの満貫、滝沢和典の追っかけリーチと純カラ単騎からの倍満、瀬戸熊直樹の逆転ツモ、HIRO柴田の満貫を見どころとして紹介しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=A33UPm5RTio",
+    date: "2026年11月6日公開",
+    competition: "11月5日 Mリーグ公式ハイライト",
+  },
   {
     id: "BdDU0sM8CGU",
     tag: "11/3 ハイライト",
