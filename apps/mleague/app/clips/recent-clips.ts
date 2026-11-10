@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "VBGLATrsbqM",
-  tag: "11/6 ハイライト",
-  title: "【2026/11/6 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "4UVsQHS80yg",
+  tag: "11/9 ハイライト",
+  title: "【2026/11/9 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、浅見真紀の跳満、鈴木たろうの地獄単騎一発ツモ、伊達朱里紗の一発ツモを逃した後の構え、松本吉弘の三色対決、竹内元太の守備、仲林圭の親跳満、石井一馬のドラ単騎を見どころとして紹介しています。",
+    "公式説明欄では、阿久津翔太の満貫、佐々木寿人の赤単騎、高宮まりのオーラスの親リーチを無視したトップ狙い、佐野ひなこの裏ドラ4枚で倍満となったアガリ、鈴木大介の4000オールを見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=VBGLATrsbqM",
-  date: "2026年11月7日公開",
-  competition: "11月6日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=4UVsQHS80yg",
+  date: "2026年11月10日公開",
+  competition: "11月9日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "VBGLATrsbqM",
+    tag: "11/6 ハイライト",
+    title: "【2026/11/6 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、浅見真紀の跳満、鈴木たろうの地獄単騎一発ツモ、伊達朱里紗の一発ツモを逃した後の構え、松本吉弘の三色対決、竹内元太の守備、仲林圭の親跳満、石井一馬のドラ単騎を見どころとして紹介しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=VBGLATrsbqM",
+    date: "2026年11月7日公開",
+    competition: "11月6日 Mリーグ公式ハイライト",
+  },
   {
     id: "A33UPm5RTio",
     tag: "11/5 ハイライト",
