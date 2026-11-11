@@ -142,6 +142,10 @@ export function inferStatsThrough(scheduleSource, totalPlayerMatches) {
   return inferStatsProgress(scheduleSource, totalPlayerMatches).through;
 }
 
+export function areOfficialStatsPublished(totalPlayerMatches) {
+  return totalPlayerMatches > 0;
+}
+
 function japanDate() {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Tokyo" }).format(new Date());
 }
@@ -165,6 +169,15 @@ export async function updateStats({ html, write = true } = {}) {
   const parsed = parseOfficialStats(responseHtml, parsePlayerIdMap(playersSource));
   const previous = JSON.parse(previousText);
   const totalPlayerMatches = Object.values(parsed.players).reduce((sum, stat) => sum + stat.matchesPlayed, 0);
+  if (!areOfficialStatsPublished(totalPlayerMatches)) {
+    return {
+      changed: false,
+      skipped: "official-stats-not-published",
+      playerCount: Object.keys(parsed.players).length,
+      totalPlayerMatches,
+      data: previous,
+    };
+  }
   const changed = stableStats(previous) !== stableStats(parsed);
   const progress = inferStatsProgress(scheduleSource, totalPlayerMatches);
   const next = changed ? {
@@ -182,5 +195,5 @@ export async function updateStats({ html, write = true } = {}) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const result = await updateStats({ write: !process.argv.includes("--check") });
-  console.log(JSON.stringify({ changed: result.changed, playerCount: result.playerCount, totalPlayerMatches: result.totalPlayerMatches, through: result.data.through }));
+  console.log(JSON.stringify({ changed: result.changed, skipped: result.skipped ?? null, playerCount: result.playerCount, totalPlayerMatches: result.totalPlayerMatches, through: result.data.through }));
 }

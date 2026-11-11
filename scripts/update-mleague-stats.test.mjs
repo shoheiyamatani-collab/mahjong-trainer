@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { inferStatsProgress, inferStatsThrough, parseOfficialStats, parsePlayerIdMap } from "./update-mleague-stats.mjs";
+import { areOfficialStatsPublished, inferStatsProgress, inferStatsThrough, parseOfficialStats, parsePlayerIdMap } from "./update-mleague-stats.mjs";
 
 function playerSource(names) {
   return names.map((name, index) => `{
@@ -68,4 +68,9 @@ test("a partially completed two-table date reports table progress", () => {
     completedTables: 1,
     totalTables: 2,
   });
+});
+
+test("official all-zero placeholder stats are treated as not yet published", () => {
+  assert.equal(areOfficialStatsPublished(0), false);
+  assert.equal(areOfficialStatsPublished(1), true);
 });
