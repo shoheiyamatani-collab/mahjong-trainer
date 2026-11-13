@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "Fq188Dol5Ko",
-  tag: "11/10 ハイライト",
-  title: "【2026/11/10 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "NbFwF9VoWxI",
+  tag: "11/12 ハイライト",
+  title: "【2026/11/12 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "公式説明欄では、岡田紗佳の赤と裏ドラ3枚、堀慎吾の役満を含む複数の見どころ、4人全員がダマテンの局、白鳥翔のヤミテン満貫、本田朋広の河底ロン、三浦智博のダマ単騎、HIRO柴田のドラ先切りを紹介しています。",
+    "11月12日のMリーグ2026-27対局を収めた、M.LEAGUE公式チャンネルのハイライト動画です。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=Fq188Dol5Ko",
-  date: "2026年11月11日公開",
-  competition: "11月10日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=NbFwF9VoWxI",
+  date: "2026年11月13日公開",
+  competition: "11月12日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "Fq188Dol5Ko",
+    tag: "11/10 ハイライト",
+    title: "【2026/11/10 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "公式説明欄では、岡田紗佳の赤と裏ドラ3枚、堀慎吾の役満を含む複数の見どころ、4人全員がダマテンの局、白鳥翔のヤミテン満貫、本田朋広の河底ロン、三浦智博のダマ単騎、HIRO柴田のドラ先切りを紹介しています。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=Fq188Dol5Ko",
+    date: "2026年11月11日公開",
+    competition: "11月10日 Mリーグ公式ハイライト",
+  },
   {
     id: "4UVsQHS80yg",
     tag: "11/9 ハイライト",
