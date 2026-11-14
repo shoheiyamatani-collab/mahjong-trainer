@@ -1,19 +1,30 @@
 import type { HighlightClip } from "./highlights/highlight-clips";
 
 export const latestMatchHighlight: HighlightClip = {
-  id: "NbFwF9VoWxI",
-  tag: "11/12 ハイライト",
-  title: "【2026/11/12 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+  id: "7BmLxOykuHM",
+  tag: "11/13 ハイライト",
+  title: "【2026/11/13 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
   summary:
-    "11月12日のMリーグ2026-27対局を収めた、M.LEAGUE公式チャンネルのハイライト動画です。",
+    "公式説明では、永井孝典の跳満、白鳥翔のメンホン、佐野ひなこの逆転トップ、茅森早香の3000-6000、萩原聖人の一発ツモ、鈴木大介のレギュラー100ゲーム目を見どころとして紹介しています。",
   channel: "M.LEAGUE [プロ麻雀リーグ]",
-  url: "https://www.youtube.com/watch?v=NbFwF9VoWxI",
-  date: "2026年11月13日公開",
-  competition: "11月12日 Mリーグ公式ハイライト",
+  url: "https://www.youtube.com/watch?v=7BmLxOykuHM",
+  date: "2026年11月14日公開",
+  competition: "11月13日 Mリーグ公式ハイライト",
 };
 
 export const recentClips: readonly HighlightClip[] = [
   latestMatchHighlight,
+  {
+    id: "NbFwF9VoWxI",
+    tag: "11/12 ハイライト",
+    title: "【2026/11/12 ハイライト】#Mリーグ 2026-27｜毎週月/火/木/金/よる7時よりアベマで無料生中継＜公式＞",
+    summary:
+      "11月12日のMリーグ2026-27対局を収めた、M.LEAGUE公式チャンネルのハイライト動画です。",
+    channel: "M.LEAGUE [プロ麻雀リーグ]",
+    url: "https://www.youtube.com/watch?v=NbFwF9VoWxI",
+    date: "2026年11月13日公開",
+    competition: "11月12日 Mリーグ公式ハイライト",
+  },
   {
     id: "Fq188Dol5Ko",
     tag: "11/10 ハイライト",
