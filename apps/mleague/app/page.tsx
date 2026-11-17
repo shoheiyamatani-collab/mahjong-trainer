@@ -88,171 +88,53 @@ const nextMatchIsLive = Boolean(
     currentSeasonStatsCompletedTablesOnThrough < currentSeasonStatsTotalTablesOnThrough,
 );
 
+function createResultMatch(
+  label: string,
+  rows: readonly [player: string, playerSlug: string, points: number, teamId: string][],
+): MatchResult {
+  return {
+    label,
+    entries: rows.map(([player, playerSlug, points, teamId], index) => {
+      const team = teamById.get(teamId);
+      if (!team) throw new Error(`対局結果に未登録のチームIDがあります: ${teamId}`);
+      return {
+        rank: (index + 1) as MatchResultEntry["rank"],
+        player,
+        playerSlug,
+        points,
+        name: team.name,
+        slug: team.slug,
+        teamId: team.id,
+      };
+    }),
+  };
+}
+
 const latestResults: MatchResult[] = [
-  {
-    label: "A卓・第1試合",
-    entries: [
-      {
-        rank: 1,
-        player: "岡田紗佳",
-        playerSlug: "okada-sayaka",
-        points: 82.8,
-        name: "KADOKAWAサクラナイツ",
-        slug: "kadokawa-sakura-knights",
-        teamId: "team-sakuraknights",
-      },
-      {
-        rank: 2,
-        player: "園田賢",
-        playerSlug: "sonoda-ken",
-        points: 13.5,
-        name: "赤坂ドリブンズ",
-        slug: "akasaka-drivens",
-        teamId: "team-drivens",
-      },
-      {
-        rank: 3,
-        player: "朝倉康心",
-        playerSlug: "asakura-koshin",
-        points: -35.3,
-        name: "U-NEXT Pirates",
-        slug: "u-next-pirates",
-        teamId: "team-pirates",
-      },
-      {
-        rank: 4,
-        player: "伊達朱里紗",
-        playerSlug: "date-arisa",
-        points: -61,
-        name: "KONAMI麻雀格闘倶楽部",
-        slug: "konami-mahjong-fight-club",
-        teamId: "team-fightclub",
-      },
-    ],
-  },
-  {
-    label: "A卓・第2試合",
-    entries: [
-      {
-        rank: 1,
-        player: "堀慎吾",
-        playerSlug: "hori-shingo",
-        points: 65.8,
-        name: "KADOKAWAサクラナイツ",
-        slug: "kadokawa-sakura-knights",
-        teamId: "team-sakuraknights",
-      },
-      {
-        rank: 2,
-        player: "渡辺太",
-        playerSlug: "watanabe-futoshi",
-        points: 12.9,
-        name: "赤坂ドリブンズ",
-        slug: "akasaka-drivens",
-        teamId: "team-drivens",
-      },
-      {
-        rank: 3,
-        player: "滝沢和典",
-        playerSlug: "takizawa-kazunori",
-        points: -27.8,
-        name: "KONAMI麻雀格闘倶楽部",
-        slug: "konami-mahjong-fight-club",
-        teamId: "team-fightclub",
-      },
-      {
-        rank: 4,
-        player: "鈴木優",
-        playerSlug: "suzuki-yu",
-        points: -50.9,
-        name: "U-NEXT Pirates",
-        slug: "u-next-pirates",
-        teamId: "team-pirates",
-      },
-    ],
-  },
-  {
-    label: "B卓・第1試合",
-    entries: [
-      {
-        rank: 1,
-        player: "本田朋広",
-        playerSlug: "honda-tomohiro",
-        points: 82.3,
-        name: "TEAM RAIDEN / 雷電",
-        slug: "team-raiden",
-        teamId: "team-raiden",
-      },
-      {
-        rank: 2,
-        player: "三浦智博",
-        playerSlug: "miura-tomohiro",
-        points: 2.8,
-        name: "EARTH JETS",
-        slug: "earth-jets",
-        teamId: "team-jets",
-      },
-      {
-        rank: 3,
-        player: "東城りお",
-        playerSlug: "tojo-rio",
-        points: -22,
-        name: "BEAST X",
-        slug: "beast-x",
-        teamId: "team-beast",
-      },
-      {
-        rank: 4,
-        player: "日向藍子",
-        playerSlug: "hinata-aiko",
-        points: -63.1,
-        name: "渋谷ABEMAS",
-        slug: "shibuya-abemas",
-        teamId: "team-abemas",
-      },
-    ],
-  },
-  {
-    label: "B卓・第2試合",
-    entries: [
-      {
-        rank: 1,
-        player: "HIRO柴田",
-        playerSlug: "hiro-shibata",
-        points: 59.3,
-        name: "EARTH JETS",
-        slug: "earth-jets",
-        teamId: "team-jets",
-      },
-      {
-        rank: 2,
-        player: "白鳥翔",
-        playerSlug: "shiratori-sho",
-        points: 15.2,
-        name: "渋谷ABEMAS",
-        slug: "shibuya-abemas",
-        teamId: "team-abemas",
-      },
-      {
-        rank: 3,
-        player: "黒沢咲",
-        playerSlug: "kurosawa-saki",
-        points: -16.8,
-        name: "TEAM RAIDEN / 雷電",
-        slug: "team-raiden",
-        teamId: "team-raiden",
-      },
-      {
-        rank: 4,
-        player: "中田花奈",
-        playerSlug: "nakada-kana",
-        points: -57.7,
-        name: "BEAST X",
-        slug: "beast-x",
-        teamId: "team-beast",
-      },
-    ],
-  },
+  createResultMatch("A卓・第1試合", [
+    ["滝沢和典", "takizawa-kazunori", 66.2, "team-fightclub"],
+    ["竹内元太", "takeuchi-genta", 5.0, "team-phoenix"],
+    ["HIRO柴田", "hiro-shibata", -17.0, "team-jets"],
+    ["下石戟", "shimoishi-geki", -54.2, "team-beast"],
+  ]),
+  createResultMatch("A卓・第2試合", [
+    ["三浦智博", "miura-tomohiro", 66.0, "team-jets"],
+    ["佐野ひなこ", "sano-hinako", 16.7, "team-phoenix"],
+    ["佐々木寿人", "sasaki-hisato", -29.2, "team-fightclub"],
+    ["中田花奈", "nakada-kana", -53.5, "team-beast"],
+  ]),
+  createResultMatch("B卓・第1試合", [
+    ["本田朋広", "honda-tomohiro", 55.1, "team-raiden"],
+    ["永井孝典", "nagai-kosuke", 10.1, "team-furinkazan"],
+    ["多井隆晴", "oi-takaharu", -11.5, "team-abemas"],
+    ["園田賢", "sonoda-ken", -53.7, "team-drivens"],
+  ]),
+  createResultMatch("B卓・第2試合", [
+    ["二階堂亜樹", "nikaido-aki", 94.7, "team-furinkazan"],
+    ["白鳥翔", "shiratori-sho", 1.6, "team-abemas"],
+    ["鈴木たろう", "suzuki-taro", -32.0, "team-drivens"],
+    ["黒沢咲", "kurosawa-saki", -64.3, "team-raiden"],
+  ]),
 ];
 
 function formatPoints(points: number) {
@@ -342,7 +224,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">11月10日（火）の対局結果</h2>
+            <h2 id="latest-results-title">11月16日（月）の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る

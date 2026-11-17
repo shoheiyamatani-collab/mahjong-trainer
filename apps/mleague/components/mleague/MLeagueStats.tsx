@@ -136,7 +136,7 @@ export function MLeagueStats({ playerId, stats, results }: MLeagueStatsProps) {
       <p className="mleague-stats-source current-season-source">
         出典：
         <ExternalLink className="text-link" href={currentSeasonStatsSourceUrl}>
-          Mリーグ公式 成績表
+          Mリーグ公式の対局結果発表
         </ExternalLink>
       </p>
 
