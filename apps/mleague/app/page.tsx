@@ -90,21 +90,15 @@ const nextMatchIsLive = Boolean(
 
 function createResultMatch(
   label: string,
-  rows: readonly [
-    player: string,
-    playerSlug: string,
-    points: number,
-    teamId: string,
-    rank?: MatchResultEntry["rank"],
-  ][],
+  rows: readonly [player: string, playerSlug: string, points: number, teamId: string][],
 ): MatchResult {
   return {
     label,
-    entries: rows.map(([player, playerSlug, points, teamId, rank], index) => {
+    entries: rows.map(([player, playerSlug, points, teamId], index) => {
       const team = teamById.get(teamId);
       if (!team) throw new Error(`対局結果に未登録のチームIDがあります: ${teamId}`);
       return {
-        rank: rank ?? ((index + 1) as MatchResultEntry["rank"]),
+        rank: (index + 1) as MatchResultEntry["rank"],
         player,
         playerSlug,
         points,
@@ -118,28 +112,28 @@ function createResultMatch(
 
 const latestResults: MatchResult[] = [
   createResultMatch("A卓・第1試合", [
-    ["東城りお", "tojo-rio", 106.0, "team-beast"],
-    ["鈴木優", "suzuki-yu", -4.7, "team-pirates"],
-    ["瀬戸熊直樹", "setokuma-naoki", -26.8, "team-raiden"],
-    ["渡辺太", "watanabe-futoshi", -74.5, "team-drivens"],
+    ["滝沢和典", "takizawa-kazunori", 66.2, "team-fightclub"],
+    ["竹内元太", "takeuchi-genta", 5.0, "team-phoenix"],
+    ["HIRO柴田", "hiro-shibata", -17.0, "team-jets"],
+    ["下石戟", "shimoishi-geki", -54.2, "team-beast"],
   ]),
   createResultMatch("A卓・第2試合", [
-    ["鈴木たろう", "suzuki-taro", 80.4, "team-drivens"],
-    ["萩原聖人", "hagiwara-masato", 11.4, "team-raiden"],
-    ["朝倉康心", "asakura-koshin", -26.3, "team-pirates"],
-    ["下石戟", "shimoishi-geki", -65.5, "team-beast"],
+    ["三浦智博", "miura-tomohiro", 66.0, "team-jets"],
+    ["佐野ひなこ", "sano-hinako", 16.7, "team-phoenix"],
+    ["佐々木寿人", "sasaki-hisato", -29.2, "team-fightclub"],
+    ["中田花奈", "nakada-kana", -53.5, "team-beast"],
   ]),
   createResultMatch("B卓・第1試合", [
-    ["三浦智博", "miura-tomohiro", 27.1, "team-jets", 1],
-    ["滝沢和典", "takizawa-kazunori", 27.1, "team-fightclub", 1],
-    ["日向藍子", "hinata-aiko", -13.4, "team-abemas", 3],
-    ["岡田紗佳", "okada-sayaka", -40.8, "team-sakuraknights", 4],
+    ["本田朋広", "honda-tomohiro", 55.1, "team-raiden"],
+    ["永井孝典", "nagai-kosuke", 10.1, "team-furinkazan"],
+    ["多井隆晴", "oi-takaharu", -11.5, "team-abemas"],
+    ["園田賢", "sonoda-ken", -53.7, "team-drivens"],
   ]),
   createResultMatch("B卓・第2試合", [
-    ["白鳥翔", "shiratori-sho", 58.8, "team-abemas"],
-    ["佐々木寿人", "sasaki-hisato", 2.9, "team-fightclub"],
-    ["HIRO柴田", "hiro-shibata", -20.1, "team-jets"],
-    ["堀慎吾", "hori-shingo", -41.6, "team-sakuraknights"],
+    ["二階堂亜樹", "nikaido-aki", 94.7, "team-furinkazan"],
+    ["白鳥翔", "shiratori-sho", 1.6, "team-abemas"],
+    ["鈴木たろう", "suzuki-taro", -32.0, "team-drivens"],
+    ["黒沢咲", "kurosawa-saki", -64.3, "team-raiden"],
   ]),
 ];
 
@@ -230,7 +224,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">11月17日（火）の対局結果</h2>
+            <h2 id="latest-results-title">11月16日（月）の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
