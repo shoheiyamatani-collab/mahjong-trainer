@@ -9,6 +9,7 @@ const sitemapPath = path.join(outputRoot, "sitemap.xml");
 const publicationPolicyPath = path.join(repositoryRoot, "packages", "content-index-policy", "src", "publicationPolicy.json");
 const siteOrigin = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://jongfolio.com").origin;
 const isReviewMode = process.env.ADSENSE_REVIEW_MODE === "true";
+const isMLeagueSeparate = Boolean(process.env.MLEAGUE_STANDALONE_URL);
 const errors = [];
 const checkedReferences = new Set();
 let outputFilePaths = new Set();
@@ -168,6 +169,7 @@ try {
 
   if (isReviewMode) {
     for (const prefix of reviewModeNoindexRoutePrefixes) {
+      if (isMLeagueSeparate && prefix === "/mleague") continue;
       const normalizedPrefix = prefix.replace(/^\/+|\/+$/g, "");
       const routeHtmlFiles = htmlFiles.filter((file) => {
         const relative = path.relative(outputRoot, file).replaceAll("\\", "/");
@@ -245,11 +247,14 @@ try {
     if (normalizedMleagueHomeHtml.includes("10.27") && !normalizedMleagueHomeHtml.includes("TUE / 火")) {
       errors.push("2026年10月27日のMリーグトップに火曜日の表示がありません。");
     }
-  } else {
+  } else if (!isMLeagueSeparate) {
     errors.push("Mリーグトップの静的HTMLがありません。");
   }
+  if (isMLeagueSeparate && htmlFiles.some((file) => /^mleague\/|^videos\/mleague-clips\//.test(path.relative(outputRoot, file).replaceAll("\\", "/")))) {
+    errors.push("分離後の本体にMリーグの静的ファイルが残っています。");
+  }
 
-  for (const route of ["/videos/strategy", "/mleague", "/trainer", "/learn/guides"]) {
+  for (const route of ["/videos/strategy", "/trainer", "/learn/guides", ...(!isMLeagueSeparate ? ["/mleague"] : [])]) {
     for (const pathVariant of [route, `${route}/`]) {
       if (!htmlPathForUrl(pathVariant)) {
         errors.push(`主要URLの静的HTMLがありません: ${pathVariant}`);

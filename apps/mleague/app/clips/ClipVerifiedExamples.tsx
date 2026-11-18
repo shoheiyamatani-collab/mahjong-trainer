@@ -1,4 +1,5 @@
 import { clipScoreExample, clipSuuankouExample } from "./clipLearningExamples";
+import { jongfolioLink, siteConfig } from "@/config/site";
 import styles from "./clip-learning-examples.module.css";
 
 export function ClipVerifiedExamples({ topic }: { topic: "recent" | "yakuman" }) {
@@ -16,7 +17,7 @@ export function ClipVerifiedExamples({ topic }: { topic: "recent" | "yakuman" })
       </table>
       <p>直撃は自分の加点と相手の減点が同時に起きます。ツモでは東家の減点は1,000点だけなので、この2,000点の手では届きません。表は最低必要点の一覧ではなく、同じ加点を比較する例です。</p>
       <p>本場・供託・同点優先、親の連荘や次局があるかは別に確認します。シリーズ全体のチームポイントや選手の意図まで、この点差だけで判断することはできません。</p>
-      <a className="text-link" href={clipScoreExample.href}>同じ持ち点をオーラス条件計算で比較する</a>
+      <a className="text-link" href={jongfolioLink(clipScoreExample.href)}>同じ持ち点をオーラス条件計算で比較する</a>
     </div>
   );
 
@@ -27,7 +28,7 @@ export function ClipVerifiedExamples({ topic }: { topic: "recent" | "yakuman" })
       <p>次の13枚は、門前・副露なしのテンパイ例です。映像からの転載ではありません。白と中が待ちで、アガリ牌を中にそろえて比較します。</p>
       <div className={styles.hand} role="group" aria-label="門前の13枚。二萬3枚、五筒3枚、七索3枚、白2枚、中2枚。白・中待ち">
         {clipSuuankouExample.groups.flatMap((group) => Array.from({ length: group.count }, (_, index) => (
-          <img key={`${group.asset}-${index}`} src={`/tiles/${group.asset}-66-90-l-emb.png`} alt={group.name} loading="lazy" width="66" height="90" />
+          <img key={`${group.asset}-${index}`} src={`${siteConfig.standalone ? siteConfig.basePath : ""}/tiles/${group.asset}-66-90-l-emb.png`} alt={group.name} loading="lazy" width="66" height="90" />
         )))}
       </div>
       <dl className={styles.comparison}>
@@ -35,7 +36,7 @@ export function ClipVerifiedExamples({ topic }: { topic: "recent" | "yakuman" })
         <div><dt>中をツモ</dt><dd>中も暗刻として完成し、{clipSuuankouExample.tsumoYaku.join("・")}になります。</dd></div>
       </dl>
       <p>リーチ・ドラ・本場などは含めない比較です。単騎待ちでロンする場合は別の条件になるため、「門前の刻子が多ければ何でも四暗刻」と覚えないようにしましょう。これは一般的な役の成立例で、特定の対局の解説や全ルールの例外を扱うものではありません。</p>
-      <a className="text-link" href="/rules/yaku#yakuman">役一覧で四暗刻の条件を確認する</a>
+      <a className="text-link" href={jongfolioLink("/rules/yaku#yakuman")}>役一覧で四暗刻の条件を確認する</a>
     </div>
   );
 }

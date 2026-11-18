@@ -1,4 +1,5 @@
-const siteOrigin =
+const standaloneOrigin = process.env.MLEAGUE_STANDALONE_URL?.replace(/\/+$/, "");
+const siteOrigin = standaloneOrigin ||
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
   "https://jongfolio.com";
 
@@ -8,12 +9,17 @@ function withTrailingSlash(url: string): string {
   return `${url.replace(/\/+$/, "")}/`;
 }
 
+export function jongfolioLink(path: string): string {
+  return standaloneOrigin ? `https://jongfolio.com${path}` : path;
+}
+
 export const siteConfig = {
   name: process.env.NEXT_PUBLIC_SITE_NAME || "雀フォリオ Mリーグ",
   parentName: "雀フォリオ",
-  parentUrl: siteOrigin,
+  parentUrl: standaloneOrigin ? "https://jongfolio.com" : siteOrigin,
+  standalone: Boolean(standaloneOrigin),
   siteOrigin,
-  homeUrl: withTrailingSlash(process.env.NEXT_PUBLIC_SITE_HOME_URL || `${siteOrigin}${basePath}`),
+  homeUrl: withTrailingSlash((!standaloneOrigin && process.env.NEXT_PUBLIC_SITE_HOME_URL) || `${siteOrigin}${basePath}`),
   mahjongAppUrl: process.env.NEXT_PUBLIC_MAHJONG_APP_URL || "",
   basePath,
   routes: {

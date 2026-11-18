@@ -11,7 +11,7 @@ export function HomeLearningHub() {
     { title: "解析する", description: "手牌の選択を数値で比べる", href: "/analysis/mahjong-tool", tone: "analysis", Icon: Search },
     { title: "練習する", description: "何切る・待ち・判断を鍛える", href: "/trainer", tone: "training", Icon: Target },
     { title: "学ぶ", description: "基礎から戦術まで順番に", href: "/learn/guides", tone: "learning", Icon: BookOpen },
-    isAdsenseReviewMode ? { title: "計算する", description: "役・符・翻から点数を確認", href: "/tools", tone: "analysis", Icon: Calculator } : { title: "Mリーグ", description: "対局・選手・チームを知る", href: siteConfig.externalSites.mLeaguePlayerDirectory.href, tone: "mleague", Icon: Trophy }
+    isAdsenseReviewMode || !siteConfig.features.showMLeagueDirectoryLink ? { title: "計算する", description: "役・符・翻から点数を確認", href: "/tools", tone: "analysis", Icon: Calculator } : { title: "Mリーグ", description: "対局・選手・チームを知る", href: siteConfig.externalSites.mLeaguePlayerDirectory.href, tone: "mleague", Icon: Trophy }
   ];
   return <>
     <section className="platformHomeHero" aria-labelledby="home-title">
@@ -47,7 +47,7 @@ export function HomeLearningPaths() {
       <div className="platformHomeRelated">
         <Link className="platformCategoryCard" href="/learn/guides" data-tone="learning"><BookOpen aria-hidden="true" /><h3>戦術・学習記事</h3><p>牌図と比較例で実戦の判断を整理。</p></Link>
         <Link className="platformCategoryCard" href="/videos/strategy" data-tone="learning"><SquarePlay aria-hidden="true" /><h3>動画で学ぶ</h3><p>基礎解説からプロの実戦思考まで。</p></Link>
-        <a className="platformCategoryCard" href={siteConfig.externalSites.mLeaguePlayerDirectory.href} data-tone="mleague"><Trophy aria-hidden="true" /><h3>Mリーグ</h3><p>対局情報・選手・チームの記録を見る。</p></a>
+        {siteConfig.features.showMLeagueDirectoryLink && <a className="platformCategoryCard" href={siteConfig.externalSites.mLeaguePlayerDirectory.href} data-tone="mleague"><Trophy aria-hidden="true" /><h3>Mリーグ</h3><p>対局情報・選手・チームの記録を見る。</p></a>}
       </div>
     </section>}
   </>;

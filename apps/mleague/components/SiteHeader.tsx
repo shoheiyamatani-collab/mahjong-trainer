@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export function SiteHeader() {
-  const webBase = process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000" : "";
+  const webBase = siteConfig.standalone ? siteConfig.parentUrl : process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000" : "";
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -21,9 +21,9 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="site-nav" aria-label="主要ナビゲーション">
-          <a className="jongfolio-home-link" href={`${webBase}/`}>
+          {!siteConfig.standalone && <a className="jongfolio-home-link" href={`${webBase}/`}>
             雀フォリオ トップ
-          </a>
+          </a>}
           <Link href={siteConfig.routes.home}>対局情報</Link>
           <Link href={siteConfig.routes.calendar}>対局カレンダー</Link>
           <Link href={siteConfig.routes.stats}>今シーズンの成績</Link>

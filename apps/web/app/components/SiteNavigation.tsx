@@ -9,7 +9,7 @@ export function PlatformFrame({ children, mleague = false }: { children: ReactNo
   return <div className="platformFrame" data-category={mleague ? "mleague" : platformCategory(path)} data-focus-workspace={!mleague && isFocusWorkspace(path) ? "true" : undefined}>{children}</div>;
 }
 export function PlatformNavigation({ reviewMode, webBase = "", mleagueHref = "/mleague", mleague = false }: {
-  reviewMode: boolean; webBase?: string; mleagueHref?: string; mleague?: boolean;
+  reviewMode: boolean; webBase?: string; mleagueHref?: string | null; mleague?: boolean;
 }) {
   const path = usePathname();
   const category = mleague ? "mleague" : platformCategory(path);
@@ -19,7 +19,7 @@ export function PlatformNavigation({ reviewMode, webBase = "", mleagueHref = "/m
     { label: "学ぶ", href: `${webBase}/learn/guides`, category: "learning", Icon: BookOpen },
     { label: "練習する", href: `${webBase}/trainer`, category: "training", Icon: Target },
     { label: "解析・計算", href: `${webBase}/toolbox`, category: "analysis", Icon: Calculator },
-    ...(!reviewMode || mleague ? [{ label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }] : [])
+    ...((!reviewMode || mleague) && mleagueHref ? [{ label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }] : [])
   ];
   const menuItems = [
     ...mainItems.filter(item => item.category !== "mleague"),
@@ -31,9 +31,9 @@ export function PlatformNavigation({ reviewMode, webBase = "", mleagueHref = "/m
     { label: "役一覧", href: `${webBase}/rules/yaku`, category: "learning", Icon: BookOpen },
     { label: "麻雀用語辞典", href: `${webBase}/learn/glossary`, category: "learning", Icon: BookOpen },
     ...(!reviewMode ? [
-      { label: "動画で学ぶ", href: `${webBase}/videos/strategy`, category: "learning", Icon: SquarePlay },
-      { label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }
-    ] : [])
+      { label: "動画で学ぶ", href: `${webBase}/videos/strategy`, category: "learning", Icon: SquarePlay }
+    ] : []),
+    ...(!reviewMode && mleagueHref ? [{ label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }] : [])
   ];
   function openMenu() { dialog.current?.showModal(); setMenuOpen(true); }
   function closeMenu() { dialog.current?.close(); setMenuOpen(false); }

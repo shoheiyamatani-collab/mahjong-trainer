@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ClipVideoGrid } from "@/app/clips/highlights/ClipVideoGrid";
 import { latestMatchHighlight } from "@/app/clips/recent-clips";
 import { ExternalLink } from "@/components/ExternalLink";
-import { siteConfig } from "@/config/site";
+import { jongfolioLink, siteConfig } from "@/config/site";
 import {
   currentSeasonStatsCompletedTablesOnThrough,
   currentSeasonStatsCompletedTableIndexesOnThrough,
@@ -90,15 +90,21 @@ const nextMatchIsLive = Boolean(
 
 function createResultMatch(
   label: string,
-  rows: readonly [player: string, playerSlug: string, points: number, teamId: string][],
+  rows: readonly [
+    player: string,
+    playerSlug: string,
+    points: number,
+    teamId: string,
+    rank?: MatchResultEntry["rank"],
+  ][],
 ): MatchResult {
   return {
     label,
-    entries: rows.map(([player, playerSlug, points, teamId], index) => {
+    entries: rows.map(([player, playerSlug, points, teamId, rank], index) => {
       const team = teamById.get(teamId);
       if (!team) throw new Error(`対局結果に未登録のチームIDがあります: ${teamId}`);
       return {
-        rank: (index + 1) as MatchResultEntry["rank"],
+        rank: rank ?? ((index + 1) as MatchResultEntry["rank"]),
         player,
         playerSlug,
         points,
@@ -112,28 +118,28 @@ function createResultMatch(
 
 const latestResults: MatchResult[] = [
   createResultMatch("A卓・第1試合", [
-    ["滝沢和典", "takizawa-kazunori", 66.2, "team-fightclub"],
-    ["竹内元太", "takeuchi-genta", 5.0, "team-phoenix"],
-    ["HIRO柴田", "hiro-shibata", -17.0, "team-jets"],
-    ["下石戟", "shimoishi-geki", -54.2, "team-beast"],
+    ["東城りお", "tojo-rio", 106.0, "team-beast"],
+    ["鈴木優", "suzuki-yu", -4.7, "team-pirates"],
+    ["瀬戸熊直樹", "setokuma-naoki", -26.8, "team-raiden"],
+    ["渡辺太", "watanabe-futoshi", -74.5, "team-drivens"],
   ]),
   createResultMatch("A卓・第2試合", [
-    ["三浦智博", "miura-tomohiro", 66.0, "team-jets"],
-    ["佐野ひなこ", "sano-hinako", 16.7, "team-phoenix"],
-    ["佐々木寿人", "sasaki-hisato", -29.2, "team-fightclub"],
-    ["中田花奈", "nakada-kana", -53.5, "team-beast"],
+    ["鈴木たろう", "suzuki-taro", 80.4, "team-drivens"],
+    ["萩原聖人", "hagiwara-masato", 11.4, "team-raiden"],
+    ["朝倉康心", "asakura-koshin", -26.3, "team-pirates"],
+    ["下石戟", "shimoishi-geki", -65.5, "team-beast"],
   ]),
   createResultMatch("B卓・第1試合", [
-    ["本田朋広", "honda-tomohiro", 55.1, "team-raiden"],
-    ["永井孝典", "nagai-kosuke", 10.1, "team-furinkazan"],
-    ["多井隆晴", "oi-takaharu", -11.5, "team-abemas"],
-    ["園田賢", "sonoda-ken", -53.7, "team-drivens"],
+    ["三浦智博", "miura-tomohiro", 27.1, "team-jets", 1],
+    ["滝沢和典", "takizawa-kazunori", 27.1, "team-fightclub", 1],
+    ["日向藍子", "hinata-aiko", -13.4, "team-abemas", 3],
+    ["岡田紗佳", "okada-sayaka", -40.8, "team-sakuraknights", 4],
   ]),
   createResultMatch("B卓・第2試合", [
-    ["二階堂亜樹", "nikaido-aki", 94.7, "team-furinkazan"],
-    ["白鳥翔", "shiratori-sho", 1.6, "team-abemas"],
-    ["鈴木たろう", "suzuki-taro", -32.0, "team-drivens"],
-    ["黒沢咲", "kurosawa-saki", -64.3, "team-raiden"],
+    ["白鳥翔", "shiratori-sho", 58.8, "team-abemas"],
+    ["佐々木寿人", "sasaki-hisato", 2.9, "team-fightclub"],
+    ["HIRO柴田", "hiro-shibata", -20.1, "team-jets"],
+    ["堀慎吾", "hori-shingo", -41.6, "team-sakuraknights"],
   ]),
 ];
 
@@ -224,7 +230,7 @@ export default function MatchInformationPage() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">LATEST RESULTS</span>
-            <h2 id="latest-results-title">11月16日（月）の対局結果</h2>
+            <h2 id="latest-results-title">11月17日（火）の対局結果</h2>
           </div>
           <ExternalLink className="text-link" href="https://m-league.jp/games/">
             Mリーグ公式で結果を見る
@@ -290,9 +296,9 @@ export default function MatchInformationPage() {
         <div className="section-heading"><h2 id="watch-and-learn-title">観戦を、自分の判断の復習につなげる</h2></div>
         <p>対局結果は結果の記録、成績は対象期間の集計、切り抜きは投稿者が選んだ場面です。どれも一打の正しさを単独で証明する資料ではありません。点差や巡目を確認し、自分なら何を比較するかを決めてから見ると、学習テーマを見つけやすくなります。</p>
         <ul>
-          <li>得点が分からないときは<a className="text-link" href="/tools/score-table">点数早見表</a>で親子・ロン・ツモの違いを確認する。</li>
-          <li>逆転に必要な条件は<a className="text-link" href="/analysis/orasu-condition">オーラス条件計算</a>で比較する。連荘やチームの最終順位点は別途ルールを確認する。</li>
-          <li>危険牌が気になったら<a className="text-link" href="/learn/guides/genbutsu-suji-kabe">現物・スジ・カベ</a>を復習し、相手の手牌を見た後の印象と分ける。</li>
+          <li>得点が分からないときは<a className="text-link" href={jongfolioLink("/tools/score-table")}>点数早見表</a>で親子・ロン・ツモの違いを確認する。</li>
+          <li>逆転に必要な条件は<a className="text-link" href={jongfolioLink("/analysis/orasu-condition")}>オーラス条件計算</a>で比較する。連荘やチームの最終順位点は別途ルールを確認する。</li>
+          <li>危険牌が気になったら<a className="text-link" href={jongfolioLink("/learn/guides/genbutsu-suji-kabe")}>現物・スジ・カベ</a>を復習し、相手の手牌を見た後の印象と分ける。</li>
         </ul>
         <p className="match-source-note">雀フォリオ運営による非公式情報です。公式データと当サイトの補足を区別し、情報の扱いは<Link className="text-link" href={siteConfig.routes.policy}>掲載・訂正方針</Link>にまとめています。</p>
       </section>

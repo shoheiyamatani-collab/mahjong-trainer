@@ -56,7 +56,7 @@ export default function HomePage() {
               <li>麻雀のルールや役を基礎から順番に学びたい方</li>
               <li>何切るや点数計算を繰り返し練習したい方</li>
               <li>自分の打牌を数値と牌姿で詳しく振り返りたい方</li>
-              {isAdsenseReviewMode
+              {isAdsenseReviewMode || !siteConfig.features.showMLeagueDirectoryLink
                 ? <li>牌理チェッカーや点数計算で、選択肢を自分で確かめたい方</li>
                 : <li>Mリーグやプロ雀士の思考から実戦判断を学びたい方</li>}
             </ul>
@@ -73,7 +73,7 @@ export default function HomePage() {
                 <Link href="/trainer">練習ツールで実戦力をつける</Link>
                 <p>何切るや点数計算を練習し、牌理チェッカーで受け入れ枚数や良形率まで詳しく確認できます。</p>
               </li>
-              {isAdsenseReviewMode ? (
+              {isAdsenseReviewMode || !siteConfig.features.showMLeagueDirectoryLink ? (
                 <>
                   <li>
                     <Link href="/learn/guides">牌効率・何切る・守備を記事で学ぶ</Link>

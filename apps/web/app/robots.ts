@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl();
   const sitemaps = [`${siteUrl}/sitemap.xml`];
-  if (hasIndexablePolicyEntryWithin("/mleague")) {
+  if (!process.env.MLEAGUE_STANDALONE_URL && hasIndexablePolicyEntryWithin("/mleague")) {
     sitemaps.push(`${siteUrl}/mleague/sitemap.xml`);
   }
 

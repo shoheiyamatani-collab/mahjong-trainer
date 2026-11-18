@@ -13,7 +13,7 @@ export const siteConfig = {
     // Mリーグ動画は保管したまま、必要になるまで導線を非表示にします。
     showMLeagueLinks: false,
     // 対局情報サイトは環境変数が未設定の公開環境でも既定URLへ案内します。
-    showMLeagueDirectoryLink: Boolean(mLeagueDirectoryUrl),
+    showMLeagueDirectoryLink: !process.env.MLEAGUE_STANDALONE_URL && Boolean(mLeagueDirectoryUrl),
     // ルール記事は残したまま、ヘッダーの入口だけを一時的に非表示にします。
     showRulesNavigation: false
   },

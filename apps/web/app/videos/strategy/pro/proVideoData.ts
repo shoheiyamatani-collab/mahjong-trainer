@@ -388,7 +388,7 @@ export const proVideoLessons: ProVideoLesson[] = proVideoSources.map((source) =>
   ],
   relatedLinks: [
     { href: source.relatedHref, label: source.relatedLabel },
-    ...(playerProfileSlugs[source.player]
+    ...(!process.env.MLEAGUE_STANDALONE_URL && playerProfileSlugs[source.player]
       ? [{ href: `/mleague/players/${playerProfileSlugs[source.player]}/`, label: `${source.player.replace("プロ", "")}のプロフィール・所属・成績を見る` }]
       : []),
     { href: "/analysis/mahjong-tool", label: "牌理チェッカーで打牌候補を比較する" },

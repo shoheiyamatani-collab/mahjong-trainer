@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export function SiteFooter() {
-  const webBase = process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000" : "";
+  const webBase = siteConfig.standalone ? siteConfig.parentUrl : process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000" : "";
   return (
     <footer className="site-footer">
       <div className="footer-inner">

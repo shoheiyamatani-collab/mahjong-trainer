@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 const description =
-  "Mリーグの対局情報、チーム成績、所属選手のプロフィール、公式情報へのリンクを確認できる雀フォリオ内の非公式情報ページです。";
+  "Mリーグの対局情報、チーム成績、所属選手のプロフィール、公式情報へのリンクを確認できる非公式情報サイトです。";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteOrigin),
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   authors: [{ name: "雀フォリオ", url: siteConfig.parentUrl }],
   creator: "雀フォリオ",
   publisher: "雀フォリオ",
-  other: { "google-adsense-account": "ca-pub-7962600450986425" },
+  ...(!siteConfig.standalone ? { other: { "google-adsense-account": "ca-pub-7962600450986425" } } : {}),
   robots: getRobotsPolicy("/mleague"),
   openGraph: {
     type: "website",
@@ -61,12 +61,12 @@ export default function RootLayout({
     {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      "@id": `${siteConfig.homeUrl}/#collection`,
+      "@id": `${siteConfig.homeUrl}#collection`,
       name: siteConfig.name,
       description,
       url: siteConfig.homeUrl,
       inLanguage: "ja-JP",
-      isPartOf: { "@id": `${siteConfig.parentUrl}/#website` },
+      ...(!siteConfig.standalone ? { isPartOf: { "@id": `${siteConfig.parentUrl}/#website` } } : {}),
       publisher: { "@id": `${siteConfig.parentUrl}/#organization` },
     },
   ];

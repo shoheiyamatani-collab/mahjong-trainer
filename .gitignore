@@ -21,6 +21,7 @@ apps/web/.next-dev.*.log
 apps/web/out/
 apps/mleague/.next/
 apps/mleague/out/
+apps/mleague/pages-out/
 .vercel/
 .wrangler/
 *.tsbuildinfo

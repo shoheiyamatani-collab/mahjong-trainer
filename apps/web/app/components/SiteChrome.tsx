@@ -11,7 +11,7 @@ const footerContentItems: { label: string; href: string; external?: boolean }[] 
   { label: "麻雀点数計算ツール", href: "/tools" },
   { label: "麻雀を学ぶ", href: "/learn/guides" },
   ...(!isAdsenseReviewMode ? [{ label: "動画で学ぶ", href: "/videos/strategy" }] : []),
-  ...(!isAdsenseReviewMode ? [{
+  ...(!isAdsenseReviewMode && siteConfig.features.showMLeagueDirectoryLink ? [{
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
     href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
     external: siteConfig.externalSites.mLeaguePlayerDirectory.external
@@ -42,7 +42,7 @@ function BrandLockup() {
 }
 
 export function Header() {
-  return <PlatformNavigation reviewMode={isAdsenseReviewMode} mleagueHref={siteConfig.externalSites.mLeaguePlayerDirectory.href} />;
+  return <PlatformNavigation reviewMode={isAdsenseReviewMode} mleagueHref={siteConfig.features.showMLeagueDirectoryLink ? siteConfig.externalSites.mLeaguePlayerDirectory.href : null} />;
 }
 
 export function Footer() {

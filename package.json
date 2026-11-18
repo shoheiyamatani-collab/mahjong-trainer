@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@11.7.0",
   "scripts": {
-    "build": "pnpm build:web && pnpm build:mleague && node scripts/merge-mleague-output.mjs && node scripts/apply-adsense-review-publication.mjs && node scripts/verify-static-output.mjs",
+    "build": "pnpm build:web && node scripts/prepare-web-publication.mjs && node scripts/apply-adsense-review-publication.mjs && node scripts/verify-static-output.mjs",
     "verify:static": "node scripts/verify-static-output.mjs",
     "dev": "pnpm dev:web",
     "dev:web": "pnpm --filter @mahjong-trainer/web dev",
@@ -18,6 +18,7 @@
     "tenhou:publish": "pnpm --filter @mahjong-trainer/tenhou-analysis cli publish",
     "build:web": "pnpm --filter @mahjong-trainer/web build",
     "build:mleague": "pnpm --filter @mahjong-trainer/mleague build",
+    "build:mleague:pages": "node scripts/mleague-pages.mjs",
     "generate:shorts": "pnpm --filter @mahjong-trainer/shorts-generator generate",
     "generate:shorts:daily": "pnpm generate:shorts --type daily",
     "generate:shorts:voice": "pnpm --filter @mahjong-trainer/shorts-generator voice",
