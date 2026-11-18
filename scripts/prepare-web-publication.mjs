@@ -1,6 +1,7 @@
 import { appendFile, rm, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { buildMLeague, migrationRedirects, standaloneOrigin } from "./mleague-publication.mjs";
+import { videoMigrationRedirects, videoStandaloneOrigin } from "./video-publication.mjs";
 
 const origin = standaloneOrigin();
 if (!origin) {
@@ -15,4 +16,15 @@ if (!origin) {
   await rm(resolve(output, "videos/mleague-clips.html"), { force: true });
   await rm(resolve(output, "videos/mleague-clips.txt"), { force: true });
   await appendFile(resolve(output, "_redirects"), `\n${migrationRedirects(origin)}\n`);
+}
+
+const videoOrigin = videoStandaloneOrigin();
+if (videoOrigin) {
+  if (process.env.CF_PAGES !== "1") throw new Error("CF_PAGES=1 is required when the video section is hosted separately.");
+  const output = resolve(import.meta.dirname, "../apps/web/out");
+  await stat(resolve(output, "index.html"));
+  for (const suffix of ["", ".html", ".txt"]) {
+    await rm(resolve(output, `videos/strategy${suffix}`), { recursive: true, force: true });
+  }
+  await appendFile(resolve(output, "_redirects"), `\n${videoMigrationRedirects(videoOrigin)}\n`);
 }

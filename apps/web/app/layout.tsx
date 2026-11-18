@@ -22,7 +22,9 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.brand.name, url: "/about" }],
   creator: siteConfig.brand.name,
   publisher: siteConfig.brand.name,
-  other: { "google-adsense-account": "ca-pub-7962600450986425" },
+  ...(process.env.VIDEO_STANDALONE_BUILD === "true"
+    ? {}
+    : { other: { "google-adsense-account": "ca-pub-7962600450986425" } }),
   category: "麻雀学習",
   robots: {
     index: true,

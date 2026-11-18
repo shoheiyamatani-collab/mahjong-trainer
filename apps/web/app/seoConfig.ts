@@ -12,3 +12,16 @@ export function getSiteUrl(): string {
     return DEFAULT_SITE_URL;
   }
 }
+
+export function getVideoSiteHref(path: string): string {
+  const configuredUrl = process.env.VIDEO_STANDALONE_URL?.trim();
+  if (!configuredUrl) return path;
+
+  try {
+    const url = new URL(configuredUrl);
+    if (url.protocol !== "https:") return path;
+    return `${url.origin}${path.startsWith("/") ? path : `/${path}`}`;
+  } catch {
+    return path;
+  }
+}

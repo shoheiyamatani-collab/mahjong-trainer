@@ -6,6 +6,7 @@ import { DailyNanikiruQuestion } from "./components/DailyNanikiruQuestion";
 import { siteConfig } from "./siteConfig";
 import { HomeLearningHub, HomeLearningPaths } from "./components/HomeLearningHub";
 import { HomeStudyThemes } from "./learn/guides/LearningPaths";
+import { getVideoSiteHref } from "./seoConfig";
 
 export const metadata: Metadata = {
   title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
@@ -87,7 +88,7 @@ export default function HomePage() {
               ) : (
                 <>
                   <li>
-                    <Link href="/videos/strategy">動画解説で判断の考え方を学ぶ</Link>
+                    <Link href={getVideoSiteHref("/videos/strategy")}>動画解説で判断の考え方を学ぶ</Link>
                     <p>初心者向けの基礎からプロの実戦解説まで、テーマに合う動画と独自の要約を一緒に読めます。</p>
                   </li>
                   <li>

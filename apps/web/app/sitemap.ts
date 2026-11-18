@@ -11,7 +11,18 @@ import { standaloneTrainerDefinitions, trainerDefinitions } from "./trainer/trai
 
 export const dynamic = "force-static";
 
-const staticPaths = [
+const isVideoStandaloneBuild = process.env.VIDEO_STANDALONE_BUILD === "true";
+const isVideoSeparate = Boolean(process.env.VIDEO_STANDALONE_URL);
+
+const videoStaticPaths = [
+  "/videos/strategy",
+  "/videos/strategy/advanced",
+  "/videos/strategy/advanced/calling-read",
+  "/videos/strategy/beginner",
+  "/videos/strategy/pro"
+];
+
+const primaryStaticPaths = [
   "/",
   "/about",
   "/advertising",
@@ -42,13 +53,12 @@ const staticPaths = [
   "/trainer/ukeire-max/help",
   "/training/yaku-quiz",
   "/training/tedashi-reading",
-  ...(siteConfig.features.showMLeagueLinks ? ["/videos/mleague-clips"] : []),
-  "/videos/strategy",
-  "/videos/strategy/advanced",
-  "/videos/strategy/advanced/calling-read",
-  "/videos/strategy/beginner",
-  "/videos/strategy/pro"
+  ...(siteConfig.features.showMLeagueLinks ? ["/videos/mleague-clips"] : [])
 ];
+
+const staticPaths = isVideoStandaloneBuild
+  ? videoStaticPaths
+  : [...primaryStaticPaths, ...(!isVideoSeparate ? videoStaticPaths : [])];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = getSiteUrl();
@@ -59,7 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       .filter((date): date is string => Boolean(date)).sort().pop()!;
     return [[`/learn/guides/${guide.slug}`, lastModified] as const];
   }));
-  const videoArticlePaths = [
+  const videoArticlePaths = isVideoSeparate && !isVideoStandaloneBuild ? [] : [
     ...videoChannels.strategy.guides,
     ...(siteConfig.features.showMLeagueLinks ? videoChannels["mleague-clips"].guides : []),
     ...advancedStrategyChannel.guides,
@@ -70,9 +80,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const paths = new Set([
     ...staticPaths,
-    ...learnArticles.map((article) => `/learn/${article.slug}`),
-    ...learningGuides.map((guide) => `/learn/guides/${guide.slug}`),
-    ...yakuArticles.map((article) => `/rules/${article.slug}`),
+    ...(!isVideoStandaloneBuild ? learnArticles.map((article) => `/learn/${article.slug}`) : []),
+    ...(!isVideoStandaloneBuild ? learningGuides.map((guide) => `/learn/guides/${guide.slug}`) : []),
+    ...(!isVideoStandaloneBuild ? yakuArticles.map((article) => `/rules/${article.slug}`) : []),
     ...videoArticlePaths
   ]);
 

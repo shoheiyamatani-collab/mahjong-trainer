@@ -31,6 +31,7 @@ if (!isReviewMode) {
 
 for (const routePrefix of reviewModeNoindexRoutePrefixes) {
   if (process.env.MLEAGUE_STANDALONE_URL && routePrefix === "/mleague") continue;
+  if (process.env.VIDEO_STANDALONE_URL && routePrefix === "/videos") continue;
   const normalizedPrefix = routePrefix.replace(/^\/+|\/+$/g, "");
   const target = path.resolve(outputRoot, normalizedPrefix);
   const relative = path.relative(outputRoot, target);

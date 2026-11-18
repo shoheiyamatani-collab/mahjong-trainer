@@ -10,6 +10,7 @@ const publicationPolicyPath = path.join(repositoryRoot, "packages", "content-ind
 const siteOrigin = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://jongfolio.com").origin;
 const isReviewMode = process.env.ADSENSE_REVIEW_MODE === "true";
 const isMLeagueSeparate = Boolean(process.env.MLEAGUE_STANDALONE_URL);
+const isVideoSeparate = Boolean(process.env.VIDEO_STANDALONE_URL);
 const errors = [];
 const checkedReferences = new Set();
 let outputFilePaths = new Set();
@@ -170,6 +171,7 @@ try {
   if (isReviewMode) {
     for (const prefix of reviewModeNoindexRoutePrefixes) {
       if (isMLeagueSeparate && prefix === "/mleague") continue;
+      if (isVideoSeparate && prefix === "/videos") continue;
       const normalizedPrefix = prefix.replace(/^\/+|\/+$/g, "");
       const routeHtmlFiles = htmlFiles.filter((file) => {
         const relative = path.relative(outputRoot, file).replaceAll("\\", "/");
@@ -203,18 +205,20 @@ try {
     errors.push("初心者ロードマップの静的HTMLがありません。");
   }
 
-  const efficiencyArticlePath = htmlPathForUrl("/videos/strategy/intermediate-tile-efficiency-26-rules");
-  if (efficiencyArticlePath) {
-    const efficiencyArticleHtml = await readFile(efficiencyArticlePath, "utf8");
-    const renderedRuleCount = [...efficiencyArticleHtml.matchAll(/class=["']videoTheoryRule["']/g)].length;
-    if (renderedRuleCount !== 26) {
-      errors.push(`牌効率26セオリー記事の静的HTMLに表示される項目数が不正です: ${renderedRuleCount}/26`);
+  if (!isVideoSeparate) {
+    const efficiencyArticlePath = htmlPathForUrl("/videos/strategy/intermediate-tile-efficiency-26-rules");
+    if (efficiencyArticlePath) {
+      const efficiencyArticleHtml = await readFile(efficiencyArticlePath, "utf8");
+      const renderedRuleCount = [...efficiencyArticleHtml.matchAll(/class=["']videoTheoryRule["']/g)].length;
+      if (renderedRuleCount !== 26) {
+        errors.push(`牌効率26セオリー記事の静的HTMLに表示される項目数が不正です: ${renderedRuleCount}/26`);
+      }
+      if (!efficiencyArticleHtml.includes("約13分で読める")) {
+        errors.push("牌効率26セオリー記事の個別ページと一覧で読了目安が一致していません。");
+      }
+    } else {
+      errors.push("牌効率26セオリー記事の静的HTMLがありません。");
     }
-    if (!efficiencyArticleHtml.includes("約13分で読める")) {
-      errors.push("牌効率26セオリー記事の個別ページと一覧で読了目安が一致していません。");
-    }
-  } else {
-    errors.push("牌効率26セオリー記事の静的HTMLがありません。");
   }
 
   const mleagueHomePath = htmlPathForUrl("/mleague");
@@ -253,8 +257,20 @@ try {
   if (isMLeagueSeparate && htmlFiles.some((file) => /^mleague\/|^videos\/mleague-clips\//.test(path.relative(outputRoot, file).replaceAll("\\", "/")))) {
     errors.push("分離後の本体にMリーグの静的ファイルが残っています。");
   }
+  if (isVideoSeparate) {
+    const hasVideoHtml = htmlFiles.some((file) => path.relative(outputRoot, file).replaceAll("\\", "/").startsWith("videos/strategy/"));
+    if (hasVideoHtml) errors.push("分離後の本体に動画学習ページの静的HTMLが残っています。");
+    if ([...sitemapPaths].some((pathname) => pathname.startsWith("/videos/strategy"))) {
+      errors.push("分離後の本体サイトマップに動画学習ページが残っています。");
+    }
+    const redirects = await readFile(path.join(outputRoot, "_redirects"), "utf8");
+    const expectedVideoOrigin = new URL(process.env.VIDEO_STANDALONE_URL).origin;
+    if (!redirects.includes(`/videos/strategy/* ${expectedVideoOrigin}/videos/strategy/:splat 301`)) {
+      errors.push("旧動画学習URLから動画専用サイトへの転送がありません。");
+    }
+  }
 
-  for (const route of ["/videos/strategy", "/trainer", "/learn/guides", ...(!isMLeagueSeparate ? ["/mleague"] : [])]) {
+  for (const route of [...(!isVideoSeparate ? ["/videos/strategy"] : []), "/trainer", "/learn/guides", ...(!isMLeagueSeparate ? ["/mleague"] : [])]) {
     for (const pathVariant of [route, `${route}/`]) {
       if (!htmlPathForUrl(pathVariant)) {
         errors.push(`主要URLの静的HTMLがありません: ${pathVariant}`);

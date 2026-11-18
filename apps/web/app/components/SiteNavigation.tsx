@@ -8,8 +8,8 @@ export function PlatformFrame({ children, mleague = false }: { children: ReactNo
   const path = usePathname();
   return <div className="platformFrame" data-category={mleague ? "mleague" : platformCategory(path)} data-focus-workspace={!mleague && isFocusWorkspace(path) ? "true" : undefined}>{children}</div>;
 }
-export function PlatformNavigation({ reviewMode, webBase = "", mleagueHref = "/mleague", mleague = false }: {
-  reviewMode: boolean; webBase?: string; mleagueHref?: string | null; mleague?: boolean;
+export function PlatformNavigation({ reviewMode, webBase = "", videoHref = "/videos/strategy", mleagueHref = "/mleague", mleague = false }: {
+  reviewMode: boolean; webBase?: string; videoHref?: string; mleagueHref?: string | null; mleague?: boolean;
 }) {
   const path = usePathname();
   const category = mleague ? "mleague" : platformCategory(path);
@@ -31,7 +31,7 @@ export function PlatformNavigation({ reviewMode, webBase = "", mleagueHref = "/m
     { label: "役一覧", href: `${webBase}/rules/yaku`, category: "learning", Icon: BookOpen },
     { label: "麻雀用語辞典", href: `${webBase}/learn/glossary`, category: "learning", Icon: BookOpen },
     ...(!reviewMode ? [
-      { label: "動画で学ぶ", href: `${webBase}/videos/strategy`, category: "learning", Icon: SquarePlay }
+      { label: "動画で学ぶ", href: videoHref, category: "learning", Icon: SquarePlay }
     ] : []),
     ...(!reviewMode && mleagueHref ? [{ label: "Mリーグ", href: mleagueHref, category: "mleague", Icon: Trophy }] : [])
   ];

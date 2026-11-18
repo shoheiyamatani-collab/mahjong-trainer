@@ -19,6 +19,7 @@
     "build:web": "pnpm --filter @mahjong-trainer/web build",
     "build:mleague": "pnpm --filter @mahjong-trainer/mleague build",
     "build:mleague:pages": "node scripts/mleague-pages.mjs",
+    "build:videos:pages": "node scripts/videos-pages.mjs",
     "generate:shorts": "pnpm --filter @mahjong-trainer/shorts-generator generate",
     "generate:shorts:daily": "pnpm generate:shorts --type daily",
     "generate:shorts:voice": "pnpm --filter @mahjong-trainer/shorts-generator voice",

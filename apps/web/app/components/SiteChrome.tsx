@@ -2,6 +2,7 @@ import Link from "next/link";
 import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { siteConfig } from "../siteConfig";
 import { PlatformNavigation } from "./SiteNavigation";
+import { getVideoSiteHref } from "../seoConfig";
 
 
 const footerContentItems: { label: string; href: string; external?: boolean }[] = [
@@ -10,7 +11,7 @@ const footerContentItems: { label: string; href: string; external?: boolean }[] 
   { label: "麻雀トレーニング", href: "/trainer" },
   { label: "麻雀点数計算ツール", href: "/tools" },
   { label: "麻雀を学ぶ", href: "/learn/guides" },
-  ...(!isAdsenseReviewMode ? [{ label: "動画で学ぶ", href: "/videos/strategy" }] : []),
+  ...(!isAdsenseReviewMode ? [{ label: "動画で学ぶ", href: getVideoSiteHref("/videos/strategy") }] : []),
   ...(!isAdsenseReviewMode && siteConfig.features.showMLeagueDirectoryLink ? [{
     label: siteConfig.externalSites.mLeaguePlayerDirectory.label,
     href: siteConfig.externalSites.mLeaguePlayerDirectory.href,
@@ -42,7 +43,7 @@ function BrandLockup() {
 }
 
 export function Header() {
-  return <PlatformNavigation reviewMode={isAdsenseReviewMode} mleagueHref={siteConfig.features.showMLeagueDirectoryLink ? siteConfig.externalSites.mLeaguePlayerDirectory.href : null} />;
+  return <PlatformNavigation reviewMode={isAdsenseReviewMode} videoHref={getVideoSiteHref("/videos/strategy")} mleagueHref={siteConfig.features.showMLeagueDirectoryLink ? siteConfig.externalSites.mLeaguePlayerDirectory.href : null} />;
 }
 
 export function Footer() {

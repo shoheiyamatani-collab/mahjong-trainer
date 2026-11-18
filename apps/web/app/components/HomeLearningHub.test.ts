@@ -11,7 +11,7 @@ vi.mock("@mahjong-trainer/content-index-policy", async (importOriginal) => ({
   ...await importOriginal<Record<string, unknown>>(),
   get isAdsenseReviewMode() { return reviewState.mode; }
 }));
-afterEach(() => { reviewState.mode = true; });
+afterEach(() => { reviewState.mode = true; vi.unstubAllEnvs(); });
 
 describe("learning-first home presentation", () => {
   it("keeps the review-mode primary navigation focused on original tools", () => {
@@ -39,5 +39,12 @@ describe("learning-first home presentation", () => {
     expect(related).toContain("<h3>動画で学ぶ</h3>");
     expect(related).toContain("<h3>Mリーグ</h3>");
     expect(related).toContain('href="/learn/guides"');
+  });
+
+  it("links to the standalone video origin when one is configured", () => {
+    reviewState.mode = false;
+    vi.stubEnv("VIDEO_STANDALONE_URL", "https://jongfolio-videos.pages.dev");
+    const related = renderToStaticMarkup(createElement(HomeLearningPaths));
+    expect(related).toContain('href="https://jongfolio-videos.pages.dev/videos/strategy"');
   });
 });

@@ -40,6 +40,14 @@ describe("public sitemap", () => {
     }
   });
 
+  it("removes video URLs from the main sitemap when their separate origin is configured", () => {
+    vi.stubEnv("VIDEO_STANDALONE_URL", "https://jongfolio-videos.pages.dev");
+    const paths = sitemap().map((entry) => new URL(entry.url).pathname);
+    expect(paths.some((path) => path.startsWith("/videos/"))).toBe(false);
+    expect(paths).toContain("/learn/guides");
+    expect(paths).toContain("/analysis/mahjong-tool");
+  });
+
   it("uses recorded publication/update history and omits dates when history is unavailable", () => {
     const entries = new Map(sitemap().map((entry) => [new URL(entry.url).pathname, entry]));
     for (const guide of learningGuides) {

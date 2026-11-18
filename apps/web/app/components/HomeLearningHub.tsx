@@ -4,6 +4,7 @@ import { isAdsenseReviewMode } from "@mahjong-trainer/content-index-policy";
 import { siteConfig } from "../siteConfig";
 import { getToolCatalog } from "../toolbox/toolCatalog";
 import { ToolCard } from "./ToolCard";
+import { getVideoSiteHref } from "../seoConfig";
 
 const catalog = getToolCatalog();
 export function HomeLearningHub() {
@@ -46,7 +47,7 @@ export function HomeLearningPaths() {
       <div className="platformSectionHeading"><h2 id="home-more-heading">学びを広げる</h2></div>
       <div className="platformHomeRelated">
         <Link className="platformCategoryCard" href="/learn/guides" data-tone="learning"><BookOpen aria-hidden="true" /><h3>戦術・学習記事</h3><p>牌図と比較例で実戦の判断を整理。</p></Link>
-        <Link className="platformCategoryCard" href="/videos/strategy" data-tone="learning"><SquarePlay aria-hidden="true" /><h3>動画で学ぶ</h3><p>基礎解説からプロの実戦思考まで。</p></Link>
+        <Link className="platformCategoryCard" href={getVideoSiteHref("/videos/strategy")} data-tone="learning"><SquarePlay aria-hidden="true" /><h3>動画で学ぶ</h3><p>基礎解説からプロの実戦思考まで。</p></Link>
         {siteConfig.features.showMLeagueDirectoryLink && <a className="platformCategoryCard" href={siteConfig.externalSites.mLeaguePlayerDirectory.href} data-tone="mleague"><Trophy aria-hidden="true" /><h3>Mリーグ</h3><p>対局情報・選手・チームの記録を見る。</p></a>}
       </div>
     </section>}
