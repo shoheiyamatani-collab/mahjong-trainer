@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { buildMLeague, standaloneOrigin } from "./mleague-publication.mjs";
+import { canonicalRouteRedirects } from "./static-publication.mjs";
 
 const origin = standaloneOrigin();
 if (!origin) throw new Error("Set MLEAGUE_STANDALONE_URL before building the dedicated Pages project.");
@@ -25,12 +26,29 @@ await mkdir(output, { recursive: true });
 await cp(source, resolve(output, "mleague"), { recursive: true });
 await cp(resolve(app, "../web/public/tiles"), resolve(output, "mleague/tiles"), { recursive: true });
 await cp(resolve(source, "404.html"), resolve(output, "404.html"));
-await writeFile(resolve(output, "_redirects"), "/ /mleague/ 302\n");
 const robots = await readFile(resolve(source, "robots.txt"), "utf8");
 await writeFile(resolve(output, "robots.txt"), robots);
 const sitemap = await readFile(resolve(source, "sitemap.xml"), "utf8");
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 if (urls.some((url) => !url.startsWith(`${origin}/mleague/`))) throw new Error("Wrong origin in M League sitemap.");
+const htmlFiles = [];
+async function collectHtml(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryPath = resolve(directory, entry.name);
+    if (entry.isDirectory()) await collectHtml(entryPath);
+    else if (entry.isFile() && entry.name.endsWith(".html") && entry.name !== "404.html") htmlFiles.push(entryPath);
+  }
+}
+await collectHtml(source);
+const canonicalUrls = [];
+for (const htmlFile of htmlFiles) {
+  const html = await readFile(htmlFile, "utf8");
+  const canonical = html.match(/<link\b[^>]*rel=["'][^"']*canonical[^"']*["'][^>]*href=["']([^"']+)["']/i)?.[1];
+  if (canonical) canonicalUrls.push(canonical);
+}
+const canonicalRedirects = canonicalRouteRedirects(canonicalUrls, origin);
+await writeFile(resolve(output, "_redirects"), [`/ /mleague/ 302`, canonicalRedirects].filter(Boolean).join("\n") + "\n");
 const teamPages = await readdir(resolve(source, "teams"), { withFileTypes: true });
 if (!teamPages.some((entry) => entry.isDirectory())) throw new Error("No team pages were exported.");
 console.log(`M League Pages export ready: ${output} (${urls.length} indexable sitemap URLs)`);

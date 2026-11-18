@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { collectPrimarySiteLinks, primarySiteRedirects, videoStandaloneOrigin } from "./video-publication.mjs";
+import { canonicalRouteRedirects } from "./static-publication.mjs";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -101,7 +102,8 @@ for (const sitemapUrl of sitemapUrls) {
 }
 
 const redirects = [
-  "/ /videos/strategy/ 302",
+  canonicalRouteRedirects([...canonicalRoutes].map((route) => new URL(route, origin).href), origin),
+  "/ /videos/strategy 302",
   primarySiteRedirects([...mainRoutes], primaryOrigin)
 ].filter(Boolean).join("\n");
 await writeFile(path.join(output, "_redirects"), `${redirects}\n`, "utf8");

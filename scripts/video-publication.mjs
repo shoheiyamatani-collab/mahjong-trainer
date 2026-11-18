@@ -10,8 +10,8 @@ export function videoStandaloneOrigin(value = process.env.VIDEO_STANDALONE_URL) 
 
 export function videoMigrationRedirects(origin) {
   return [
-    `/videos/strategy ${origin}/videos/strategy/ 301`,
-    `/videos/strategy/ ${origin}/videos/strategy/ 301`,
+    `/videos/strategy ${origin}/videos/strategy 301`,
+    `/videos/strategy/ ${origin}/videos/strategy 301`,
     `/videos/strategy/* ${origin}/videos/strategy/:splat 301`
   ].join("\n");
 }

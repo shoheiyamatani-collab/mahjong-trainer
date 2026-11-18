@@ -172,7 +172,8 @@ describe("existing content quality safeguards", () => {
 
   it("keeps links to the web app outside the MLeague basePath", () => {
     const guide = read("apps/mleague/app/clips/ClipLearningGuide.tsx");
-    expect(guide).toContain('<a className="text-link" href={link.href}');
+    expect(guide).toContain("href={jongfolioLink(link.href)}");
+    expect(guide).toContain('from "@/config/site"');
     expect(guide).not.toContain('from "next/link"');
     for (const path of ["apps/mleague/app/page.tsx", "apps/mleague/app/stats/page.tsx"]) {
       expect(read(path)).not.toMatch(/<Link[^>]*href="\/(?:learn|analysis|tools)\b/);

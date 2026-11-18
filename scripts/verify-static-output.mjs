@@ -2,6 +2,7 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { sitemapCoverageErrors } from "./static-sitemap-checks.mjs";
+import { canonicalRouteRedirects } from "./static-publication.mjs";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(repositoryRoot, "apps", "web", "out");
@@ -122,6 +123,16 @@ try {
   outputFilePaths = new Set(htmlFiles.map((file) => path.relative(outputRoot, file).replaceAll("\\", "/")));
   const sitemapUrls = [...sitemapXml.matchAll(/<loc>(.*?)<\/loc>/gi)].map((match) => match[1]);
   if (sitemapUrls.length === 0) errors.push("sitemap.xml にURLがありません。");
+
+  if (process.env.CF_PAGES === "1") {
+    const redirects = await readFile(path.join(outputRoot, "_redirects"), "utf8");
+    const expectedCanonicalRedirects = canonicalRouteRedirects(sitemapUrls, siteOrigin);
+    for (const rule of expectedCanonicalRedirects.split("\n").filter(Boolean)) {
+      if (!redirects.split(/\r?\n/).includes(rule)) {
+        errors.push(`canonicalの末尾スラッシュを統一する転送がありません: ${rule}`);
+      }
+    }
+  }
 
   const sitemapPaths = new Set();
   for (const sitemapUrl of sitemapUrls) {
