@@ -37,6 +37,8 @@ const source = path.join(web, "out");
 const output = path.join(repositoryRoot, "apps", "videos", "pages-out");
 const videoSource = path.join(source, "videos", "strategy");
 await stat(path.join(videoSource, "index.html"));
+const videoLandingHtml = path.join(source, "videos", "strategy.html");
+await stat(videoLandingHtml);
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
@@ -45,6 +47,12 @@ await rm(path.join(output, "ads.txt"), { force: true });
 await rm(path.join(output, "_redirects"), { force: true });
 await cp(path.join(source, "_next"), path.join(output, "_next"), { recursive: true });
 await cp(videoSource, path.join(output, "videos", "strategy"), { recursive: true });
+await cp(videoLandingHtml, path.join(output, "videos", "strategy.html"));
+const landingHtml = await readFile(path.join(output, "videos", "strategy.html"), "utf8");
+const landingCanonical = landingHtml.match(/<link\b[^>]*rel=["'][^"']*canonical[^"']*["'][^>]*href=["']([^"']+)["']/i)?.[1];
+if (landingCanonical !== `${origin}/videos/strategy`) {
+  throw new Error(`The slashless video landing route must use its canonical HTML file: ${landingCanonical ?? "missing canonical"}`);
+}
 for (const file of ["404.html", "robots.txt", "sitemap.xml"]) {
   await cp(path.join(source, file), path.join(output, file));
 }
