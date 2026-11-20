@@ -12,7 +12,7 @@ export function ScoreCalculatorLearningGuide() {
       </header>
 
       <ol className="scoreLearningSteps">
-        <li><strong>1. 和了形と和了牌</strong><span>完成した14枚と、最後にロン・ツモした牌を指定します。待ち方や符の判定に関わります。</span></li>
+        <li><strong>1. 和了形と和了牌</strong><span>手牌欄に和了牌を含め、チー・ポン・カンは別枠に入力します。和了牌の指定は、待ち方や符の判定に関わります。</span></li>
         <li><strong>2. 役と翻を確認</strong><span>役の名前と翻数を見ます。ドラは翻を増やしますが、ドラだけではアガれません。</span></li>
         <li><strong>3. 符と支払いを見る</strong><span>符の内訳を確かめてから、親子・ロンツモ別の支払いへ進みます。</span></li>
       </ol>

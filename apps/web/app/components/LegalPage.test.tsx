@@ -21,7 +21,8 @@ describe("legal policy dates and storage transparency", () => {
     expect(html).toContain("AdSenseの広告は表示していません");
     expect(html).toContain("Cloudflare Web Analytics");
     expect(html).toContain("https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/");
-    expect(html).toContain("2026年10月26日");
+    expect(html).toContain("2026年11月20日");
+    expect(html).toContain("移動先の利用条件とプライバシーポリシー");
     expect(html).not.toContain("adsbygoogle");
   });
 });

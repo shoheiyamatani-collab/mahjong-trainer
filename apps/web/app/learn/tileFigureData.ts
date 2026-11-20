@@ -1,4 +1,7 @@
-import type { TileFigure } from "../components/TileFigures";
+import { countsToTiles, parseHand } from "@mahjong-trainer/mahjong-core";
+import { tileAssetName, type TileFigure } from "../components/TileFigures";
+
+const firstDiscardHand = parseHand("23455m34678p678s西");
 
 export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
   "what-is-mahjong": [
@@ -86,12 +89,13 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
   ],
   "meld-and-pair": [
     {
-      title: "面子は3枚組",
-      description: "順子と刻子を見分けられると、アガリ形がかなり見やすくなります。",
+      title: "3枚の順子・刻子と、4枚で1面子の槓子",
+      description: "カンでそろえた4枚は、面子を2つではなく1つとして数えます。",
       badges: ["面子"],
       rows: [
         { label: "順子", tiles: ["man2", "man3", "man4"], tone: "answer", note: "同じ種類で数字が連続した3枚です。" },
         { label: "刻子", tiles: ["ji7", "ji7", "ji7"], tone: "answer", note: "同じ牌3枚です。字牌でも作れます。" },
+        { label: "槓子", tiles: ["ji6", "ji6", "ji6", "ji6"], tone: "answer", note: "カンでまとめた同じ牌4枚です。" },
         { label: "未完成", tiles: ["pin3", "pin4"], note: "あと2筒か5筒で順子になります。" }
       ]
     },
@@ -141,10 +145,18 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
       rows: [
         {
           label: "形は完成",
-          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "man9", "ji3", "ji3"],
-          note: "4面子1雀頭ですが、鳴いていてリーチできず、タンヤオや役牌もない形の例です。"
+          tiles: ["man1", "man2", "man3", "man7", "man8", "man9", "sou7", "sou8", "sou9", "ji7", "ji7"],
+          meld: { label: "上家の5筒をチー", tiles: ["pin5", "pin4", "pin6"], calledIndex: 0 },
+          note: "東場・南家で、9萬をロンする形です。4・5・6筒の順子には1・9・字牌がないのでチャンタではなく、中も対子なので役牌ではありません。河底などの状況役がなければ、5筒がドラでもロンできません。"
         },
-        { label: "ドラだけ", tiles: ["pin5"], tone: "warning", note: "ドラは点数を増やす牌で、役そのものではありません。" }
+        {
+          label: "同じ並びを門前で作った場合",
+          tiles: ["man1", "man2", "man3", "pin4", "pin5", "pin6", "sou7", "sou8", "sou9", "man7", "man8", "ji7", "ji7"],
+          resultLabel: "待ち",
+          resultTiles: ["man6", "man9"],
+          tone: "answer",
+          note: "6萬・9萬待ちです。門前なら条件を満たしてリーチで役を付けられます。リーチしなくても、門前でツモれば門前清自摸和が付きます。"
+        }
       ]
     },
     {
@@ -160,13 +172,6 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
           resultTiles: ["man5", "man8"],
           tone: "answer",
           note: "1・9・字牌を使わない13枚のテンパイ形です。"
-        },
-        {
-          label: "リーチ",
-          tiles: ["man1", "man2", "man3", "pin1", "pin2", "pin3", "sou7", "sou8", "sou9", "man7", "man8", "ji7", "ji7"],
-          resultLabel: "待ち",
-          resultTiles: ["man6", "man9"],
-          note: "役がない門前テンパイでも、鳴いていなければリーチを宣言できます。"
         }
       ]
     }
@@ -236,7 +241,7 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
         {
           label: "チー前",
           tiles: ["man3", "man4", "man6", "man7", "pin3", "pin4", "pin5", "pin5", "pin5", "pin8", "sou6", "sou7", "sou8"],
-          note: "3萬4萬を持っていて、上家が5萬を捨てた場面です。2〜8だけなので、チーしてもタンヤオが残ります。"
+          note: "3萬4萬を持っていて、上家が5萬を捨てた場面です。喰いタンありのルールなら、チーしてもタンヤオを狙えます。"
         },
         {
           label: "チー後",
@@ -245,7 +250,7 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
           resultLabel: "待ち",
           resultTiles: ["man5", "man8"],
           tone: "answer",
-          note: "上家の5萬をチーして右端に出し、孤立していた8筒を切ると10枚のテンパイ形になります。待ちは5萬・8萬で、タンヤオの役も残っています。"
+          note: "5萬をチーし、8筒を切ると手元10枚でテンパイ。待ちは5萬・8萬です。どちらで完成しても2〜8だけなので、喰いタンありならタンヤオが付きます。"
         },
         {
           label: "注意",
@@ -258,16 +263,16 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
   ],
   "tenpai-and-wait": [
     {
-      title: "テンパイはあと1枚でアガリ",
-      description: "足りない最後の1枚が来ればアガリ形になります。その牌が待ちです。",
+      title: "同じ13枚でも、雀頭の置き方で待ちが変わる",
+      description: "2・3・4・5萬をまとめて見ると、2萬と5萬の両方でアガリ形を作れます。",
       badges: ["テンパイ"],
       rows: [
         {
           label: "テンパイ形",
           tiles: ["man2", "man3", "man4", "pin3", "pin4", "pin5", "sou6", "sou7", "sou8", "ji7", "ji7", "ji7", "man5"],
           resultLabel: "待ち",
-          resultTiles: ["man5"],
-          note: "5萬が来ると雀頭が完成します。"
+          resultTiles: ["man2", "man5"],
+          note: "2萬なら22萬が雀頭、345萬が順子。5萬なら55萬が雀頭、234萬が順子です。手牌に各1枚あるので、ほかに見えていなければ残りは各3枚です。"
         }
       ]
     },
@@ -284,17 +289,18 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
   ],
   "basic-nanikiru": [
     {
-      title: "孤立牌から切る候補を探す",
-      description: "何切るでは、周りとつながりにくい牌を見つけるところから始めます。",
+      title: "西と3筒を切った直後を比べる",
+      description: "独自の例題。東1局の序盤、南家の門前、他家のリーチなし。受け入れは、この14枚以外に見える牌を考慮しない理論値です。",
       badges: ["何切る"],
+      link: { label: "この14枚で牌理チェッカーを開く", href: `/analysis/mahjong-tool?hand=${encodeURIComponent(firstDiscardHand.join(","))}#checker-workspace` },
       rows: [
         {
-          label: "手牌例",
-          tiles: ["man2", "man3", "man4", "pin3", "pin4", "sou6", "sou7", "ji7", "ji7", "man5", "man6", "pin9", "ji3", "sou2"],
-          note: "つながっている部分と、孤立している部分を分けて見ます。"
+          label: "打牌前の14枚",
+          tiles: countsToTiles(firstDiscardHand).map((tile) => tileAssetName(tile)),
+          note: "234萬・678筒・678索が面子、55萬が雀頭の候補です。残った3・4筒と西を比べます。"
         },
-        { label: "切る候補", tiles: ["ji3"], tone: "warning", note: "西が1枚だけで、役牌にもなりにくいなら候補になります。" },
-        { label: "残したい", tiles: ["ji7", "ji7"], tone: "answer", note: "中はもう1枚来ると役牌になります。" }
+        { label: "西を切る", tiles: ["ji3"], resultLabel: "待ち", resultTiles: ["pin2", "pin5"], tone: "answer", note: "3・4筒を残してテンパイ。2筒と5筒が各4枚、合計最大8枚です。" },
+        { label: "3筒を切る", tiles: ["pin3"], tone: "warning", note: "4筒も西も1枚ずつ残り、もう1枚引くだけでは完成しない一向聴です。まず向聴数が違うので、受け入れ枚数だけを直接比べません。" }
       ]
     },
     {
@@ -304,7 +310,7 @@ export const learnTileFiguresBySlug: Record<string, TileFigure[]> = {
       rows: [
         { label: "強い形", tiles: ["man4", "man5"], resultLabel: "うれしい牌", resultTiles: ["man3", "man6"], tone: "answer", note: "両側で順子になります。" },
         { label: "端の形", tiles: ["sou1", "sou2"], resultLabel: "うれしい牌", resultTiles: ["sou3"], note: "3索だけで順子になります。" },
-        { label: "対子", tiles: ["pin5", "pin5"], resultLabel: "うれしい牌", resultTiles: ["pin5"], note: "もう1枚で刻子、または雀頭として使えます。" }
+        { label: "対子", tiles: ["pin5", "pin5"], resultLabel: "刻子になる牌", resultTiles: ["pin5"], note: "2枚のままで雀頭に、もう1枚引けば刻子にできます。" }
       ]
     }
   ],

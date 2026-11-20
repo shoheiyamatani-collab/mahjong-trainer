@@ -49,7 +49,6 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
                 <Link aria-current={item.slug === article.slug ? "step" : undefined} href={`/learn/${item.slug}`}>
                   <span className="learningCourseNumber">{item.step}</span>
                   <span>{item.title}</span>
-                  {item.step < article.step ? <span className="learningCourseCheck" aria-label="読了">✓</span> : null}
                 </Link>
               </li>
             ))}
@@ -124,36 +123,6 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
                         ))}
                       </ul>
                     ) : null}
-                    {section.figures?.length ? (
-                      <div className="deepDiveFigureRows">
-                        {section.figures.map((figure) => (
-                          <div className={`tileFigureRow tone-${figure.tone ?? "normal"}`} key={figure.label}>
-                            <div className="tileFigureRowLabel">{figure.label}</div>
-                            <div className="articleTileStrip" aria-label={figure.tiles.join("、")}>
-                              {figure.tiles.map((tile, index) => (
-                                <img key={`${figure.label}-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-                              ))}
-                            </div>
-                            {figure.resultTiles?.length ? (
-                              <>
-                                <div className="tileFigureArrow" aria-hidden="true">
-                                  →
-                                </div>
-                                <div className="tileFigureResult">
-                                  {figure.resultLabel ? <span>{figure.resultLabel}</span> : null}
-                                  <div className="articleTileStrip compact" aria-label={figure.resultTiles.join("、")}>
-                                    {figure.resultTiles.map((tile, index) => (
-                                      <img key={`${figure.label}-result-${tile}-${index}`} src={`/tiles/${tile}-66-90-l-emb.png`} alt="" />
-                                    ))}
-                                  </div>
-                                </div>
-                              </>
-                            ) : null}
-                            <p className="tileFigureNote">{figure.note}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : null}
                     {section.callout ? <p className="deepDiveCallout">{section.callout}</p> : null}
                   </article>
                 ))}
@@ -200,7 +169,9 @@ export default async function LearnArticlePage({ params }: LearnArticlePageProps
                     ? "点数早見表"
                     : article.relatedTool.href === "/trainer"
                       ? "関連する麻雀トレーニング"
-                      : "関連するツール"
+                      : article.relatedTool.href?.startsWith("/learn/")
+                        ? "関連する解説記事"
+                        : "関連するツール"
                 }
                 target={article.relatedTool}
                 fallbackHref="/tools"

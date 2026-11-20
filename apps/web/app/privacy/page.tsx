@@ -5,7 +5,7 @@ import { legalConfig } from "../legalConfig";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー",
-  description: "雀フォリオにおける個人情報、Cookie、広告、アクセス解析、YouTube埋め込み等の取り扱い方針です。",
+  description: "雀フォリオにおける個人情報、Cookie、広告、アクセス解析、外部リンク等の取り扱い方針です。",
   alternates: { canonical: "/privacy" }
 };
 
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       title="プライバシーポリシー"
       description="雀フォリオにおける利用者情報の取り扱いについてご案内します。"
       showDates
-      updatedDate="2026年10月26日"
+      updatedDate="2026年11月20日"
     >
       <section>
         <h2>1. 個人情報の取得について</h2>
@@ -57,14 +57,14 @@ export default function PrivacyPage() {
       </section>
 
       <section>
-        <h2>5. YouTube埋め込みについて</h2>
-        <p>当サイトでは、YouTube動画を紹介し、YouTube公式プレーヤーを埋め込み表示する場合があります。埋め込み動画の閲覧時には、YouTubeまたはGoogleへ、IPアドレス、Cookie情報、閲覧状況等が送信される可能性があります。</p>
+        <h2>5. 外部サイトへの移動について</h2>
+        <p>麻雀動画の紹介とMリーグ情報は別サイトで提供しています。旧URLからの転送や外部リンクで移動した後は、移動先の利用条件とプライバシーポリシーをご確認ください。</p>
       </section>
 
       <section>
         <h2>6. Cookieについて</h2>
         <p>Cookieは、ウェブサイトが利用者のブラウザへ保存する小さな情報です。当サイトでは、広告配信、アクセス解析、利便性向上のためにCookieを使用する場合があります。</p>
-        <p>Cookieはブラウザの設定から無効化できます。第三者の動画再生や、将来の広告配信などの機能が制限される場合があります。</p>
+        <p>Cookieはブラウザの設定から無効化できます。将来の広告配信や外部サイトの機能に影響する場合があります。</p>
         <h3>アクセス・表示速度の計測</h3>
         <p>公開サイトではCloudflare Web Analyticsの計測スクリプトを利用し、利用状況やページの表示速度を把握します。練習記録の保存とは別の仕組みです。計測情報の取り扱いは、<a href="https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/" target="_blank" rel="noreferrer">Cloudflareのデータ収集に関する説明</a>をご確認ください。</p>
         <h3>端末内の練習記録・設定</h3>

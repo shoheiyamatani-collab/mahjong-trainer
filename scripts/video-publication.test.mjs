@@ -10,8 +10,10 @@ test("standalone URL must be a HTTPS Pages origin", () => {
   }
 });
 
-test("old video routes keep their path and redirect to the dedicated origin", () => {
+test("the old video entry points and articles redirect to the dedicated origin", () => {
   assert.deepEqual(videoMigrationRedirects("https://jongfolio-videos.pages.dev").split("\n"), [
+    "/videos https://jongfolio-videos.pages.dev/videos/strategy 301",
+    "/videos/ https://jongfolio-videos.pages.dev/videos/strategy 301",
     "/videos/strategy https://jongfolio-videos.pages.dev/videos/strategy 301",
     "/videos/strategy/ https://jongfolio-videos.pages.dev/videos/strategy 301",
     "/videos/strategy/* https://jongfolio-videos.pages.dev/videos/strategy/:splat 301"

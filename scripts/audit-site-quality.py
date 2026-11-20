@@ -214,7 +214,7 @@ def main():
     target.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(summary, ensure_ascii=False))
     if "--live" in sys.argv:
-        routes = ["/", "/videos/strategy", "/videos/strategy/beginner-win-chance-basics",
+        routes = ["/", "/videos", "/mleague", "/videos/strategy", "/videos/strategy/beginner-win-chance-basics",
                   "/videos/strategy/when-not-to-follow-tile-efficiency",
                   "/videos/strategy/intermediate-tile-efficiency-26-rules",
                   "/mleague/clips/highlights", "/analysis/starting-hand", "/learn/guides",

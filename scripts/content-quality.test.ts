@@ -165,7 +165,8 @@ describe("existing content quality safeguards", () => {
   it("keeps operator identity and separates publication dates from checks", () => {
     const about = read("apps/web/app/about/page.tsx");
     expect(about).toContain("運営：雀フォリオ運営");
-    expect(about).toContain("動画公開日、対局日、記事更新日、資料確認日は別");
+    expect(about).toContain("記事の公開日・内容の更新日・参照資料の確認日は区別");
+    expect(about).toContain("Mリーグ情報とYouTube動画の紹介は、雀フォリオ本体とは別のサイト");
     expect(read("apps/mleague/app/clips/recent/page.tsx")).not.toContain("2026年10月18日に");
     expect(read("apps/web/app/videos/strategy/page.tsx")).not.toContain("これからまとめます");
   });

@@ -37,7 +37,7 @@ const firstYaku: YakuItem[] = [
     tiles: ["man6", "man7", "man8", "pin5"],
     tileLabel: "あと1枚でアガれる形",
     point: "あと1枚でアガれる形になったら、リーチを宣言できます。",
-    caution: "ポン・チー・カンで鳴いているとリーチできません。",
+    caution: "チー・ポン・明槓があるとリーチできません。暗槓だけなら門前を保ちます。",
     href: "/learn/yaku-required"
   },
   {

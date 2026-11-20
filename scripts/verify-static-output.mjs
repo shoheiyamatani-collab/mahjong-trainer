@@ -269,15 +269,24 @@ try {
     errors.push("分離後の本体にMリーグの静的ファイルが残っています。");
   }
   if (isVideoSeparate) {
-    const hasVideoHtml = htmlFiles.some((file) => path.relative(outputRoot, file).replaceAll("\\", "/").startsWith("videos/strategy/"));
+    const hasVideoHtml = htmlFiles.some((file) =>
+      /^videos(?:\.html$|\/index\.html$|\/strategy(?:\.html$|\/))/.test(path.relative(outputRoot, file).replaceAll("\\", "/"))
+    );
     if (hasVideoHtml) errors.push("分離後の本体に動画学習ページの静的HTMLが残っています。");
-    if ([...sitemapPaths].some((pathname) => pathname.startsWith("/videos/strategy"))) {
+    if ([...sitemapPaths].some((pathname) => /^\/videos(?:\/?$|\/strategy(?:$|\/))/.test(pathname))) {
       errors.push("分離後の本体サイトマップに動画学習ページが残っています。");
     }
     const redirects = await readFile(path.join(outputRoot, "_redirects"), "utf8");
     const expectedVideoOrigin = new URL(process.env.VIDEO_STANDALONE_URL).origin;
-    if (!redirects.includes(`/videos/strategy/* ${expectedVideoOrigin}/videos/strategy/:splat 301`)) {
-      errors.push("旧動画学習URLから動画専用サイトへの転送がありません。");
+    const redirectRules = new Set(redirects.split(/\r?\n/).map((line) => line.trim()));
+    for (const [source, destination] of [
+      ["/videos", "/videos/strategy"],
+      ["/videos/", "/videos/strategy"],
+      ["/videos/strategy/*", "/videos/strategy/:splat"],
+    ]) {
+      if (!redirectRules.has(`${source} ${expectedVideoOrigin}${destination} 301`)) {
+        errors.push(`旧動画学習URLから動画専用サイトへの転送がありません: ${source}`);
+      }
     }
   }
 
