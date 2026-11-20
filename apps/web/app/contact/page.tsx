@@ -21,7 +21,7 @@ export default function ContactPage() {
         <ul className="legalColumnList">
           <li>サイト掲載情報の誤り</li>
           <li>麻雀ツールの不具合</li>
-          <li>YouTube動画の掲載・紹介</li>
+          <li>参照資料・出典に関するご指摘</li>
           <li>著作権・肖像権等の権利関係</li>
           <li>掲載内容の修正・削除</li>
           <li>広告・アフィリエイト</li>
@@ -30,7 +30,7 @@ export default function ContactPage() {
         </ul>
         <div className="legalCallout">
           <strong>権利者・関係者の皆さまへ</strong>
-          <p>YouTube動画、書籍、人物情報等について、修正または削除のご希望がある場合は内容を確認のうえ対応します。対象ページのURLとご希望の内容をお知らせください。</p>
+          <p>掲載内容について、修正または削除のご希望がある場合は内容を確認のうえ対応します。対象ページのURLとご希望の内容をお知らせください。</p>
         </div>
       </section>
 

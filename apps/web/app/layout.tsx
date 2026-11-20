@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     default: siteConfig.brand.name,
     template: `%s | ${siteConfig.brand.name}`
   },
-  description: isAdsenseReviewMode
+  description: isAdsenseReviewMode || (process.env.VIDEO_STANDALONE_URL && process.env.VIDEO_STANDALONE_BUILD !== "true")
     ? "麻雀初心者向けのルール解説、練習問題、牌理解析、点数計算をつなぐ麻雀学習サイトです。"
     : "麻雀初心者向けのルール解説、練習問題、牌理解析、点数計算、動画記事をつなぐ麻雀総合サイトです。",
   authors: [{ name: siteConfig.brand.name, url: "/about" }],

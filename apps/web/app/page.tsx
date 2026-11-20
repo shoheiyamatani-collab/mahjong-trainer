@@ -8,9 +8,11 @@ import { HomeLearningHub, HomeLearningPaths } from "./components/HomeLearningHub
 import { HomeStudyThemes } from "./learn/guides/LearningPaths";
 import { getVideoSiteHref } from "./seoConfig";
 
+const usesLearningOnlyMetadata = isAdsenseReviewMode || Boolean(process.env.VIDEO_STANDALONE_URL);
+
 export const metadata: Metadata = {
   title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
-  description: isAdsenseReviewMode
+  description: usesLearningOnlyMetadata
     ? "麻雀初心者がルール、役、待ち、何切る、点数計算を順番に学べる麻雀学習サイトです。牌姿つきの解説、練習問題、牌理・点数計算ツールで実戦の考え方を確認できます。"
     : "麻雀初心者がルール、役、待ち、何切る、点数計算を順番に学べる麻雀学習サイトです。練習問題、解析ツール、動画解説をつなげて学べます。",
   alternates: {
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: "雀フォリオ",
     title: "雀フォリオ｜麻雀初心者のための学習・練習サイト",
-    description: isAdsenseReviewMode
+    description: usesLearningOnlyMetadata
       ? "麻雀を知る、学ぶ、強くなる。ルール、独自の練習問題、解析ツールをつなぐ麻雀学習サイトです。"
       : "麻雀を知る、学ぶ、強くなる。ルール、練習、解析、動画をつなぐ麻雀学習サイトです。"
   }
